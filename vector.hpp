@@ -35,9 +35,11 @@ namespace ft{
 
 			vector(void) 
 			{
-				this->_capacity = 2;
+				this->_capacity = 3;
 				this->_size = 0;
 				this->_data = this->_allocator.allocate(this->_capacity);
+				_firstElement = _data;
+				_lastElement = _data;
 
 				std::cout << this->_allocator.max_size() << std::endl;
 			};
@@ -46,14 +48,47 @@ namespace ft{
 			//iterators
 			
 			//capacity
-			size_type size() const {return (this->_size);};
-			size_type capacity() const {return (this->_capacity);};
-			size_type max_size() const {return (this->_allocator.max_size());};
-			
-			
+			size_type 	size() const {return (this->_size);};
+			size_type 	max_size() const {return (this->_allocator.max_size());};
+			size_type 	capacity() const {return (this->_capacity);};
+		/*	void		resize(size_type n, value_type val = value_type())
+			{
+				if (n < this->_size)
+				{
+					// reduce to n first elements, remove and destroy the rest
+					this->_size = n;
+				}
+				else if (n > this->_size && val)
+				{
+					// insert as many elements as needed to reach a size of n
+					
+				}
+				else if (n > this->_size)
+				{
+				
+				}
+				if (n > this->_capacity)
+					// content reallocation
+
+			};
+*/
 			//element access
 			
 			//modifiers
+			void	push_back(const value_type& val)
+			{
+				this->_size++;
+				//if size || capacity == 0
+				//else
+				if (this->_size > this->_capacity)
+				{
+					//reallocation
+					this->_capacity++;
+				}
+				this->_lastElement++;
+				*_lastElement = val;
+				std::cout << "added " << *_lastElement << std::endl;
+			};
 
 			//allocator
 	
@@ -62,6 +97,8 @@ namespace ft{
 		private:
 			Allocator			_allocator;
 			value_type*			_data;
+			value_type*			_firstElement;
+			value_type*			_lastElement;
 			size_type	_capacity;
 			size_type	_size;
 	};
