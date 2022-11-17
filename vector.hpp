@@ -35,7 +35,7 @@ namespace ft{
 
 			vector(void) 
 			{
-				this->_capacity = 3;
+				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = this->_allocator.allocate(this->_capacity);
 				_firstElement = _data;
@@ -78,16 +78,9 @@ namespace ft{
 			void	push_back(const value_type& val)
 			{
 				this->_size++;
-				//if size || capacity == 0
-				//else
-				if (this->_size > this->_capacity)
-				{
-					//reallocation
-					this->_capacity++;
-				}
+				if (!isCapacityEnough())
+					expandCapacity();
 				this->_lastElement++;
-				*_lastElement = val;
-				std::cout << "added " << *_lastElement << std::endl;
 			};
 
 			//allocator
@@ -99,8 +92,48 @@ namespace ft{
 			value_type*			_data;
 			value_type*			_firstElement;
 			value_type*			_lastElement;
-			size_type	_capacity;
-			size_type	_size;
+			size_type			_capacity;
+			size_type			_size;
+
+			bool				isCapacityEnough(void)
+			{
+				if (this->_size == 1 && this->_capacity == 0)
+					return (false);
+				else if (this->_size == 2 && this->_capacity == 1)
+					return (false);
+				else if (this->_size == this->_capacity + 1)
+					return (false);
+				return (true);
+			};
+
+			void				copyDataToOtherObject(value_type* _newData)
+			{
+				for (size_type i = 0; i < this->_size - 1; i++)
+					this->_data[i] = _newData[i];
+			};
+			
+			void			setLastElement(void)
+			{
+				for (size_type i = 0; i < this->_size - 1; i++)
+					this->_lastElement = &this->_data[i];
+			};
+
+			void				expandCapacity(void)
+			{
+			//	std::cout << "expanding capacity" << std::endl;
+				value_type*		_newData;
+
+				if (this->_capacity == 0)
+					this->_capacity = 1;
+				else
+					this->_capacity *= 2;
+				this->_data = this->_allocator.allocate(this->_capacity);
+				copyDataToOtherObject(_newData);
+				this->_allocator.deallocate(this->_data, this->_size - 1);
+				_firstElement = _data;
+				setLastElement();
+				this->_data = _newData;
+			};
 	};
 }
 #endif
