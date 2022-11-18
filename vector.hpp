@@ -16,6 +16,11 @@
 
 //vector && allocator
 //https://stackoverflow.com/questions/17299951/c-vector-what-happens-whenever-it-expands-reallocate-on-stack
+//https://lokiastari.com/blog/2016/02/27/vector/index.html
+//https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator
+//https://codereview.stackexchange.com/questions/202157/basic-iterator-supporting-vector-implementation
+//
+
 
 //resize:
 
