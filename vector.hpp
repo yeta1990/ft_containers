@@ -52,12 +52,20 @@ namespace ft{
 
 			//iterators
 			
-			//capacity
+			//capacity/
+			bool empty() const
+			{
+				if (this->_size == 0)
+					return (true);
+				return (false);
+			};
 			size_type 	size() const {return (this->_size);};
 			size_type 	max_size() const {return (this->_allocator.max_size());};
 			size_type 	capacity() const {return (this->_capacity);};
-		/*	void		resize(size_type n, value_type val = value_type())
+
+			void		resize(size_type n, value_type val = value_type())
 			{
+			/*	
 				if (n < this->_size)
 				{
 					// reduce to n first elements, remove and destroy the rest
@@ -75,8 +83,9 @@ namespace ft{
 				if (n > this->_capacity)
 					// content reallocation
 
+					*/
 			};
-*/
+
 			//element access
 			
 			//modifiers
@@ -85,6 +94,7 @@ namespace ft{
 				this->_size++;
 				if (!isCapacityEnough())
 					expandCapacity();
+				this->_data[this->_size - 1] = val;
 				this->_lastElement++;
 			};
 
