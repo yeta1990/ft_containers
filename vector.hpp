@@ -31,7 +31,8 @@ namespace ft{
 		public:
 			typedef T value_type;
 			typedef std::allocator<value_type> allocator_type;
-			typedef typename allocator_type::reference reference;
+			//typedef typename allocator_type::reference reference;
+			typedef value_type& reference;
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
@@ -42,15 +43,26 @@ namespace ft{
 			{
 				this->_capacity = 0;
 				this->_size = 0;
-				this->_data = this->_allocator.allocate(this->_capacity);
+				this->_data = nullptr;
+				//this->_data = this->_allocator.allocate(this->_capacity);
 				_firstElement = _data;
 				_lastElement = _data;
 
-				std::cout << this->_allocator.max_size() << std::endl;
 			};
 			~vector(void) {};
 
-			//iterators
+			//iterators	
+			
+			//element access
+			reference operator[](size_type pos)
+			{
+				return (this->_data[pos]);
+			};
+
+			const_reference operator[](size_type pos) const
+			{
+				return (this->_data[pos]);
+			};
 			
 			//capacity/
 			bool empty() const
@@ -65,7 +77,6 @@ namespace ft{
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-			/*	
 				if (n < this->_size)
 				{
 					// reduce to n first elements, remove and destroy the rest
@@ -73,33 +84,47 @@ namespace ft{
 				}
 				else if (n > this->_size && val)
 				{
+					size_type oldSize;
+
+					oldSize = this->_size;	
+					this->_size = n;
+					if (!isCapacityEnough())
+						expandCapacity();
+					for (size_type i = 0; i < oldSize; i++)
+						_allocator.construct(&this->_data[i], val);
+						//this->_data[i] = val;
 					// insert as many elements as needed to reach a size of n
-					
 				}
-				else if (n > this->_size)
+			/*	else if (n > this->_size)
 				{
 				
 				}
 				if (n > this->_capacity)
 					// content reallocation
+					//
+			*/
 
-					*/
+				
 			};
 
-			//element access
-			
+		
+
 			//modifiers
 			void	push_back(const value_type& val)
 			{
 				this->_size++;
 				if (!isCapacityEnough())
 					expandCapacity();
-				this->_data[this->_size - 1] = val;
+				//std::cout << "push_back.. size: " << this->_size << ", val: " << val << std::endl;
+				this->_allocator.construct(&this->_data[this->_size - 1], val);
+				//this->_data[this->_size - 1] = val;
+				//std::cout << "pushed: " << this->_data[0] << std::endl;
+				//std::cout << "pushed: " << this->_data[this->_size - 1] << " in position: " << this->_size - 1 << std::endl;
 				this->_lastElement++;
 			};
 
 			//allocator
-	
+
 			allocator_type get_allocator(void) const { return (this->_allocator);};
 
 		private:
@@ -124,7 +149,11 @@ namespace ft{
 			void				copyDataToOtherObject(value_type* _newData)
 			{
 				for (size_type i = 0; i < this->_size - 1; i++)
-					this->_data[i] = _newData[i];
+				{
+					//std::cout << "copying " << this->_data[i] << std::endl;
+					this->_allocator.construct(&_newData[i], this->_data[i]);
+					//this->_data[i] = _newData[i];
+				}
 			};
 			
 			void			setLastElement(void)
@@ -135,16 +164,17 @@ namespace ft{
 
 			void				expandCapacity(void)
 			{
-			//	std::cout << "expanding capacity" << std::endl;
 				value_type*		_newData;
 
 				if (this->_capacity == 0)
 					this->_capacity = 1;
 				else
 					this->_capacity *= 2;
-				this->_data = this->_allocator.allocate(this->_capacity);
+				//std::cout << "allocating " << this->_capacity << std::endl;
+				_newData = this->_allocator.allocate(this->_capacity);
 				copyDataToOtherObject(_newData);
-				this->_allocator.deallocate(this->_data, this->_size - 1);
+				if (this->_size > 1)
+					this->_allocator.deallocate(this->_data, this->_size - 1);
 				_firstElement = _data;
 				setLastElement();
 				this->_data = _newData;
