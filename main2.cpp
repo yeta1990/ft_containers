@@ -53,7 +53,30 @@ void	vectorResizeTest(void)
 		std::cout << v[i] << std::endl;
 		std::cout << v1[i] << std::endl;
 	}
+	v.resize(5,1);
+	v1.resize(5,1);
+	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
+	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	for (size_t i = 0; i < 5; i++)
+	{
+		std::cout << v[i] << std::endl;
+		std::cout << v1[i] << std::endl;
+	}
 
+	v.resize(9);
+	v1.resize(9);
+	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
+	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+
+	for (size_t i = 0; i < 9; i++)
+	{
+		std::cout << v[i] << std::endl;
+		std::cout << v1[i] << std::endl;
+	}
+	v.resize(100);
+	v1.resize(100);
+	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
+	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
 
 //	std::vector<int>::iterator it;
 
