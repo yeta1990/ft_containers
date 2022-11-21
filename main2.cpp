@@ -36,6 +36,7 @@ void	vectorResizeTest(void)
 	v1.push_back(34);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
 	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
 
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -46,17 +47,21 @@ void	vectorResizeTest(void)
 	v.resize(3);
 	v1.resize(3);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
-	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl 
-		<< std::endl;
-	for (size_t i = 0; i < 3; i++)
+	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
+	for (size_t i = 0; i < v1.size(); i++)
 	{
 		std::cout << v[i] << std::endl;
 		std::cout << v1[i] << std::endl;
 	}
+	std::cout << std::endl;	
+	
 	v.resize(5,1);
 	v1.resize(5,1);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
 	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
+	
 	for (size_t i = 0; i < 5; i++)
 	{
 		std::cout << v[i] << std::endl;
@@ -67,16 +72,19 @@ void	vectorResizeTest(void)
 	v1.resize(9);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
 	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
 
 	for (size_t i = 0; i < 9; i++)
 	{
 		std::cout << v[i] << std::endl;
 		std::cout << v1[i] << std::endl;
 	}
+	
 	v.resize(100);
 	v1.resize(100);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
 	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
 
 //	std::vector<int>::iterator it;
 
@@ -87,7 +95,7 @@ void	vectorResizeTest(void)
 int	main(void)
 {
 
-	//vectorSizeVsCapacityTest();
+//	vectorSizeVsCapacityTest();
 	vectorResizeTest();
 	//system("leaks a.out");
 }

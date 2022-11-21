@@ -87,37 +87,35 @@ namespace ft{
 				{
 					size_type oldSize;
 
-					oldSize = this->_size;	
+					oldSize = this->_usedValues;
 					this->_size = n;
 					if (this->_size > this->_capacity)
 						expandCapacity();
 					for (size_type i = oldSize; i < this->_size; i++)
 						_allocator.construct(&this->_data[i], val);
-					this->_usedValues = this->_size;
-						//this->_data[i] = val;
+					this->_usedValues = n;
 					// insert as many elements as needed to reach a size of n
 				}
-				else
+				else// if (n > this->_size)
 				{
-					//std::cout << "eee" << std::endl;
+					std::cout << "eee" << std::endl;
 					size_type oldSize;
 
-					oldSize = this->_size;	
+					oldSize = this->_usedValues;	
 					this->_size = n;
 					std::cout << "size to capacity: " << this->_size << std::endl;
-					
-					if (this->_size > this->_capacity)
-						expandCapacity(this->_size);
-					for (size_type i = oldSize; i < this->_size; i++)
+					//if (this->_size > this->_capacity)
+					if (!isCapacityEnough())
+						expandCapacity();
+					else if (this->_usedValues >= this->_capacity / 2)
+						expandCapacity();
+				//	this->_usedValues = n;
+					for (size_type i = oldSize; i < this->_usedValues; i++)
 						_allocator.construct(&this->_data[i], value_type());
 				}
-				//if (n > this->_capacity)
-					// content reallocation
-					//
-				//	;
+				//else if size > capacity
 			};
 
-		
 
 			//modifiers
 			void	push_back(const value_type& val)
@@ -125,15 +123,14 @@ namespace ft{
 				this->_size++;
 				if (!isCapacityEnough())
 					expandCapacity();
-				//std::cout << "push_back.. size: " << this->_size << ", val: " << val << std::endl;
-				this->_allocator.construct(&this->_data[this->_size - 1], val);
-				//this->_data[this->_size - 1] = val;
-				//std::cout << "pushed: " << this->_data[0] << std::endl;
-				//std::cout << "pushed: " << this->_data[this->_size - 1] << " in position: " << this->_size - 1 << std::endl;
 				this->_usedValues++;
+				this->_allocator.construct(&this->_data[this->_usedValues - 1], val);
 				this->_lastElement++;
 			};
-
+			value_type	usedValues(void)
+			{
+				return (this->_usedValues);
+			};
 			//allocator
 
 			allocator_type get_allocator(void) const { return (this->_allocator);};
@@ -149,17 +146,20 @@ namespace ft{
 
 			bool				isCapacityEnough(void)
 			{
-				if (this->_size == 1 && this->_capacity == 0)
+				if (this->_usedValues == 0 && this->_capacity == 0)
 					return (false);
-				else if (this->_size == 2 && this->_capacity == 1)
+				else if (this->_usedValues == 1 && this->_capacity == 1)
 					return (false);
-				else if (this->_size == this->_capacity + 1)
+				else if (this->_usedValues >= this->_capacity)
 					return (false);
 				return (true);
 			};
 
 			void				copyDataToOtherObject(value_type* _newData)
 			{
+				std::cout << "used values: " << this->_usedValues << std::endl;
+				//if (this->_usedValues == 0)
+				//	return ;
 				for (size_type i = 0; i < this->_usedValues; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
@@ -174,18 +174,19 @@ namespace ft{
 			{
 				value_type*		_newData;
 
-			//	std::cout << "allocating " << this->_capacity << std::endl;
+				std::cout << "allocating " << this->_capacity << std::endl;
 				_newData = this->_allocator.allocate(this->_capacity);
 				copyDataToOtherObject(_newData);
-				if (this->_size > 1)
-					this->_allocator.deallocate(this->_data, this->_size - 1);
+				if (this->_usedValues > 0)
+					this->_allocator.deallocate(this->_data, this->_capacity);
 				_firstElement = _data;
 				setLastElement();
 				this->_data = _newData;
 			};
+
 			void				expandCapacity(void)
 			{
-				value_type*		_newData;
+				//value_type*		_newData;
 
 				if (this->_capacity == 0)
 					this->_capacity = 1;
@@ -196,8 +197,8 @@ namespace ft{
 
 			void	expandCapacity(size_type capacity)
 			{
-				value_type*		_newData;
-
+				//value_type*		_newData;
+				std::cout << "expanding to " << capacity << std::endl;
 				this->_capacity = capacity;
 				expansor();
 			};
