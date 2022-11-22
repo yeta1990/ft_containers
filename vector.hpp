@@ -75,58 +75,12 @@ namespace ft{
 			size_type 	max_size() const {return (this->_allocator.max_size());};
 			size_type 	capacity() const {return (this->_capacity);};
 
-			void		resize(size_type n, value_type val = value_type())
-			{
-				if (n < this->_size)
-				{
-					// reduce to n first elements, remove and destroy the rest
-					this->_size = n;
-					this->_usedValues = n;
-				}
-				else if (n > this->_size && val != value_type())
-				{
-					size_type oldSize;
-
-					oldSize = this->_usedValues;
-					this->_size = n;
-					if (this->_size > this->_capacity)
-						expandCapacity();
-					for (size_type i = oldSize; i < this->_size; i++)
-						_allocator.construct(&this->_data[i], val);
-					this->_usedValues = n;
-					// insert as many elements as needed to reach a size of n
-				}
-				else// if (n > this->_size)
-				{
-					std::cout << "eee" << std::endl;
-					size_type oldSize;
-
-					oldSize = this->_usedValues;	
-					this->_size = n;
-					std::cout << "size to capacity: " << this->_size << std::endl;
-					//if (this->_size > this->_capacity)
-					if (!isCapacityEnough())
-						expandCapacity();
-					else if (this->_usedValues >= this->_capacity / 2)
-						expandCapacity();
-				//	this->_usedValues = n;
-					for (size_type i = oldSize; i < this->_usedValues; i++)
-						_allocator.construct(&this->_data[i], value_type());
-				}
-				//else if size > capacity
-			};
 
 
 			//modifiers
-			void	push_back(const value_type& val)
-			{
-				this->_size++;
-				if (!isCapacityEnough())
-					expandCapacity();
-				this->_usedValues++;
-				this->_allocator.construct(&this->_data[this->_usedValues - 1], val);
-				this->_lastElement++;
-			};
+			void	push_back(const value_type& val);
+			void	resize(size_type n, value_type val = value_type());
+
 			value_type	usedValues(void)
 			{
 				return (this->_usedValues);
@@ -144,13 +98,10 @@ namespace ft{
 			size_type			_size;
 			size_type			_usedValues;
 
+
 			bool				isCapacityEnough(void)
 			{
-				if (this->_usedValues == 0 && this->_capacity == 0)
-					return (false);
-				else if (this->_usedValues == 1 && this->_capacity == 1)
-					return (false);
-				else if (this->_usedValues >= this->_capacity)
+				if (this->_usedValues == this->_capacity)
 					return (false);
 				return (true);
 			};
@@ -204,5 +155,9 @@ namespace ft{
 			};
 
 	};
+
 }
+
+#include "vector.tpp"
+
 #endif

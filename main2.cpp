@@ -1,5 +1,7 @@
 #include "vector.hpp"
 #include <vector>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
 void	vectorSizeVsCapacityTest(void)
 {
@@ -18,8 +20,111 @@ void	vectorSizeVsCapacityTest(void)
 
 }
 
+TEST_CASE("Vector push back")
+{
+	std::vector<int> v;
+	ft::vector<int> v1;
+
+	SUBCASE("initial values")
+	{
+		CHECK(v.size() == v1.size());
+		CHECK(v.capacity() == v1.capacity());
+	}
+	SUBCASE("more values")
+	{
+		for (size_t i = 0; i < 100; i++)
+		{
+			v.push_back(42);
+			v1.push_back(42);
+			CHECK(v.size() == v1.size());
+			CHECK(v.capacity() == v1.capacity());
+		}
+
+	}
+
+}
+
+TEST_CASE("Vector resize") {
+	std::vector<int> v;
+	ft::vector<int> v1;
+
+	SUBCASE("initial values")
+	{
+		v.push_back(31);
+		v1.push_back(31);
+		CHECK(v.size() == v1.size());
+		CHECK(v.capacity() == v1.capacity());
+	}
+	SUBCASE("more values")
+	{
+		v.push_back(31);
+		v1.push_back(31);
+		for (size_t i = 1; i < 10; i++)
+		{
+			std::cout << "------------resize " << i << std::endl;
+			v.resize(i);
+			v1.resize(i);
+			CHECK(v.size() == v1.size());
+			CHECK(v.capacity() == v1.capacity());
+		}
+		v.resize(200);
+		v1.resize(200);
+		CHECK(v.size() == v1.size());
+		CHECK(v.capacity() == v1.capacity());
+		v.resize(202);
+		v1.resize(202);
+		CHECK(v.size() == v1.size());
+		CHECK(v.capacity() == v1.capacity());
+
+	}
+}
+
+/*
 void	vectorResizeTest(void)
 {
+	std::vector<int> v;
+
+	v.push_back(31);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	v.resize(1);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	v.resize(2);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	v.resize(3);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	v.resize(4);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	v.resize(5);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	for (size_t i = 0; i < 100; i++)
+	{
+		v.resize(i);
+		std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl;
+	}
+	v.resize(101);
+	std::cout << "size: " << v.size() << ", " << v.capacity() << std::endl << std::endl;
+
+	std::vector<int> v1;
+
+	v1.push_back(31);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl << std::endl;
+	v1.resize(2);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl << std::endl;
+	v1.resize(3);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl << std::endl;
+	v1.resize(4);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl << std::endl;
+	v1.resize(5);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl << std::endl;
+	for (size_t i = 0; i < 100; i++)
+	{
+		v1.resize(i);
+		std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl;
+	}
+	v1.resize(101);
+	std::cout << "size: " << v1.size() << ", " << v1.capacity() << std::endl;
+
+
 	std::vector<int> v;
 	ft::vector<int> v1;
 
@@ -79,19 +184,26 @@ void	vectorResizeTest(void)
 		std::cout << v[i] << std::endl;
 		std::cout << v1[i] << std::endl;
 	}
-	
+	v.resize(20,1);
+	v1.resize(20,1);
+	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
+	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
+	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
+	*/
+/*	
 	v.resize(100);
 	v1.resize(100);
 	std::cout << "size: " << v.size() << ", " << v1.size() << std::endl;
 	std::cout << "capacity: " << v.capacity() << ", " << v1.capacity() << std::endl;
 	std::cout << "used values: " << v1.usedValues() << std::endl << std::endl;
-
+*/
 //	std::vector<int>::iterator it;
 
 	//for(it = v.begin(); it != v.end(); it++)
 	//	std::cout << *it << std::endl;
-}
+//}
 
+/*
 int	main(void)
 {
 
@@ -99,3 +211,4 @@ int	main(void)
 	vectorResizeTest();
 	//system("leaks a.out");
 }
+*/
