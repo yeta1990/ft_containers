@@ -7,8 +7,8 @@ template <class T, class Allocator>
 void	vector<T, Allocator>::push_back(const T& val)
 {
 	_size++;
-	if (!isCapacityEnough())
-		expandCapacity();
+	if (this->_size > this->_capacity)
+		expandCapacity(_size);
 	this->_usedValues++;
 	this->_allocator.construct(&this->_data[this->_usedValues - 1], val);
 	this->_lastElement++;
@@ -17,7 +17,7 @@ void	vector<T, Allocator>::push_back(const T& val)
 template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
-	std::cout << "resizing to " << n << std::endl;
+	//std::cout << "------resizing to " << n << std::endl;
 	if (n < this->_size)
 	{
 		this->_size = n;
@@ -25,13 +25,14 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	}
 	else if (n > this->_size)
 	{
-		size_type oldSize;
-		if (!isCapacityEnough())
-			expandCapacity();
-		else if (n > this->_capacity)
+		if (n > this->_capacity)
 			expandCapacity(n);
 		for (size_t i = this->_usedValues; i < n; i++)
-			push_back(val);
+		{
+			this->_allocator.construct(&this->_data[this->_usedValues], val);
+			this->_usedValues++;
+		}
+		this->_size = n;
 	}
 };
 

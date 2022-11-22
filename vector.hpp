@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include <algorithm>
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
 //https://towardsdatascience.com/c-basics-array-data-structure-c25b8ad4d32c
@@ -98,19 +99,9 @@ namespace ft{
 			size_type			_size;
 			size_type			_usedValues;
 
-
-			bool				isCapacityEnough(void)
-			{
-				if (this->_usedValues == this->_capacity)
-					return (false);
-				return (true);
-			};
-
 			void				copyDataToOtherObject(value_type* _newData)
 			{
-				std::cout << "used values: " << this->_usedValues << std::endl;
-				//if (this->_usedValues == 0)
-				//	return ;
+				//std::cout << "used values: " << this->_usedValues << std::endl;
 				for (size_type i = 0; i < this->_usedValues; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
@@ -125,7 +116,7 @@ namespace ft{
 			{
 				value_type*		_newData;
 
-				std::cout << "allocating " << this->_capacity << std::endl;
+				//std::cout << "allocating " << this->_capacity << std::endl;
 				_newData = this->_allocator.allocate(this->_capacity);
 				copyDataToOtherObject(_newData);
 				if (this->_usedValues > 0)
@@ -148,9 +139,10 @@ namespace ft{
 
 			void	expandCapacity(size_type capacity)
 			{
-				//value_type*		_newData;
-				std::cout << "expanding to " << capacity << std::endl;
-				this->_capacity = capacity;
+				if (this->_capacity == 0)
+					this->_capacity = 1;
+				else 
+					this->_capacity = std::max(this->_capacity * 2, capacity);
 				expansor();
 			};
 
