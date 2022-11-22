@@ -66,21 +66,18 @@ namespace ft{
 			};
 			
 			//capacity/
-			bool empty() const
-			{
-				if (this->_size == 0)
-					return (true);
-				return (false);
-			};
 			size_type 	size() const {return (this->_size);};
 			size_type 	max_size() const {return (this->_allocator.max_size());};
+			void		resize(size_type n, value_type val = value_type());
 			size_type 	capacity() const {return (this->_capacity);};
-
+			bool 		empty() const {return (this->_size == 0 ? true : false);};
+			void 		reserve (size_type n); //TBD
+			void 		shrink_to_fit(); //TBD
+			void		push_back(const value_type& val);
 
 
 			//modifiers
-			void	push_back(const value_type& val);
-			void	resize(size_type n, value_type val = value_type());
+
 
 			value_type	usedValues(void)
 			{
@@ -99,6 +96,7 @@ namespace ft{
 			size_type			_size;
 			size_type			_usedValues;
 
+
 			void				copyDataToOtherObject(value_type* _newData)
 			{
 				//std::cout << "used values: " << this->_usedValues << std::endl;
@@ -112,39 +110,8 @@ namespace ft{
 					this->_lastElement = &this->_data[i];
 			};
 
-			void				expansor(void)
-			{
-				value_type*		_newData;
-
-				//std::cout << "allocating " << this->_capacity << std::endl;
-				_newData = this->_allocator.allocate(this->_capacity);
-				copyDataToOtherObject(_newData);
-				if (this->_usedValues > 0)
-					this->_allocator.deallocate(this->_data, this->_capacity);
-				_firstElement = _data;
-				setLastElement();
-				this->_data = _newData;
-			};
-
-			void				expandCapacity(void)
-			{
-				//value_type*		_newData;
-
-				if (this->_capacity == 0)
-					this->_capacity = 1;
-				else
-					this->_capacity *= 2;
-				expansor();
-			};
-
-			void	expandCapacity(size_type capacity)
-			{
-				if (this->_capacity == 0)
-					this->_capacity = 1;
-				else 
-					this->_capacity = std::max(this->_capacity * 2, capacity);
-				expansor();
-			};
+			void				expansor(void);
+			void	expandCapacity(size_type requiredCapacity);
 
 	};
 
