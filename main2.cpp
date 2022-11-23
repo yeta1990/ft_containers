@@ -122,6 +122,32 @@ TEST_CASE("Vector: empty()")
 	CHECK(v1.empty() == false);
 }
 
+TEST_CASE("Vector reserve")
+{
+	std::vector<int> v;
+	ft::vector<int> v1;
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		v.push_back(42);
+		v1.push_back(42);
+	}
+	CHECK(v.capacity() == v1.capacity());
+	v.reserve(5);
+	v1.reserve(5);
+	CHECK(v.capacity() == v1.capacity());
+	for (size_t i = 0; i < 4; i++)
+	{
+		v.reserve(99);
+		v1.reserve(99);
+	}
+	CHECK(v.capacity() == v1.capacity());
+	CHECK_THROWS_AS(v1.reserve(v.max_size() + 1), std::length_error);
+}
+
+
+
+
 /*
 int	main(void)
 {

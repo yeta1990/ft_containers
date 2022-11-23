@@ -61,5 +61,17 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	}
 };
 
+template <class T, class Allocator>
+void 	vector<T, Allocator>::reserve (size_type n)
+{
+	if (n > this->max_size())
+		throw (std::length_error("'n' exceeds maximum supported size"));
+	if (n > this->_capacity)
+	{
+		this->_capacity = n;
+		expansor();
+	}
+};
+
 }
 #endif

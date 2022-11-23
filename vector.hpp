@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <stdexcept>
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
 //https://towardsdatascience.com/c-basics-array-data-structure-c25b8ad4d32c
@@ -37,7 +38,7 @@ namespace ft{
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
-			typedef ptrdiff_t difference_type;	
+			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
 
 			vector(void) 
@@ -64,7 +65,7 @@ namespace ft{
 			{
 				return (this->_data[pos]);
 			};
-			
+
 			//capacity/
 			size_type 	size() const {return (this->_size);};
 			size_type 	max_size() const {return (this->_allocator.max_size());};
@@ -74,7 +75,6 @@ namespace ft{
 			void 		reserve (size_type n); //TBD
 			void 		shrink_to_fit(); //TBD
 			void		push_back(const value_type& val);
-
 
 			//modifiers
 
