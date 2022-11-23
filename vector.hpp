@@ -72,7 +72,7 @@ namespace ft{
 			void		resize(size_type n, value_type val = value_type());
 			size_type 	capacity() const {return (this->_capacity);};
 			bool 		empty() const {return (this->_size == 0 ? true : false);};
-			void 		reserve (size_type n); //TBD
+			void 		reserve (size_type n);
 			void 		shrink_to_fit(); //TBD
 			void		push_back(const value_type& val);
 
@@ -97,13 +97,13 @@ namespace ft{
 			size_type			_usedValues;
 
 
-			void				copyDataToOtherObject(value_type* _newData)
+			void	copyDataToOtherObject(value_type* _newData)
 			{
 				//std::cout << "used values: " << this->_usedValues << std::endl;
 				for (size_type i = 0; i < this->_usedValues; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
-			
+
 			void			setLastElement(void)
 			{
 				for (size_type i = 0; i < this->_size - 1; i++)

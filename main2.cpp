@@ -145,7 +145,15 @@ TEST_CASE("Vector reserve")
 	CHECK_THROWS_AS(v1.reserve(v.max_size() + 1), std::length_error);
 }
 
-
+TEST_CASE("Vector shrink to fit")
+{
+	std::vector<int> myvector (100);
+	CHECK(myvector.capacity() == 100);
+	myvector.resize(10);	
+	CHECK(myvector.capacity() == 100);
+	myvector.shrink_to_fit();
+	CHECK(myvector.capacity() == 10);
+}
 
 
 /*
