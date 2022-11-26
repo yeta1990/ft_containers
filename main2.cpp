@@ -155,6 +155,22 @@ TEST_CASE("Vector shrink to fit")
 	CHECK(myvector.capacity() == 10);
 }
 
+TEST_CASE("Iterator")
+{
+	std::vector<int> 			v;
+	std::vector<int>::iterator	it;
+	ft::vector<int>				v1;
+	ft::vector<int>::iterator	it1;
+
+	it = v.begin();
+	v1.push_back(42);
+	it1 = v1.begin();
+	CHECK(*it1 == 42);
+	*it1 = 43;
+	CHECK(*it1 == 43);
+	CHECK(*it1 == v1[0]);
+
+}
 
 /*
 int	main(void)

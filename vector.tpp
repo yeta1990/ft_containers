@@ -11,7 +11,7 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 	else 
 		this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
 	expansor();
-};
+}
 
 template <class T, class Allocator>
 void	vector<T, Allocator>::expansor(void)
@@ -26,7 +26,7 @@ void	vector<T, Allocator>::expansor(void)
 	_firstElement = _data;
 	setLastElement();
 	this->_data = _newData;
-};
+}
 
 template <class T, class Allocator>
 void	vector<T, Allocator>::push_back(const T& val)
@@ -37,7 +37,7 @@ void	vector<T, Allocator>::push_back(const T& val)
 	this->_usedValues++;
 	this->_allocator.construct(&this->_data[this->_usedValues - 1], val);
 	this->_lastElement++;
-};
+}
 
 template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
@@ -59,7 +59,7 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 		}
 		this->_size = n;
 	}
-};
+}
 
 template <class T, class Allocator>
 void 	vector<T, Allocator>::reserve (size_type n)
@@ -71,7 +71,13 @@ void 	vector<T, Allocator>::reserve (size_type n)
 		this->_capacity = n;
 		expansor();
 	}
-};
+}
+
+template <class T, class Allocator>
+void	vector<T, Allocator>::clear()
+{
+	this->_size = 0;
+}
 
 }
 #endif

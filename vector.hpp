@@ -31,15 +31,48 @@ namespace ft{
 	class vector
 	{
 		public:
+			struct iterator{
+				public:
+					typedef std::forward_iterator_tag iterator_category;
+					typedef ptrdiff_t difference_type;
+					typedef T value_type;
+					typedef value_type* pointer;
+					typedef value_type& reference;
+
+					iterator(pointer ptr) : p(ptr) {}
+					iterator() {}
+					//copy constructor?
+					//destructor?
+					//operator= ?
+					reference operator*() const { return *this->p; }
+					pointer operator->() { return p; }
+					iterator& operator++() { p++; return *this; }
+					iterator operator++(int) {
+						iterator p_cpy = *this;
+						++(*this);
+						return (p_cpy);
+					}
+					friend bool operator==(const iterator &a, const iterator &b){
+						return a.p == b.p;
+					}
+					friend bool operator!=(const iterator &a, const iterator &b){
+						return a.p != b.p;
+					}
+
+				private:
+					pointer p;
+
+			};
 			typedef T value_type;
 			typedef std::allocator<value_type> allocator_type;
-			//typedef typename allocator_type::reference reference;
 			typedef value_type& reference;
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
+			//typedef Iterator iterator;
+			//typedef typename Iterator const_iterator;
 
 			vector(void) 
 			{
@@ -54,7 +87,9 @@ namespace ft{
 			~vector(void) {};
 
 			//iterators	
-			
+			iterator begin() { return iterator(&this->_data[0]); }
+			iterator end() { return iterator(&this->_data[this->_capacity]); }
+
 			//element access
 			reference operator[](size_type pos)
 			{
@@ -74,9 +109,16 @@ namespace ft{
 			bool 		empty() const {return (this->_size == 0 ? true : false);};
 			void 		reserve (size_type n);
 			void 		shrink_to_fit(); //TBD
-			void		push_back(const value_type& val);
 
 			//modifiers
+			void 		clear();
+			//insert
+			//erase
+			void		push_back(const value_type& val);
+			//pop_back
+			//resize
+			//swap
+
 
 
 			value_type	usedValues(void)
