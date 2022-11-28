@@ -31,7 +31,17 @@ namespace ft{
 	class vector
 	{
 		public:
-			struct iterator{
+			typedef T value_type;
+			typedef std::allocator<value_type> allocator_type;
+			typedef value_type& reference;
+			typedef typename allocator_type::const_reference const_reference;
+			typedef typename allocator_type::pointer pointer;
+			typedef typename allocator_type::const_pointer const_pointer;
+			typedef ptrdiff_t difference_type;
+			typedef size_t size_type;
+
+			class iterator
+			{
 				public:
 					typedef std::forward_iterator_tag iterator_category;
 					typedef ptrdiff_t difference_type;
@@ -52,9 +62,9 @@ namespace ft{
 						++(*this);
 						return (p_cpy);
 					}
+					iterator operator=(iterator const &i) { this->p = &(*i); return *this; }
 					friend bool operator==(const iterator &a, const iterator &b){
-						return a.p == b.p;
-					}
+						return a.p == b.p; }
 					friend bool operator!=(const iterator &a, const iterator &b){
 						return a.p != b.p;
 					}
@@ -63,16 +73,44 @@ namespace ft{
 					pointer p;
 
 			};
-			typedef T value_type;
-			typedef std::allocator<value_type> allocator_type;
-			typedef value_type& reference;
-			typedef typename allocator_type::const_reference const_reference;
-			typedef typename allocator_type::pointer pointer;
-			typedef typename allocator_type::const_pointer const_pointer;
-			typedef ptrdiff_t difference_type;
-			typedef size_t size_type;
-			//typedef Iterator iterator;
-			//typedef typename Iterator const_iterator;
+
+			class const_iterator
+			{
+				public:
+					typedef std::forward_iterator_tag iterator_category;
+					typedef ptrdiff_t difference_type;
+					typedef T value_type;
+					typedef value_type* pointer;
+					typedef const value_type& const_reference;
+
+					const_iterator(pointer ptr) : p(ptr) {}
+					//const_iterator(const_iterator& c) { };
+					const_iterator(const_iterator const &c) { *this = c;}
+					const_iterator() {}
+					//copy constructor?
+					//destructor?
+					//operator= ?
+					const_reference operator*() const { return *this->p; }
+					pointer operator->() { return p; }
+					const_iterator operator++() { p++; return *this; }
+					const_iterator& operator++(int) {
+						const_iterator p_cpy = *this;
+						++(*this);
+						return (p_cpy);
+					}
+					//const_iterator operator=(const_iterator const &i) { this->p = &(*i); return *this; }
+					friend bool operator==(const const_iterator &a, const const_iterator &b){
+						return a.p == b.p;
+					}
+					friend bool operator!=(const const_iterator &a, const const_iterator &b){
+						return a.p != b.p;
+						
+					}
+
+				private:
+					pointer p;
+
+			};
 
 			vector(void) 
 			{
@@ -88,7 +126,9 @@ namespace ft{
 
 			//iterators	
 			iterator begin() { return iterator(&this->_data[0]); }
-			iterator end() { return iterator(&this->_data[this->_capacity]); }
+			iterator end() { return iterator(&this->_data[this->_size]); }
+			const_iterator begin() const { return const_iterator(&this->_data[0]); }
+			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
 
 			//element access
 			reference operator[](size_type pos)
@@ -100,6 +140,13 @@ namespace ft{
 			{
 				return (this->_data[pos]);
 			};
+
+			reference at(size_type n);
+			const_reference at(size_type n) const;
+			reference front();
+ 			const_reference front() const;
+			pointer data();
+			const_pointer data() const;
 
 			//capacity/
 			size_type 	size() const {return (this->_size);};
@@ -156,7 +203,6 @@ namespace ft{
 			void	expandCapacity(size_type requiredCapacity);
 
 	};
-
 }
 
 #include "vector.tpp"

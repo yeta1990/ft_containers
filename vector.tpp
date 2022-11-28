@@ -1,6 +1,6 @@
 #ifndef VECTOR_TPP
 # define VECTOR_TPP
-
+#include "vector.hpp"
 namespace ft{
 
 template <class T, class Allocator>
@@ -77,6 +77,48 @@ template <class T, class Allocator>
 void	vector<T, Allocator>::clear()
 {
 	this->_size = 0;
+}
+
+template <class T, class Allocator>
+T& vector<T, Allocator>::at(size_type n)
+{
+	if (n >= this->_size)
+		throw (std::out_of_range("out of range error"));
+	return (*this[n]);
+}
+
+template <class T, class Allocator>
+typename std::allocator<T>::const_reference vector<T, Allocator>::at(size_type n) const
+{
+	if (n >= this->_size)
+		throw (std::out_of_range("out of range error"));
+	return (*this[n]);
+}
+
+template <class T, class Allocator>
+T& vector<T, Allocator>::front()
+{
+	return (this->_data[0]);
+}
+
+template <class T, class Allocator>
+typename std::allocator<T>::const_reference vector<T, Allocator>::front() const
+{
+	if (this->_size == 0)
+		return (this->_data[0]);
+	return (this->_data[this->_size - 1]);
+}
+
+template <class T, class Allocator>
+typename std::allocator<T>::pointer vector<T, Allocator>::data()
+{
+	return (this->_data);
+}
+
+template <class T, class Allocator>
+typename std::allocator<T>::const_pointer vector<T, Allocator>::data() const
+{
+	return (this->_data);
 }
 
 }

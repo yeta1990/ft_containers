@@ -159,8 +159,11 @@ TEST_CASE("Iterator")
 {
 	std::vector<int> 			v;
 	std::vector<int>::iterator	it;
+	std::vector<int>::const_iterator	itc;
 	ft::vector<int>				v1;
 	ft::vector<int>::iterator	it1;
+	ft::vector<int>::const_iterator	it1c;
+	ft::vector<int> const				v2;
 
 	it = v.begin();
 	v1.push_back(42);
@@ -170,6 +173,10 @@ TEST_CASE("Iterator")
 	CHECK(*it1 == 43);
 	CHECK(*it1 == v1[0]);
 
+	itc = v.begin();
+	//*itc = 22;
+	it1c = v2.begin();
+	//*it1c = 22;
 }
 
 /*
