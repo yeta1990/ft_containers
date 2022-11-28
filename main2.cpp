@@ -169,11 +169,6 @@ TEST_CASE("Iterator")
 	*it1 = 43;
 	CHECK(*it1 == 43);
 	CHECK(*it1 == v1[0]);
-
-	itc = v.begin();
-	//*itc = 22;
-	it1c = v2.begin();
-	//*it1c = 22;
 }
 
 TEST_CASE("Iterator begin and end")
@@ -212,7 +207,7 @@ TEST_CASE("Iterator begin and end")
 	CHECK(num1 == num2);
 }
 
-TEST_CASE("Iterator arithmetics")
+TEST_CASE("Iterator operations")
 {
 	std::vector<int>			v1;	
 	std::vector<int>::iterator	it;
@@ -238,14 +233,25 @@ TEST_CASE("Iterator arithmetics")
 	it2++;
 	it2++;
 	it2--;
-	
-	//std::cout << *it << std::endl;
+
 	CHECK(*it == *it2);
 	it -= 2;
 	it2 -= 2;
 	CHECK(*it == *it2);
-	//std::cout << *it << std::endl;
-	
+	CHECK(it[2] == it2[2]);
+
+	std::vector<int>::iterator	itt;
+	ft::vector<int>::iterator	itt2;
+	itt = v1.begin();
+	itt2 = v2.begin();
+	CHECK((itt < it) == (itt2 < it2));
+	CHECK((itt > it) == (itt2 > it2));
+	CHECK(itt2 == it2);
+	itt++;
+	itt2++;
+	CHECK((itt < it) == (itt2 < it2));
+	CHECK((itt > it) == (itt2 > it2));
+	CHECK(itt2 != it2);
 }
 
 /*
