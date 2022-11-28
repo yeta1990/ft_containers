@@ -136,11 +136,8 @@ TEST_CASE("Vector reserve")
 	v.reserve(5);
 	v1.reserve(5);
 	CHECK(v.capacity() == v1.capacity());
-	for (size_t i = 0; i < 4; i++)
-	{
-		v.reserve(99);
-		v1.reserve(99);
-	}
+	v.reserve(99);
+	v1.reserve(99);
 	CHECK(v.capacity() == v1.capacity());
 	CHECK_THROWS_AS(v1.reserve(v.max_size() + 1), std::length_error);
 }
@@ -177,6 +174,78 @@ TEST_CASE("Iterator")
 	//*itc = 22;
 	it1c = v2.begin();
 	//*it1c = 22;
+}
+
+TEST_CASE("Iterator begin and end")
+{
+	std::vector<int> 			v;
+	std::vector<int>::iterator	it;
+	ft::vector<int>				v1;
+	ft::vector<int>::iterator	it1;
+	size_t num1 = 0;
+	size_t num2 = 0;
+
+	it = v.begin();
+	it1 = v1.begin();
+	for (size_t i = 0; i < 9; i++)
+	{
+		v.push_back(42 + i);
+		v1.push_back(42 + i);
+	}
+	it = v.begin();
+	it1 = v1.begin();
+	for (it = v.begin(); it != v.end(); it++)
+		num1++;
+	for (it1 = v1.begin(); it1 != v1.end(); it1++)
+		num2++;
+	CHECK(num1 == num2);
+	v.resize(100);
+	v1.resize(100);
+	v.push_back(1);
+	v1.push_back(1);
+	num1 = 0;
+	num2 = 0;
+	for (it = v.begin(); it != v.end(); it++)
+		num1++;
+	for (it1 = v1.begin(); it1 != v1.end(); it1++)
+		num2++;
+	CHECK(num1 == num2);
+}
+
+TEST_CASE("Iterator arithmetics")
+{
+	std::vector<int>			v1;	
+	std::vector<int>::iterator	it;
+	ft::vector<int>				v2;	
+	ft::vector<int>::iterator	it2;
+
+	v1.push_back(42);
+	v1.push_back(43);
+	v1.push_back(44);
+	v1.push_back(45);
+	it = v1.begin();
+	v2.push_back(42);
+	v2.push_back(43);
+	v2.push_back(44);
+	v2.push_back(45);
+	it2 = v2.begin();
+
+	it++;
+	it++;
+	it++;
+	it--;
+	it2++;
+	it2++;
+	it2++;
+	it2--;
+	
+	//std::cout << *it << std::endl;
+	CHECK(*it == *it2);
+	it -= 2;
+	it2 -= 2;
+	CHECK(*it == *it2);
+	//std::cout << *it << std::endl;
+	
 }
 
 /*

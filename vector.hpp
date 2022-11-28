@@ -21,7 +21,9 @@
 //https://lokiastari.com/blog/2016/02/27/vector/index.html
 //https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator
 //https://codereview.stackexchange.com/questions/202157/basic-iterator-supporting-vector-implementation
-//
+
+//iterators
+//https://leimao.github.io/blog/CPP-Const-Iterator/#Implementation-Without-Code-Duplication
 
 
 //resize:
@@ -53,7 +55,6 @@ namespace ft{
 					iterator() {}
 					//copy constructor?
 					//destructor?
-					//operator= ?
 					reference operator*() const { return *this->p; }
 					pointer operator->() { return p; }
 					iterator& operator++() { p++; return *this; }
@@ -62,6 +63,14 @@ namespace ft{
 						++(*this);
 						return (p_cpy);
 					}
+					iterator& operator--() { p--; return *this; }
+					iterator operator--(int) {
+						iterator p_cpy = *this;
+						--(*this);
+						return (p_cpy);
+					}
+					iterator& operator+=(int i) { p += i; return (*this); }
+					iterator& operator-=(int i)	{ p -= i; return (*this); }
 					iterator operator=(iterator const &i) { this->p = &(*i); return *this; }
 					friend bool operator==(const iterator &a, const iterator &b){
 						return a.p == b.p; }
@@ -87,7 +96,6 @@ namespace ft{
 					//const_iterator(const_iterator& c) { };
 					const_iterator(const_iterator const &c) { *this = c;}
 					const_iterator() {}
-					//copy constructor?
 					//destructor?
 					//operator= ?
 					const_reference operator*() const { return *this->p; }
