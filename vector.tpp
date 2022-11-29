@@ -104,6 +104,20 @@ T& vector<T, Allocator>::front()
 template <class T, class Allocator>
 typename std::allocator<T>::const_reference vector<T, Allocator>::front() const
 {
+	return (this->_data[0]);
+}
+
+template <class T, class Allocator>
+T& vector<T, Allocator>::back()
+{
+	if (this->_size == 0)
+		return (this->_data[0]);
+	return (this->_data[this->_size - 1]);
+}
+
+template <class T, class Allocator>
+typename std::allocator<T>::const_reference vector<T, Allocator>::back() const
+{
 	if (this->_size == 0)
 		return (this->_data[0]);
 	return (this->_data[this->_size - 1]);

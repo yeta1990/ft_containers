@@ -207,6 +207,34 @@ TEST_CASE("Iterator begin and end")
 	CHECK(num1 == num2);
 }
 
+TEST_CASE("Iterator front and back")
+{
+	std::vector<int> 			v;
+	std::vector<int>::iterator	it;
+	ft::vector<int>				v1;
+	ft::vector<int>::iterator	it1;
+
+	int n1;
+	int n2;
+	for (size_t i = 0; i < 9; i++)
+	{
+		v.push_back(42 + i);
+		v1.push_back(42 + i);
+	}
+	n1 = v.front();
+	n2 = v1.front();
+	CHECK(n1 == n2);
+	v.resize(100);
+	v1.resize(100);
+	v.push_back(1);
+	v1.push_back(1);
+
+	n1 = v.back();
+	n2 = v1.back();
+	CHECK(n1 == n2);
+	
+}
+
 TEST_CASE("Iterator operations")
 {
 	std::vector<int>			v1;	

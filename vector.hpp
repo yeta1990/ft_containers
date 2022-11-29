@@ -158,6 +158,8 @@ namespace ft{
 			const_reference at(size_type n) const;
 			reference front();
  			const_reference front() const;
+			reference back();
+			const_reference back() const;
 			pointer data();
 			const_pointer data() const;
 
@@ -173,6 +175,11 @@ namespace ft{
 			//modifiers
 			void 		clear();
 			//insert
+			iterator insert( const_iterator pos, const T& value );
+			iterator insert( const_iterator pos, size_type count, const T& value );
+			template< class InputIt >
+			iterator insert( const_iterator pos, InputIt first, InputIt last );
+
 			//erase
 			void		push_back(const value_type& val);
 			//pop_back
