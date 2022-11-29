@@ -73,8 +73,10 @@ namespace ft{
 					iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
 					iterator operator=(iterator const &i) { this->p = &(*i); return *this; }
 					value_type& operator[](difference_type n) { return *(p + n);}
-					bool operator<(iterator &a) { return (this->p < &(*a)); }
-					bool operator>(iterator &a) { return a < *this; }
+					friend bool operator<(const iterator &a, const iterator &b) { return (a.p < b.p); }
+					friend bool operator>(const iterator &a, const iterator &b) { return b.p < a.p; }
+					friend bool operator<=(const iterator &a, const iterator &b) { return (a.p <= b.p); }
+					friend bool operator>=(const iterator &a, const iterator &b) { return b.p <= a.p; }
 					friend bool operator==(const iterator &a, const iterator &b){
 						return a.p == b.p; }
 					friend bool operator!=(const iterator &a, const iterator &b){
