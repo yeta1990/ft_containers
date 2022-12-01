@@ -22,7 +22,11 @@ void	vector<T, Allocator>::expansor(void)
 	_newData = this->_allocator.allocate(this->_capacity);
 	copyDataToOtherObject(_newData);
 	if (this->_usedValues > 0)
+	{
+		for (size_t i = 0; i < this->_capacity; i++)
+			this->_allocator.destroy(&this->_data[i]);
 		this->_allocator.deallocate(this->_data, this->_capacity);
+	}
 	_firstElement = _data;
 	setLastElement();
 	this->_data = _newData;

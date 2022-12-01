@@ -5,6 +5,8 @@
 #include <iostream>
 #include <algorithm>
 #include <stdexcept>
+//#include "iterator_traits.hpp"
+
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
 //https://towardsdatascience.com/c-basics-array-data-structure-c25b8ad4d32c
@@ -29,6 +31,66 @@
 //resize:
 
 namespace ft{
+
+	template <class Category, class T, class Distance = ptrdiff_t,
+	          class Pointer = T*, class Reference = T&>
+	struct iterator_base {
+		typedef T         value_type;
+		typedef Distance  difference_type;
+		typedef Pointer   pointer;
+		typedef Reference reference;
+		typedef Category  iterator_category;
+	};
+	
+	template <class T>
+	class const_vector_iterator : public iterator_base<std::random_access_iterator_tag, T>
+	{
+			public:
+				typedef std::random_access_iterator_tag iterator_category;
+				typedef ptrdiff_t difference_type;
+				typedef T value_type;
+				typedef value_type* pointer;
+				typedef value_type& reference;
+				typedef const T& const_reference;
+
+
+				const_vector_iterator(pointer ptr) : p(ptr) {}
+				const_vector_iterator() {}
+				//copy constructor?
+				//destructor?
+			//	reference operator*() const { return *this->p; }
+				const_reference operator*() const { return *this->p; }
+				pointer operator->() { return p; }
+				const_vector_iterator& operator++() { p++; return *this; }
+				const_vector_iterator operator++(int) {
+					const_vector_iterator p_cpy = *this;
+					++(*this);
+					return (p_cpy);
+			}
+				const_vector_iterator& operator--() { p--; return *this; }
+				const_vector_iterator operator--(int) {
+					const_vector_iterator p_cpy = *this;
+					--(*this);
+					return (p_cpy);
+				}
+				const_vector_iterator& operator+=(difference_type i) { p += i; return (*this); }
+				const_vector_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
+				const_vector_iterator operator=(const_vector_iterator const &i) { this->p = &(*i); return *this; }
+				value_type& operator[](difference_type n) { return *(p + n);}
+				friend bool operator<(const const_vector_iterator &a, const const_vector_iterator &b) { return (a.p < b.p); }
+				friend bool operator>(const const_vector_iterator &a, const const_vector_iterator &b) { return b.p < a.p; }
+				friend bool operator<=(const const_vector_iterator &a, const const_vector_iterator &b) { return (a.p <= b.p); }
+				friend bool operator>=(const const_vector_iterator &a, const const_vector_iterator &b) { return b.p <= a.p; }
+				friend bool operator==(const const_vector_iterator &a, const const_vector_iterator &b){
+					return a.p == b.p; }
+				friend bool operator!=(const const_vector_iterator &a, const const_vector_iterator &b){
+					return a.p != b.p;
+				}
+
+			private:
+				pointer p;
+	};
+
 	template <class T, class Allocator = std::allocator<T> > 
 	class vector
 	{
@@ -41,11 +103,12 @@ namespace ft{
 			typedef typename allocator_type::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
+			typedef const_vector_iterator<T> const_iterator;
 
 			class iterator
 			{
 				public:
-					typedef std::forward_iterator_tag iterator_category;
+					typedef std::random_access_iterator_tag iterator_category;
 					typedef ptrdiff_t difference_type;
 					typedef T value_type;
 					typedef value_type* pointer;
@@ -87,7 +150,7 @@ namespace ft{
 					pointer p;
 
 			};
-
+/*
 			class const_iterator
 			{
 				public:
@@ -124,7 +187,7 @@ namespace ft{
 					pointer p;
 
 			};
-
+*/
 			vector(void) 
 			{
 				this->_capacity = 0;
