@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <stdexcept>
-//#include "iterator_traits.hpp"
+#include "iterator_traits.hpp"
 
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
@@ -32,114 +32,59 @@
 
 namespace ft{
 
-		/*
-	template <class T, class Category = std::random_access_iterator_tag, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-	struct iterator_base {
-		public:
-		typedef T         value_type;
-		typedef Distance  difference_type;
-		typedef Pointer   pointer;
-		typedef Reference reference;
-		typedef Category  iterator_category;
-	};
-
 	template <class T>
-	class const_vector_iterator : public iterator_base<T>
+	class random_iterator
 	{
-			public:
-				typedef std::random_access_iterator_tag iterator_category;
-				typedef ptrdiff_t difference_type;
-				typedef T value_type;
-				//typedef iterator_base::Pointer pointer;
-				typedef typename iterator_base<const T>::pointer pointer;
-				typedef value_type& reference;
-				typedef const T& const_reference;
+		public:
+			typedef typename ft::iterator_traits<T>::iterator_category iterator_category;
+			typedef typename ft::iterator_traits<T>::difference_type difference_type;
+			typedef typename ft::iterator_traits<T>::value_type	value_type;
+			typedef typename ft::iterator_traits<T>::value_type* pointer;
+			typedef typename ft::iterator_traits<T>::value_type& reference;
 
+			random_iterator() : p(nullptr) {}	
+			random_iterator(pointer ptr) : p(ptr) {}
+			//if isn't constant
+			random_iterator(random_iterator const &it) : p(it.p) {}
 
-				const_vector_iterator(pointer ptr) : p(ptr) {}
-				const_vector_iterator() : p(nullptr) {}
-				//copy constructor?
-				//destructor?
-			//	reference operator*() const { return *this->p; }
-				const_reference operator*() const { return *this->p; }
-				pointer operator->() { return p; }
-				const_vector_iterator& operator++() { p++; return *this; }
-				const_vector_iterator operator++(int) {
-					const_vector_iterator p_cpy = *this;
-					++(*this);
-					return (p_cpy);
+			//iterator() {}
+			//copy constructor?
+			//destructor?
+			reference operator*() const { return *this->p; }
+			pointer operator->() { return p; }
+			random_iterator& operator++() { p++; return *this; }
+			random_iterator operator++(int) {
+				random_iterator p_cpy = *this;
+				++(*this);
+				return (p_cpy);
 			}
-				const_vector_iterator& operator--() { p--; return *this; }
-				const_vector_iterator operator--(int) {
-					const_vector_iterator p_cpy = *this;
-					--(*this);
-					return (p_cpy);
-				}
-				const_vector_iterator& operator+=(difference_type i) { p += i; return (*this); }
-				const_vector_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
-				const_vector_iterator operator=(const_vector_iterator const &i) { this->p = &(*i); return *this; }
-				value_type& operator[](difference_type n) { return *(p + n);}
-				friend bool operator<(const const_vector_iterator &a, const const_vector_iterator &b) { return (a.p < b.p); }
-				friend bool operator>(const const_vector_iterator &a, const const_vector_iterator &b) { return b.p < a.p; }
-				friend bool operator<=(const const_vector_iterator &a, const const_vector_iterator &b) { return (a.p <= b.p); }
-				friend bool operator>=(const const_vector_iterator &a, const const_vector_iterator &b) { return b.p <= a.p; }
-				friend bool operator==(const const_vector_iterator &a, const const_vector_iterator &b){
-					return a.p == b.p; }
-				friend bool operator!=(const const_vector_iterator &a, const const_vector_iterator &b){
-					return a.p != b.p;
-				}
+			random_iterator& operator--() { p--; return *this; }
+			random_iterator operator--(int) {
+				random_iterator p_cpy = *this;
+				--(*this);
+				return (p_cpy);
+			}
+			random_iterator& operator+=(difference_type i) { p += i; return (*this); }
+			random_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
 
-			private:
-				pointer p;
+			//random_iterator& operator=(const random_iterator &i) { this->p = i.p; return *this; }
+
+			value_type& operator[](difference_type n) { return *(p + n);}
+			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
+			friend bool operator>(const random_iterator &a, const random_iterator &b) { return b.p < a.p; }
+			friend bool operator<=(const random_iterator &a, const random_iterator &b) { return (a.p <= b.p); }
+			friend bool operator>=(const random_iterator &a, const random_iterator &b) { return b.p <= a.p; }
+			friend bool operator==(const random_iterator &a, const random_iterator &b){
+				return a.p == b.p; }
+			friend bool operator!=(const random_iterator &a, const random_iterator &b){
+				return a.p != b.p;
+			}
+
+		private:
+			pointer p;
+
 	};
-*/
-			template <class T>
-			class iterator
-			{
-				public:
-					typedef std::random_access_iterator_tag iterator_category;
-					typedef ptrdiff_t difference_type;
-					typedef T value_type;
-					typedef value_type* pointer;
-					typedef value_type& reference;
 
-					iterator(pointer ptr) : p(ptr) {}
-					iterator() {}
-					//copy constructor?
-					//destructor?
-					reference operator*() const { return *this->p; }
-					pointer operator->() { return p; }
-					iterator& operator++() { p++; return *this; }
-					iterator operator++(int) {
-						iterator p_cpy = *this;
-						++(*this);
-						return (p_cpy);
-					}
-					iterator& operator--() { p--; return *this; }
-					iterator operator--(int) {
-						iterator p_cpy = *this;
-						--(*this);
-						return (p_cpy);
-					}
-					iterator& operator+=(difference_type i) { p += i; return (*this); }
-					iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
-					iterator operator=(iterator const &i) { this->p = &(*i); return *this; }
-					value_type& operator[](difference_type n) { return *(p + n);}
-					friend bool operator<(const iterator &a, const iterator &b) { return (a.p < b.p); }
-					friend bool operator>(const iterator &a, const iterator &b) { return b.p < a.p; }
-					friend bool operator<=(const iterator &a, const iterator &b) { return (a.p <= b.p); }
-					friend bool operator>=(const iterator &a, const iterator &b) { return b.p <= a.p; }
-					friend bool operator==(const iterator &a, const iterator &b){
-						return a.p == b.p; }
-					friend bool operator!=(const iterator &a, const iterator &b){
-						return a.p != b.p;
-					operator iterator<T const>() const;
-					}
-
-				private:
-					pointer p;
-
-			};
 	template <class T, class Allocator = std::allocator<T> > 
 	class vector
 	{
@@ -150,95 +95,12 @@ namespace ft{
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
-			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
-		//	typedef typename iterator<T> iterator;
-			typedef iterator<const T> const_iterator;
+			typedef random_iterator<pointer> iterator;
+			typedef random_iterator<const_pointer> const_iterator;
+			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 
-/*			class iterator
-			{
-				public:
-					typedef std::random_access_iterator_tag iterator_category;
-					typedef ptrdiff_t difference_type;
-					typedef T value_type;
-					typedef value_type* pointer;
-					typedef value_type& reference;
 
-					iterator(pointer ptr) : p(ptr) {}
-					iterator() {}
-					//copy constructor?
-					//destructor?
-					reference operator*() const { return *this->p; }
-					pointer operator->() { return p; }
-					iterator& operator++() { p++; return *this; }
-					iterator operator++(int) {
-						iterator p_cpy = *this;
-						++(*this);
-						return (p_cpy);
-					}
-					iterator& operator--() { p--; return *this; }
-					iterator operator--(int) {
-						iterator p_cpy = *this;
-						--(*this);
-						return (p_cpy);
-					}
-					iterator& operator+=(difference_type i) { p += i; return (*this); }
-					iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
-					iterator operator=(iterator const &i) { this->p = &(*i); return *this; }
-					value_type& operator[](difference_type n) { return *(p + n);}
-					friend bool operator<(const iterator &a, const iterator &b) { return (a.p < b.p); }
-					friend bool operator>(const iterator &a, const iterator &b) { return b.p < a.p; }
-					friend bool operator<=(const iterator &a, const iterator &b) { return (a.p <= b.p); }
-					friend bool operator>=(const iterator &a, const iterator &b) { return b.p <= a.p; }
-					friend bool operator==(const iterator &a, const iterator &b){
-						return a.p == b.p; }
-					friend bool operator!=(const iterator &a, const iterator &b){
-						return a.p != b.p;
-					}
-
-				private:
-					pointer p;
-
-			};
-			*/
-/*
-			class const_iterator
-			{
-				public:
-					typedef std::forward_iterator_tag iterator_category;
-					typedef ptrdiff_t difference_type;
-					typedef T value_type;
-					typedef value_type* pointer;
-					typedef const value_type& const_reference;
-
-					const_iterator(pointer ptr) : p(ptr) {}
-					//const_iterator(const_iterator& c) { };
-					const_iterator(const_iterator const &c) { *this = c;}
-					const_iterator() {}
-					//destructor?
-					//operator= ?
-					const_reference operator*() const { return *this->p; }
-					pointer operator->() { return p; }
-					const_iterator operator++() { p++; return *this; }
-					const_iterator& operator++(int) {
-						const_iterator p_cpy = *this;
-						++(*this);
-						return (p_cpy);
-					}
-					//const_iterator operator=(const_iterator const &i) { this->p = &(*i); return *this; }
-					friend bool operator==(const const_iterator &a, const const_iterator &b){
-						return a.p == b.p;
-					}
-					friend bool operator!=(const const_iterator &a, const const_iterator &b){
-						return a.p != b.p;
-						
-					}
-
-				private:
-					pointer p;
-
-			};
-*/
 			vector(void) 
 			{
 				this->_capacity = 0;
@@ -249,11 +111,12 @@ namespace ft{
 				_lastElement = _data;
 
 			};
+
 			~vector(void) {};
 
 			//iterators	
-			iterator<T> begin() { return iterator<T>(&this->_data[0]); }
-			iterator<T> end() { return iterator<T>(&this->_data[this->_size]); }
+			iterator begin() { return iterator(&this->_data[0]); }
+			iterator end() { return iterator(&this->_data[this->_size]); }
 			const_iterator begin() const { return const_iterator(&this->_data[0]); }
 			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
 
@@ -289,10 +152,10 @@ namespace ft{
 			//modifiers
 			void 		clear();
 			//insert
-			iterator<T> insert( const_iterator pos, const T& value );
-			iterator<T> insert( const_iterator pos, size_type count, const T& value );
+			iterator insert( const_iterator pos, const T& value );
+			iterator insert( const_iterator pos, size_type count, const T& value );
 			template< class InputIt >
-			iterator<T> insert( const_iterator pos, InputIt first, InputIt last );
+			iterator insert( const_iterator pos, InputIt first, InputIt last );
 
 			//erase
 			void		push_back(const value_type& val);
