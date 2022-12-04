@@ -18,12 +18,9 @@ int	main(void)
 	it = v.begin();
 	std::cout << *it << std::endl;
 	
-/*
 	ft::vector<int>	vc;
 	ft::vector<int const>::const_iterator ci;
 
 	ci = vc.begin();
-*/	
-	
 
 }

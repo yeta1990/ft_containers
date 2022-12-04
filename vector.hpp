@@ -44,8 +44,13 @@ namespace ft{
 
 			random_iterator() : p(nullptr) {}	
 			random_iterator(pointer ptr) : p(ptr) {}
+
+			template<class C>
+			random_iterator(const random_iterator<C> &it) : p(&(*it)) {}
+
 			//if isn't constant
-			random_iterator(random_iterator const &it) : p(it.p) {}
+			//random_iterator(random_iterator const &it) : p(it.p) {}
+			//random_iterator(random_iterator<const pointer> &it) : p(it.p) {}
 
 			//iterator() {}
 			//copy constructor?
@@ -67,7 +72,7 @@ namespace ft{
 			random_iterator& operator+=(difference_type i) { p += i; return (*this); }
 			random_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
 
-			//random_iterator& operator=(const random_iterator &i) { this->p = i.p; return *this; }
+		//	random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
 			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
