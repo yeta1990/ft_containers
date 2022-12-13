@@ -11,6 +11,7 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 	else 
 		this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
 	expansor();
+
 }
 
 template <class T, class Allocator>
@@ -18,9 +19,10 @@ void	vector<T, Allocator>::expansor(void)
 {
 	value_type*		_newData;
 
-	//std::cout << "allocating " << this->_capacity << std::endl;
+//	std::cout << "allocating " << this->_capacity << std::endl;
 	_newData = this->_allocator.allocate(this->_capacity);
 	copyDataToOtherObject(_newData);
+//	std::cout << "allocating " << this->_capacity << std::endl;
 	if (this->_usedValues > 0)
 	{
 		for (size_t i = 0; i < this->_capacity; i++)
@@ -46,7 +48,7 @@ void	vector<T, Allocator>::push_back(const T& val)
 template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
-	//std::cout << "------resizing to " << n << std::endl;
+//	std::cout << "------resizing to " << n << std::endl;
 	if (n < this->_size)
 	{
 		this->_size = n;
@@ -63,6 +65,7 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 		}
 		this->_size = n;
 	}
+//	std::cout << "------resizing to " << n << std::endl;
 }
 
 template <class T, class Allocator>

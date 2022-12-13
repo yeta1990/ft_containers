@@ -3,6 +3,16 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
+TEST_CASE("Vector constructors")
+{
+	std::vector<int> 	v1(20,20);
+	ft::vector<int>		v2(20,20);
+
+	CHECK(v1.size() == v2.size());
+	CHECK(v1.capacity() == v2.capacity());
+
+}
+
 TEST_CASE("Vector push back")
 {
 	std::vector<int> v;
