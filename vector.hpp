@@ -85,7 +85,7 @@ namespace ft{
 
 	};
 
-	template <class T, class Allocator = std::allocator<T> > 
+	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
 		public:
@@ -99,19 +99,39 @@ namespace ft{
 			typedef random_iterator<pointer> iterator;
 			typedef random_iterator<const_pointer> const_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
-
-
-			vector(void) 
+			
+			explicit vector (const allocator_type& alloc = allocator_type())
+			//vector(void) 
 			{
+				this->_allocator = alloc;
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = nullptr;
 				this->_usedValues = 0;
 				_firstElement = _data;
 				_lastElement = _data;
-
 			};
 
+			explicit vector (size_type n, const value_type& val = value_type(),                 const allocator_type& alloc = allocator_type())
+			{
+				this->_allocator = alloc;
+				this->_capacity = 0;
+				this->_size = 0;
+				this->_data = nullptr;
+				this->_usedValues = 0;
+				_firstElement = _data;
+				_lastElement = _data;
+				this->resize(n, val);
+			};
+			
+			/*vector(const vector& x);
+			vector(const vector&, const Allocator&);
+
+			template <class InputIterator>         
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+
+
+			*/
 			~vector(void) {};
 
 			//iterators	
@@ -192,6 +212,8 @@ namespace ft{
 
 			void			setLastElement(void)
 			{
+				if (this->_size <= 0)
+					return ;
 				for (size_type i = 0; i < this->_size - 1; i++)
 					this->_lastElement = &this->_data[i];
 			};

@@ -5,6 +5,7 @@
 int	main(void)
 {
 	//asigning const_iterator to non-const vector -> compiles
+	
 	std::vector<int> vv;
 	std::vector<int const>::const_iterator itit;
 
@@ -25,5 +26,8 @@ int	main(void)
 	ci = vc.begin();
 */	
 	
+	ft::vector<int>		v2(20,20);
+
+	std::cout << v2.size() << std::endl;
 
 }
