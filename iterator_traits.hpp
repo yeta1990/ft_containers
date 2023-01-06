@@ -29,7 +29,7 @@ namespace ft
 	struct iterator_traits<const Iter*>
 	{
 		typedef Iter							value_type;
-		typedef ptrdiff_t					 	difference_type;
+		typedef std::ptrdiff_t					 	difference_type;
 		typedef const Iter * 					pointer;
 		typedef const Iter & 					reference;
 		typedef std::random_access_iterator_tag	iterator_category;
