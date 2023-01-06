@@ -42,7 +42,7 @@ namespace ft{
 			typedef typename ft::iterator_traits<T>::value_type* pointer;
 			typedef typename ft::iterator_traits<T>::value_type& reference;
 
-			random_iterator() : p(nullptr) {}	
+			random_iterator() : p(0) {}	
 			random_iterator(pointer ptr) : p(ptr) {}
 
 			template<class C>
@@ -111,7 +111,7 @@ namespace ft{
 				this->_allocator = alloc;
 				this->_capacity = 0;
 				this->_size = 0;
-				this->_data = nullptr;
+				this->_data = 0;
 				this->_usedValues = 0;
 				_firstElement = _data;
 				_lastElement = _data;
@@ -122,7 +122,7 @@ namespace ft{
 				this->_allocator = alloc;
 				this->_capacity = 0;
 				this->_size = 0;
-				this->_data = nullptr;
+				this->_data = 0;
 				this->_usedValues = 0;
 				_firstElement = _data;
 				_lastElement = _data;
