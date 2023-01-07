@@ -104,7 +104,7 @@ namespace ft{
 			typedef random_iterator<pointer> iterator;
 			typedef random_iterator<const_pointer> const_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
-			
+
 			explicit vector (const allocator_type& alloc = allocator_type())
 			//vector(void) 
 			{

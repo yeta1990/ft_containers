@@ -49,6 +49,8 @@ template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
 //	std::cout << "------resizing to " << n << std::endl;
+//	resize when there is content in the vector fails, why?
+//
 	if (n < this->_size)
 	{
 		this->_size = n;
