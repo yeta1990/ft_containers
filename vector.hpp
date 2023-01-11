@@ -72,7 +72,7 @@ namespace ft{
 			random_iterator& operator+=(difference_type i) { p += i; return (*this); }
 			random_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
 
-		//	random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
+//			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
 			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
@@ -105,6 +105,7 @@ namespace ft{
 			typedef random_iterator<const_pointer> const_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 
+			//member functions
 			explicit vector (const allocator_type& alloc = allocator_type())
 			//vector(void) 
 			{
@@ -129,6 +130,34 @@ namespace ft{
 				this->resize(n, val);
 			};
 
+			vector& operator=( const vector& other )
+			{
+				ft::vector<int>::iterator it;
+				it = other.begin();
+
+				this->_size = other.size();
+				this->_capacity = this->_size;
+				this->_usedValues = this->_size;
+				this->_data = this->_allocator.allocate(this->_size);
+
+//				size_type	i;
+
+//				i = 0;
+//				for (it = other.begin(); it != other.end(); it++)
+				for (size_type i = 0; i < this->_size; i++)
+				{
+				//for (size_type i = 0; i < this->_capacity; i++)
+					this->_allocator.construct(&_data[i], *it);
+					it++;
+					//i++;
+				}
+				return (*this);
+			}
+
+			~vector(void) {
+				this->_allocator.deallocate(this->_data, this->_size);
+			};
+
 			/*vector(const vector& x);
 			vector(const vector&, const Allocator&);
 
@@ -137,9 +166,7 @@ namespace ft{
 
 
 			*/
-			~vector(void) {
-				this->_allocator.deallocate(this->_data, this->_size);
-			};
+
 
 			//iterators	
 			iterator begin() { return iterator(&this->_data[0]); }

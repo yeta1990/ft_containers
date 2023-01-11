@@ -16,6 +16,27 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 
 }
 
+/*
+template <class T, class Allocator>
+vector& vector<T, Allocator>::operator=( const vector& other )
+{
+	ft::vector<int>::iterator it;
+	it = other.begin();
+
+	this->_capacity = other.capacity();
+	this->_size = other.size();
+	this->_usedValues = this->_size;
+	this->_data = this->_allocator.allocate(this->_capacity);
+	for (it = other.begin(); it != other.end(); it++)
+	//for (size_type i = 0; i < this->_capacity; i++)
+		this->_allocator.construct(&_data[i], *it);
+		
+	return (*this);
+	//_firstElement
+	//_lastElement
+}
+*/
+
 template <class T, class Allocator>
 void	vector<T, Allocator>::expansor(void)
 {
