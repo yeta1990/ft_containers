@@ -9,40 +9,88 @@ int main(void)
 	ft::vector<int> v1(7,20);
 
 	std::vector<int>::iterator it = v.begin();
-	//ft::vector<int>::iterator it2 = v1.begin();
+	ft::vector<int>::iterator it2 = v1.begin();
 
 	int start_size = 7;
-//	for (int i = 2; i < start_size; i++)
-//	{
-//		*it = (start_size - i) * 3;
-//	}
-//	start_size = 7;
 	for (int i = 2; i < start_size; ++i)
 		it[i] = (start_size - i) * 3;
 
-//	it = v.begin();
-//	it2 = v1.begin();
+	start_size = 7;
+	for (int i = 2; i < start_size; ++i)
+		it2[i] = (start_size - i) * 3;
+
+	it = v.begin();
+	it2 = v1.begin();
 
 	for (int i = 0; i < 7; i++)
 	{
 		std::cout << "- " << *it << std::endl;
 		it++;
 	}
-//	std::cout << std::endl;
+	std::cout << std::endl;
 	
-//	for (int i = 0; i < 7; i++)
-//	{
-//		std::cout << "- " << *it2 << std::endl;
-//		it2++;
-//	}
-//	std::cout << std::endl;
-//	std::cout << std::endl;
-}	
-/*
-	v.resize(10, 42);
-	v1.resize(10, 42);
+	for (int i = 0; i < 7; i++)
+	{
+		std::cout << "- " << *it2 << std::endl;
+		it2++;
+	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "resize 10, 42" << std::endl;
+
+	v.resize(11, 42);
+	v1.resize(11, 42);
 	it = v.begin();
 	it2 = v1.begin();
+	for (int i = 0; i < 11; i++)
+	{
+		std::cout << "- " << *it << std::endl;
+		it++;
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 11; i++)
+	{
+		std::cout << "- " << *it2 << std::endl;
+		it2++;
+	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "resize 18, 43" << std::endl;
+	v.resize(18, 43);
+	v1.resize(18, 43);
+	it = v.begin();
+	it2 = v1.begin();
+
+	for (int i = 0; i < 18; i++)
+	{
+		std::cout << "- " << *it << std::endl;
+		it++;
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 18; i++)
+	{
+		std::cout << "- " << *it2 << std::endl;
+		it2++;
+	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
+
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "resize 10" << std::endl;
+	v.resize(10);
+	v1.resize(10);
+	it = v.begin();
+	it2 = v1.begin();
+
 	for (int i = 0; i < 10; i++)
 	{
 		std::cout << "- " << *it << std::endl;
@@ -54,9 +102,56 @@ int main(void)
 		std::cout << "- " << *it2 << std::endl;
 		it2++;
 	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "resize 23, 44" << std::endl;
+	v.resize(23, 44);
+	v1.resize(23, 44);
+	it = v.begin();
+	it2 = v1.begin();
+
+	for (int i = 0; i < 23; i++)
+	{
+		std::cout << "- " << *it << std::endl;
+		it++;
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 23; i++)
+	{
+		std::cout << "- " << *it2 << std::endl;
+		it2++;
+	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
+
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "resize 5" << std::endl;
+	v.resize(5);
+	v1.resize(5);
+	it = v.begin();
+	it2 = v1.begin();
+
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << "- " << *it << std::endl;
+		it++;
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << "- " << *it2 << std::endl;
+		it2++;
+	}
+	std::cout << "capacity: " << v.capacity() << "," << v1.capacity() << std::endl;
+	std::cout << "size: " << v.size() << "," << v1.size() << std::endl;
 
 }
-*/
+
 /*
 int	main(void)
 {

@@ -128,7 +128,7 @@ namespace ft{
 				_lastElement = _data;
 				this->resize(n, val);
 			};
-			
+
 			/*vector(const vector& x);
 			vector(const vector&, const Allocator&);
 

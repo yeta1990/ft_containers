@@ -9,7 +9,9 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 //	if (this->_capacity == 0)
 //		this->_capacity = 1;
 //	else 
-		this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
+
+	this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
+//	this->_capacity = std::max(this->_size * 2, requiredCapacity);
 	expansor();
 
 }
@@ -59,10 +61,15 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	else if (n > this->_size)
 	{
 		if (n > this->_capacity)
-			expandCapacity(n);
+		{
+			this->_capacity = std::max(this->_size * 2, n);
+			expansor();
+		//	expandCapacity(n);
+
 //			std::cout << "capacity: " << this->_capacity << std::endl;
 //			std::cout << "used values: " << this->_usedValues << std::endl;
 //			std::cout << "n: " << n << std::endl;
+			}
 		for (size_t i = this->_usedValues; i < n; i++)
 		{
 			//std::cout << "used values: " << this->_usedValues << std::endl;
