@@ -137,7 +137,9 @@ namespace ft{
 
 
 			*/
-			~vector(void) {};
+			~vector(void) {
+				this->_allocator.deallocate(this->_data, this->_size);
+			};
 
 			//iterators	
 			iterator begin() { return iterator(&this->_data[0]); }

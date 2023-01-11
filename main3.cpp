@@ -2,38 +2,43 @@
 #include "vector.hpp"
 #include <vector>
 
+
 int main(void)
 {
 	std::vector<int> v(7,20);
 	ft::vector<int> v1(7,20);
 
 	std::vector<int>::iterator it = v.begin();
-	ft::vector<int>::iterator it2 = v1.begin();
+	//ft::vector<int>::iterator it2 = v1.begin();
 
 	int start_size = 7;
+//	for (int i = 2; i < start_size; i++)
+//	{
+//		*it = (start_size - i) * 3;
+//	}
+//	start_size = 7;
 	for (int i = 2; i < start_size; ++i)
 		it[i] = (start_size - i) * 3;
-	start_size = 7;
-	for (int i = 2; i < start_size; ++i)
-		it2[i] = (start_size - i) * 3;
 
-	it = v.begin();
-	it2 = v1.begin();
+//	it = v.begin();
+//	it2 = v1.begin();
 
 	for (int i = 0; i < 7; i++)
 	{
 		std::cout << "- " << *it << std::endl;
 		it++;
 	}
-	std::cout << std::endl;
-	for (int i = 0; i < 7; i++)
-	{
-		std::cout << "- " << *it2 << std::endl;
-		it2++;
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
-
+//	std::cout << std::endl;
+	
+//	for (int i = 0; i < 7; i++)
+//	{
+//		std::cout << "- " << *it2 << std::endl;
+//		it2++;
+//	}
+//	std::cout << std::endl;
+//	std::cout << std::endl;
+}	
+/*
 	v.resize(10, 42);
 	v1.resize(10, 42);
 	it = v.begin();
@@ -51,6 +56,7 @@ int main(void)
 	}
 
 }
+*/
 /*
 int	main(void)
 {

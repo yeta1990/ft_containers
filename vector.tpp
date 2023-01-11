@@ -6,9 +6,9 @@ namespace ft{
 template <class T, class Allocator>
 void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 {
-	if (this->_capacity == 0)
-		this->_capacity = 1;
-	else 
+//	if (this->_capacity == 0)
+//		this->_capacity = 1;
+//	else 
 		this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
 	expansor();
 
@@ -48,7 +48,7 @@ void	vector<T, Allocator>::push_back(const T& val)
 template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
-//	std::cout << "------resizing to " << n << std::endl;
+	std::cout << "------resizing to " << n << std::endl;
 //	resize when there is content in the vector fails, why?
 //
 	if (n < this->_size)
@@ -60,8 +60,12 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	{
 		if (n > this->_capacity)
 			expandCapacity(n);
+			std::cout << "capacity: " << this->_capacity << std::endl;
+			std::cout << "used values: " << this->_usedValues << std::endl;
+			std::cout << "n: " << n << std::endl;
 		for (size_t i = this->_usedValues; i < n; i++)
 		{
+			//std::cout << "used values: " << this->_usedValues << std::endl;
 			this->_allocator.construct(&this->_data[this->_usedValues], val);
 			this->_usedValues++;
 		}
