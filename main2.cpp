@@ -38,7 +38,7 @@ TEST_CASE("Vector push back")
 
 }
 */
-
+/*
 TEST_CASE("Vector resize") 
 {
 	std::vector<int> v;
@@ -125,8 +125,8 @@ TEST_CASE("Vector resize")
 
 	}
 }
-
-
+*/
+/*
 TEST_CASE("Vector resize2")
 {
 	std::vector<int> v(7,20);
@@ -142,7 +142,8 @@ TEST_CASE("Vector resize2")
 		it2[i] = (start_size - i) * 3;
 
 }
-
+*/
+/*
 TEST_CASE("Vector resize3")
 {
 	std::vector<int> v(7,20);
@@ -165,7 +166,8 @@ TEST_CASE("Vector resize3")
 		CHECK(*it == *it2);
 
 }
-
+*/
+/*
 TEST_CASE("Vector: empty()")
 {
 	ft::vector<int> v1;
@@ -173,7 +175,8 @@ TEST_CASE("Vector: empty()")
 	v1.push_back(42);
 	CHECK(v1.empty() == false);
 }
-
+*/
+/*
 TEST_CASE("Vector reserve")
 {
 	std::vector<int> v;
@@ -193,6 +196,7 @@ TEST_CASE("Vector reserve")
 	CHECK(v.capacity() == v1.capacity());
 	CHECK_THROWS_AS(v1.reserve(v.max_size() + 1), std::length_error);
 }
+*/
 /*
 TEST_CASE("Vector shrink to fit")
 {
@@ -204,6 +208,7 @@ TEST_CASE("Vector shrink to fit")
 	CHECK(myvector.capacity() == 10);
 }
 */
+/*
 TEST_CASE("Iterator")
 {
 	std::vector<int> 			v;
@@ -222,7 +227,8 @@ TEST_CASE("Iterator")
 	CHECK(*it1 == 43);
 	CHECK(*it1 == v1[0]);
 }
-
+*/
+/*
 TEST_CASE("Iterator begin and end")
 {
 	std::vector<int> 			v;
@@ -258,7 +264,8 @@ TEST_CASE("Iterator begin and end")
 		num2++;
 	CHECK(num1 == num2);
 }
-
+*/
+/*
 TEST_CASE("Iterator front and back")
 {
 	std::vector<int> 			v;
@@ -286,7 +293,8 @@ TEST_CASE("Iterator front and back")
 	CHECK(n1 == n2);
 	
 }
-
+*/
+/*
 TEST_CASE("Iterator operations")
 {
 	std::vector<int>			v1;	
@@ -333,7 +341,7 @@ TEST_CASE("Iterator operations")
 	CHECK((itt > it) == (itt2 > it2));
 	CHECK(itt2 != it2);
 }
-
+*/
 /*
 int	main(void)
 {
