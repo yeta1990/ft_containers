@@ -308,6 +308,27 @@ void vector_iterator_operations()
 
 }
 
+void vector_eq_operator()
+{
+	std::vector<int> v(5,10);
+	ft::vector<int> v1(5,10);
+	std::vector<int> v2;
+	ft::vector<int> v3;
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator it2;
+	
+	check(v2.empty() == v3.empty());
+	v2 = v;
+	v3 = v1;	
+	check(v2.empty() == v3.empty());
+	check(v2.capacity() == v3.capacity());
+	check(v2.size() == v3.size());
+	it = v2.begin();
+	it2 = v3.begin();
+	for (int i = 0; i < 5; i++)
+		check(*it == *it2);
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -324,8 +345,7 @@ void all_tests()
 	test_case("vector: iterator begin and end", &vector_iterator_begin_end);
 	test_case("vector: iterator front and back", &vector_iterator_front_back);
 	test_case("vector: iterator operations", &vector_iterator_operations);
-	
-
+	test_case("vector: eq operations", &vector_iterator_operations);
 
 //	vector_constructors();
 	//std::cout << str << std::endl;
@@ -333,9 +353,5 @@ void all_tests()
 
 int main(void)
 {
-//	std::string res = all_tests();
 	all_tests();
-
-
-		
 }
