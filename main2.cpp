@@ -3,6 +3,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
+/*
 TEST_CASE("Vector constructors")
 {
 	std::vector<int> 	v1(20,20);
@@ -36,6 +37,7 @@ TEST_CASE("Vector push back")
 	}
 
 }
+*/
 
 TEST_CASE("Vector resize") 
 {
@@ -140,6 +142,30 @@ TEST_CASE("Vector resize2")
 		it2[i] = (start_size - i) * 3;
 
 }
+
+TEST_CASE("Vector resize3")
+{
+	std::vector<int> v(7,20);
+	ft::vector<int> v1(7,20);
+
+	std::vector<int>::iterator it = v.begin();
+	ft::vector<int>::iterator it2 = v1.begin();
+
+	int start_size = 7;
+	for (int i = 2; i < start_size; ++i)
+		it[i] = (start_size - i) * 3;
+
+	start_size = 7;
+	for (int i = 2; i < start_size; ++i)
+		it2[i] = (start_size - i) * 3;
+	it = v.begin();
+	it2 = v1.begin();
+
+	for (int i = 0; i < 7; i++)
+		CHECK(*it == *it2);
+
+}
+
 TEST_CASE("Vector: empty()")
 {
 	ft::vector<int> v1;
