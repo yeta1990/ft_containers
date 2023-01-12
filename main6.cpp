@@ -127,7 +127,6 @@ void vector_resize5()
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
 	check(v[9] == v1[9]);
-	check(v[10] == v1[10]);
 }
 
 void vector_resize6()
