@@ -130,6 +130,19 @@ namespace ft{
 				this->resize(n, val);
 			};
 
+			//copy constructor
+			vector (const vector& x)
+			{
+				*this = x;
+			}
+
+			reference operator=( T& o)
+			{
+				std::cout << "eoooooooooo" << std::endl;
+				*this = o;
+				return (*this);
+			}
+
 			vector& operator=( const vector& other )
 			{
 				ft::vector<int>::iterator it;
@@ -140,16 +153,10 @@ namespace ft{
 				this->_usedValues = this->_size;
 				this->_data = this->_allocator.allocate(this->_size);
 
-//				size_type	i;
-
-//				i = 0;
-//				for (it = other.begin(); it != other.end(); it++)
 				for (size_type i = 0; i < this->_size; i++)
 				{
-				//for (size_type i = 0; i < this->_capacity; i++)
 					this->_allocator.construct(&_data[i], *it);
 					it++;
-					//i++;
 				}
 				return (*this);
 			}
@@ -175,6 +182,11 @@ namespace ft{
 			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
 
 			//element access
+
+			reference at(size_type pos);
+
+			const_reference at(size_type n) const;
+
 			reference operator[](size_type pos)
 			{
 				return (this->_data[pos]);
@@ -185,8 +197,6 @@ namespace ft{
 				return (this->_data[pos]);
 			};
 
-			reference at(size_type n);
-			const_reference at(size_type n) const;
 			reference front();
  			const_reference front() const;
 			reference back();

@@ -6,36 +6,9 @@ namespace ft{
 template <class T, class Allocator>
 void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 {
-//	if (this->_capacity == 0)
-//		this->_capacity = 1;
-//	else 
-
 	this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
-//	this->_capacity = std::max(this->_size * 2, requiredCapacity);
 	expansor();
-
 }
-
-/*
-template <class T, class Allocator>
-vector& vector<T, Allocator>::operator=( const vector& other )
-{
-	ft::vector<int>::iterator it;
-	it = other.begin();
-
-	this->_capacity = other.capacity();
-	this->_size = other.size();
-	this->_usedValues = this->_size;
-	this->_data = this->_allocator.allocate(this->_capacity);
-	for (it = other.begin(); it != other.end(); it++)
-	//for (size_type i = 0; i < this->_capacity; i++)
-		this->_allocator.construct(&_data[i], *it);
-		
-	return (*this);
-	//_firstElement
-	//_lastElement
-}
-*/
 
 template <class T, class Allocator>
 void	vector<T, Allocator>::expansor(void)
@@ -121,19 +94,19 @@ void	vector<T, Allocator>::clear()
 }
 
 template <class T, class Allocator>
-T& vector<T, Allocator>::at(size_type n)
+T& vector<T, Allocator>::at(size_type pos)
 {
-	if (n >= this->_size)
-		throw (std::out_of_range("out of range error"));
-	return (*this[n]);
+	if (!(pos < this->_size))
+		throw (std::out_of_range("vector"));
+	return (this->_data[pos]);
 }
 
 template <class T, class Allocator>
 typename std::allocator<T>::const_reference vector<T, Allocator>::at(size_type n) const
 {
-	if (n >= this->_size)
-		throw (std::out_of_range("out of range error"));
-	return (*this[n]);
+	if (!(n < this->_size))
+		throw (std::out_of_range("vector"));
+	return (this->_data[n]);
 }
 
 template <class T, class Allocator>

@@ -329,6 +329,47 @@ void vector_eq_operator()
 		check(*it == *it2);
 }
 
+void	vector_at()
+{
+	std::vector<int> v(5,10);
+	ft::vector<int> v1(5,10);
+
+	check(v[1] == v1[1]);
+	std::string m1;
+	std::string m2;
+	try
+	{
+		std::cout << v.at(6) << std::endl;
+	}
+	catch (std::out_of_range &e)
+	{
+		m1 = e.what();
+	}
+
+	try
+	{
+		std::cout << v1.at(6) << std::endl;
+	}
+	catch (std::out_of_range &e)
+	{
+		m2 = e.what();
+	}
+	check(m1.compare(m2) == 0);
+	v.at(1) = 7;
+	v1.at(1) = 7;
+	check(v.at(1) == v1.at(1));
+}
+
+void	vector_at2()
+{
+	std::vector<int> v(5,10);
+	ft::vector<int> v1(5,10);
+	std::vector<int> const v2(v);
+	ft::vector<int> const v3(v1);
+	ft::vector<int> const v4(v3);
+	check (&(v3.at(3)) != &(v1.at(3)));
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -346,7 +387,8 @@ void all_tests()
 	test_case("vector: iterator front and back", &vector_iterator_front_back);
 	test_case("vector: iterator operations", &vector_iterator_operations);
 	test_case("vector: eq operations", &vector_iterator_operations);
-
+	test_case("vector: at", &vector_at);
+	test_case("vector: at2", &vector_at2);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }
