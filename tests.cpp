@@ -337,6 +337,9 @@ void	vector_at()
 	check(v[1] == v1[1]);
 	std::string m1;
 	std::string m2;
+
+	bool except1 = false;
+	bool except2 = false;
 	try
 	{
 		std::cout << v.at(6) << std::endl;
@@ -344,6 +347,7 @@ void	vector_at()
 	catch (std::out_of_range &e)
 	{
 		m1 = e.what();
+		except1 = true;
 	}
 
 	try
@@ -353,8 +357,12 @@ void	vector_at()
 	catch (std::out_of_range &e)
 	{
 		m2 = e.what();
+		except2 = true;
 	}
-	check(m1.compare(m2) == 0);
+//	this test has different behaviour in mac and linux
+//	std::cout << m1 << "," << m2 << std::endl;
+//	check(m1.compare(m2) == 0);
+	check(except1 == except2);
 	v.at(1) = 7;
 	v1.at(1) = 7;
 	check(v.at(1) == v1.at(1));

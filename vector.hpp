@@ -214,8 +214,8 @@ namespace ft{
 			void 		shrink_to_fit(); //TBD
 
 			//modifiers
-			template <class InputIterator>  
-			void 	assign (InputIterator first, InputIterator last);
+//			template <class InputIterator>  
+//			void 	assign (InputIterator first, InputIterator last);
 
 			void	assign (size_type n, const value_type& val)
 			{
