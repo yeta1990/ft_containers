@@ -88,6 +88,34 @@ void 	vector<T, Allocator>::reserve (size_type n)
 }
 
 template <class T, class Allocator>
+void	vector<T, Allocator>::assign(size_type n, const value_type& val)
+{
+	
+	if (n > this->_capacity)
+	{
+		this->_size = n;
+		this->_capacity = n;
+		for (size_t i = 0; i < this->_capacity; i++)
+			this->_allocator.destroy(&this->_data[i]);
+		this->_allocator.deallocate(this->_data, this->_capacity);
+		this->_data = this->_allocator.allocate(n);
+	}
+	else
+	{
+		this->_size = n;
+		this->_usedValues = this->_size;
+		this->_allocator.deallocate(this->_data, this->_size);
+		this->_data = this->_allocator.allocate(this->_size);
+	}
+	for (size_type i = 0; i < n; i++)
+	{
+		this->_allocator.construct(&_data[i], val);
+	}
+}
+	
+
+
+template <class T, class Allocator>
 void	vector<T, Allocator>::clear()
 {
 	this->_size = 0;

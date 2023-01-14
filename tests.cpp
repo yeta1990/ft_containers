@@ -11,6 +11,27 @@ void check(bool test)
 		std::cout << "\x1B[31mx\x1B[0m";
 }
 
+template <class T>
+void check_size_capacity(std::vector<T> v, ft::vector<T> v1)
+{
+	if (v.size() == v1.size())
+		std::cout << "\x1B[32m✓\x1B[0m";
+	else
+	{
+		std::cout << "\x1B[31mx\x1B[0m";
+		std::cout << std::endl << "Expected size: " << v.size()
+				<< ", but is " << v1.size() << std::endl;
+	}
+	if (v.capacity() == v1.capacity())
+		std::cout << "\x1B[32m✓\x1B[0m";
+	else
+	{
+		std::cout << "\x1B[31mx\x1B[0m";
+		std::cout << std::endl << "Expected capacity: " << v.size()
+				<< ", but is " << v1.size() << std::endl;
+	}
+}
+
 void test_case(std::string name, void (*test)())
 {
 	std::cout << name << " ";
@@ -383,16 +404,25 @@ void vector_assign()
 	std::vector<int> v(5, 11);
 	ft::vector<int> v1(5, 11);
 
+	check(v.size() == v1.size());
+	check(v.capacity() == v1.capacity());
 	v.assign(3, 2);
 	v1.assign(3, 2);
 	check(v.size() == v1.size());
+//	std::cout << v.size() << "," << v1.size() << std::endl;
 	check(v.capacity() == v1.capacity());
-	check(v[4] == v1[4]);
+//	check(v[4] == v1[4]);
 
 	v.assign(6, 20);
 	v1.assign(6, 20);
-	check(v.size() == v1.size());
-	check(v.capacity() == v1.capacity());
+	check_size_capacity(v, v1);
+	check(v[4] == v1[4]);
+	v.assign(61, 42);
+	v1.assign(61, 42);
+	check_size_capacity(v, v1);
+	check(v[4] == v1[4]);
+	check(v[58] == v1[58]);
+	
 
 }
 
@@ -416,7 +446,7 @@ void all_tests()
 	test_case("vector: at", &vector_at);
 	test_case("vector: at2", &vector_at2);
 	test_case("vector: at2", &vector_at2);
-	test_case("vector: assing", &vector_at2);
+	test_case("vector: assing", &vector_assign);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }

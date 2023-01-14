@@ -214,29 +214,17 @@ namespace ft{
 			void 		shrink_to_fit(); //TBD
 
 			//modifiers
-//			template <class InputIterator>  
-//			void 	assign (InputIterator first, InputIterator last);
 
-			void	assign (size_type n, const value_type& val)
+
+			void	assign (size_type n, const value_type& val);
+
+/*			template <class InputIterator>
+			void 	assign(InputIterator, InputIterator)
 			{
-				if (n > this->_capacity)
-				{
-					for (size_t i = 0; i < this->_capacity; i++)
-						this->_allocator.destroy(&this->_data[i]);
-					this->_allocator.deallocate(this->_data, this->_capacity);
-				}
-				else
-				{
-					this->_size = n;
-					this->_capacity = this->_size;
-					this->_usedValues = this->_size;
-					this->_data = this->_allocator.allocate(this->_size);
-				}
-				for (size_type i = 0; i < n; i++)
-				{
-					this->_allocator.construct(&_data[i], val);
-				}
+
 			}
+			*/
+
 			void 		clear();
 			//insert
 			iterator insert( const_iterator pos, const T& value );
