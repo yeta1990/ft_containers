@@ -370,6 +370,24 @@ void	vector_at2()
 	check (&(v3.at(3)) != &(v1.at(3)));
 }
 
+void vector_assign()
+{
+	std::vector<int> v(5, 11);
+	ft::vector<int> v1(5, 11);
+
+	v.assign(3, 2);
+	v1.assign(3, 2);
+	check(v.size() == v1.size());
+	check(v.capacity() == v1.capacity());
+	check(v[4] == v1[4]);
+
+	v.assign(6, 20);
+	v1.assign(6, 20);
+	check(v.size() == v1.size());
+	check(v.capacity() == v1.capacity());
+
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -389,6 +407,8 @@ void all_tests()
 	test_case("vector: eq operations", &vector_iterator_operations);
 	test_case("vector: at", &vector_at);
 	test_case("vector: at2", &vector_at2);
+	test_case("vector: at2", &vector_at2);
+	test_case("vector: assing", &vector_at2);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }
