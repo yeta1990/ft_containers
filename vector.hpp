@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <stdexcept>
 #include "iterator_traits.hpp"
+#include "enable_if.hpp"
+//#include "is_iterator.hpp"
 
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
@@ -218,12 +220,14 @@ namespace ft{
 
 			void	assign (size_type n, const value_type& val);
 
-/*			template <class InputIterator>
-			void 	assign(InputIterator, InputIterator)
+//			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
+			template <class iterator >
+//			template <class InputIterator, ft::enable_if<is_iterator<InputIterator>::value, bool > = true>
+			void 	assign(iterator, iterator)
 			{
-
+//				std::cout << "eeeeeeeeeeeoooooo" << std::endl;
 			}
-			*/
+			
 
 			void 		clear();
 			//insert
