@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "iterator_traits.hpp"
 #include "enable_if.hpp"
+#include "is_integral.hpp"
 //#include "is_iterator.hpp"
 
 //VECTOR
@@ -221,9 +222,10 @@ namespace ft{
 			void	assign (size_type n, const value_type& val);
 
 //			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
-			template <class iterator >
-//			template <class InputIterator, ft::enable_if<is_iterator<InputIterator>::value, bool > = true>
-			void 	assign(iterator, iterator)
+//			template <class iterator >
+
+			template <class InputIterator, std::enable_if<ft::is_integral<InputIterator>::value, bool> >
+			void 	assign(InputIterator, InputIterator, typename enable_if<is_integral<InputIterator>::value, InputIterator>::type* = 0)
 			{
 //				std::cout << "eeeeeeeeeeeoooooo" << std::endl;
 			}
