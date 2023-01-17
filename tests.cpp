@@ -513,6 +513,13 @@ void	vector_assign_iterator3()
 	check_size_capacity(vct5, vct7);
 	check_size_capacity(vct6, vct8);
 
+	vct.assign(vct5.begin(), vct5.begin() + 2);
+	vct3.assign(vct5.begin(), vct5.begin() + 2);
+	check_size_capacity(vct, vct3);
+	vct.assign(vct5.end() - 3, vct5.end());
+	vct3.assign(vct7.end() - 3, vct7.end());
+	check_size_capacity(vct, vct3);
+
 }
 
 void all_tests()
