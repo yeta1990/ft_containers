@@ -84,7 +84,7 @@ namespace ft{
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
-			friend bool operator-(const random_iterator &a, const random_iterator &b) { return a.p - b.p; }
+			friend difference_type operator-(const random_iterator &a, const random_iterator &b) { return (a.p - b.p); }
 			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
 			friend bool operator>(const random_iterator &a, const random_iterator &b) { return b.p < a.p; }
 			friend bool operator<=(const random_iterator &a, const random_iterator &b) { return (a.p <= b.p); }
@@ -116,8 +116,10 @@ namespace ft{
 			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 
 			//member functions
+			
+			//constructors
+			//default constructor
 			explicit vector (const allocator_type& alloc = allocator_type())
-			//vector(void) 
 			{
 				this->_allocator = alloc;
 				this->_capacity = 0;
@@ -128,6 +130,7 @@ namespace ft{
 				_lastElement = _data;
 			};
 
+			//fill constructor
 			explicit vector (size_type n, const value_type& val = value_type(),                 const allocator_type& alloc = allocator_type())
 			{
 				this->_allocator = alloc;
@@ -139,6 +142,28 @@ namespace ft{
 				_lastElement = _data;
 				this->resize(n, val);
 			};
+				
+			//range constructor			
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0){
+				InputIterator 	it;
+				size_t			distance;
+				size_t			i;
+
+				i = 0;
+				this->_allocator = alloc;
+				distance = 0;
+				for (it = first; it != last; it++)
+					distance++;
+				this->_size = distance;
+				this->_capacity = this->_size;
+				this->_data = this->_allocator.allocate(this->_size);
+				for (it = first; it != last; it++)
+				{
+					this->_allocator.construct(&_data[i], *it);
+					i++;
+				}
+			}
 
 			//copy constructor
 			vector (const vector& x)

@@ -48,6 +48,26 @@ void vector_constructors()
 	check(v1.capacity() == v2.capacity());
 }
 
+void vector_constructors_2()
+{
+	std::vector<int> v(42, 42);	
+	std::vector<int>::iterator it;
+	std::vector<int>::iterator it2;
+
+	it = v.begin();
+	it2 = v.end() - 5;
+	ft::vector<int> v2(42, 42);	
+	ft::vector<int>::iterator it3;
+	ft::vector<int>::iterator it4;
+
+	it3 = v2.begin();
+	it4 = v2.end() - 5;
+
+	std::vector<int> vit(it, it2);
+	ft::vector<int> vit1(it3, it4);
+	check_size_capacity(vit, vit1);
+}
+
 void vector_push_back()
 {
 	std::vector<int> v;
@@ -343,8 +363,6 @@ void	vector_iterator_substr(){
 	it3 = v2.begin();
 	it4 = v2.end() - 5;
 	check(it2 - it == it4 - it3);
-	std::cout << it2 - it << std::endl;
-	std::cout << it4 - it3 << std::endl;
 
 }
 
@@ -544,6 +562,7 @@ void	vector_assign_iterator3()
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
+	test_case("vector_constructors2", &vector_constructors_2);
 	test_case("vector push back", &vector_push_back);
 	test_case("vector resize: initial values: check capacity and size", &vector_resize1);
 	test_case("vector resize: expanding: check capacity and size", &vector_resize2);
@@ -557,6 +576,7 @@ void all_tests()
 	test_case("vector: iterator begin and end", &vector_iterator_begin_end);
 	test_case("vector: iterator front and back", &vector_iterator_front_back);
 	test_case("vector: iterator operations", &vector_iterator_operations);
+	test_case("vector: iterator substr", &vector_iterator_substr);
 	test_case("vector: eq operations", &vector_iterator_operations);
 	test_case("vector: at", &vector_at);
 	test_case("vector: at2", &vector_at2);
@@ -565,9 +585,6 @@ void all_tests()
 	test_case("vector: assign iterator", &vector_assign_iterator);
 	test_case("vector: assign iterator2", &vector_assign_iterator2);
 	test_case("vector: assign iterator3", &vector_assign_iterator3);
-	test_case("vector: iterator substr", &vector_iterator_substr);
-//	vector_constructors();
-	//std::cout << str << std::endl;
 }
 
 int main(void)
