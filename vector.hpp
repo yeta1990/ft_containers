@@ -75,6 +75,7 @@ namespace ft{
 			random_iterator& operator+=(difference_type i) { p += i; return (*this); }
 			random_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
 
+			
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
@@ -224,12 +225,32 @@ namespace ft{
 //			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
 //			template <class iterator >
 
-			template <class InputIterator, std::enable_if<ft::is_integral<InputIterator>::value, bool> >
-			void 	assign(InputIterator, InputIterator, typename enable_if<is_integral<InputIterator>::value, InputIterator>::type* = 0)
+			template <class InputIterator> 
+			void 	assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
 			{
-//				std::cout << "eeeeeeeeeeeoooooo" << std::endl;
+				InputIterator 	it;
+				size_t			i;
+
+				it = first;
+				i = 0;
+				for (size_t i = 0; i < this->_capacity; i++)
+					this->_allocator.destroy(&this->_data[i]);
+				this->_allocator.deallocate(this->_data, this->_capacity);
+
+				size_t			distance;
+
+				distance = 0;
+				for (it = first; it != last; it++)
+					distance++;
+				this->_size = distance;
+				this->_capacity = this->_size;
+				this->_data = this->_allocator.allocate(this->_size);
+				for (it = first; it != last; it++)
+				{
+					this->_allocator.construct(&_data[i], *it);
+					i++;
+				}
 			}
-			
 
 			void 		clear();
 			//insert

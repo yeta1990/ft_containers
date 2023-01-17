@@ -422,7 +422,31 @@ void vector_assign()
 	check_size_capacity(v, v1);
 	check(v[4] == v1[4]);
 	check(v[58] == v1[58]);
-	
+
+}
+
+void	vector_assign_iterator()
+{
+	std::vector<int> v(42,42);
+	ft::vector<int> v1(42,42);
+	std::vector<int> v2(1,1);
+	ft::vector<int> v3(1,1);
+	std::vector<int>::iterator it;
+	std::vector<int>::iterator it1;
+	ft::vector<int>::iterator it2;
+	ft::vector<int>::iterator it3;
+
+	it = v.begin();
+	it1 = v.end();
+	it2 = v1.begin();
+	it3 = v1.end();
+
+	check_size_capacity(v2, v3);
+	v2.assign(it, it1);
+	v3.assign(it2, it3);
+	check_size_capacity(v2, v3);
+
+
 
 }
 
@@ -446,7 +470,8 @@ void all_tests()
 	test_case("vector: at", &vector_at);
 	test_case("vector: at2", &vector_at2);
 	test_case("vector: at2", &vector_at2);
-	test_case("vector: assing", &vector_assign);
+	test_case("vector: assign", &vector_assign);
+	test_case("vector: assign iterator", &vector_assign_iterator);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }
