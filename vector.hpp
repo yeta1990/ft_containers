@@ -84,6 +84,7 @@ namespace ft{
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
+			friend bool operator-(const random_iterator &a, const random_iterator &b) { return a.p - b.p; }
 			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
 			friend bool operator>(const random_iterator &a, const random_iterator &b) { return b.p < a.p; }
 			friend bool operator<=(const random_iterator &a, const random_iterator &b) { return (a.p <= b.p); }

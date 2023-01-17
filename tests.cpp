@@ -329,6 +329,25 @@ void vector_iterator_operations()
 
 }
 
+void	vector_iterator_substr(){
+	std::vector<int> v(42, 42);	
+	std::vector<int>::iterator it;
+	std::vector<int>::iterator it2;
+
+	it = v.begin();
+	it2 = v.end() - 5;
+	ft::vector<int> v2(42, 42);	
+	ft::vector<int>::iterator it3;
+	ft::vector<int>::iterator it4;
+
+	it3 = v2.begin();
+	it4 = v2.end() - 5;
+	check(it2 - it == it4 - it3);
+	std::cout << it2 - it << std::endl;
+	std::cout << it4 - it3 << std::endl;
+
+}
+
 void vector_eq_operator()
 {
 	std::vector<int> v(5,10);
@@ -546,6 +565,7 @@ void all_tests()
 	test_case("vector: assign iterator", &vector_assign_iterator);
 	test_case("vector: assign iterator2", &vector_assign_iterator2);
 	test_case("vector: assign iterator3", &vector_assign_iterator3);
+	test_case("vector: iterator substr", &vector_iterator_substr);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }
