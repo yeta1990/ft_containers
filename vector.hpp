@@ -74,6 +74,10 @@ namespace ft{
 			}
 			random_iterator& operator+=(difference_type i) { p += i; return (*this); }
 			random_iterator& operator-=(difference_type i)	{ p -= i; return (*this); }
+			random_iterator operator+(difference_type i) const { pointer p1; p1 = p + i; return (p1);};
+
+//			random_iterator& operator+(difference_type i) { return &p[i]; }
+//			random_iterator& operator-(difference_type i)	{ return (this->(p - i)); }
 
 			
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }

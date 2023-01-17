@@ -446,7 +446,72 @@ void	vector_assign_iterator()
 	v3.assign(it2, it3);
 	check_size_capacity(v2, v3);
 
+}
 
+void	vector_assign_iterator2()
+{
+	std::vector<int> v;
+	ft::vector<int> v1;
+	std::vector<int> v2;
+	ft::vector<int> v3;
+
+	for (size_t i = 0; i < 100; i += 3)
+	{
+		v.push_back(i);
+		v1.push_back(i);
+	}
+	v2.assign(v.begin(), v.end());
+	v3.assign(v.begin(), v.end());
+	check_size_capacity(v2, v3);
+	check(v2[3] == v3[3]);
+
+	v2.assign(1000, 420);
+	v3.assign(1000, 420);
+	check_size_capacity(v2, v3);
+	check(v2[3] == v3[3]);
+	v2.assign(v.begin(), v.end());
+	v3.assign(v.begin(), v.end());
+	check_size_capacity(v2, v3);
+	check(v2[3] == v3[3]);
+}
+
+void	vector_assign_iterator3()
+{
+	std::vector<int> vct(7);
+	std::vector<int> vct2(4);
+	ft::vector<int> vct3(7);
+	ft::vector<int> vct4(4);
+
+	for (size_t i = 0; i < vct.size(); ++i)
+		vct[i] = (vct.size() - i) * 3;
+	for (size_t i = 0; i < vct2.size(); ++i)
+		vct2[i] = (vct2.size() - i) * 5;
+	for (size_t i = 0; i < vct3.size(); ++i)
+		vct3[i] = (vct3.size() - i) * 3;
+	for (size_t i = 0; i < vct4.size(); ++i)
+		vct4[i] = (vct4.size() - i) * 5;
+	check_size_capacity(vct, vct3);
+	check_size_capacity(vct2, vct4);
+
+	std::vector<int> vct5;
+	std::vector<int> vct6;
+	ft::vector<int> vct7;
+	ft::vector<int> vct8;
+
+	vct5.assign(vct.begin(), vct.end());
+	vct.assign(vct2.begin(), vct2.end());
+	vct2.assign(2, 42);
+	vct6.assign(4,21);	
+
+	vct7.assign(vct3.begin(), vct3.end());
+	vct3.assign(vct4.begin(), vct4.end());
+	vct4.assign(2, 42);
+	vct8.assign(4,21);	
+
+	check_size_capacity(vct, vct3);
+	check_size_capacity(vct2, vct4);
+	check_size_capacity(vct5, vct7);
+	check_size_capacity(vct6, vct8);
 
 }
 
@@ -472,6 +537,8 @@ void all_tests()
 	test_case("vector: at2", &vector_at2);
 	test_case("vector: assign", &vector_assign);
 	test_case("vector: assign iterator", &vector_assign_iterator);
+	test_case("vector: assign iterator2", &vector_assign_iterator2);
+	test_case("vector: assign iterator3", &vector_assign_iterator3);
 //	vector_constructors();
 	//std::cout << str << std::endl;
 }
