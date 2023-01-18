@@ -323,7 +323,17 @@ namespace ft{
 				return (return_iterator);
 			}
 
-//			iterator erase( iterator first, iterator last );
+			iterator erase( iterator first, iterator last )
+			{
+				iterator return_iterator;
+				difference_type diff;
+
+				diff = last - first;
+				return_iterator = first;
+				for (difference_type i = 0; i < diff; i++)
+					return_iterator = erase(return_iterator);
+				return (return_iterator);
+			}
 			//
 			void		push_back(const value_type& val);
 			//pop_back

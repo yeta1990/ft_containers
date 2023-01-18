@@ -605,6 +605,33 @@ void vector_erase2()
 
 void vector_erase_iterator()
 {
+	std::vector<int> v(42);
+	ft::vector<int> v1(42);
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator	it1;
+
+	for (size_t i = 0; i < 42; i++)
+	{
+		v[i] = i;
+		v1[i] = i;
+	}
+
+	it = v.erase(v.begin() + 1, v.begin() + 1);
+	it1 = v1.erase(v1.begin() + 1, v1.begin() + 1);
+	check(v[1] == v1[1]);
+	check_size_capacity(v, v1);
+
+	it = v.erase(v.begin()+ 1, v.begin() + 2);
+	it1 = v1.erase(v1.begin()+ 1, v1.begin() + 2);
+	check_size_capacity(v, v1);
+	check(v[1] == v1[1]);
+	check(v[2] == v1[2]);
+	
+	it = v.erase(v.begin()+ 10, v.end() - 10);
+	it1 = v1.erase(v1.begin() + 10, v1.end() - 10);
+	check_size_capacity(v, v1);
+	check(v[10] == v1[10]);
+	check(v[11] == v1[11]);
 
 }
 
