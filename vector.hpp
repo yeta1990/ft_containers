@@ -319,6 +319,7 @@ namespace ft{
 					this->_allocator.deallocate(this->_data, this->_capacity);
 				}
 				this->_size = _newSize;
+				this->_usedValues = this->_size;
 				this->_data = _newData;
 				return (return_iterator);
 			}

@@ -108,6 +108,7 @@ void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 	this->_data = this->_allocator.allocate(this->_size);
 	for (size_type i = 0; i < n; i++)
 		this->_allocator.construct(&_data[i], val);
+	this->_usedValues = this->_size;
 }
 	
 

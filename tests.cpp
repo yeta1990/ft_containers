@@ -620,13 +620,22 @@ void vector_erase_iterator()
 	it1 = v1.erase(v1.begin() + 1, v1.begin() + 1);
 	check(v[1] == v1[1]);
 	check_size_capacity(v, v1);
+	v.push_back(1111);
+	v1.push_back(1111);
+	check(v[42] == v1[42]);
+	check_size_capacity(v, v1);
+
 
 	it = v.erase(v.begin()+ 1, v.begin() + 2);
 	it1 = v1.erase(v1.begin()+ 1, v1.begin() + 2);
 	check_size_capacity(v, v1);
 	check(v[1] == v1[1]);
 	check(v[2] == v1[2]);
-	
+	v.push_back(1111);
+	v1.push_back(1111);
+	check(v[42] == v1[42]);
+	check_size_capacity(v, v1);
+
 	it = v.erase(v.begin()+ 10, v.end() - 10);
 	it1 = v1.erase(v1.begin() + 10, v1.end() - 10);
 	check_size_capacity(v, v1);
