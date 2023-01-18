@@ -291,6 +291,40 @@ namespace ft{
 			iterator insert( const_iterator pos, InputIt first, InputIt last );
 
 			//erase
+			iterator erase( iterator pos )
+			{
+				value_type*	_newData;
+				iterator	it;	
+				size_type	_newSize;
+
+				_newSize = 0;
+				_newData = this->_allocator.allocate(this->_capacity - 1);
+				for (it = this->begin(); it != pos; it++)
+				{
+					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize]);
+					_newSize++;
+				}
+				iterator	return_iterator(_newData);
+				return_iterator += _newSize;
+				for (it = pos + 1; it != this->end(); it++)
+				{
+					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize + 1]);
+					_newSize++;
+				}
+
+				if (this->_size > 0)
+				{
+					for (size_t i = 0; i < this->_capacity; i++)
+						this->_allocator.destroy(&this->_data[i]);
+					this->_allocator.deallocate(this->_data, this->_capacity);
+				}
+				this->_size = _newSize;
+				this->_data = _newData;
+				return (return_iterator);
+			}
+
+//			iterator erase( iterator first, iterator last );
+			//
 			void		push_back(const value_type& val);
 			//pop_back
 			//resize

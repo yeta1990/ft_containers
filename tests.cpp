@@ -559,6 +559,55 @@ void	vector_assign_iterator3()
 
 }
 
+void vector_erase()
+{
+	std::vector<int> v(42,42);
+	ft::vector<int> v1(42,42);
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator	it1;
+
+	it = v.end() - 1;
+	it = v.erase(it);
+	it1 = v1.end() - 1;
+	it1 = v1.erase(it1);
+	check(it == v.end());
+	check(it1 == v1.end());
+	check_size_capacity(v, v1);
+	check(it1 == v1.end());
+	check(v[40] == v1[40]);
+	for (size_t i = 0; i < 41; i++)
+	{
+		v[i] = i;
+		v1[i] = i;
+	}
+	it = v.begin() + 10;
+	it1 = v1.begin() + 10;
+	it = v.erase(it);
+	it1 = v1.erase(it1);
+	check_size_capacity(v, v1);
+	check(v[9] == v1[9]);
+	check(v[10] == v1[10]);
+}
+
+void vector_erase2()
+{
+	std::vector<int> v(1);
+	ft::vector<int> v1(1);
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator	it1;
+
+	it = v.begin();
+	it = v.erase(it);
+	it1 = v1.begin();
+	it1 = v1.erase(it1);
+	check_size_capacity(v, v1);
+}
+
+void vector_erase_iterator()
+{
+
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -585,6 +634,10 @@ void all_tests()
 	test_case("vector: assign iterator", &vector_assign_iterator);
 	test_case("vector: assign iterator2", &vector_assign_iterator2);
 	test_case("vector: assign iterator3", &vector_assign_iterator3);
+	test_case("vector: erase", &vector_erase);
+	test_case("vector: erase2", &vector_erase2);
+	test_case("vector: erase iterator", &vector_erase_iterator);
+//	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 
 int main(void)
