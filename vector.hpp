@@ -142,7 +142,7 @@ namespace ft{
 				_lastElement = _data;
 				this->resize(n, val);
 			};
-				
+
 			//range constructor			
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0){
@@ -197,7 +197,8 @@ namespace ft{
 			}
 
 			~vector(void) {
-				this->_allocator.deallocate(this->_data, this->_size);
+				destroy_and_deallocate();
+//				this->_allocator.deallocate(this->_data, this->_size);
 			};
 
 			/*vector(const vector& x);

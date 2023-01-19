@@ -753,6 +753,7 @@ void	vector_pop_back_2()
 	std::vector<std::string> vct(8);
 	std::vector<std::string> vct2;
 	std::vector<std::string>::iterator it = vct.begin();
+
 	ft::vector<std::string> vctc(8);
 	ft::vector<std::string> vctc2;
 	ft::vector<std::string>::iterator it1 = vctc.begin();
@@ -762,28 +763,19 @@ void	vector_pop_back_2()
 		it[i] = std::string((vct.size() - i), i + 65);
 		it1[i] = std::string((vctc.size() - i), i + 65);
 	}
-//	printSize(vct, true);
-//	std::cout << "push_back():\n" << std::endl;
-	std::cout << vctc2.size() << "," << vct2.size() << std::endl;
-	std::cout << vctc2.capacity() << "," << vct2.capacity() << std::endl;
 	vct.push_back("One long string");
 	vct2.push_back("Another long string");
 	vctc.push_back("One long string");
 	vctc2.push_back("Another long string");
-	std::cout << vctc2.size() << "," << vct2.size() << std::endl;
-	std::cout << vctc2.capacity() << "," << vct2.capacity() << std::endl;
-//	check_size_capacity(vct, vctc);
-//	check_size_capacity(vct2, vctc2);
-/*
-	printSize(vct);
-	printSize(vct2);
-
+	check(vct.size() == vctc.size());
+	check(vct2.size() == vctc2.size());
 	vct.pop_back();
 	vct2.pop_back();
+	vctc.pop_back();
+	vctc2.pop_back();
+	check(vct.size() == vctc.size());
+	check(vct2.size() == vctc2.size());
 
-	printSize(vct);
-	printSize(vct2);
-*/
 }
 
 void all_tests()
@@ -826,4 +818,5 @@ void all_tests()
 int main(void)
 {
 	all_tests();
+
 }
