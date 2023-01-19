@@ -283,16 +283,21 @@ namespace ft{
 
 			void 		clear();
 			//insert
-			/*
+			//insert single
 			iterator insert (iterator pos, const value_type& value)
 			{
+				iterator 	it;
+				size_type 	i;
+
+				i = 0;
+				for (it = this->begin(); it != pos; it++)
+					i++;
 				insert(pos, 1, value);
-				for (iterator it = this->begin(); it != pos; it++)
-
-				return
+				it = this->begin() + i;
+				return (it);
 			}
-			*/
 
+			//insert fill
 			void insert (iterator pos, size_type n, const value_type& value)
 			{
 				value_type*	_newData;
@@ -309,8 +314,6 @@ namespace ft{
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 					i++;
 				}
-//				iterator	return_iterator(_newData);
-//				return_iterator += i;
 				//insert new elements
 				for (size_type j = 0; j < n; j++)
 				{
@@ -327,12 +330,49 @@ namespace ft{
 				this->_size = _newSize;
 				this->_capacity = this->_size;
 				this->_data = _newData;
-//				return (return_iterator);
+				this->_usedValues = this->_size;
 			}
-/*
-			template< class InputIt >
-			iterator insert( const_iterator pos, InputIt first, InputIt last );
-			*/
+
+			//iterator range
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
+			{
+				size_type diff;
+				value_type*	_newData;
+				iterator	it;	
+				size_type	_newSize;
+				size_type	i;
+
+				diff = last - first;
+				_newSize = this->_size + diff;
+				_newData = this->_allocator.allocate(_newSize);
+				i = 0;
+				//copy elements before 'pos'
+				for (it = this->begin(); it != position; it++)
+				{
+					this->_allocator.construct(&_newData[i], this->_data[i]);
+					i++;
+				}
+				//insert new elements
+				for (size_type j = 0; j < diff; j++)
+				{
+					this->_allocator.construct(&_newData[i], *(first + j));
+					i++;
+				}
+				//copy the rest of the elements
+				for (it = position; it != this->end(); it++)
+				{
+					this->_allocator.construct(&_newData[i], this->_data[i - diff]);
+					i++;
+				}
+				if (this->_size > 0)
+					destroy_and_deallocate();
+				this->_size = _newSize;
+				this->_usedValues = this->_size;
+				this->_capacity = this->_size;
+				this->_data = _newData;
+
+			}
 
 			//erase
 			iterator erase( iterator pos )
