@@ -728,6 +728,64 @@ void	vector_insert_range()
 
 }
 
+void	vector_pop_back()
+{
+	std::vector<int> v(42);	
+	ft::vector<int> v1(42);	
+
+	for (size_t i = 0; i < 42; i++)
+	{
+		v[i] = i;
+		v1[i] = i;
+	}
+	v.pop_back();
+	v1.pop_back();
+	check(v[40] == v1[40]);
+	check_size_capacity(v, v1);
+	v.push_back(1);
+	v1.push_back(1);
+	check(v[41] == v1[41]);
+	check_size_capacity(v, v1);
+}
+
+void	vector_pop_back_2()
+{
+	std::vector<std::string> vct(8);
+	std::vector<std::string> vct2;
+	std::vector<std::string>::iterator it = vct.begin();
+	ft::vector<std::string> vctc(8);
+	ft::vector<std::string> vctc2;
+	ft::vector<std::string>::iterator it1 = vctc.begin();
+
+	for (unsigned long int i = 0; i < vct.size(); ++i)
+	{
+		it[i] = std::string((vct.size() - i), i + 65);
+		it1[i] = std::string((vctc.size() - i), i + 65);
+	}
+//	printSize(vct, true);
+//	std::cout << "push_back():\n" << std::endl;
+	std::cout << vctc2.size() << "," << vct2.size() << std::endl;
+	std::cout << vctc2.capacity() << "," << vct2.capacity() << std::endl;
+	vct.push_back("One long string");
+	vct2.push_back("Another long string");
+	vctc.push_back("One long string");
+	vctc2.push_back("Another long string");
+	std::cout << vctc2.size() << "," << vct2.size() << std::endl;
+	std::cout << vctc2.capacity() << "," << vct2.capacity() << std::endl;
+//	check_size_capacity(vct, vctc);
+//	check_size_capacity(vct2, vctc2);
+/*
+	printSize(vct);
+	printSize(vct2);
+
+	vct.pop_back();
+	vct2.pop_back();
+
+	printSize(vct);
+	printSize(vct2);
+*/
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -760,6 +818,8 @@ void all_tests()
 	test_case("vector: insert", &vector_insert);
 	test_case("vector: insert single", &vector_insert_single);
 	test_case("vector: insert range", &vector_insert_range);
+	test_case("vector: pop back", &vector_pop_back);
+	test_case("vector: pop back 2", &vector_pop_back_2);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 

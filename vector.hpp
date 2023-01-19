@@ -415,10 +415,17 @@ namespace ft{
 					return_iterator = erase(return_iterator);
 				return (return_iterator);
 			}
-			//
+			
 			void		push_back(const value_type& val);
-			//pop_back
-			//resize
+
+			void		pop_back()
+			{
+
+				this->_allocator.destroy(&*(this->end() - 1));
+				this->_size--;
+				this->_usedValues--;
+			}
+
 			//swap
 
 
