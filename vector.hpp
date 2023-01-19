@@ -264,9 +264,7 @@ namespace ft{
 
 				it = first;
 				i = 0;
-				for (size_t i = 0; i < this->_capacity; i++)
-					this->_allocator.destroy(&this->_data[i]);
-				this->_allocator.deallocate(this->_data, this->_capacity);
+				destroy_and_deallocate();
 
 				size_t			distance;
 
@@ -285,10 +283,56 @@ namespace ft{
 
 			void 		clear();
 			//insert
-			iterator insert( const_iterator pos, const T& value );
-			iterator insert( const_iterator pos, size_type count, const T& value );
+			/*
+			iterator insert (iterator pos, const value_type& value)
+			{
+				insert(pos, 1, value);
+				for (iterator it = this->begin(); it != pos; it++)
+
+				return
+			}
+			*/
+
+			void insert (iterator pos, size_type n, const value_type& value)
+			{
+				value_type*	_newData;
+				iterator	it;
+				size_type	_newSize;
+				value_type	i;
+
+				_newSize = this->_size + n;
+				_newData = this->_allocator.allocate(_newSize);
+				i = 0;
+				//copy elements before 'pos'
+				for (it = this->begin(); it != pos; it++)
+				{
+					this->_allocator.construct(&_newData[i], this->_data[i]);
+					i++;
+				}
+//				iterator	return_iterator(_newData);
+//				return_iterator += i;
+				//insert new elements
+				for (size_type j = 0; j < n; j++)
+				{
+					this->_allocator.construct(&_newData[i], value);
+					i++;
+				}
+				//copy the rest of the elements
+				for (it = pos; it != this->end(); it++)
+				{
+					this->_allocator.construct(&_newData[i], this->_data[i - n]);
+					i++;
+				}
+				destroy_and_deallocate();
+				this->_size = _newSize;
+				this->_capacity = this->_size;
+				this->_data = _newData;
+//				return (return_iterator);
+			}
+/*
 			template< class InputIt >
 			iterator insert( const_iterator pos, InputIt first, InputIt last );
+			*/
 
 			//erase
 			iterator erase( iterator pos )
@@ -313,11 +357,7 @@ namespace ft{
 				}
 
 				if (this->_size > 0)
-				{
-					for (size_t i = 0; i < this->_capacity; i++)
-						this->_allocator.destroy(&this->_data[i]);
-					this->_allocator.deallocate(this->_data, this->_capacity);
-				}
+					destroy_and_deallocate();
 				this->_size = _newSize;
 				this->_usedValues = this->_size;
 				this->_data = _newData;
@@ -378,6 +418,7 @@ namespace ft{
 
 			void				expansor(void);
 			void	expandCapacity(size_type requiredCapacity);
+			void	destroy_and_deallocate(void);
 
 	};
 }

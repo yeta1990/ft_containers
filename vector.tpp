@@ -11,6 +11,14 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 }
 
 template <class T, class Allocator>
+void	vector<T, Allocator>::destroy_and_deallocate(void)
+{
+	for (size_t i = 0; i < this->_capacity; i++)
+		this->_allocator.destroy(&this->_data[i]);
+	this->_allocator.deallocate(this->_data, this->_capacity);
+}
+
+template <class T, class Allocator>
 void	vector<T, Allocator>::expansor(void)
 {
 	value_type*		_newData;
@@ -20,11 +28,7 @@ void	vector<T, Allocator>::expansor(void)
 	copyDataToOtherObject(_newData);
 //	std::cout << "allocating " << this->_capacity << std::endl;
 	if (this->_usedValues > 0)
-	{
-		for (size_t i = 0; i < this->_capacity; i++)
-			this->_allocator.destroy(&this->_data[i]);
-		this->_allocator.deallocate(this->_data, this->_capacity);
-	}
+		destroy_and_deallocate();
 	_firstElement = _data;
 	setLastElement();
 	this->_data = _newData;
@@ -90,14 +94,11 @@ void 	vector<T, Allocator>::reserve (size_type n)
 template <class T, class Allocator>
 void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 {
-	
 	if (n > this->_capacity)
 	{
 		this->_size = n;
 		this->_capacity = n;
-		for (size_t i = 0; i < this->_capacity; i++)
-			this->_allocator.destroy(&this->_data[i]);
-		this->_allocator.deallocate(this->_data, this->_capacity);
+		destroy_and_deallocate();
 	}
 	else
 	{
@@ -117,6 +118,8 @@ void	vector<T, Allocator>::clear()
 {
 	this->_size = 0;
 }
+
+
 
 template <class T, class Allocator>
 T& vector<T, Allocator>::at(size_type pos)

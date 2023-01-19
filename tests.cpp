@@ -644,6 +644,44 @@ void vector_erase_iterator()
 
 }
 
+void	vector_insert()
+{
+	std::vector<int> v(42);	
+	ft::vector<int> v1(42);	
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator it1;
+
+	for (size_t i = 0; i < 42; i++)
+	{
+		v[i] = i;
+		v1[i] = i;
+	}
+
+	it = v.begin() + 10;
+	it1 = v1.begin() + 10;
+	v.insert(it, 1, 30);
+	v1.insert(it1, 1, 30);
+	check(v[9] == v1[9]);
+	check(v[10] == v1[10]);
+	check(v[11] == v1[11]);
+	check_size_capacity(v, v1);
+
+	it = v.begin() + 15;
+	it1 = v1.begin() + 15;
+	v.insert(it, 5, 30);
+	v1.insert(it1, 5, 30);
+	check(v[14] == v1[14]);
+	check(v[15] == v1[15]);
+	check(v[16] == v1[16]);
+	check(v[17] == v1[17]);
+	check(v[18] == v1[18]);
+	check(v[19] == v1[19]);
+	check(v[20] == v1[20]);
+	check_size_capacity(v, v1);
+
+
+}
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -673,6 +711,7 @@ void all_tests()
 	test_case("vector: erase", &vector_erase);
 	test_case("vector: erase2", &vector_erase2);
 	test_case("vector: erase iterator", &vector_erase_iterator);
+	test_case("vector: insert", &vector_insert);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 
