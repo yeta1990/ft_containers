@@ -778,6 +778,65 @@ void	vector_pop_back_2()
 
 }
 
+void	vector_swap_member()
+{
+	std::vector<int>	v1(42,42);
+	std::vector<int>	v2(1,1);
+	ft::vector<int>		v3(42,42);
+	ft::vector<int>		v4(1,1);
+
+	v1.swap(v2);
+	v3.swap(v4);
+	check_size_capacity(v1, v3);
+	check_size_capacity(v2, v4);
+
+}
+
+void	vector_swap_member_2()
+{
+	std::vector<int>	foo(3, 15);
+	std::vector<int>	bar(5,42);
+	ft::vector<int>		foo1(3,15);
+	ft::vector<int>		bar1(5,42);
+
+	std::vector<int>::const_iterator	it_foo = foo.begin();
+	std::vector<int>::const_iterator	it_bar = bar.begin();
+	ft::vector<int>::const_iterator		it_foo1 = foo1.begin();
+//	ft::vector<int>::const_iterator		it_bar1 = bar1.begin();
+
+	foo.swap(bar);
+	foo1.swap(bar1);
+	
+	check_size_capacity(foo, foo1);
+	check_size_capacity(bar, bar1);
+
+	check(it_foo == bar.begin());
+	check(it_bar == foo.begin());
+	check(it_foo1 == bar1.begin());
+//	std::cout << (it_foo1 == bar1.begin()) << std::endl;
+//	std::cout << (it_bar1 == foo1.begin()) << std::endl;
+//	v1.swap(v2);
+//	v3.swap(v4);
+//	check_size_capacity(v1, v3);
+//	check_size_capacity(v2, v4);
+
+}
+
+void	vector_swap_no_member()
+{
+	std::vector<int>	v1(42,42);
+	std::vector<int>	v2(1,1);
+	ft::vector<int>		v3(42,42);
+	ft::vector<int>		v4(1,1);
+
+	swap(v1, v2);
+	swap(v3, v4);
+	check_size_capacity(v1, v3);
+	check_size_capacity(v2, v4);
+}
+
+
+
 void all_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
@@ -812,11 +871,13 @@ void all_tests()
 	test_case("vector: insert range", &vector_insert_range);
 	test_case("vector: pop back", &vector_pop_back);
 	test_case("vector: pop back 2", &vector_pop_back_2);
+	test_case("vector: swap, member function", &vector_swap_member);
+	test_case("vector: swap, member function 2", &vector_swap_member_2);
+	test_case("vector: swap, no member function", &vector_swap_no_member);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 
 int main(void)
 {
 	all_tests();
-
 }

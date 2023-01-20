@@ -428,15 +428,21 @@ namespace ft{
 			}
 
 			//swap
+			void	swap (vector& x)
+			{
+				ft::vector<int>	sw;
 
-
+				sw = *this;
+				*this = x;
+				x = sw;
+			}
 
 			value_type	usedValues(void)
 			{
 				return (this->_usedValues);
 			};
-			//allocator
 
+			//allocator
 			allocator_type get_allocator(void) const { return (this->_allocator);};
 
 		private:
@@ -469,6 +475,16 @@ namespace ft{
 			void	destroy_and_deallocate(void);
 
 	};
+}
+
+template <class T, class Alloc>  
+void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
+{
+	ft::vector<int>	sw;
+
+	sw = y;
+	y = x;
+	x = sw;
 }
 
 #include "vector.tpp"
