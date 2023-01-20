@@ -84,18 +84,9 @@ namespace ft{
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
-			friend difference_type operator-(const random_iterator &a, const random_iterator &b) { return (a.p - b.p); }
-			friend bool operator<(const random_iterator &a, const random_iterator &b) { return (a.p < b.p); }
-			friend bool operator>(const random_iterator &a, const random_iterator &b) { return b.p < a.p; }
-			friend bool operator<=(const random_iterator &a, const random_iterator &b) { return (a.p <= b.p); }
-			friend bool operator>=(const random_iterator &a, const random_iterator &b) { return b.p <= a.p; }
-			friend bool operator==(const random_iterator &a, const random_iterator &b){
-				return a.p == b.p; }
-			friend bool operator!=(const random_iterator &a, const random_iterator &b){
-				return a.p != b.p;
-			}
 
-		private:
+
+//		private:
 			pointer p;
 
 	};
@@ -487,6 +478,24 @@ void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 	x = sw;
 }
 
+template <class T, typename U>
+bool operator==(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
+		return a.p == b.p; }
+template <class T, typename U>
+difference_type operator-(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p - b.p); }
+template <class T, typename U>
+bool operator<(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p < b.p); }
+template <class T, typename U>
+bool operator>(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p < a.p; }
+template <class T, typename U>
+bool operator<=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p <= b.p); }
+template <class T, typename U>
+bool operator>=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p <= a.p; }
+
+template <class T, typename U>
+bool operator!=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
+				return a.p != b.p;
+			}
 #include "vector.tpp"
 
 #endif
