@@ -478,17 +478,23 @@ void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 	x = sw;
 }
 
+namespace ft{
 template <class T, typename U>
 bool operator==(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
 		return a.p == b.p; }
+
 template <class T, typename U>
-difference_type operator-(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p - b.p); }
+typename ft::random_iterator<T>::difference_type operator-(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p - b.p); }
+
 template <class T, typename U>
 bool operator<(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p < b.p); }
+
 template <class T, typename U>
 bool operator>(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p < a.p; }
+
 template <class T, typename U>
 bool operator<=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p <= b.p); }
+
 template <class T, typename U>
 bool operator>=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p <= a.p; }
 
@@ -496,6 +502,7 @@ template <class T, typename U>
 bool operator!=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
 				return a.p != b.p;
 			}
+}
 #include "vector.tpp"
 
 #endif
