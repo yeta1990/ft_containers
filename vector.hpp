@@ -84,9 +84,9 @@ namespace ft{
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
 			value_type& operator[](difference_type n) { return *(p + n);}
+			pointer getData(void) const { return p; };
 
-
-//		private:
+		private:
 			pointer p;
 
 	};
@@ -485,26 +485,26 @@ void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 namespace ft{
 template <class T, typename U>
 bool operator==(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
-		return a.p == b.p; }
+		return a.getData() == b.getData(); }
 
 template <class T, typename U>
-typename ft::random_iterator<T>::difference_type operator-(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p - b.p); }
+typename ft::random_iterator<T>::difference_type operator-(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.getData() - b.getData()); }
 
 template <class T, typename U>
-bool operator<(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p < b.p); }
+bool operator<(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.getData() < b.getData()); }
 
 template <class T, typename U>
-bool operator>(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p < a.p; }
+bool operator>(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.getData() < a.getData(); }
 
 template <class T, typename U>
-bool operator<=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.p <= b.p); }
+bool operator<=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return (a.getData() <= b.getData()); }
 
 template <class T, typename U>
-bool operator>=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.p <= a.p; }
+bool operator>=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b) { return b.getData() <= a.getData(); }
 
 template <class T, typename U>
 bool operator!=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
-				return a.p != b.p;
+				return a.getData() != b.getData();
 			}
 }
 #include "vector.tpp"
