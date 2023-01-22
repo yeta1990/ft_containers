@@ -802,7 +802,7 @@ void	vector_swap_member_2()
 	std::vector<int>::const_iterator	it_foo = foo.begin();
 	std::vector<int>::const_iterator	it_bar = bar.begin();
 	ft::vector<int>::const_iterator		it_foo1 = foo1.begin();
-//	ft::vector<int>::const_iterator		it_bar1 = bar1.begin();
+	ft::vector<int>::const_iterator		it_bar1 = bar1.begin();
 
 	foo.swap(bar);
 	foo1.swap(bar1);
@@ -813,12 +813,13 @@ void	vector_swap_member_2()
 	check(it_foo == bar.begin());
 	check(it_bar == foo.begin());
 	check(it_foo1 == bar1.begin());
+	check(it_bar1 == foo1.begin());
 //	std::cout << (it_foo1 == bar1.begin()) << std::endl;
 //	std::cout << (it_bar1 == foo1.begin()) << std::endl;
 //	v1.swap(v2);
 //	v3.swap(v4);
-//	check_size_capacity(v1, v3);
-//	check_size_capacity(v2, v4);
+	check_size_capacity(foo, foo1);
+	check_size_capacity(bar, bar1);
 
 }
 

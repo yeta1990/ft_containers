@@ -164,7 +164,6 @@ namespace ft{
 
 			reference operator=( T& o)
 			{
-				std::cout << "eoooooooooo" << std::endl;
 				*this = o;
 				return (*this);
 			}
@@ -421,11 +420,21 @@ namespace ft{
 			//swap
 			void	swap (vector& x)
 			{
-				ft::vector<int>	sw;
-
-				sw = *this;
-				*this = x;
-				x = sw;
+				value_type*	dataSwap;
+				size_type	capacitySwap;
+				size_type	sizeSwap;
+				
+				dataSwap = this->_data;
+				this->_data = x._data;
+				x._data = dataSwap;
+				capacitySwap = this->_capacity;
+				this->_capacity = x._capacity;
+				x._capacity = capacitySwap;
+				sizeSwap = this->_size;
+				this->_size = x._size;
+				x._size = sizeSwap;
+				this->_usedValues = this->_size;
+				x._usedValues = x._size;
 			}
 
 			value_type	usedValues(void)
@@ -444,7 +453,6 @@ namespace ft{
 			size_type			_capacity;
 			size_type			_size;
 			size_type			_usedValues;
-
 
 			void	copyDataToOtherObject(value_type* _newData)
 			{
@@ -471,11 +479,7 @@ namespace ft{
 template <class T, class Alloc>  
 void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 {
-	ft::vector<int>	sw;
-
-	sw = y;
-	y = x;
-	x = sw;
+		x.swap(y);
 }
 
 namespace ft{
