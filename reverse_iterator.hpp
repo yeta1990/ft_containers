@@ -59,12 +59,16 @@ namespace ft{
 				return &(operator*());
 			}
 
-			reverse_iterator& operator--()
-			{
-				p = p - 1;
-				return (p);
-			}
-
+			reverse_iterator& operator++() { current = current - 1; return (*this); }
+			reverse_iterator& operator--() { current = current + 1; return (*this);	}
+			reverse_iterator operator++( int ) { iterator_type tmp = current;
+					--current; return(reverse_iterator(tmp));	}
+			reverse_iterator operator--( int ) { iterator_type tmp = current;
+					++current; return(reverse_iterator(tmp));	}
+			reverse_iterator operator+( difference_type n ) const {	return (reverse_iterator(current - n));	}
+			reverse_iterator operator-( difference_type n ) const {	return (reverse_iterator(current + n));	}
+			reverse_iterator& operator+=( difference_type n ) { current -= n; return (*this); }
+			reverse_iterator& operator-=( difference_type n ) { current += n; return (*this); }
 
 		protected:
 			iterator_type	current;
