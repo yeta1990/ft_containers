@@ -127,6 +127,8 @@ void	rev_it_operators()
 	rit1 -= 2;
 	check(*rit == *rit1);
 
+	check(rit[17] == rit1[17]);
+
 }
 
 void	reverse_iterator_tests()
