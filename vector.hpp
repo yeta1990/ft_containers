@@ -212,8 +212,8 @@ namespace ft{
 			iterator end() { return iterator(&this->_data[this->_size]); }
 			const_iterator begin() const { return const_iterator(&this->_data[0]); }
 			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
-//            reverse_iterator rbegin() { return ft::reverse_iterator(this->_data + this->_size); }
-//            reverse_iterator rend() { return ft::reverse_iterator(this->_data);}
+            reverse_iterator rbegin() { return reverse_iterator(this->_data + this->_size); }
+            reverse_iterator rend() { return reverse_iterator(this->_data);}
 
 			//element access
 

@@ -11,7 +11,15 @@ void	rev_it_constructor()
 	ft::vector<int>	v1(5);
 	ft::vector<int>::reverse_iterator rit1;
 
+	for (size_t i = 0; i < 100; i++)
+	{
+		v.push_back(i);
+		v1.push_back(i);
+	}
 
+	rit = v.rbegin();
+	rit1 = v1.rbegin();
+	check(*rit == *rit1);
 }
 
 void	reverse_iterator_tests()
