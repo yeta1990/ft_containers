@@ -836,9 +836,7 @@ void	vector_swap_no_member()
 	check_size_capacity(v2, v4);
 }
 
-
-
-void all_tests()
+void vector_tests()
 {
 	test_case("vector_constructors", &vector_constructors);
 	test_case("vector_constructors2", &vector_constructors_2);
@@ -875,10 +873,13 @@ void all_tests()
 	test_case("vector: swap, member function", &vector_swap_member);
 	test_case("vector: swap, member function 2", &vector_swap_member_2);
 	test_case("vector: swap, no member function", &vector_swap_no_member);
+	test_case("vector: bidirect iterator", &bidirect_iterator);
+//	test_case("", &);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 
 int main(void)
 {
-	all_tests();
+	vector_tests();
+	reverse_iterator_tests();
 }

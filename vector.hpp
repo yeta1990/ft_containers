@@ -8,6 +8,7 @@
 #include "iterator_traits.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
+#include "reverse_iterator.hpp"
 //#include "is_iterator.hpp"
 
 //VECTOR
@@ -104,6 +105,8 @@ namespace ft{
 			typedef size_t size_type;
 			typedef random_iterator<pointer> iterator;
 			typedef random_iterator<const_pointer> const_iterator;
+			typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 
 			//member functions
@@ -206,6 +209,8 @@ namespace ft{
 			iterator end() { return iterator(&this->_data[this->_size]); }
 			const_iterator begin() const { return const_iterator(&this->_data[0]); }
 			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
+            reverse_iterator rbegin() { return ft::reverse_iterator(this->_data + this->_size);
+            reverse_iterator rend() { return ft::reverse_iterator(this->_data);
 
 			//element access
 
@@ -508,5 +513,6 @@ bool operator!=(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b
 			}
 }
 #include "vector.tpp"
+
 
 #endif
