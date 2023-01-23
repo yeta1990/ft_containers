@@ -32,16 +32,25 @@ namespace ft{
 //			template <class Iter>
 //			reverse_iterator (const reverse_iterator<Iter>& rev_it);
 
-//			template< class U >
-//			reverse_iterator& operator=( const reverse_iterator<U>& other );
+			template< class U >
+			reverse_iterator& operator=( const reverse_iterator<U>& other )
+			{
+				this->current = other.current;
+				this->p = other.p;
+				return (*this);
+			}
 
-//			iterator_type base() const;
+			iterator_type base() const
+			{
+				return (this->current);
+			}
 
 			reference operator*() const
 			{
 				Iter tmp = current;
 				return *--tmp;
 			}
+
 //			pointer operator->() const;
 
 			reverse_iterator& operator--()

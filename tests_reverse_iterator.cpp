@@ -22,9 +22,22 @@ void	rev_it_constructor()
 	check(*rit == *rit1);
 }
 
+void	rev_it_base()
+{
+	// https://en.cppreference.com/w/cpp/iterator/reverse_iterator/base
+	ft::vector<int>	v1(5);
+	ft::vector<int>::iterator it;
+	ft::vector<int>::reverse_iterator t(it);
+	check(t.base() == it);
+	check(&*(t.base() - 1) == &*t);
+
+}
+
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);
+	test_case("vector: reverse iterator base", &rev_it_base);
+//	test_case("", &);
 //	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);
 
