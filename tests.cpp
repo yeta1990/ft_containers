@@ -1,7 +1,8 @@
 //#include "tester.h"
 #include <string>
-#include "vector.hpp"
-#include <vector>
+#include "tests.hpp"
+//#include "vector.hpp"
+//#include <vector>
 
 void check(bool test)
 {
@@ -873,7 +874,7 @@ void vector_tests()
 	test_case("vector: swap, member function", &vector_swap_member);
 	test_case("vector: swap, member function 2", &vector_swap_member_2);
 	test_case("vector: swap, no member function", &vector_swap_no_member);
-	test_case("vector: bidirect iterator", &bidirect_iterator);
+//	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
 }

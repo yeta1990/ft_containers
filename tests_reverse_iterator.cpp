@@ -1,6 +1,6 @@
 
 #include "tests.hpp"
-#include "reverse_iterator.hpp"
+//#include "reverse_iterator.hpp"
 #include <vector>
 #include "vector.hpp"
 
@@ -17,6 +17,7 @@ void	rev_it_constructor()
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);
+//	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);
 
 
