@@ -22,6 +22,29 @@ void	rev_it_constructor()
 	check(*rit == *rit1);
 }
 
+void	rev_it_constructor2()
+{
+	std::vector<int>					v(42,42);
+	std::vector<int>::iterator 			it;
+	ft::vector<int>						v1(42,42);
+	ft::vector<int>::iterator			it1;
+
+	it = v.begin() + 5;
+	it1 = v1.begin() + 5;
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		v[i] = i;
+		v1[i] = i;
+	}
+	std::vector<int>::reverse_iterator	rit(it);
+	ft::vector<int>::reverse_iterator	rit1(it1);
+
+	check(*rit == *rit1);
+	
+
+}
+
 void	rev_it_base()
 {
 	// https://en.cppreference.com/w/cpp/iterator/reverse_iterator/base
@@ -30,7 +53,6 @@ void	rev_it_base()
 	ft::vector<int>::reverse_iterator t(it);
 	check(t.base() == it);
 	check(&*(t.base() - 1) == &*t);
-	check( 1 == 1);
 
 }
 
@@ -60,6 +82,7 @@ void	rev_it_dereference()
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);
+	test_case("vector: reverse iterator constructor2", &rev_it_constructor2);
 	test_case("vector: reverse iterator base", &rev_it_base);
 	test_case("vecto: reverse iterator dereference", &rev_it_dereference);
 //	test_case("", &);

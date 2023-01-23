@@ -29,8 +29,11 @@ namespace ft{
 				p = it - 1;
 			}
 
-//			template <class Iter>
-//			reverse_iterator (const reverse_iterator<Iter>& rev_it);
+			template <class Iter1>
+			reverse_iterator (const reverse_iterator<Iter1>& rev_it)
+			{
+				*this = rev_it;
+			}
 
 			template< class U >
 			reverse_iterator& operator=( const reverse_iterator<U>& other )
