@@ -175,9 +175,8 @@ void	rev_it_2()
 	vct.insert(vct.end(), lst.rbegin(), lst.rend());
 	vct1.insert(vct1.end(), lst.rbegin(), lst.rend());
 
-
-
 }
+
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);

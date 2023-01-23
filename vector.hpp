@@ -338,13 +338,23 @@ namespace ft{
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
 			{
-				size_type diff;
+				difference_type diff;
 				value_type*	_newData;
 				iterator	it;	
 				size_type	_newSize;
 				size_type	i;
 
-				diff = last - first;
+				diff = 0;
+				InputIterator aux;
+
+				aux = first;
+//				std::cout << "eeeooo" << std::endl;
+				while (aux!= last)
+				{
+					diff++;
+					aux++;
+				}
+//				diff = last - first;
 				_newSize = this->_size + diff;
 				_newData = this->_allocator.allocate(_newSize);
 				i = 0;
@@ -355,12 +365,14 @@ namespace ft{
 					i++;
 				}
 				//insert new elements
-				for (size_type j = 0; j < diff; j++)
+				for (difference_type j = 0; j < diff; j++)
 				{
-					this->_allocator.construct(&_newData[i], *(first + j));
+					this->_allocator.construct(&_newData[i], *first);
+					first++;
 					i++;
 				}
 				//copy the rest of the elements
+
 				for (it = position; it != this->end(); it++)
 				{
 					this->_allocator.construct(&_newData[i], this->_data[i - diff]);
