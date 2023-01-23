@@ -51,7 +51,10 @@ namespace ft{
 				return *--tmp;
 			}
 
-//			pointer operator->() const;
+			pointer operator->() const
+			{
+				return &(operator*());
+			}
 
 			reverse_iterator& operator--()
 			{
