@@ -8,7 +8,7 @@
 #include "iterator_traits.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
-#include "reverse_iterator.hpp"
+
 //#include "is_iterator.hpp"
 
 //VECTOR
@@ -35,6 +35,8 @@
 //resize:
 
 namespace ft{
+
+#include "reverse_iterator.hpp"
 
 	template <class T>
 	class random_iterator
