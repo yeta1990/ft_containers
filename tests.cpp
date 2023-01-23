@@ -883,4 +883,5 @@ int main(void)
 {
 	vector_tests();
 	reverse_iterator_tests();
+	more_iterators();
 }
