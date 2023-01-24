@@ -466,17 +466,11 @@ bool operator!=( const ft::vector<T,Alloc>& lhs,
                  const ft::vector<T,Alloc>& rhs )
 {
 	if (lhs.size() != rhs.size())
-	{
-//		std::cout << "eeeo" << std::endl;
 		return (true);
-	}
 	for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
 	{
 		if (lhs[i] != rhs[i])
-		{
-//		std::cout << "yeah" << std::endl;
 			return (true);
-		}
 	}
 	return (false);
 }
@@ -493,7 +487,6 @@ bool operator>( const ft::vector<T,Alloc>& lhs,
                 const ft::vector<T,Alloc>& rhs )
 {
 	return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
-//	return (!ft::lexicographical_compare(rhs, lhs));
 }
 
 template< class T, class Alloc >

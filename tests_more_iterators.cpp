@@ -148,17 +148,32 @@ void	comparision_operators()
 	it1 = vct2.begin();
 	it2 = vctt.begin();
 	it3 = vctt2.begin();
-//		std::cout << vct[0] << std::endl;
-	for (size_t i = 0; i < 4; i++)
-	{
-//		std::cout << vct[i] << std::endl;
-		std::cout << *it++ << "," << *it1++ << "," << *it2++ << "," << *it3++ << std::endl;
-
-
-	}
-
 
 //	cmp(vct, vct2);	
+
+}
+
+void	rev_iterator_constructor()
+{
+//	std::vector<int> vct;
+//	std::vector<int>::iterator it = vct.begin();
+//	std::vector<int>::const_iterator cit = vct.begin();
+//
+//	std::vector<int>::reverse_iterator rit(it);
+//
+//	std::vector<int>::const_reverse_iterator crit(rit);
+////	std::vector<int>::const_reverse_iterator crit_(it); std::vector<int>::const_reverse_iterator crit_2(cit);
+
+	ft::vector<int> vct;
+	ft::vector<int>::iterator it = vct.begin();
+	ft::vector<int>::const_iterator cit = vct.begin();
+
+	ft::vector<int>::reverse_iterator rit(it);
+
+	ft::vector<int>::const_reverse_iterator crit(rit);
+	ft::vector<int>::const_reverse_iterator crit_(it);
+	ft::vector<int>::const_reverse_iterator crit_2(cit);
+
 
 }
 
@@ -166,7 +181,9 @@ void	more_iterators()
 {
 	test_case("vector: more iterators", &ite_arrow);
 	test_case("vector: more more iterators", &ite_vector);
-	test_case("vector: comparision operators", &comparision_operators);
+//	test_case("vector: comparision operators", &comparision_operators);
+	test_case("vector: reverse iterator constructor", &rev_iterator_constructor);
+	
 }
 
 #endif

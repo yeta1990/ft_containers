@@ -26,7 +26,6 @@ namespace ft{
 			explicit reverse_iterator (iterator_type it)
 			{
 				current = it;
-				p = it - 1;
 			}
 
 			template <class Iter1>
@@ -38,8 +37,7 @@ namespace ft{
 			template< class U >
 			reverse_iterator& operator=( const reverse_iterator<U>& other )
 			{
-				this->current = other.current;
-				this->p = other.p;
+				this->current = other.base();
 				return (*this);
 			}
 
@@ -72,7 +70,6 @@ namespace ft{
 
 		protected:
 			iterator_type	current;
-			iterator_type	p;
 
 	};
 
