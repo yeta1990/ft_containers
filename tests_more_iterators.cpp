@@ -164,6 +164,7 @@ void	rev_iterator_constructor()
 //	std::vector<int>::const_reverse_iterator crit(rit);
 ////	std::vector<int>::const_reverse_iterator crit_(it); std::vector<int>::const_reverse_iterator crit_2(cit);
 
+	//this should compile
 	ft::vector<int> vct;
 	ft::vector<int>::iterator it = vct.begin();
 	ft::vector<int>::const_iterator cit = vct.begin();
@@ -177,12 +178,57 @@ void	rev_iterator_constructor()
 
 }
 
+void	rev_ite_2()
+{
+	const int size = 5;
+
+	std::vector<int> vct(size);
+	std::vector<int>::reverse_iterator it = vct.rbegin();
+	std::vector<int>::const_reverse_iterator ite = vct.rbegin();
+
+	ft::vector<int> vct1(size);
+	ft::vector<int>::reverse_iterator it1 = vct1.rbegin();
+	ft::vector<int>::const_reverse_iterator ite1 = vct1.rbegin();
+
+	for (int i = 0; i < size; ++i)
+	{
+		it[i] = (size - i) * 5;
+		it1[i] = (size - i) * 5;
+	}
+
+	it = it + 5;
+	it = 1 + it;
+	it = it - 4;
+	it1 = it1 + 5;
+	it1 = 1 + it1;
+	it1 = it1 - 4;
+
+	check(*(it += 2) == *(it1 += 2));
+	check(*(it -= 1) == *(it1 -= 1));
+//	std::cout << *(it -= 1) << std::endl;
+
+	*(it -= 2) = 42;
+	*(it1 -= 2) = 42;
+	check(*it == *it1);
+	*(it += 2) = 21;
+	*(it1 += 2) = 21;
+	check(*it == *it1);
+
+	check(*(ite += 2) == *(ite1 += 2));
+	check(*(ite -= 2) == *(ite1 -= 2));
+
+	check((ite == it) == (ite1 == it1));
+	check((ite - it) == (ite1 - it1));
+	check((ite + 3 == it) == (ite1 + 3 == it1));
+}
+
 void	more_iterators()
 {
 	test_case("vector: more iterators", &ite_arrow);
 	test_case("vector: more more iterators", &ite_vector);
 //	test_case("vector: comparision operators", &comparision_operators);
 	test_case("vector: reverse iterator constructor", &rev_iterator_constructor);
+	test_case("vector: reverse ite", &rev_ite_2);
 	
 }
 

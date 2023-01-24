@@ -103,6 +103,15 @@ bool operator>=( const ft::reverse_iterator<Iterator1>& lhs,
                  const ft::reverse_iterator<Iterator2>& rhs )
 { return (lhs.base() >= rhs.base()); }
 
+template <class T>
+typename ft::reverse_iterator<T> operator+(int n, const ft::reverse_iterator<T> &a)
+{
+	return (a.operator+(n));
+}
+
+template <class T, typename U>
+typename ft::reverse_iterator<T>::difference_type operator-(const ft::reverse_iterator<T> &a, const ft::reverse_iterator<U> &b) { return (b.base() - a.base()); }
+
 
 }
 #endif
