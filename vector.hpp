@@ -118,7 +118,7 @@ namespace ft{
 
 			vector& operator=( const vector& other )
 			{
-				ft::vector<int>::iterator it;
+				ft::vector<int>::const_iterator it;
 				it = other.begin();
 
 				this->_size = other.size();
