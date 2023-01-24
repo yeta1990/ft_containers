@@ -94,10 +94,57 @@ void	ite_vector()
 
 }
 
+template <class T, class Alloc>
+void	cmp(const std::vector<T, Alloc> &lhs, const std::vector<T, Alloc> &rhs)
+{
+	static int i = 0;
+
+	std::cout << "############### [" << i++ << "] ###############"  << std::endl;
+	std::cout << "eq: " << (lhs == rhs) << " | ne: " << (lhs != rhs) << std::endl;
+	std::cout << "lt: " << (lhs <  rhs) << " | le: " << (lhs <= rhs) << std::endl;
+	std::cout << "gt: " << (lhs >  rhs) << " | ge: " << (lhs >= rhs) << std::endl;
+}
+
+template <class T, class Alloc>
+void	cmp1(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	static int i = 0;
+
+	std::cout << "############### [" << i++ << "] ###############"  << std::endl;
+	std::cout << "eq: " << (lhs == rhs) << " | ne: " << (lhs != rhs) << std::endl;
+	std::cout << "lt: " << (lhs <  rhs) << " | le: " << (lhs <= rhs) << std::endl;
+	std::cout << "gt: " << (lhs >  rhs) << " | ge: " << (lhs >= rhs) << std::endl;
+}
+
+void	comparision_operators()
+{
+	std::vector<int>	vct(4);
+	std::vector<int>	vct2(4);
+	ft::vector<int>		vctt(4);
+	ft::vector<int>		vctt2(4);
+
+//	std::cout << (vctt == vctt) << std::endl;
+//	std::cout << a << std::endl;
+
+	cmp(vct, vct);
+	cmp1(vctt, vctt);
+	std::cout << "===========" << std::endl;
+
+	vct2.resize(10);
+	vctt2.resize(10);
+	cmp(vct, vct2);
+	cmp1(vctt, vctt2);
+
+
+//	cmp(vct, vct2);	
+
+}
+
 void	more_iterators()
 {
 	test_case("vector: more iterators", &ite_arrow);
 	test_case("vector: more more iterators", &ite_vector);
+	test_case("vector: comparision operators", &comparision_operators);
 }
 
 #endif

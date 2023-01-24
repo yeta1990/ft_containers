@@ -61,7 +61,7 @@ namespace ft{
 	};
 
 template <class T, typename U>
-bool operator==(const ft::random_iterator<T> &a, const ft::random_iterator<U> &b){
+bool operator==(const random_iterator<T> &a, const random_iterator<U> &b){
 		return a.getData() == b.getData(); }
 
 template <class T, typename U>

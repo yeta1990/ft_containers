@@ -10,6 +10,7 @@
 #include "is_integral.hpp"
 #include "reverse_iterator.hpp"
 #include "random_iterator.hpp"
+#include "lexicographical_compare.hpp"
 //#include "is_iterator.hpp"
 
 //VECTOR
@@ -439,7 +440,7 @@ namespace ft{
 
 	};
 
-}
+
 
 template <class T, class Alloc>  
 void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
@@ -447,6 +448,68 @@ void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 		x.swap(y);
 }
 
+template< class T, class Alloc >
+bool operator==( const ft::vector<T,Alloc>& lhs,
+                 const ft::vector<T,Alloc>& rhs )
+{
+	typename ft::vector<T,Alloc>::iterator it; 
+
+	if (lhs.size() != rhs.size())
+		return (false);
+	for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
+	{
+		if (lhs[i] != lhs[i])
+			return (false);
+	}
+	return (true);
+}
+
+template< class T, class Alloc >
+bool operator!=( const ft::vector<T,Alloc>& lhs,
+                 const ft::vector<T,Alloc>& rhs )
+{
+	typename ft::vector<T,Alloc>::iterator it; 
+
+	if (lhs.size() == rhs.size())
+		return (false);
+	for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
+	{
+		if (lhs[i] == lhs[i])
+			return (false);
+	}
+	return (true);
+}
+
+template< class T, class Alloc >
+bool operator<( const ft::vector<T,Alloc>& lhs,
+                const ft::vector<T,Alloc>& rhs )
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template< class T, class Alloc >
+bool operator>( const ft::vector<T,Alloc>& lhs,
+                const ft::vector<T,Alloc>& rhs )
+{
+	return (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+//	return (!ft::lexicographical_compare(rhs, lhs));
+}
+
+template< class T, class Alloc >
+bool operator<=( const ft::vector<T,Alloc>& lhs,
+                const ft::vector<T,Alloc>& rhs )
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())  || (lhs == rhs));
+}
+
+template< class T, class Alloc >
+bool operator>=( const ft::vector<T,Alloc>& lhs,
+                const ft::vector<T,Alloc>& rhs )
+{
+	return (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()) || (lhs == rhs));
+}
+
+}
 #include "vector.tpp"
 
 
