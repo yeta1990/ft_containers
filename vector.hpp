@@ -441,7 +441,6 @@ namespace ft{
 	};
 
 
-
 template <class T, class Alloc>  
 void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
 {
@@ -452,13 +451,11 @@ template< class T, class Alloc >
 bool operator==( const ft::vector<T,Alloc>& lhs,
                  const ft::vector<T,Alloc>& rhs )
 {
-	typename ft::vector<T,Alloc>::iterator it; 
-
 	if (lhs.size() != rhs.size())
 		return (false);
 	for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
 	{
-		if (lhs[i] != lhs[i])
+		if (lhs[i] != rhs[i])
 			return (false);
 	}
 	return (true);
@@ -468,16 +465,20 @@ template< class T, class Alloc >
 bool operator!=( const ft::vector<T,Alloc>& lhs,
                  const ft::vector<T,Alloc>& rhs )
 {
-	typename ft::vector<T,Alloc>::iterator it; 
-
-	if (lhs.size() == rhs.size())
-		return (false);
+	if (lhs.size() != rhs.size())
+	{
+//		std::cout << "eeeo" << std::endl;
+		return (true);
+	}
 	for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
 	{
-		if (lhs[i] == lhs[i])
-			return (false);
+		if (lhs[i] != rhs[i])
+		{
+//		std::cout << "yeah" << std::endl;
+			return (true);
+		}
 	}
-	return (true);
+	return (false);
 }
 
 template< class T, class Alloc >
@@ -491,7 +492,7 @@ template< class T, class Alloc >
 bool operator>( const ft::vector<T,Alloc>& lhs,
                 const ft::vector<T,Alloc>& rhs )
 {
-	return (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
 //	return (!ft::lexicographical_compare(rhs, lhs));
 }
 
@@ -506,7 +507,7 @@ template< class T, class Alloc >
 bool operator>=( const ft::vector<T,Alloc>& lhs,
                 const ft::vector<T,Alloc>& rhs )
 {
-	return (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()) || (lhs == rhs));
+	return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()) || (lhs == rhs));
 }
 
 }

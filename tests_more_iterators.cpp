@@ -130,10 +130,32 @@ void	comparision_operators()
 	cmp1(vctt, vctt);
 	std::cout << "===========" << std::endl;
 
+	std::vector<int>::iterator	it;
+	std::vector<int>::iterator	it1;
+	ft::vector<int>::iterator	it2;
+	ft::vector<int>::iterator	it3;
+
+
+
+	std::cout << "===========" << std::endl;
+	std::cout << "===========" << std::endl;
 	vct2.resize(10);
 	vctt2.resize(10);
 	cmp(vct, vct2);
 	cmp1(vctt, vctt2);
+
+	it = vct.begin();
+	it1 = vct2.begin();
+	it2 = vctt.begin();
+	it3 = vctt2.begin();
+//		std::cout << vct[0] << std::endl;
+	for (size_t i = 0; i < 4; i++)
+	{
+//		std::cout << vct[i] << std::endl;
+		std::cout << *it++ << "," << *it1++ << "," << *it2++ << "," << *it3++ << std::endl;
+
+
+	}
 
 
 //	cmp(vct, vct2);	
