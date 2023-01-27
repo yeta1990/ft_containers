@@ -34,13 +34,19 @@ namespace ft{
 
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-			std::cout << "map created" << std::endl;
+			std::cout << "map created " << std::endl;
+			this->_allocator = alloc;
+			this->_comp = comp;
 		}
 
 //		template <class InputIterator>
 //		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 //
 //		map (const map& x);
+
+		private:
+			Allocator			_allocator;
+			key_compare		_comp;
 
 	};
 
