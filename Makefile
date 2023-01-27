@@ -1,35 +1,32 @@
-SRCS	=	tests/tests.cpp tests/tests_map.cpp tests/tests_more_iterators.cpp tests/tests_reverse_iterator.cpp
+NAME = tests_containers
+CXX = g++
+CXX2 = clang++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 --pedantic -g3 -fsanitize=address
+INC = -I. -I../
+SRCS = tests/tests.cpp tests/tests_map.cpp tests/tests_more_iterators.cpp tests/tests_reverse_iterator.cpp
+OBJS = $(SRCS:.cpp=.o)
+RM = rm -f
 
-OBJS	= $(SRCS:.cpp=.o)
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ 
 
-NAME	=	containers_tests
+all: $(NAME)
 
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98 --pedantic -g3 -fsanitize=address
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $@
 
-RM		=	rm -f
+g: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $@
 
-INC		= .
-
-#%.o:%.c
-#		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I$(INC)
-
-$(NAME):	$(OBJS)	
-			g++ $(CFLAGS) $(OBJS) -o $(NAME) -I$(INC)
-
-g:	$(OBJS)	
-	g++ $(CFLAGS) $(OBJS) -o $(NAME) -I$(INC)
-
-c:	$(OBJS)	
-	clang++ $(CFLAGS) $(OBJS) -o $(NAME) -I$(INC)
-
-all:		$(NAME)
+c: $(OBJS)	
+	$(CXX2) $(CXXFLAGS) $(INC) $(OBJS) -o $@
 
 clean:
-			$(RM) $(OBJS) 
+	$(RM) $(OBJS) 
 
-fclean:		clean
-			$(RM) $(NAME)
+fclean:	clean
+	$(RM) $(NAME)
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY: all clean fclean re
