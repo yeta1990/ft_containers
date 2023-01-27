@@ -12,14 +12,18 @@ RM = rm -f
 
 all: $(NAME)
 
+#test:
+#	make c -ik > /dev/pts/1 && ./tests_containers > /dev/pts/1 && rm ./tests_containers\
+#	&& make g -ik > /dev/pts/2 && ./tests_containers > /dev/pts/2 && rm ./tests_containers
+
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $@
 
 g: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $@
+	$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $(NAME)
 
 c: $(OBJS)	
-	$(CXX2) $(CXXFLAGS) $(INC) $(OBJS) -o $@
+	$(CXX2) $(CXXFLAGS) $(INC) $(OBJS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS) 

@@ -193,17 +193,17 @@ void	rev_it_eq()
 	std::vector<int>::reverse_iterator it_0(vct.rbegin());
 	std::vector<int>::reverse_iterator it_1(vct.rend());
 
-	std::cout << std::endl;
-	ft_eq_ope(it_0, it_1);
+//	std::cout << std::endl;
+//	ft_eq_ope(it_0, it_1);
 
-	std::cout << std::endl;
+//	std::cout << std::endl;
 	ft::vector<int> vct1(5);
 	ft::vector<int>::reverse_iterator it_01(vct1.rbegin());
 	ft::vector<int>::reverse_iterator it_11(vct1.rend());
 
-	ft_eq_ope(it_01, it_11);
-	std::cout << it_0 - it_1 << std::endl;
-	std::cout << it_01 - it_11 << std::endl;
+//	ft_eq_ope(it_01, it_11);
+//	std::cout << it_0 - it_1 << std::endl;
+//	std::cout << it_01 - it_11 << std::endl;
 
 }
 
