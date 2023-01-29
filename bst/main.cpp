@@ -11,11 +11,11 @@ class Node{
 		Node *right;
 };
 
-
 class BSTree{
 	public:
 		BSTree(){ this->root = NULL;}
-		void insert(int value);
+		void	insert(int value);
+		void	del(int value);
 		~BSTree();
 
 	private:
@@ -29,10 +29,58 @@ class BSTree{
 
 			return (n);
 		}
+
 		void insertFromRoot(int value, Node **root);
 		void freeTree(Node *root);
 		Node	*root;
+		Node*	getNextLowestNode(Node *node);
+		Node*	findNode(int value, Node *prev, Node *parent);
 };
+
+void	BSTree::del(int value)
+{
+	Node	*parent;
+	Node	*found;
+	Node	*next;
+
+	parent = NULL;
+	found = findNode(value, this->root, parent);
+	if (!found)
+		return ;	
+	next = getNextLowestNode(found);
+}
+
+Node*	BSTree::getNextLowestNode(Node *node)
+{
+	if (!node->left && node->right)
+		return (node->right);
+	else if (node->left && !node->right)
+		return (node->left);
+	else if (node->left->value < node->right->value)
+		return (node->left);
+	else if (node->right)
+		return (node->right);
+	return (NULL);
+}
+
+Node*	BSTree::findNode(int value, Node *node, Node *parent)
+{
+	if (node->left && node->left->value == value)
+	{
+		parent = node;
+		return (node->left);
+	}
+	else if (node->left && node->right->value == value)
+	{
+		parent = node;
+		return (node->right);
+	}
+	else if (node->left)
+		return (findNode(value, node->left, node));
+	else if (node->right)
+		return (findNode(value, node->right, node));
+	return (NULL);
+}
 
 BSTree::~BSTree()
 {
@@ -42,17 +90,12 @@ BSTree::~BSTree()
 void BSTree::freeTree(Node *root)
 {
 	if (root->left)
-	{
 		freeTree(root->left);
-		root->left = NULL;
-	}
 	if (root->right)
-	{
 		freeTree(root->right);	
-		root->right = NULL;
-	}
 	std::cout << root->value << std::endl;
 	delete root;
+	root = NULL;
 }
 
 void	BSTree::insert(int value)
@@ -79,8 +122,6 @@ void	BSTree::insertFromRoot(int value, Node **root)
 }
 
 }//end of ft namespace
-
-
 
 int main()
 {
