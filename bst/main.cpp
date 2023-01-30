@@ -84,6 +84,13 @@ Node	*BSTree::del(int value, Node *root)
 			delete root;
 			root = NULL;
 		}
+		else if (root->hasTwoChildren())
+		{
+			std::cout << "has two children" << std::endl;
+			maxNode = this->getMaxNode(root->left);
+			root->value = maxNode->value;
+			root->left = del(maxNode->value, root->left);
+		}
 		else if ((child = root->hasOneChild())) // go left
 		{
 			std::cout << "has one child" << std::endl;
@@ -91,52 +98,10 @@ Node	*BSTree::del(int value, Node *root)
 			root = child;
 			delete aux;
 		}
-		else if (root->hasTwoChildren())
-		{
-			maxNode = this->getMaxNode(root->right);
-			root->value = maxNode->value;
-			root->right = del(maxNode->value, root->right);
-			delete maxNode;
-		}
 		return (root);
 
 	}
 	return (root);
-/*
-	found = findNode(value, this->root);
-	maxNode = NULL;
-	child = NULL;
-	if (!found)
-		return ;
-
-	std::cout << "found node: " << found->value << std::endl;
-	std::cout << "max next node is: " << getMaxNode(found)->value << std::endl;
-	if (!found->hasAnyChild()) //if hasn't children-> delete and = NULL
-	{
-		std::cout << "hasnt any child" << std::endl;
-//		delete found;
-		found = NULL;
-	}
-	else if ((child = found->hasOneChild()))
-	{
-		std::cout << "has one child" << std::endl;
-		found->value = child->value;
-		delete child;
-		child = NULL;
-	}
-	else if (found->hasTwoChildren())
-	{
-		std::cout << "has two children" << std::endl;
-		maxNode = getMaxNode(found);
-		found->value = maxNode->value;
-		delete maxNode;
-		maxNode = NULL;
-	}
-
-	//if has one child -> copy child and delete child
-	//if has two children -> find max value, copy and delete
-//	next = getNextLowestNode(found);
-*/
 }
 
 Node*	BSTree::getMaxNode(Node *node)
@@ -184,16 +149,9 @@ void	BSTree::insertFromRoot(int value, Node **root)
 	if (*root == NULL)
 		*root = createNode(value);
 	else if (value <= (*root)->value)
-	{
-		std::cout << " left " << (*root)->value << std::endl;
 		this->insertFromRoot(value, &((*root)->left));
-	}
 	else
-	{
-		std::cout << " right " << (*root)->value << std::endl;
 		this->insertFromRoot(value, &((*root)->right));
-	}
-	
 }
 
 }//end of ft namespace
@@ -205,28 +163,29 @@ int main()
 	tree = new ft::BSTree();
 	tree->insert(8);	
 	tree->insert(5);	
-	tree->insert(4);	
+	tree->insert(3);	
 	tree->insert(11);	
 	tree->insert(-2);
-	tree->insert(3);	
 	tree->insert(7);	
 	tree->insert(10);	
 	tree->insert(9);	
+	tree->insert(4);	
 	tree->insert(1);	
 	tree->insert(-1);	
 	tree->insert(6);	
 	tree->insert(12);	
 	tree->insert(-7);
-	
 //	tree->del(-1);
 //	tree->del(1);
-	tree->del(3);
-	tree->del(2);
+//	tree->del(3);
+	//tree->del(-2);
 //	tree->del(6);
 //	tree->del(12);
 //	tree->del(9);
+//	tree->del(5);
 //	tree->del(-1);
-//	tree->del(8);
+	tree->del(8);
+//	tree->del(3);
 
 	delete tree;
 
