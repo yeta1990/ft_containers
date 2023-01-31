@@ -22,6 +22,7 @@ struct pair
 	{
 		this->first = pr.first;
 		this->second = pr.second;
+		return (*this);
 	}
 
 

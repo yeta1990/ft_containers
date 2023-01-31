@@ -148,11 +148,29 @@ void	map_const_at()
 	check(e1 == e2);
 }
 
+void	map_insert()
+{
+	std::map<char,int> map;
+	ft::map<char,int> map1;
+	std::pair<std::map<char,int>::iterator,bool> ret;
+	ft::pair<ft::map<char,int>::iterator,bool> ret1;
+
+	ret = map.insert( std::pair<int, int>('c', 1) );
+	ret1 = map1.insert( ft::pair<char, int>('c', 1) );
+	check (ret.second && ret1.second);
+
+	ret = map.insert( std::pair<int, int>('c', 1) );
+	ret1 = map1.insert( ft::pair<char, int>('c', 1) );
+	check (ret.second && ret1.second);
+
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
+	test_case("map insert", &map_insert);
 }
 

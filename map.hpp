@@ -91,9 +91,18 @@ namespace ft{
 
 		//fix return type:
 		//pair<iterator,bool> insert (const value_type& val);
-		void	insert(const value_type& p)
+
+		pair<iterator,bool>	insert(const value_type& p)
 		{
-			_root->insert(p);
+			typename BSTree<key_type, mapped_type>::node	*new_inserted;
+
+			new_inserted = _root->insert(p);
+			if (new_inserted)
+			{
+				value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
+				return (make_pair<iterator, bool> (iterator(&item), true));
+			}
+			return (make_pair<iterator, bool> (iterator(), false));
 		}
 
 		//iterator insert (iterator position, const value_type& val);
