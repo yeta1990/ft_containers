@@ -53,6 +53,24 @@ namespace ft{
 		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_root->size());};
 
+		//element access
+		mapped_type& operator[] (const key_type& k)
+		{
+			typename BSTree<key_type, mapped_type>::node	*found;
+
+			found = this->_root->find(k);
+			if (!found)
+			{
+				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
+				return (this->operator[](k));
+			}
+			return (found->value);
+
+		}
+//		mapped_type& at (const key_type& k);
+//		const mapped_type& at (const key_type& k) const;
+
+
 		//fix return type:
 		//pair<iterator,bool> insert (const value_type& val);
 		void	insert(const value_type& p)

@@ -55,6 +55,7 @@ class BSTree{
 		void	insert(ft::pair<T1,T2> p);
 		void	del(T1 key);
 		size_t	size() const;
+		node	*find(T1 key);
 
 	private:
 		void			insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root);
@@ -70,6 +71,12 @@ template <class T1, class T2>
 void	BSTree<T1, T2>::del(T1 key)
 {
 	this->del(key, root);
+}
+
+template <class T1, class T2>
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::find(T1 key)
+{
+	return (this->findNode(key, this->root));
 }
 
 template <class T1, class T2>

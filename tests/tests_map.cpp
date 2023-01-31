@@ -64,8 +64,27 @@ void	map_constructor()
 
 }
 
+void	operator_access()
+{
+	std::map<int,int> map;
+	ft::map<int,int> map1;
+	
+	for (size_t i = 0; i < 12; i++)
+	{
+		map.insert( std::pair<int, int>(i, i) );
+		map1.insert( ft::pair<int, int>(i, i) );
+	}
+	for (size_t i = 0; i < 12; i++)
+		check(map[i] == map1[i]);
+	check(map[111] == map1[111]);
+
+//	std::cout << map1[1] << std::endl;
+
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
+	test_case("operator[]", &operator_access);
 }
 
