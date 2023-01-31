@@ -5,7 +5,7 @@
 #include "random_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "pair.hpp"
-
+#include "BSTree.hpp"
 #include <memory>
 
 namespace ft{
@@ -34,20 +34,30 @@ namespace ft{
 
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-			std::cout << "map created " << std::endl;
+//			std::cout << "map created " << std::endl;
 			this->_allocator = alloc;
 			this->_comp = comp;
+			this->_root = new BSTree<key_type, mapped_type>();
 		}
 
 //		template <class InputIterator>
 //		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 //
 //		map (const map& x);
+		~map() { delete this->_root; this->_root = NULL;}
 
+		//invented method!!
+		void insert(Key key, T value) 
+		{
+			value_type	p(key, value);
+//			p.first = key;
+//			p.second = value;
+			_root->insert(p);
+		}
 		private:
 			Allocator			_allocator;
-			key_compare		_comp;
-
+			key_compare			_comp;
+			BSTree<key_type, mapped_type>	*_root;
 	};
 
 }
