@@ -82,9 +82,43 @@ void	operator_access()
 
 }
 
+void	map_at()
+{
+	std::map<int,int> map;
+	ft::map<int,int> map1;
+	
+	for (size_t i = 0; i < 12; i++)
+	{
+		map.insert( std::pair<int, int>(i, i) );
+		map1.insert( ft::pair<int, int>(i, i) );
+	}
+	for (size_t i = 0; i < 12; i++)
+		check(map.at(i) == map1.at(i));
+	std::string e1;
+	std::string e2;
+	try
+	{
+		map.at(101);
+	}
+	catch (std::exception &e)
+	{
+		e1 = e.what();
+	}
+	try
+	{
+		map1.at(101);
+	}
+	catch (std::exception &e)
+	{
+		e2 = e.what();
+	}
+	check(e1 == e2);
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
 	test_case("operator[]", &operator_access);
+	test_case("map at", &map_at);
 }
 

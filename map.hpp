@@ -67,7 +67,16 @@ namespace ft{
 			return (found->value);
 
 		}
-//		mapped_type& at (const key_type& k);
+
+		mapped_type& at (const key_type& k)
+		{
+			typename BSTree<key_type, mapped_type>::node	*found;
+
+			found = this->_root->find(k);
+			if (!found)
+				throw (std::out_of_range("map::at"));
+			return (found->value);
+		}
 //		const mapped_type& at (const key_type& k) const;
 
 
