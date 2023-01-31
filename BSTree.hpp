@@ -46,12 +46,14 @@ template <class T1, class T2>
 class BSTree{
 
 	public:
-		typedef Node<T1, T2> node;
-		typedef BSTree<T1, T2> tree;
+		typedef Node<T1, T2>		node;
+		typedef BSTree<T1, T2>		tree;
+		typedef pair<const T1, T2>	value_type;
 
 		BSTree() : root(NULL), _size(0) { }
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
+		node	*insert(T1 position, const value_type& val);
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
@@ -203,6 +205,23 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 //	std::cout << node->value << std::endl;
 }
 
+/*WIP
+template <class T1, class T2>
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(T1 position, const ft:pair<T1, T2>& val)
+{
+	//if position < root && new > root -> wrong position given -> normal insert instead
+	// position > root && new < root ->wrong position
+	if (!root || !(*root))
+		insertFromRoot(val, &root);
+	else if (position < (*root).key && val.first > (*root).key)
+		insertFromRoot(val, &root);
+	else if (position > (*root).key && val.first < (*root).key)
+		insertFromRoot(val, &root);
+	else
+		insertFromRoot(
+		
+}
+*/
 template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root)
 {

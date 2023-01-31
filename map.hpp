@@ -88,10 +88,6 @@ namespace ft{
 			return (found->value);
 		}
 
-
-		//fix return type:
-		//pair<iterator,bool> insert (const value_type& val);
-
 		pair<iterator,bool>	insert(const value_type& p)
 		{
 			typename BSTree<key_type, mapped_type>::node	*new_inserted;
@@ -103,7 +99,12 @@ namespace ft{
 			return (make_pair<iterator, bool> (iterator(&item), (old_size < this->size())));
 		}
 
-		//iterator insert (iterator position, const value_type& val);
+/* WIP
+		iterator insert (iterator position, const value_type& val)
+		{
+			
+		}
+		*/
 
 		//template <class InputIterator>  
 		//void insert (InputIterator first, InputIterator last);
