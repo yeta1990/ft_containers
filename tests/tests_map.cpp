@@ -7,32 +7,34 @@ void	map_constructor()
 {
 	std::map<int,int> map;
 	ft::map<int,int> map1;
-
-	map.insert( std::pair<int, int>(8, 8) );
-	map1.insert(8, 8);
+	
 	check(map.size() == map1.size());
-	std::cout << "size: " << map.size() << ", " << map1.size() << std::endl;
+	check(map.empty() == map1.empty());
+	map.insert( std::pair<int, int>(8, 8) );
+	map1.insert( ft::pair<int, int>(8, 8) );
+	check(map.size() == map1.size());
+	check(map.empty() == map1.empty());
 
 	map.insert( std::pair<int, int>(5, 5) );
-	map1.insert(5, 5);
+	map1.insert( ft::pair<int, int>(5, 5) );
 	check(map.size() == map1.size());
-	std::cout << "size: " << map.size() << ", " << map1.size() << std::endl;
 
 	map.insert( std::pair<int, int>(11, 11) );
-	map1.insert(11, 11);
+	map1.insert( ft::pair<int, int>(11, 11) );
 	check(map.size() == map1.size());
-	std::cout << "size: " << map.size() << ", " << map1.size() << std::endl;
 
 	map.insert( std::pair<int, int>(-2, -2) );
-	map1.insert(-2, -2);
+	map1.insert( ft::pair<int, int>(-2, -2) );
 	check(map.size() == map1.size());
-	std::cout << "size: " << map.size() << ", " << map1.size() << std::endl;
-//	map.insert(5, 5);
-//	map.insert(3, 3);
-/*	map.insert(11, 11);
-	map.insert(-2, -2);
-	map.insert(7, 7);	
-	map.insert(10, 10);
+
+	map.insert( std::pair<int, int>(7, 7) );
+	map1.insert( ft::pair<int, int>(7, 7) );
+	check(map.size() == map1.size());
+
+	map.insert( std::pair<int, int>(10, 10) );
+	map1.insert( ft::pair<int, int>(10, 10) );
+	check(map.size() == map1.size());
+/*	map.insert(10, 10);
 	map.insert(9, 9);
 	map.insert(4, 4);
 	map.insert(1, 1);

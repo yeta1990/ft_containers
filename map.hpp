@@ -5,6 +5,7 @@
 #include "random_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "pair.hpp"
+#include "make_pair.hpp"
 #include "BSTree.hpp"
 #include <memory>
 #include <cstddef>
@@ -49,17 +50,21 @@ namespace ft{
 		~map() { delete this->_root; this->_root = NULL;}
 
 		//capacity
-		bool empty() const;
+		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_root->size());};
 
-		//invented method!!
-		void insert(Key key, T value) 
+		//fix return type:
+		//pair<iterator,bool> insert (const value_type& val);
+		void	insert(const value_type& p)
 		{
-			value_type	p(key, value);
-//			p.first = key;
-//			p.second = value;
 			_root->insert(p);
 		}
+
+		//iterator insert (iterator position, const value_type& val);
+
+		//template <class InputIterator>  
+		//void insert (InputIterator first, InputIterator last);
+
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;

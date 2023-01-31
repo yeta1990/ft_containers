@@ -159,14 +159,6 @@ size_t	BSTree<T1, T2>::size() const
 	if (!root)
 		return (0);
 	return (count_nodes(root));
-	/*size = 0;
-	count_nodes(root, &size);
-	if (size)
-		return (size + 1);
-	return (size);
-	*/
-//	Node<T1, T2> *aux;
-//	while (root)
 }
 
 
@@ -185,7 +177,7 @@ void BSTree<T1, T2>::freeTree(node *root)
 		freeTree(root->left);
 	if (root->right)
 		freeTree(root->right);	
-	std::cout << root->value << std::endl;
+//	std::cout << root->value << std::endl;
 	delete root;
 	root = NULL;
 }
@@ -193,7 +185,7 @@ void BSTree<T1, T2>::freeTree(node *root)
 template <class T1, class T2>
 void	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 {
-	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
+//	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
 	this->insertFromRoot(p, &(this->root));
 }
 
