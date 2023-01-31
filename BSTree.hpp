@@ -13,13 +13,12 @@ class Node{
 			left = NULL;
 			right= NULL;
 		}
-		Node(ft::pair<T1,T2> p)
-		{
-			key = p.first;
-			value = p.second;
-			left = NULL;
-			right = NULL;
-		}
+		Node(ft::pair<T1,T2> p) : key(p.first), value(p.second), left(NULL), right(NULL)	{
+//			key = p.first;
+//			value = p.second;
+//			left = NULL;
+//			right = NULL;
+		};
 		T1		key;
 		T2		value;
 		Node	*left;
