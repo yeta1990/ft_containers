@@ -49,7 +49,7 @@ class BSTree{
 		typedef Node<T1, T2> node;
 		typedef BSTree<T1, T2> tree;
 
-		BSTree(){ this->root = NULL;}
+		BSTree() : root(NULL), _size(0) { }
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 		void	del(T1 key);
@@ -57,12 +57,16 @@ class BSTree{
 		node	*find(T1 key);
 
 	private:
+		node			*root;
+		size_t			_size;
+
 		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root);
 		node			*del(T1 key, node *root);
 		void			freeTree(node *root);
-		node			*root;
 		node			*getMaxNode(node *node);
 		node			*findNode(T1 key, node *node);
+
+		//currently unused:
 		size_t			count_nodes(const Node<T1, T2> *root) const;
 };
 
@@ -101,6 +105,7 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::del(T1 key, node *root)
 		if (!root->hasAnyChild())
 		{
 //			std::cout << "hasnt any child" << std::endl;
+			this->_size--;
 			delete root;
 			root = NULL;
 		}
@@ -116,6 +121,7 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::del(T1 key, node *root)
 //			std::cout << "has one child" << std::endl;
 			aux = root;
 			root = child;
+			this->_size--;
 			delete aux;
 		}
 		return (root);
@@ -162,9 +168,10 @@ size_t	BSTree<T1, T2>::count_nodes(const Node<T1, T2> *root) const
 template <class T1, class T2>
 size_t	BSTree<T1, T2>::size() const
 {
-	if (!root)
-		return (0);
-	return (count_nodes(root));
+	return (this->_size);
+//	if (!root)
+//		return (0);
+//	return (count_nodes(root));
 }
 
 
@@ -202,10 +209,13 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p
 	if (*root == NULL)
 	{
 		*root = new Node<T1, T2>(p);
+		this->_size++;
 		return (*root);
 	}
-	else if (p.first<= (*root)->key)
+	else if (p.first < (*root)->key)
 		return (this->insertFromRoot(p, &((*root)->left)));
+	else if (p.first == (*root)->key)
+		return (*root);
 	return (this->insertFromRoot(p, &((*root)->right)));
 }
 

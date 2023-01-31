@@ -95,14 +95,12 @@ namespace ft{
 		pair<iterator,bool>	insert(const value_type& p)
 		{
 			typename BSTree<key_type, mapped_type>::node	*new_inserted;
+			size_type	old_size;
 
+			old_size = this->size();
 			new_inserted = _root->insert(p);
-			if (new_inserted)
-			{
-				value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
-				return (make_pair<iterator, bool> (iterator(&item), true));
-			}
-			return (make_pair<iterator, bool> (iterator(), false));
+			value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
+			return (make_pair<iterator, bool> (iterator(&item), (old_size < this->size())));
 		}
 
 		//iterator insert (iterator position, const value_type& val);

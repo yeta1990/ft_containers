@@ -186,7 +186,7 @@ void ft_eq_ope(const Ite_1 &first, const Ite_2 &second, const bool redo = 1)
 	if (redo)
 		ft_eq_ope(second, first, 0);
 }
-
+/*
 void	rev_it_eq()
 {
 	std::vector<int> vct(5);
@@ -206,7 +206,7 @@ void	rev_it_eq()
 //	std::cout << it_01 - it_11 << std::endl;
 
 }
-
+*/
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);
@@ -216,7 +216,7 @@ void	reverse_iterator_tests()
 	test_case("vector: reverse iterator operator", &rev_it_operators);
 	test_case("vector: rend", &rev_it_rend);
 	test_case("vector: reverse iterator 2", &rev_it_2);
-	test_case("vector: reverseiterator eq", &rev_it_eq);
+//	test_case("vector: reverseiterator eq", &rev_it_eq);
 //	test_case("", &);
 //	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);

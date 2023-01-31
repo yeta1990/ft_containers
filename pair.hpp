@@ -11,7 +11,7 @@ struct pair
 	first_type 	first;
 	second_type	second;
 
-	pair() : first(NULL), second(NULL) {};
+	pair() : first(), second() {};
 
 	template<class U, class V>
 	pair (const pair<U,V>& pr) : first(pr.first), second(pr.second)	{ }

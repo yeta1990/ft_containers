@@ -157,11 +157,12 @@ void	map_insert()
 
 	ret = map.insert( std::pair<int, int>('c', 1) );
 	ret1 = map1.insert( ft::pair<char, int>('c', 1) );
-	check (ret.second && ret1.second);
+	check (ret.second == ret1.second);
 
 	ret = map.insert( std::pair<int, int>('c', 1) );
 	ret1 = map1.insert( ft::pair<char, int>('c', 1) );
-	check (ret.second && ret1.second);
+	check (ret.second == ret1.second);
+	std::cout << ret.second << "," << ret1.second << std::endl;
 
 }
 
