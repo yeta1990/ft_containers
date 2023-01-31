@@ -43,8 +43,6 @@ class Node{
 		}
 };
 
-
-
 template <class T1, class T2>
 class BSTree{
 
@@ -53,9 +51,10 @@ class BSTree{
 		typedef BSTree<T1, T2> tree;
 
 		BSTree(){ this->root = NULL;}
+		~BSTree();
 		void	insert(ft::pair<T1,T2> p);
 		void	del(T1 key);
-		~BSTree();
+		size_t	size() const;
 
 	private:
 		void			insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root);
@@ -64,6 +63,7 @@ class BSTree{
 		node			*root;
 		node			*getMaxNode(node *node);
 		node			*findNode(T1 key, node *node);
+		size_t			count_nodes(const Node<T1, T2> *root) const;
 };
 
 template <class T1, class T2>
@@ -137,6 +137,38 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::findNode(T1 key, Node<T1, T2> *no
 		return (findNode(key, node->right));
 	return (NULL);
 }
+
+template <class T1, class T2>
+size_t	BSTree<T1, T2>::count_nodes(const Node<T1, T2> *root) const
+{
+	size_t	count;
+
+	if (!root)
+		return (0);
+	count = 1;
+	if (root->left)
+		count += count_nodes(root->left);
+	if (root->right)
+		count += count_nodes(root->right);
+	return (count);
+}
+
+template <class T1, class T2>
+size_t	BSTree<T1, T2>::size() const
+{
+	if (!root)
+		return (0);
+	return (count_nodes(root));
+	/*size = 0;
+	count_nodes(root, &size);
+	if (size)
+		return (size + 1);
+	return (size);
+	*/
+//	Node<T1, T2> *aux;
+//	while (root)
+}
+
 
 template <class T1, class T2>
 BSTree<T1, T2>::~BSTree()

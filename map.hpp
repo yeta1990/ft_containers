@@ -7,6 +7,7 @@
 #include "pair.hpp"
 #include "BSTree.hpp"
 #include <memory>
+#include <cstddef>
 
 namespace ft{
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > class map
@@ -24,7 +25,7 @@ namespace ft{
 		typedef typename allocator_type::pointer 			pointer;
 		typedef typename allocator_type::const_pointer 		const_pointer;
 
-		//random iterator or bidirectional iterator?
+		//bidirectional iterator?
 		typedef random_iterator<pointer> iterator;
 		typedef random_iterator<const_pointer> const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -32,6 +33,7 @@ namespace ft{
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
 
+//		map() {};
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 //			std::cout << "map created " << std::endl;
@@ -43,8 +45,12 @@ namespace ft{
 //		template <class InputIterator>
 //		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 //
-//		map (const map& x);
+//		map (const map& other);
 		~map() { delete this->_root; this->_root = NULL;}
+
+		//capacity
+		bool empty() const;
+		size_type	size() const { return (this->_root->size());};
 
 		//invented method!!
 		void insert(Key key, T value) 
