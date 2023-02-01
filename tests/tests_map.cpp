@@ -162,9 +162,76 @@ void	map_insert()
 	ret = map.insert( std::pair<int, int>('c', 1) );
 	ret1 = map1.insert( ft::pair<char, int>('c', 1) );
 	check (ret.second == ret1.second);
-	std::cout << ret.second << "," << ret1.second << std::endl;
+//	std::cout << ret.second << "," << ret1.second << std::endl;
 
 }
+
+void	map_insert_iterator()
+{
+	std::map<char,int> map;
+	std::pair<std::map<char,int>::iterator,bool> ret;
+	ret = map.insert( std::make_pair('c', 2) );
+	map.insert( std::make_pair('d', 2) );
+	map.insert( std::make_pair('a', 2) );
+	map.insert( std::make_pair('x', 2) );
+
+	ft::map<char,int> map1;
+	ft::pair<ft::map<char,int>::iterator,bool> ret1;
+	ret1 = map1.insert( ft::make_pair('c', 2) );
+
+	std::map<char,int>::iterator it1(ret.first);
+
+	ft::map<char,int>::iterator it2(ret1.first);
+//	std::cout << (*it2).first << std::endl;
+	check((*it1).first == (*it2).first);
+	ft::Node<char, int> n(*it2);
+//	std::cout << n.key << std::endl;
+//	std::cout << (*it2).first << std::endl;
+//	std::cout << (*(ret.first)).first << std::endl;
+	check((*(ret.first)).first == (*(ret1.first)).first);
+
+	ret = map.insert( std::make_pair('d', 2) );
+	ret1 = map1.insert( ft::make_pair('d', 2) );
+	check((*(ret.first)).first == (*(ret1.first)).first);
+}
+
+void	map_insert_playground()
+{
+//	std::map<char,int> map;
+//	ft::map<char,int> map1;
+
+//	std::pair<std::map<char,int>::iterator,bool> ret1;
+//	std::pair<std::map<char,int>::iterator,bool> ret2;
+
+
+//	ret1 = map.insert( std::make_pair('d', 1) );
+//	ret2 = map.insert( std::make_pair('c', 1) );
+
+//	content = *(ret.first);
+
+	std::cout << std::endl;
+
+	std::map<char,int> map;
+	std::pair<std::map<char,int>::iterator,bool> ret;
+	ret = map.insert( std::make_pair('c', 2) );
+	map.insert( std::make_pair('d', 2) );
+	map.insert( std::make_pair('a', 2) );
+	map.insert( std::make_pair('x', 2) );
+
+	std::map<char,int>::iterator it = ret.first;
+	std::pair<char,int> content = *it;
+
+	std::cout << content.first << std::endl;
+	it++;
+	content = *it;
+	std::cout << content.first << std::endl;
+	it++;
+	content = *it;
+	std::cout << content.first << std::endl;
+//	ret1 = map1.insert( ft::<char, int>('c', 1) );
+
+}
+
 
 void map_tests()
 {
@@ -173,5 +240,7 @@ void map_tests()
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
 	test_case("map insert", &map_insert);
+	test_case("map insert iterator", &map_insert_iterator);
+//	test_case("map insert playground", &map_insert_playground);
 }
 

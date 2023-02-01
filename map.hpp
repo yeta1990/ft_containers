@@ -9,6 +9,7 @@
 #include "BSTree.hpp"
 #include <memory>
 #include <cstddef>
+#include "tree_iterator.hpp"
 
 namespace ft{
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > class map
@@ -27,11 +28,13 @@ namespace ft{
 		typedef typename allocator_type::const_pointer 		const_pointer;
 
 		//bidirectional iterator?
-		typedef random_iterator<pointer> iterator;
-		typedef random_iterator<const_pointer> const_iterator;
-		typedef ft::reverse_iterator<iterator> reverse_iterator;
-		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-		typedef typename iterator_traits<iterator>::difference_type difference_type;
+		//this must be chaged to a custom iterator for node*
+		typedef tree_iterator<typename BSTree<Key, T>::node* >	iterator;
+//		typedef random_iterator<pointer> iterator;
+//		typedef random_iterator<const_pointer> const_iterator;
+//		typedef ft::reverse_iterator<iterator> reverse_iterator;
+//		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+//		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
 
 //		map() {};
@@ -95,8 +98,8 @@ namespace ft{
 
 			old_size = this->size();
 			new_inserted = _root->insert(p);
-			value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
-			return (make_pair<iterator, bool> (iterator(&item), (old_size < this->size())));
+//			value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
+			return (make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
 		}
 
 /* WIP
