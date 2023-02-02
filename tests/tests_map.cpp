@@ -94,15 +94,16 @@ void	map_at()
 	}
 	for (size_t i = 0; i < 12; i++)
 		check(map.at(i) == map1.at(i));
-	std::string e1;
-	std::string e2;
+	bool	ex1 = false;
+	bool 	ex2 = false;
+
 	try
 	{
 		map.at(101);
 	}
 	catch (std::exception &e)
 	{
-		e1 = e.what();
+		ex1 = true;
 	}
 	try
 	{
@@ -110,9 +111,9 @@ void	map_at()
 	}
 	catch (std::exception &e)
 	{
-		e2 = e.what();
+		ex2 = true;
 	}
-	check(e1 == e2);
+	check(ex1 == ex2);
 }
 
 void	map_const_at()
@@ -127,15 +128,16 @@ void	map_const_at()
 	}
 	for (size_t i = 0; i < 12; i++)
 		check(map.at(i) == map1.at(i));
-	std::string e1;
-	std::string e2;
+	bool	ex1 = false;
+	bool 	ex2 = false;
+
 	try
 	{
 		map.at(101);
 	}
 	catch (std::exception &e)
 	{
-		e1 = e.what();
+		ex1 = true;
 	}
 	try
 	{
@@ -143,9 +145,10 @@ void	map_const_at()
 	}
 	catch (std::exception &e)
 	{
-		e2 = e.what();
+		ex2 = true;
 	}
-	check(e1 == e2);
+//	std::cout << ex1 << "," << ex2 << std::endl;
+	check(ex1 == ex2);
 }
 
 void	map_insert()

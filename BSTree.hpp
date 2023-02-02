@@ -11,15 +11,16 @@ class Node{
 		typedef pair<const T1, T2>	value_type;
 
 		Node() : content(), left(NULL), right(NULL)	{	}
-		Node(ft::pair<T1,T2> p) : content(p), key(p.first), value(p.second), left(NULL), right(NULL)	{
+		Node(ft::pair<T1,T2> p) : content(p), key(content.first), value(content.second), left(NULL), right(NULL)	
+		{
 //			key = p.first;
 //			value = p.second;
 //			left = NULL;
 //			right = NULL;
 		};
 		value_type	content;
-		T1		key;
-		T2		value;
+		const T1&		key;
+		T2&		value;
 		Node	*left;
 		Node	*right;
 

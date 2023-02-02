@@ -98,16 +98,14 @@ namespace ft{
 
 			old_size = this->size();
 			new_inserted = _root->insert(p);
-//			value_type	item = make_pair<key_type, mapped_type>(new_inserted->key, new_inserted->value);
 			return (make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
 		}
 
-/* WIP
-		iterator insert (iterator position, const value_type& val)
-		{
+
+//		iterator insert (iterator position, const value_type& val)
+//		{
 			
-		}
-		*/
+//		}
 
 		//template <class InputIterator>  
 		//void insert (InputIterator first, InputIterator last);
