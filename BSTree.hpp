@@ -7,23 +7,19 @@
 namespace ft{
 
 template <class T1, class T2>
-class Node{
+class Node
+{
 	public:
 		typedef pair<const T1, T2>	value_type;
 
-		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL)	{	}
-		Node(ft::pair<T1,T2> p) : content(p), key(content.first), value(content.second), left(NULL), right(NULL)	
-		{
-//			key = p.first;
-//			value = p.second;
-//			left = NULL;
-//			right = NULL;
-		};
+		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL), parent(NULL) { }
+		Node(ft::pair<T1,T2> p, Node* parent) : content(p), key(content.first), value(content.second), left(NULL), right(NULL), parent(parent) {	};
 		value_type	content;
 		const T1&		key;
 		T2&		value;
 		Node	*left;
 		Node	*right;
+		Node	*parent;
 
 		bool	hasAnyChild()
 		{
@@ -56,30 +52,29 @@ class BSTree{
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 
+		//dummy
 		node	*insert(iterator position, const value_type& val)
 		{
 //			std::cout << "inserting after " << (*position).first << "," <<
 //				val.first << std::endl;
 //			std::cout << "inserting " << (*position).first << std::endl;
 //			return new node;
-		
-	if (!root)
-		return (insertFromRoot(val, &root));
-	else if ((*position).first < root->key && val.first > root->key)
-	{
-		std::cout << "no" << std::endl;
-		return (insertFromRoot(val, &root));
-	}
-	else if ((*position).first > root->key && val.first < root->key)
-	{
-		std::cout << "no2" << std::endl;
-		return (insertFromRoot(val, &root));
-	}
-//	node** n = position.base();
-	std::cout << "yes" << std::endl;
-	return (insertFromRoot(val, position.base()));
-//	return new node;
+		return (insertFromRoot(val, position.base(), NULL));
 		}
+		
+//	if (!root)
+//		return (insertFromRoot(val, &root));
+//	else if ((*position).first < root->key && val.first > root->key)
+//	{
+//		return (insertFromRoot(val, &root));
+//	}
+//	else if ((*position).first > root->key && val.first < root->key)
+//	{
+//		return (insertFromRoot(val, &root)); }
+//	node** n = position.base();
+//	return (insertFromRoot(val, position.base()));
+//	return new node;
+//		}
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
@@ -88,7 +83,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r);
+		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r, Node<T1, T2> *parent);
 		node			*del(T1 key, node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -218,7 +213,7 @@ void BSTree<T1, T2>::freeTree(node *root)
 		freeTree(root->left);
 	if (root->right)
 		freeTree(root->right);	
-	std::cout << root->key << std::endl;
+//	std::cout << root->key << std::endl;
 	delete root;
 	root = NULL;
 }
@@ -227,38 +222,31 @@ template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
-	return (this->insertFromRoot(p, &(this->root)));
+	return (this->insertFromRoot(p, &(this->root), NULL));
 //	std::cout << node->value << std::endl;
 }
+
 /*
 template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BSTree<T1, T2>::node* >::iterator position, const ft::pair<T1, T2>& val)
 {
-	//if position < root && new > root -> wrong position given -> normal insert instead
-	// position > root && new < root ->wrong position
-	if (!root || !(*root) || !position || *position)
-		return (insertFromRoot(val, &root));
-	else if (*position->first < (*root).key && val.first > (*root).key)
-		return (insertFromRoot(val, &root));
-	else if (*position->first > (*root).key && val.first < (*root).key)
-		return (insertFromRoot(val, &root));
-	return (insertFromRoot(val, *position));
 }
 */
+
 template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r)
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r, Node<T1, T2> *parent)
 {
 	if (*r == NULL)
 	{
-		*r = new Node<T1, T2>(p);
+		*r = new Node<T1, T2>(p, parent);
 		this->_size++;
 		return (*r);
 	}
 	else if (p.first < (*r)->key)
-		return (this->insertFromRoot(p, &(*r)->left));
+		return (this->insertFromRoot(p, &(*r)->left, *r));
 	else if (p.first == (*r)->key)
 		return (*r);
-	return (this->insertFromRoot(p, &((*r)->right)));
+	return (this->insertFromRoot(p, &(*r)->right, *r));
 }
 
 }//end of ft namespace

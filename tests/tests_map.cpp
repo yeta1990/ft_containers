@@ -190,7 +190,7 @@ void	map_insert_iterator()
 	ft::map<char,int>::iterator it2(ret1.first);
 //	std::cout << (*it2).first << std::endl;
 	check((*it1).first == (*it2).first);
-	ft::Node<char, int> n(*it2);
+//	ft::Node<char, int> n(*it2);
 //	std::cout << n.key << std::endl;
 //	std::cout << (*it2).first << std::endl;
 //	std::cout << (*(ret.first)).first << std::endl;
@@ -234,6 +234,21 @@ void	map_insert_iterator2()
 	map1.insert(ret1.first, ft::make_pair(-3, 2));
 	
 	
+}
+
+void	map_parent_navigation()
+{
+	ft::map<int,int> map1;
+	
+	map1.insert( ft::pair<int, int>(8, 8) );
+	map1.insert( ft::pair<int, int>(5, 5) );
+	map1.insert( ft::pair<int, int>(11, 11) );
+	map1.insert( ft::pair<int, int>(-2, -2) );
+	map1.insert( ft::pair<int, int>(7, 7) );
+	map1.insert( ft::pair<int, int>(10, 10) );
+	
+
+
 }
 
 void	map_insert_playground()
@@ -283,6 +298,7 @@ void map_tests()
 	test_case("map insert", &map_insert);
 	test_case("map insert iterator", &map_insert_iterator);
 	test_case("map insert iterator2", &map_insert_iterator2);
+	test_case("map parent navigation", &map_parent_navigation);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
