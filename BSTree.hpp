@@ -2,6 +2,7 @@
 # define BSTREE_HPP
 
 #include <iostream>
+#include "tree_iterator.hpp"
 
 namespace ft{
 
@@ -49,11 +50,21 @@ class BSTree{
 		typedef Node<T1, T2>		node;
 		typedef BSTree<T1, T2>		tree;
 		typedef pair<const T1, T2>	value_type;
+		typedef tree_iterator<node*>	iterator;
 
 		BSTree() : root(NULL), _size(0) { }
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
-//		node	*insert(iterator position, const value_type& val);
+		node	*insert(iterator position, const value_type& val)
+		{
+	if (!root || !(*root) || !position || *position)
+		return (insertFromRoot(val, &root));
+	else if ((*position)->content.template first < this->root->key && val.first > (*root).key)
+		return (insertFromRoot(val, &root));
+	else if (*position->first > (*root).key && val.first < (*root).key)
+		return (insertFromRoot(val, &root));
+	return (insertFromRoot(val, *position));
+		}
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
@@ -204,10 +215,9 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 	return (this->insertFromRoot(p, &(this->root)));
 //	std::cout << node->value << std::endl;
 }
-
-/* WIP
+/*
 template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(typename BSTree<T1, T2>::iterator position, const ft:pair<T1, T2>& val)
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BSTree<T1, T2>::node* >::iterator position, const ft::pair<T1, T2>& val)
 {
 	//if position < root && new > root -> wrong position given -> normal insert instead
 	// position > root && new < root ->wrong position
@@ -220,7 +230,6 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(typename BSTree<T1, T2>::i
 	return (insertFromRoot(val, *position));
 }
 */
-
 template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root)
 {

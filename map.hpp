@@ -101,11 +101,13 @@ namespace ft{
 			return (make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
 		}
 
+		iterator insert (iterator position, const value_type& val)
+		{
+			typename BSTree<key_type, mapped_type>::node	*new_inserted;
 
-//		iterator insert (iterator position, const value_type& val)
-//		{
-			
-//		}
+			new_inserted = _root->insert(position, val);
+			return (iterator(new_inserted));
+		}
 
 		//template <class InputIterator>  
 		//void insert (InputIterator first, InputIterator last);
