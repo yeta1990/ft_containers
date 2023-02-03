@@ -11,7 +11,7 @@ class Node{
 	public:
 		typedef pair<const T1, T2>	value_type;
 
-		Node() : content(), left(NULL), right(NULL)	{	}
+		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL)	{	}
 		Node(ft::pair<T1,T2> p) : content(p), key(content.first), value(content.second), left(NULL), right(NULL)	
 		{
 //			key = p.first;
@@ -57,13 +57,20 @@ class BSTree{
 		node	*insert(ft::pair<T1,T2> p);
 		node	*insert(iterator position, const value_type& val)
 		{
-	if (!root || !(*root) || !position || *position)
-		return (insertFromRoot(val, &root));
-	else if ((*position)->content.template first < this->root->key && val.first > (*root).key)
-		return (insertFromRoot(val, &root));
-	else if (*position->first > (*root).key && val.first < (*root).key)
-		return (insertFromRoot(val, &root));
-	return (insertFromRoot(val, *position));
+			std::cout << "inserting after " << (*position).first << "," <<
+				val.first << std::endl;
+//			std::cout << "inserting " << (*position).first << std::endl;
+//			return new node;
+		
+	if (!root)
+		return (insertFromRoot(val, root));
+	else if ((*position).first < root->key && val.first > root->key)
+		return (insertFromRoot(val, root));
+	else if ((*position).first > root->key && val.first < root->key)
+		return (insertFromRoot(val, root));
+//	node** n = position.base();
+	return (insertFromRoot(val, position.base()));
+//	return new node;
 		}
 		void	del(T1 key);
 		size_t	size() const;
@@ -73,7 +80,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root);
+		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> *root);
 		node			*del(T1 key, node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -154,11 +161,11 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::getMaxNode(Node<T1, T2> *node)
 template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::findNode(T1 key, Node<T1, T2> *node)
 {
-	if (node->key == key)
+	if (node && node->key == key)
 		return (node);
-	else if (node->left && key <= node->key)
+	else if (node && node->left && key <= node->key)
 		return (findNode(key, node->left));
-	else if (node->right && key >= node->key)
+	else if (node && node->right && key >= node->key)
 		return (findNode(key, node->right));
 	return (NULL);
 }
@@ -212,7 +219,7 @@ template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
-	return (this->insertFromRoot(p, &(this->root)));
+	return (this->insertFromRoot(p, this->root));
 //	std::cout << node->value << std::endl;
 }
 /*
@@ -231,19 +238,20 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BST
 }
 */
 template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **root)
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> *root)
 {
-	if (*root == NULL)
+	if (root == NULL)
 	{
-		*root = new Node<T1, T2>(p);
+		std::cout << "eooooooo" << std::endl;
+		root = new Node<T1, T2>(p);
 		this->_size++;
-		return (*root);
+		return (root);
 	}
-	else if (p.first < (*root)->key)
-		return (this->insertFromRoot(p, &((*root)->left)));
-	else if (p.first == (*root)->key)
-		return (*root);
-	return (this->insertFromRoot(p, &((*root)->right)));
+	else if (p.first < root->key)
+		return (this->insertFromRoot(p, root->left));
+	else if (p.first == root->key)
+		return (root);
+	return (this->insertFromRoot(p, root->right));
 }
 
 }//end of ft namespace

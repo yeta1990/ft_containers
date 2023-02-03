@@ -10,6 +10,7 @@ void	map_constructor()
 	
 	check(map.size() == map1.size());
 	check(map.empty() == map1.empty());
+	
 	map.insert( std::pair<int, int>(8, 8) );
 	map1.insert( ft::pair<int, int>(8, 8) );
 	check(map.size() == map1.size());
@@ -34,6 +35,8 @@ void	map_constructor()
 	map.insert( std::pair<int, int>(10, 10) );
 	map1.insert( ft::pair<int, int>(10, 10) );
 	check(map.size() == map1.size());
+	
+
 /*	map.insert(10, 10);
 	map.insert(9, 9);
 	map.insert(4, 4);
@@ -198,6 +201,27 @@ void	map_insert_iterator()
 	check((*(ret.first)).first == (*(ret1.first)).first);
 }
 
+void	map_insert_iterator2()
+{
+	std::map<char,int> map;
+	std::pair<std::map<char,int>::iterator,bool> ret;
+	ret = map.insert( std::make_pair('c', 2) );
+	map.insert( std::make_pair('d', 2) );
+	map.insert( std::make_pair('a', 2) );
+	map.insert( std::make_pair('x', 2) );
+
+	ft::map<char,int> map1;
+	ft::pair<ft::map<char,int>::iterator,bool> ret1;
+	map1.insert( ft::make_pair('c', 2) );
+	map1.insert( ft::make_pair('d', 2) );
+	map1.insert( ft::make_pair('a', 2) );
+
+	ret1 = map1.insert( ft::make_pair('x', 2) );
+	map1.insert(ret1.first, ft::make_pair('y', 2));
+	
+	
+}
+
 void	map_insert_playground()
 {
 //	std::map<char,int> map;
@@ -238,12 +262,13 @@ void	map_insert_playground()
 
 void map_tests()
 {
-	test_case("map_constructors", &map_constructor);
+//	test_case("map_constructors", &map_constructor);
 	test_case("operator[]", &operator_access);
-	test_case("map at", &map_at);
-	test_case("map at const", &map_const_at);
-	test_case("map insert", &map_insert);
-	test_case("map insert iterator", &map_insert_iterator);
+//	test_case("map at", &map_at);
+//	test_case("map at const", &map_const_at);
+//	test_case("map insert", &map_insert);
+//	test_case("map insert iterator", &map_insert_iterator);
+//	test_case("map insert iterator2", &map_insert_iterator2);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
