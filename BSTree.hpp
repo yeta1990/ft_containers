@@ -55,20 +55,28 @@ class BSTree{
 		BSTree() : root(NULL), _size(0) { }
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
+
 		node	*insert(iterator position, const value_type& val)
 		{
-			std::cout << "inserting after " << (*position).first << "," <<
-				val.first << std::endl;
+//			std::cout << "inserting after " << (*position).first << "," <<
+//				val.first << std::endl;
 //			std::cout << "inserting " << (*position).first << std::endl;
 //			return new node;
 		
 	if (!root)
-		return (insertFromRoot(val, root));
+		return (insertFromRoot(val, &root));
 	else if ((*position).first < root->key && val.first > root->key)
-		return (insertFromRoot(val, root));
+	{
+		std::cout << "no" << std::endl;
+		return (insertFromRoot(val, &root));
+	}
 	else if ((*position).first > root->key && val.first < root->key)
-		return (insertFromRoot(val, root));
+	{
+		std::cout << "no2" << std::endl;
+		return (insertFromRoot(val, &root));
+	}
 //	node** n = position.base();
+	std::cout << "yes" << std::endl;
 	return (insertFromRoot(val, position.base()));
 //	return new node;
 		}
@@ -80,7 +88,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> *root);
+		node			*insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r);
 		node			*del(T1 key, node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -210,7 +218,7 @@ void BSTree<T1, T2>::freeTree(node *root)
 		freeTree(root->left);
 	if (root->right)
 		freeTree(root->right);	
-//	std::cout << root->value << std::endl;
+	std::cout << root->key << std::endl;
 	delete root;
 	root = NULL;
 }
@@ -219,7 +227,7 @@ template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(ft::pair<T1,T2> p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
-	return (this->insertFromRoot(p, this->root));
+	return (this->insertFromRoot(p, &(this->root)));
 //	std::cout << node->value << std::endl;
 }
 /*
@@ -238,20 +246,19 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BST
 }
 */
 template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> *root)
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r)
 {
-	if (root == NULL)
+	if (*r == NULL)
 	{
-		std::cout << "eooooooo" << std::endl;
-		root = new Node<T1, T2>(p);
+		*r = new Node<T1, T2>(p);
 		this->_size++;
-		return (root);
+		return (*r);
 	}
-	else if (p.first < root->key)
-		return (this->insertFromRoot(p, root->left));
-	else if (p.first == root->key)
-		return (root);
-	return (this->insertFromRoot(p, root->right));
+	else if (p.first < (*r)->key)
+		return (this->insertFromRoot(p, &(*r)->left));
+	else if (p.first == (*r)->key)
+		return (*r);
+	return (this->insertFromRoot(p, &((*r)->right)));
 }
 
 }//end of ft namespace

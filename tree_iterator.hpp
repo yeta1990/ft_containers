@@ -22,7 +22,7 @@ namespace ft{
 			tree_iterator() : p() {}
 			tree_iterator(pointer ptr) : p(ptr) {}
 			value_type operator*() const { return p->content; }
-			pointer	base() { return (p) ;}
+			pointer*	base() { return (&p) ;}
 
 		private:
 			pointer p;

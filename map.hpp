@@ -59,8 +59,14 @@ namespace ft{
 		//element access
 		mapped_type& operator[] (const key_type& k)
 		{
+//			int j = 7;
 			typename BSTree<key_type, mapped_type>::node	*found;
 
+			if (this->size() == 0)
+			{
+				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
+				return ((*this)[k]);
+			}
 			found = this->_root->find(k);
 			if (!found)
 			{
@@ -109,7 +115,7 @@ namespace ft{
 			return (iterator(new_inserted));
 		}
 
-		//template <class InputIterator>  
+		//template <class InputIterator>
 		//void insert (InputIterator first, InputIterator last);
 
 		private:

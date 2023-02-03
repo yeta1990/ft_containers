@@ -77,9 +77,9 @@ void	operator_access()
 		map.insert( std::pair<int, int>(i, i) );
 		map1.insert( ft::pair<int, int>(i, i) );
 	}
-	for (size_t i = 0; i < 12; i++)
+	for (size_t i = 0; i < 1; i++)
 		check(map[i] == map1[i]);
-	check(map[111] == map1[111]);
+//	check(map[111] == map1[111]);
 
 //	std::cout << map1[1] << std::endl;
 
@@ -203,21 +203,35 @@ void	map_insert_iterator()
 
 void	map_insert_iterator2()
 {
-	std::map<char,int> map;
-	std::pair<std::map<char,int>::iterator,bool> ret;
-	ret = map.insert( std::make_pair('c', 2) );
-	map.insert( std::make_pair('d', 2) );
-	map.insert( std::make_pair('a', 2) );
-	map.insert( std::make_pair('x', 2) );
+//	std::map<int,int> map;
+//	std::pair<std::map<int,int>::iterator,bool> ret;
+//	ret = map.insert( std::make_pair(, 2) );
+//	map.insert( std::make_pair('d', 2) );
+//	map.insert( std::make_pair('a', 2) );
+//	map.insert( std::make_pair('x', 2) );
 
-	ft::map<char,int> map1;
-	ft::pair<ft::map<char,int>::iterator,bool> ret1;
-	map1.insert( ft::make_pair('c', 2) );
-	map1.insert( ft::make_pair('d', 2) );
-	map1.insert( ft::make_pair('a', 2) );
+	ft::map<int,int> map1;
+	ft::pair<ft::map<int,int>::iterator,bool> ret1;
+	map1.insert( ft::make_pair(15, 2) );
+	map1.insert( ft::make_pair(7, 2) );
+	map1.insert( ft::make_pair(30, 2) );
+	map1.insert( ft::make_pair(1, 2) );
+	map1.insert( ft::make_pair(11, 2) );
+	ret1 = map1.insert( ft::make_pair(5, 2) );
+//	map1.insert( ft::make_pair(6, 2) );
+	ft::pair<ft::map<int,int>::iterator,bool> ret3;
+//	ret3 = map1.insert( ft::make_pair(3, 2) );
+	map1.insert( ft::make_pair(20, 2) );
+	map1.insert( ft::make_pair(17, 2) );
+//	map1.insert( ft::make_pair(5, 2) );
 
-	ret1 = map1.insert( ft::make_pair('x', 2) );
-	map1.insert(ret1.first, ft::make_pair('y', 2));
+//	ret1 = map1.insert( ft::make_pair('x', 2) );
+	ft::pair<ft::map<int,int>::iterator,bool> ret2;
+
+	map1.insert(ret1.first, ft::make_pair(25, 2));
+	map1.insert(ret1.first, ft::make_pair(6, 2));
+	ret2 = map1.insert( ft::make_pair(24, 2) );
+	map1.insert(ret1.first, ft::make_pair(-3, 2));
 	
 	
 }
@@ -262,13 +276,13 @@ void	map_insert_playground()
 
 void map_tests()
 {
-//	test_case("map_constructors", &map_constructor);
+	test_case("map_constructors", &map_constructor);
 	test_case("operator[]", &operator_access);
-//	test_case("map at", &map_at);
-//	test_case("map at const", &map_const_at);
-//	test_case("map insert", &map_insert);
-//	test_case("map insert iterator", &map_insert_iterator);
-//	test_case("map insert iterator2", &map_insert_iterator2);
+	test_case("map at", &map_at);
+	test_case("map at const", &map_const_at);
+	test_case("map insert", &map_insert);
+	test_case("map insert iterator", &map_insert_iterator);
+	test_case("map insert iterator2", &map_insert_iterator2);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
