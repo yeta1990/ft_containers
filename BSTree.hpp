@@ -52,6 +52,31 @@ class BSTree{
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 
+		bool insert_has_good_hint(iterator position, const value_type& val)
+		{
+			node*	parent;
+			node*	current;
+			
+			current = *position.base();
+			parent = current->parent;
+			while (parent)
+			{
+//				if (parent->key < current->key && parent->key < val.first)
+//					return (true);
+				if (parent->key < current->key && parent->key > val.first)
+					return (false);
+				else if (parent->key > current->key && parent->key < val.first)
+					return (false);
+//				else if (parent->key > current->key && parent->key < val.first)
+//					return (false);
+				current = parent;
+				parent = parent->parent;
+			}
+			if (parent == NULL)
+				return (true);
+			return (false);
+		}
+
 		//dummy
 		node	*insert(iterator position, const value_type& val)
 		{
@@ -59,25 +84,35 @@ class BSTree{
 //				val.first << std::endl;
 //			std::cout << "inserting " << (*position).first << std::endl;
 //			return new node;
-		return (insertFromRoot(val, position.base(), NULL));
+			if (!root)	
+				return (insertFromRoot(val, position.base(), NULL));
+			if (insert_has_good_hint(position, val))
+			{
+				if (val.first > (*position).first)
+					return (this->insertFromRoot(val, &((*position.base())->right), *(position.base())));
+				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));
+			}
+			return (insertFromRoot(val, &root, NULL));
 		}
-		
-//	if (!root)
-//		return (insertFromRoot(val, &root));
-//	else if ((*position).first < root->key && val.first > root->key)
-//	{
-//		return (insertFromRoot(val, &root));
-//	}
-//	else if ((*position).first > root->key && val.first < root->key)
-//	{
-//		return (insertFromRoot(val, &root)); }
-//	node** n = position.base();
-//	return (insertFromRoot(val, position.base()));
-//	return new node;
-//		}
+		// si padre < nodo actual && padre < lo que quiero insertar
+		// 		----> ok
+		//
+		// si padre < nodo actual && padre > lo que quiero insertar
+		//  	----> no. insértame desde el padre
+		//
+		// si padre > nodo actual && padre < lo que quiero insertar
+		//		----> no. insértame desde padre
+		// 
+		// si padre > node actual && padre > lo que quiero insertar
+		// 		----> ok
+
+
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
+
+		//remove it before evaluation
+//		node*	base() { return root; };
 
 	private:
 		node			*root;
