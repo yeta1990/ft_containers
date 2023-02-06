@@ -312,6 +312,7 @@ void	map_insert_hint1()
 	check(aux->key == -3);
 	aux = aux->parent;
 	check(aux->key == -10);
+//	std::cout << aux->key << std::endl;
 }
 
 
@@ -357,7 +358,6 @@ void	map_insert_hint2()
 	check(aux->key == 12);
 	aux = aux->parent;
 	check(aux->key == 11);
-//	std::cout << aux->key << std::endl;
 }
 
 

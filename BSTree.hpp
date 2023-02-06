@@ -52,15 +52,17 @@ class BSTree{
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 
-
-
-		//dummy
+		/* Insert with hint. As this is a BSTree, to insert with hint 
+		 * we must ensure the the hint is good
+		 * 
+		 * Bad hint:
+		 * if parent < current && parent > key to insert
+		 *  || parent > current && parent < key to insert
+	 	 *
+		 * Otherwise, the hint is good
+		 */
 		node	*insert(iterator position, const value_type& val)
 		{
-//			std::cout << "inserting after " << (*position).first << "," <<
-//				val.first << std::endl;
-//			std::cout << "inserting " << (*position).first << std::endl;
-//			return new node;
 			if (!root)	
 				return (insertFromRoot(val, position.base(), NULL));
 			if (insert_has_good_hint(position, val))
@@ -117,9 +119,7 @@ class BSTree{
 				current = parent;
 				parent = parent->parent;
 			}
-			if (parent == NULL)
-				return (true);
-			return (false);
+			return (true);
 		}
 
 		//currently unused:
