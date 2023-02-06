@@ -236,25 +236,42 @@ void	map_insert_iterator2()
 	
 }
 
-ft::map<int, int>& create_map()
+ft::map<int, int> create_map()
 {
-	ft::map<int,int> *map1 = new ft::map<int,int>();
-	map1->insert( ft::pair<int, int>(8, 8) );
-	map1->insert( ft::pair<int, int>(5, 5) );
-	map1->insert( ft::pair<int, int>(11, 11) );
-	map1->insert( ft::pair<int, int>(-2, -2) );
-	map1->insert( ft::pair<int, int>(6, 6) );
-	map1->insert( ft::pair<int, int>(10, 10) );
-	map1->insert( ft::pair<int, int>(9, 9) );
-	map1->insert( ft::pair<int, int>(-10, -10) );
-	map1->insert( ft::pair<int, int>(1, 1) );
-	map1->insert( ft::pair<int, int>(4, 4) );
-	return (*map1);
+	ft::map<int,int> map1;
+	map1.insert( ft::pair<int, int>(8, 8) );
+	map1.insert( ft::pair<int, int>(5, 5) );
+	map1.insert( ft::pair<int, int>(11, 11) );
+	map1.insert( ft::pair<int, int>(-2, -2) );
+	map1.insert( ft::pair<int, int>(6, 6) );
+	map1.insert( ft::pair<int, int>(10, 10) );
+	map1.insert( ft::pair<int, int>(9, 9) );
+	map1.insert( ft::pair<int, int>(-10, -10) );
+	map1.insert( ft::pair<int, int>(1, 1) );
+	map1.insert( ft::pair<int, int>(4, 4) );
+	return (map1);
+}
+
+
+std::map<int, int> create_std_map()
+{
+	std::map<int,int> map1;
+	map1.insert( std::pair<int, int>(8, 8) );
+	map1.insert( std::pair<int, int>(5, 5) );
+	map1.insert( std::pair<int, int>(11, 11) );
+	map1.insert( std::pair<int, int>(-2, -2) );
+	map1.insert( std::pair<int, int>(6, 6) );
+	map1.insert( std::pair<int, int>(10, 10) );
+	map1.insert( std::pair<int, int>(9, 9) );
+	map1.insert( std::pair<int, int>(-10, -10) );
+	map1.insert( std::pair<int, int>(1, 1) );
+	map1.insert( std::pair<int, int>(4, 4) );
+	return (map1);
 }
 
 void	map_parent_navigation()
 {
-	ft::map<int,int> &map1 = create_map();
+	ft::map<int,int> map1 = create_map();
 	ft::pair<ft::map<int,int>::iterator,bool> ret1;
 	
 	ret1 = map1.insert( ft::pair<int, int>(3, 3) );
@@ -360,7 +377,7 @@ void	map_insert_hint2()
 	check(aux->key == 11);
 }
 
-
+/*
 void	map_insert_playground()
 {
 //	std::map<char,int> map;
@@ -397,7 +414,35 @@ void	map_insert_playground()
 //	ret1 = map1.insert( ft::<char, int>('c', 1) );
 
 }
+*/
 
+void	map_operator_pp()
+{
+	std::map<int, int> map = create_std_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int> map1 = create_map();
+	ft::map<int, int>::iterator it1;
+
+	it = map.begin();
+	it1 = map1.begin();
+
+	check((*it).first == (*it1).first);
+	it++;
+	it1++;
+	check((*it).first == (*it1).first);
+	for (size_t i = 0; i < 6; i++)
+	{
+		it++;
+		it1++;
+		check((*it).first == (*it1).first);
+		std::cout << (*it).first << "," << (*it1).first << std::endl;
+	}
+//	for (it = map.begin(); it != map.end(); it++)
+//		std::cout << (*it).first << std::endl;
+
+//	std::cout << "lowest is " << (*it1).first << std::endl;	
+
+}
 
 void map_tests()
 {
@@ -411,6 +456,7 @@ void map_tests()
 	test_case("map parent navigation", &map_parent_navigation);
 	test_case("map insert hint1", &map_insert_hint1);
 	test_case("map insert hint2", &map_insert_hint2);
+	test_case("map operator ++", &map_operator_pp);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

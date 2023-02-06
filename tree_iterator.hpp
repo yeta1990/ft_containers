@@ -4,6 +4,7 @@
 #include "iterator_traits.hpp"
 
 namespace ft{
+	//map uses node*
 	template <class T>
 	class tree_iterator
 	{
@@ -23,6 +24,7 @@ namespace ft{
 			tree_iterator(pointer ptr) : p(ptr) {}
 			value_type operator*() const { return p->content; }
 			pointer*	base() { return (&p) ;}
+			tree_iterator& operator++(int) { p = p->getNextElement(); return *this; }
 
 		private:
 			pointer p;

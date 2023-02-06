@@ -37,6 +37,47 @@ class Node
 		{
 			return (left && right);
 		}
+		Node*	getNextElement()
+		{
+	Node	*succ;
+	Node	*aux;
+	Node	*current;
+
+	current = this;
+
+	aux = parent;
+	while (aux->parent)
+		aux = aux->parent;
+	if (!aux)
+		return (NULL);
+	succ = NULL;
+	while (true)
+	{
+		if (current->key < aux->key)
+		{
+			succ = aux;
+			aux = aux->left;
+		}
+		else if (current->key > aux->key)
+			aux = aux->right;
+		else
+		{
+			if (current->right)
+			{
+				Node* min;
+				min = aux->right;
+				while (min && min -> left)
+					aux = aux->left;
+				succ = min;
+			}
+			break ;
+		}
+		if (!aux)
+			return (succ);
+	}
+	return (succ);
+			return (this);	
+		}
 };
 
 template <class T1, class T2>
@@ -89,6 +130,15 @@ class BSTree{
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
+		node	*getLowestNode()
+		{
+			node	*aux;
+
+			aux = root;
+			while (aux && aux->left)
+				aux = aux->left;
+			return (aux);
+		}
 
 		//remove it before evaluation
 //		node*	base() { return root; };
@@ -184,6 +234,87 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::del(T1 key, node *root)
 	}
 	return (root);
 }
+
+//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
+/*
+template <class T1, class T2>
+typename BSTree<T1, T2>::node*	BSTree<T1, T2>::getNextNode(node *current)
+{
+	typedef typename BSTree<T1, T2>::node node;
+	Node	*succ;
+	Node	*aux;
+
+	aux = root;
+	if (!aux)
+		return (NULL);
+	succ = NULL;
+	while (true)
+	{
+		if (current->key < aux->key)
+		{
+			succ = aux;
+			aux = aux->left;
+		}
+		else if (current->key > aux->key)
+			aux = aux->right;
+		else
+		{
+			if (current->right)
+			{
+				node* min;
+				min = aux->right;
+				while (min && min -> left)
+					aux = aux->left;
+				succ = min;
+			}
+			break ;
+		}
+		if (!aux)
+			return (succ);
+	}
+	return (succ);
+
+
+	// si no tiene hijos y tiene padre -> ve al padre
+	// si tiene dos hijos y el previo es mayor que los dos -> ve al padre
+	// si tiene un hijo a la izquierda y su valor es menor que el valor current -> ve al hijo de la izquierda
+	// si tiene dos hijos y prev es menor que el de la derecha -> ve a la derecha
+*/
+	/*
+	else if (key < root->key)
+		root->left = del(key, root->left);
+	else if (key > root->key)
+		root->right = del(key, root->right);
+	else //found
+	{
+//		std::cout << "found node: " << root->value << std::endl;
+		if (!root->hasAnyChild())
+		{
+//			std::cout << "hasnt any child" << std::endl;
+			this->_size--;
+			delete root;
+			root = NULL;
+		}
+		else if (root->hasTwoChildren())
+		{
+//			std::cout << "has two children" << std::endl;
+			maxNode = this->getMaxNode(root->left);
+			root->key = maxNode->key;
+			root->left = del(maxNode->key, root->left);
+		}
+		else if ((child = root->hasOneChild())) // go left
+		{
+//			std::cout << "has one child" << std::endl;
+			aux = root;
+			root = child;
+			this->_size--;
+			delete aux;
+		}
+		return (root);
+	}
+	*/
+	//return (root);
+//}
 
 
 template <class T1, class T2>
