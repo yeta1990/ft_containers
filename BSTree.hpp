@@ -52,30 +52,7 @@ class BSTree{
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 
-		bool insert_has_good_hint(iterator position, const value_type& val)
-		{
-			node*	parent;
-			node*	current;
-			
-			current = *position.base();
-			parent = current->parent;
-			while (parent)
-			{
-//				if (parent->key < current->key && parent->key < val.first)
-//					return (true);
-				if (parent->key < current->key && parent->key > val.first)
-					return (false);
-				else if (parent->key > current->key && parent->key < val.first)
-					return (false);
-//				else if (parent->key > current->key && parent->key < val.first)
-//					return (false);
-				current = parent;
-				parent = parent->parent;
-			}
-			if (parent == NULL)
-				return (true);
-			return (false);
-		}
+
 
 		//dummy
 		node	*insert(iterator position, const value_type& val)
@@ -123,6 +100,27 @@ class BSTree{
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
 		node			*findNode(T1 key, node *node);
+
+		bool insert_has_good_hint(iterator position, const value_type& val)
+		{
+			node*	parent;
+			node*	current;
+			
+			current = *position.base();
+			parent = current->parent;
+			while (parent)
+			{
+				if (parent->key < current->key && parent->key > val.first)
+					return (false);
+				else if (parent->key > current->key && parent->key < val.first)
+					return (false);
+				current = parent;
+				parent = parent->parent;
+			}
+			if (parent == NULL)
+				return (true);
+			return (false);
+		}
 
 		//currently unused:
 		size_t			count_nodes(const Node<T1, T2> *root) const;

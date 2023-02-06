@@ -319,6 +319,8 @@ void	map_insert_hint2()
 {
 	ft::map<int,int> map1; // = new ft::map<int,int>();
 	ft::pair<ft::map<int,int>::iterator,bool> ret1;
+	ft::pair<ft::map<int,int>::iterator,bool> ret2;
+	ft::pair<ft::map<int,int>::iterator,bool> ret3;
 
 	map1.insert( ft::pair<int, int>(8, 8) );
 	map1.insert( ft::pair<int, int>(5, 5) );
@@ -327,21 +329,35 @@ void	map_insert_hint2()
 	map1.insert( ft::pair<int, int>(6, 6) );
 	map1.insert( ft::pair<int, int>(10, 10) );
 	map1.insert( ft::pair<int, int>(9, 9) );
-	map1.insert( ft::pair<int, int>(-10, -10) );
+	ret2 = map1.insert( ft::pair<int, int>(-10, -10) );
 	map1.insert( ft::pair<int, int>(1, 1) );
 	ret1 = map1.insert( ft::pair<int, int>(4, 4) );
 
-	ft::map<int,int>::iterator it1;
-	it1 = map1.insert(ret1.first, ft::make_pair(7, 7));
-
 	ft::BSTree<int, int>::node *n1;
 	ft::BSTree<int, int>::node *aux;
+	ft::map<int,int>::iterator it1;
 
+	it1 = map1.insert(ret1.first, ft::make_pair(7, 7));
 	n1 = *it1.base();
 	aux = n1;
 	check(aux->key == 7);
 	aux = aux->parent;
-	check(aux->key == 4);
+	check(aux->key == 6);
+
+	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
+	n1 = *it1.base();
+	aux = n1;
+	check(aux->key == -3);
+	aux = aux->parent;
+	check(aux->key == -10);
+
+	it1 = map1.insert(ret2.first, ft::make_pair(12, 12));
+	n1 = *it1.base();
+	aux = n1;
+	check(aux->key == 12);
+	aux = aux->parent;
+	check(aux->key == 11);
+//	std::cout << aux->key << std::endl;
 }
 
 
