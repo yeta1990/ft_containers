@@ -425,15 +425,17 @@ void	map_operator_pp()
 
 	it = map.begin();
 	it1 = map1.begin();
-
 	check((*it).first == (*it1).first);
+	std::cout << (*it).first << "," << (*it1).first << std::endl;
 	it++;
 	it1++;
 	check((*it).first == (*it1).first);
-	for (size_t i = 0; i < 6; i++)
+	std::cout << (*it).first << "," << (*it1).first << std::endl;
+	for (size_t i = 0; i < 7; i++)
 	{
 		it++;
 		it1++;
+//		std::cout << (*it).first << std::endl;
 		check((*it).first == (*it1).first);
 		std::cout << (*it).first << "," << (*it1).first << std::endl;
 	}

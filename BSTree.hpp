@@ -7,24 +7,30 @@
 namespace ft{
 
 template <class T1, class T2>
+class BSTree;
+
+template <class T1, class T2>
 class Node
 {
 	public:
 		typedef pair<const T1, T2>	value_type;
 
-		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL), parent(NULL) { }
-		Node(ft::pair<T1,T2> p, Node* parent) : content(p), key(content.first), value(content.second), left(NULL), right(NULL), parent(parent) {	};
+		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL), parent(NULL), my_tree(NULL) { }
+		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree) : content(p), key(content.first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree) {	};
+
 		value_type	content;
 		const T1&		key;
-		T2&		value;
-		Node	*left;
-		Node	*right;
-		Node	*parent;
+		T2&				value;
+		Node			*left;
+		Node			*right;
+		Node			*parent;
+		BSTree<T1, T2>	*my_tree;
 
 		bool	hasAnyChild()
 		{
 			return (left || right);
 		}
+
 		Node	*hasOneChild()
 		{
 			if (left)
@@ -33,51 +39,46 @@ class Node
 				return (right);
 			return (NULL);
 		}
+
 		bool	hasTwoChildren()
 		{
 			return (left && right);
 		}
+
+		//find inorder successor
+		//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
+		//https://www.scaler.com/topics/inorder-successor/
 		Node*	getNextElement()
 		{
-	Node	*succ;
-	Node	*aux;
-	Node	*current;
+			Node 	*parent;
+			Node	*node;
 
-	current = this;
-
-	aux = parent;
-	while (aux->parent)
-		aux = aux->parent;
-	if (!aux)
-		return (NULL);
-	succ = NULL;
-	while (true)
-	{
-		if (current->key < aux->key)
-		{
-			succ = aux;
-			aux = aux->left;
-		}
-		else if (current->key > aux->key)
-			aux = aux->right;
-		else
-		{
-			if (current->right)
+			node = this;
+			if (node->right)
+				return (this->getMinNodeFrom(node->right));
+			parent = node->parent;
+			while (parent && node == parent->right)
 			{
-				Node* min;
-				min = aux->right;
-				while (min && min -> left)
-					aux = aux->left;
-				succ = min;
+				node = parent;
+				parent = parent->parent;
 			}
-			break ;
+			return (parent);
 		}
-		if (!aux)
-			return (succ);
-	}
-	return (succ);
-			return (this);	
+
+	private:
+		Node*	getMinNodeFrom(Node* node)
+		{
+			Node* aux;
+
+			aux = node;
+			while (aux && aux->left)
+				aux = aux->left;
+			return (aux);
 		}
+//		Node*	findNextElement()
+//		{
+//
+//		}
 };
 
 template <class T1, class T2>
@@ -235,86 +236,6 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::del(T1 key, node *root)
 	return (root);
 }
 
-//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
-/*
-template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::getNextNode(node *current)
-{
-	typedef typename BSTree<T1, T2>::node node;
-	Node	*succ;
-	Node	*aux;
-
-	aux = root;
-	if (!aux)
-		return (NULL);
-	succ = NULL;
-	while (true)
-	{
-		if (current->key < aux->key)
-		{
-			succ = aux;
-			aux = aux->left;
-		}
-		else if (current->key > aux->key)
-			aux = aux->right;
-		else
-		{
-			if (current->right)
-			{
-				node* min;
-				min = aux->right;
-				while (min && min -> left)
-					aux = aux->left;
-				succ = min;
-			}
-			break ;
-		}
-		if (!aux)
-			return (succ);
-	}
-	return (succ);
-
-
-	// si no tiene hijos y tiene padre -> ve al padre
-	// si tiene dos hijos y el previo es mayor que los dos -> ve al padre
-	// si tiene un hijo a la izquierda y su valor es menor que el valor current -> ve al hijo de la izquierda
-	// si tiene dos hijos y prev es menor que el de la derecha -> ve a la derecha
-*/
-	/*
-	else if (key < root->key)
-		root->left = del(key, root->left);
-	else if (key > root->key)
-		root->right = del(key, root->right);
-	else //found
-	{
-//		std::cout << "found node: " << root->value << std::endl;
-		if (!root->hasAnyChild())
-		{
-//			std::cout << "hasnt any child" << std::endl;
-			this->_size--;
-			delete root;
-			root = NULL;
-		}
-		else if (root->hasTwoChildren())
-		{
-//			std::cout << "has two children" << std::endl;
-			maxNode = this->getMaxNode(root->left);
-			root->key = maxNode->key;
-			root->left = del(maxNode->key, root->left);
-		}
-		else if ((child = root->hasOneChild())) // go left
-		{
-//			std::cout << "has one child" << std::endl;
-			aux = root;
-			root = child;
-			this->_size--;
-			delete aux;
-		}
-		return (root);
-	}
-	*/
-	//return (root);
-//}
 
 
 template <class T1, class T2>
@@ -402,7 +323,7 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p
 {
 	if (*r == NULL)
 	{
-		*r = new Node<T1, T2>(p, parent);
+		*r = new Node<T1, T2>(p, parent, this);
 		this->_size++;
 		return (*r);
 	}
