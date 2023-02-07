@@ -125,14 +125,16 @@ class BSTree{
 				aux = aux->left;
 			return (aux);
 		};
+
 		node	*getLowestNode()
 		{
-			node	*aux;
+			return (getLowestNodeFrom(root));
+//			node	*aux;
 
-			aux = root;
-			while (aux && aux->left)
-				aux = aux->left;
-			return (aux);
+//			aux = root;
+//			while (aux && aux->left)
+//				aux = aux->left;
+//			return (aux);
 		}
 
 		//remove it before evaluation
