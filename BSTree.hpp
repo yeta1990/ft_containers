@@ -55,7 +55,7 @@ class Node
 
 			node = this;
 			if (node->right)
-				return (this->getMinNodeFrom(node->right));
+				return (this->my_tree->getLowestNodeFrom(node->right));
 			parent = node->parent;
 			while (parent && node == parent->right)
 			{
@@ -66,7 +66,7 @@ class Node
 		}
 
 	private:
-		Node*	getMinNodeFrom(Node* node)
+/*		Node*	getMinNodeFrom(Node* node)
 		{
 			Node* aux;
 
@@ -75,10 +75,7 @@ class Node
 				aux = aux->left;
 			return (aux);
 		}
-//		Node*	findNextElement()
-//		{
-//
-//		}
+		*/
 };
 
 template <class T1, class T2>
@@ -115,22 +112,19 @@ class BSTree{
 			}
 			return (insertFromRoot(val, &root, NULL));
 		}
-		// si padre < nodo actual && padre < lo que quiero insertar
-		// 		----> ok
-		//
-		// si padre < nodo actual && padre > lo que quiero insertar
-		//  	----> no. insértame desde el padre
-		//
-		// si padre > nodo actual && padre < lo que quiero insertar
-		//		----> no. insértame desde padre
-		// 
-		// si padre > node actual && padre > lo que quiero insertar
-		// 		----> ok
-
 
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
+		node	*getLowestNodeFrom(node* node)
+		{
+			Node<T1, T2>* aux = NULL;
+
+			aux = node;
+			while (aux && aux->left)
+				aux = aux->left;
+			return (aux);
+		};
 		node	*getLowestNode()
 		{
 			node	*aux;
