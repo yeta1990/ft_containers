@@ -65,17 +65,6 @@ class Node
 			return (parent);
 		}
 
-	private:
-/*		Node*	getMinNodeFrom(Node* node)
-		{
-			Node* aux;
-
-			aux = node;
-			while (aux && aux->left)
-				aux = aux->left;
-			return (aux);
-		}
-		*/
 };
 
 template <class T1, class T2>
@@ -129,13 +118,9 @@ class BSTree{
 		node	*getLowestNode()
 		{
 			return (getLowestNodeFrom(root));
-//			node	*aux;
-
-//			aux = root;
-//			while (aux && aux->left)
-//				aux = aux->left;
-//			return (aux);
 		}
+
+//		node	*get
 
 		//remove it before evaluation
 //		node*	base() { return root; };
@@ -273,9 +258,6 @@ template <class T1, class T2>
 size_t	BSTree<T1, T2>::size() const
 {
 	return (this->_size);
-//	if (!root)
-//		return (0);
-//	return (count_nodes(root));
 }
 
 

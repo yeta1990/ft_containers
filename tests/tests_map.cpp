@@ -439,8 +439,18 @@ void	map_operator_pp()
 		check((*it).first == (*it1).first);
 		std::cout << (*it).first << "," << (*it1).first << std::endl;
 	}
-//	for (it = map.begin(); it != map.end(); it++)
-//		std::cout << (*it).first << std::endl;
+		
+//	map.insert(std::make_pair(27, 27));
+	std::map<int, int>::iterator it7 = map.end();
+//	it7++;
+//	it7++;
+	std::cout << &*it7 << std::endl << std::endl;
+
+	for (it = map.begin(); it != map.end(); it++)
+	{
+//		std::cout << &it.ase() << std::endl << std::endl;
+		std::cout << (*it).first << std::endl;
+	}
 
 //	std::cout << "lowest is " << (*it1).first << std::endl;	
 
