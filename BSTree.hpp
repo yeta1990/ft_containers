@@ -121,6 +121,11 @@ class BSTree{
 			return (getLowestNodeFrom(root));
 		}
 
+		node	*getSentinel()
+		{
+			return (sentinel);
+		}
+
 //		node	*get
 
 		//remove it before evaluation

@@ -129,6 +129,13 @@ namespace ft{
 
 			return (iterator(found));
 		}
+		iterator end()
+		{
+			node*	found;
+			found = this->_root->getSentinel();
+
+			return (iterator(found));
+		}
 //		const_iterator begin() const;
 
 

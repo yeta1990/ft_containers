@@ -24,11 +24,16 @@ namespace ft{
 			tree_iterator(pointer ptr) : p(ptr) {}
 			value_type operator*() const { return p->content; }
 			pointer*	base() { return (&p) ;}
+			pointer		getNode() const { return (p) ;}
 			tree_iterator& operator++(int) { p = p->getNextElement(); return *this; }
 
 		private:
 			pointer p;
 	};
+
+template <class T, typename U>
+bool operator!=(const ft::tree_iterator<T> &a, const ft::tree_iterator<U> &b){
+				return (a.getNode() != b.getNode());	}
 
 }
 
