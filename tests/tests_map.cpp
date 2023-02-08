@@ -450,44 +450,51 @@ void	map_insert_hint2()
 	check(aux->key == 11);
 }
 
-/*
-void	map_insert_playground()
+
+void	map_insert_iterator3()
 {
-//	std::map<char,int> map;
-//	ft::map<char,int> map1;
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+	std::map<int, int>::iterator it_end;
+	ft::map<int, int>::iterator it1_end;
 
-//	std::pair<std::map<char,int>::iterator,bool> ret1;
-//	std::pair<std::map<char,int>::iterator,bool> ret2;
-
-
-//	ret1 = map.insert( std::make_pair('d', 1) );
-//	ret2 = map.insert( std::make_pair('c', 1) );
-
-//	content = *(ret.first);
-
-	std::cout << std::endl;
-
-	std::map<char,int> map;
-	std::pair<std::map<char,int>::iterator,bool> ret;
-	ret = map.insert( std::make_pair('c', 2) );
-	map.insert( std::make_pair('d', 2) );
-	map.insert( std::make_pair('a', 2) );
-	map.insert( std::make_pair('x', 2) );
-
-	std::map<char,int>::iterator it = ret.first;
-	std::pair<char,int> content = *it;
-
-	std::cout << content.first << std::endl;
+	it = map.begin();
+	it1 = map1.begin();
 	it++;
-	content = *it;
-	std::cout << content.first << std::endl;
 	it++;
-	content = *it;
-	std::cout << content.first << std::endl;
-//	ret1 = map1.insert( ft::<char, int>('c', 1) );
+	it1++;
+	it1++;
+	
+	it_end = it;	
+	it1_end = it1;
+	check((*it_end).first == (*it1_end).first);
 
+	for (int i = 0; i < 4; i++)
+	{
+		it_end++;
+		it1_end++;
+	}
+
+	std::map<int,int> map2;
+
+	ft::map<int,int> map3;
+	check(map2.size() == map3.size());
+	map2.insert(it, it_end);
+	map3.insert(it1, it1_end);
+
+	check(map2.size() == map3.size());
+	it = map2.begin();
+	it1 = map3.begin();
+	for (; it1 != map3.end(); it1++)
+	{
+		check((*it).first == (*it1).first);
+		it++;
+	}
 }
-*/
+
+
 
 void	map_operator_pp()
 {
@@ -526,6 +533,7 @@ void map_tests()
 	test_case("map parent navigation", &map_parent_navigation);
 	test_case("map insert hint1", &map_insert_hint1);
 	test_case("map insert hint2", &map_insert_hint2);
+	test_case("map insert iterator3", &map_insert_iterator3);
 	test_case("map operator ++", &map_operator_pp);
 //	test_case("map insert playground", &map_insert_playground);
 }

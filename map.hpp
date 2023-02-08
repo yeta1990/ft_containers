@@ -129,11 +129,18 @@ namespace ft{
 			return (iterator(new_inserted));
 		}
 
-//		template <class InputIterator>
-//		void insert (InputIterator first, InputIterator last)
-//		{
-//
-//		}
+		template <class InputIterator>
+		void insert (InputIterator first, InputIterator last)
+		{
+			InputIterator it;
+
+			it = first;
+			while (it != last)
+			{
+				insert(*it);
+				it++;	
+			}
+		}
 
 
 		iterator begin()
