@@ -46,8 +46,22 @@ namespace ft{
 			this->_root = new BSTree<key_type, mapped_type>();
 		}
 
-//		template <class InputIterator>
-//		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+		template <class InputIterator>
+		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+		{
+			InputIterator it;
+
+			this->_allocator = alloc;
+			this->_comp = comp;
+			this->_root = new BSTree<key_type, mapped_type>();
+			it = first;
+			while (it != last)
+			{
+				insert(*it);
+				it++;	
+			}
+
+		}
 //
 //		map (const map& other);
 		~map() { delete this->_root; this->_root = NULL;}

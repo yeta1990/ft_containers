@@ -67,6 +67,78 @@ void	map_constructor()
 
 }
 
+ft::map<int, int> create_map()
+{
+	ft::map<int,int> map1;
+	map1.insert( ft::pair<int, int>(8, 8) );
+	map1.insert( ft::pair<int, int>(5, 5) );
+	map1.insert( ft::pair<int, int>(11, 11) );
+	map1.insert( ft::pair<int, int>(-2, -2) );
+	map1.insert( ft::pair<int, int>(6, 6) );
+	map1.insert( ft::pair<int, int>(10, 10) );
+	map1.insert( ft::pair<int, int>(9, 9) );
+	map1.insert( ft::pair<int, int>(-10, -10) );
+	map1.insert( ft::pair<int, int>(1, 1) );
+	map1.insert( ft::pair<int, int>(4, 4) );
+	return (map1);
+}
+
+std::map<int, int> create_std_map()
+{
+	std::map<int,int> map1;
+	map1.insert( std::pair<int, int>(8, 8) );
+	map1.insert( std::pair<int, int>(5, 5) );
+	map1.insert( std::pair<int, int>(11, 11) );
+	map1.insert( std::pair<int, int>(-2, -2) );
+	map1.insert( std::pair<int, int>(6, 6) );
+	map1.insert( std::pair<int, int>(10, 10) );
+	map1.insert( std::pair<int, int>(9, 9) );
+	map1.insert( std::pair<int, int>(-10, -10) );
+	map1.insert( std::pair<int, int>(1, 1) );
+	map1.insert( std::pair<int, int>(4, 4) );
+	return (map1);
+}
+
+void	map_constructor2()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+	std::map<int, int>::iterator it_end;
+	ft::map<int, int>::iterator it1_end;
+
+	it = map.begin();
+	it1 = map1.begin();
+	it++;
+	it++;
+	it1++;
+	it1++;
+	
+	it_end = it;	
+	it1_end = it1;
+	check((*it_end).first == (*it1_end).first);
+
+	for (int i = 0; i < 4; i++)
+	{
+		it_end++;
+		it1_end++;
+	}
+
+	std::map<int,int> map2(it, it_end);
+	ft::map<int,int> map3(it1, it1_end);
+
+	check(map2.size() == map3.size());
+
+	it = map2.begin();
+	it1 = map3.begin();
+	for (; it1 != map3.end(); it1++)
+	{
+		check((*it).first == (*it1).first);
+		it++;
+	}
+}
+
 void	operator_access()
 {
 	std::map<int,int> map;
@@ -77,10 +149,9 @@ void	operator_access()
 		map.insert( std::pair<int, int>(i, i) );
 		map1.insert( ft::pair<int, int>(i, i) );
 	}
-	for (size_t i = 0; i < 1; i++)
+	for (size_t i = 0; i < 12; i++)
 		check(map[i] == map1[i]);
 //	check(map[111] == map1[111]);
-
 //	std::cout << map1[1] << std::endl;
 
 }
@@ -236,6 +307,7 @@ void	map_insert_iterator2()
 	
 }
 
+/*
 ft::map<int, int> create_map()
 {
 	ft::map<int,int> map1;
@@ -268,6 +340,7 @@ std::map<int, int> create_std_map()
 	map1.insert( std::pair<int, int>(4, 4) );
 	return (map1);
 }
+*/
 
 void	map_parent_navigation()
 {
@@ -439,9 +512,11 @@ void	map_operator_pp()
 
 }
 
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
+	test_case("map_constructors2", &map_constructor2);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
