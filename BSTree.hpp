@@ -15,8 +15,8 @@ class Node
 	public:
 		typedef pair<const T1, T2>	value_type;
 
-		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL), parent(NULL), my_tree(NULL) { }
-		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree) : content(p), key(content.first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree) {	};
+		Node() : content(), key(content.first), value(content.second), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
+		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree, Node* sentinel) : content(p), key(content.first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 
 		value_type	content;
 		const T1&		key;
@@ -25,6 +25,7 @@ class Node
 		Node			*right;
 		Node			*parent;
 		BSTree<T1, T2>	*my_tree;
+		Node			*sentinel;
 
 		bool	hasAnyChild()
 		{
@@ -54,10 +55,10 @@ class Node
 			Node	*node;
 
 			node = this;
-			if (node->right)
+			if (node->right && node->right != sentinel)
 				return (this->my_tree->getLowestNodeFrom(node->right));
 			parent = node->parent;
-			while (parent && node == parent->right)
+			while (parent && node == parent->right && parent != sentinel)
 			{
 				node = parent;
 				parent = parent->parent;
@@ -71,12 +72,12 @@ template <class T1, class T2>
 class BSTree{
 
 	public:
-		typedef Node<T1, T2>		node;
-		typedef BSTree<T1, T2>		tree;
-		typedef pair<const T1, T2>	value_type;
+		typedef Node<T1, T2>			node;
+		typedef BSTree<T1, T2>			tree;
+		typedef pair<const T1, T2>		value_type;
 		typedef tree_iterator<node*>	iterator;
 
-		BSTree() : root(NULL), _size(0) { }
+		BSTree() : sentinel(new Node<T1, T2>(value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
 		~BSTree();
 		node	*insert(ft::pair<T1,T2> p);
 
@@ -110,7 +111,7 @@ class BSTree{
 			Node<T1, T2>* aux = NULL;
 
 			aux = node;
-			while (aux && aux->left)
+			while (aux && aux->left && aux->left != sentinel)
 				aux = aux->left;
 			return (aux);
 		};
@@ -126,6 +127,7 @@ class BSTree{
 //		node*	base() { return root; };
 
 	private:
+		node			*sentinel;
 		node			*root;
 		size_t			_size;
 
@@ -265,6 +267,7 @@ template <class T1, class T2>
 BSTree<T1, T2>::~BSTree()
 {
 	this->freeTree(this->root);
+	delete sentinel;
 }
 
 template <class T1, class T2>
@@ -272,9 +275,9 @@ void BSTree<T1, T2>::freeTree(node *root)
 {
 	if (!root)
 		return;
-	if (root->left)
+	if (root->left && root->left != sentinel)
 		freeTree(root->left);
-	if (root->right)
+	if (root->right && root->right != sentinel)
 		freeTree(root->right);	
 //	std::cout << root->key << std::endl;
 	delete root;
@@ -299,9 +302,27 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BST
 template <class T1, class T2>
 typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insertFromRoot(ft::pair<T1, T2> p, Node<T1, T2> **r, Node<T1, T2> *parent)
 {
-	if (*r == NULL)
+	/*
+	 * if (*r == NULL && !parent)
 	{
-		*r = new Node<T1, T2>(p, parent, this);
+		*r = new Node<T1, T2>(p, sentinel, this);
+		sentinel->right = *r;
+//		std::cout << "adding sentinel" << std::endl;
+		this->_size++;
+		return (*r);
+	}
+	*/
+	if (*r == NULL || *r == sentinel)
+	{
+		if (!parent)
+		{
+			sentinel->right = *r;
+			parent = sentinel;
+		}
+		*r = new Node<T1, T2>(p, parent, this, sentinel);
+		(*r)->left = sentinel;
+		(*r)->right = sentinel;
+//		std::cout << "adding node" << std::endl;
 		this->_size++;
 		return (*r);
 	}
