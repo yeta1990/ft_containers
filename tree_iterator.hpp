@@ -15,17 +15,51 @@ namespace ft{
 			typedef	typename ft::iterator_traits<T>::value_type	self_type;
 			typedef	typename self_type::value_type				value_type;
 			typedef typename ft::iterator_traits<T>::pointer pointer;
-//			typedef	self_type*				pointer;
+//			typedef	T*				pointer;
 			typedef	value_type&				reference;
+			typedef typename ft::iterator_traits<T>::difference_type difference_type;
 //			typedef typename ft::iterator_traits<T>::pointer pointer;
 //			reference;
-//
+
 			tree_iterator() : p() {}
 			tree_iterator(pointer ptr) : p(ptr) {}
-			value_type operator*() const { return p->content; }
+
+			template<class C>
+			tree_iterator(const tree_iterator<C> &it) : p(it.getNode()) {}
+
+			tree_iterator(tree_iterator<const pointer> &it) : p(it.getNode()) {}
+
+			value_type& operator*() const { return p->content; }
+			value_type* operator->() const { return &(p->content); }
 			pointer*	base() { return (&p) ;}
 			pointer		getNode() const { return (p) ;}
-			tree_iterator& operator++(int) { p = p->getNextElement(); return *this; }
+			tree_iterator& operator++() { 
+				pointer n;
+				n = p;
+				n = n->getNextElement(); 
+				p = n;
+				return *this; }
+			tree_iterator& operator--() { (*this)--; return *this; }
+			tree_iterator operator++(int) { 
+				tree_iterator copy(*this);
+				++(*this);
+//				copy = 
+//				pointer n;
+//				n = p;
+//				n = n->getNextElement(); 
+				return (copy); }
+			tree_iterator& operator--(int) { p = p->getPrevElement(); return *this; }
+
+			//this isn't necessary for a bidirectional iterator
+		/*	tree_iterator operator-(difference_type i) const { 
+				pointer n;
+				n = p;
+
+				for (difference_type j = 0; j < i; j++)
+					n = n->getPrevElement();
+				return (tree_iterator(n)); 
+			};
+			*/
 
 		private:
 			pointer p;

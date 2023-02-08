@@ -30,6 +30,7 @@ namespace ft{
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
 		typedef tree_iterator<typename BSTree<Key, T>::node* >	iterator;
+		typedef tree_iterator<const typename BSTree<Key, T>::node* >	const_iterator;
 //		typedef random_iterator<pointer> iterator;
 //		typedef random_iterator<const_pointer> const_iterator;
 //		typedef ft::reverse_iterator<iterator> reverse_iterator;

@@ -506,7 +506,6 @@ void	map_operator_pp()
 	it = map.begin();
 	it1 = map1.begin();
 	check((*it).first == (*it1).first);
-	
 	map.insert( std::pair<int, int>(12, 12) );
 	map1.insert( ft::pair<int, int>(12, 12) );
 
@@ -515,10 +514,69 @@ void	map_operator_pp()
 		check((*it).first == (*it1).first);
 		it++;
 	}
-		
+
+	it = map.begin();
+	it1 = map1.begin();
+	for (; it1 != map1.end(); ++it1)
+	{
+		check((*it).first == (*it1).first);
+		++it;
+	}
 
 }
 
+void	map_operator_ll()
+{
+	std::map<int, int> map = create_std_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int> map1 = create_map();
+	ft::map<int, int>::iterator it1;
+
+	it = map.end();
+	it1 = map1.end();
+	it--;
+	it1--;
+
+
+	for (; it1 != map1.begin(); it1--)
+	{
+		check((*it).first == (*it1).first);
+		it--;
+	}
+
+	it = map.end();
+	it1 = map1.end();
+	--it;
+	--it1;
+	for (; it1 != map1.begin(); it1--)
+	{
+		check((*it).first == (*it1).first);
+		it--;
+	}
+
+}
+
+void	map_iterator_const()
+{
+	std::map<int, int> map = create_std_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int> map1 = create_map();
+	ft::map<int, int>::iterator it1;
+
+	it = map.begin();
+	it1 = map1.begin();
+	std::map<int, int>::const_iterator	it2(it);
+	ft::map<int, int>::const_iterator	it3(it1);
+
+	check(it->first == it1->first);
+//	std::cout << it->first << std::endl;
+//	std::cout << it1->first << std::endl;
+	it2++;
+	it3++;
+//	check(it2->first == it3->first);
+	std::cout << it2->first << std::endl;
+	std::cout << it3->first << std::endl;
+}
 
 void map_tests()
 {
@@ -535,6 +593,8 @@ void map_tests()
 	test_case("map insert hint2", &map_insert_hint2);
 	test_case("map insert iterator3", &map_insert_iterator3);
 	test_case("map operator ++", &map_operator_pp);
+	test_case("map operator --", &map_operator_ll);
+	test_case("map iterator const", &map_iterator_const);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

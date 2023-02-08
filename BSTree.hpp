@@ -27,6 +27,10 @@ class Node
 		BSTree<T1, T2>	*my_tree;
 		Node			*sentinel;
 
+		value_type&	getContent() const
+		{
+			return (content);
+		}
 		bool	hasAnyChild()
 		{
 			return (left || right);
@@ -46,19 +50,50 @@ class Node
 			return (left && right);
 		}
 
+
+		Node& operator= (Node& o)
+		{
+			*this = o;
+			return (*this);
+		}
+
+		Node& operator=( const Node& other )
+		{
+			this->right = other.right();
+			return (*this);
+		}
 		//find inorder successor
 		//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
 		//https://www.scaler.com/topics/inorder-successor/
-		Node*	getNextElement()
+		Node*	getNextElement() const
 		{
-			Node 	*parent;
-			Node	*node;
+			Node *parent;
+			Node const	*node;
 
 			node = this;
 			if (node->right && node->right != sentinel)
 				return (this->my_tree->getLowestNodeFrom(node->right));
 			parent = node->parent;
 			while (parent && node == parent->right && parent != sentinel)
+			{
+				node = parent;
+				parent = parent->parent;
+			}
+			return (parent);
+		}
+
+		Node*	getPrevElement() const
+		{
+			Node 	*parent;
+			Node const	*node;
+
+			node = this;
+			if (this == sentinel)
+				return (this->my_tree->getHighestNode());
+			if (node->left && node->left != sentinel)
+				return (this->my_tree->getHighestNodeFrom(node->left));
+			parent = node->parent;
+			while (parent && node == parent->left && parent != sentinel)
 			{
 				node = parent;
 				parent = parent->parent;
@@ -106,6 +141,17 @@ class BSTree{
 		void	del(T1 key);
 		size_t	size() const;
 		node	*find(T1 key);
+
+		node	*getHighestNodeFrom(node *node)
+		{
+			Node<T1, T2>* aux = NULL;
+
+			aux = node;
+			while (aux && aux->right && aux->right!= sentinel)
+				aux = aux->right;
+			return (aux);
+		}
+
 		node	*getLowestNodeFrom(node* node)
 		{
 			Node<T1, T2>* aux = NULL;
@@ -116,6 +162,10 @@ class BSTree{
 			return (aux);
 		};
 
+		node	*getHighestNode()
+		{
+			return (getHighestNodeFrom(root));
+		}
 		node	*getLowestNode()
 		{
 			return (getLowestNodeFrom(root));
