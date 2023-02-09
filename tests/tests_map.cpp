@@ -587,6 +587,39 @@ void	map_maxsize()
 //	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
 }
 
+void	map_find()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+
+	it = map.find(-10);
+	it1 = map1.find(-10);
+
+	check((*it).first == (*it1).first);
+	it = map.find(0);
+	it1 = map1.find(0);
+	check(it == map.end());
+	check(it1 == map1.end());
+//	std::cout << &*it << std::endl;
+//	check(it);
+//
+	std::map<int, int>::iterator itc;
+	ft::map<int, int>::iterator it1c;
+	itc = map.find(-10);
+	it1c = map1.find(-10);
+
+	check((*itc).first == (*it1c).first);
+	itc = map.find(0);
+	it1c = map1.find(0);
+	check(itc == map.end());
+	check(it1c == map1.end());
+
+}
+
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -607,6 +640,7 @@ void map_tests()
 	test_case("map iterator const", &map_iterator_const);
 	test_case("map iterator const2", &map_iterator_const_2);
 	test_case("map maxsize", &map_maxsize);
+	test_case("map find", &map_find);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

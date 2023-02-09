@@ -80,6 +80,10 @@ template <class T, typename U>
 bool operator!=(const ft::tree_iterator<T> &a, const ft::tree_iterator<U> &b){
 				return (a.getNode() != b.getNode());	}
 
+template <class T, typename U>
+bool operator==(const ft::tree_iterator<T> &a, const ft::tree_iterator<U> &b){
+				return (a.getNode() == b.getNode());	}
+
 }
 
 

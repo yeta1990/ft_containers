@@ -157,6 +157,7 @@ namespace ft{
 			return (found->value);
 		}
 
+		//modifiers
 		pair<iterator,bool>	insert(const value_type& p)
 		{
 			typename BSTree<value_type>::node	*new_inserted;
@@ -188,6 +189,45 @@ namespace ft{
 			}
 		}
 
+		//void erase (iterator position);
+		//size_type erase (const key_type& k);
+		//void erase (iterator first, iterator last);
+		//void swap (map& x);
+		//void clear();
+
+		
+		//observers
+		//key_compare key_comp() const;
+		//value_compare value_comp() const;
+		
+
+		//operations
+		iterator find (const key_type& k)
+		{
+			node*	found;
+
+			found = this->_root->find(k);
+			return (iterator(found));
+		}
+		const_iterator find (const key_type& k) const
+		{
+			node*	found;
+
+			found = this->_root->find(k);
+			return (const_iterator(found));
+		}
+		//
+		//size_type count (const key_type& k) const;
+
+//		iterator lower_bound (const key_type& k);
+//		const_iterator lower_bound (const key_type& k) const;
+//
+//		iterator upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
+//
+//		pair<const_iterator,const_iterator> equal_range (const key_type& k) const;pair<iterator,iterator>             equal_range (const key_type& k);
+
+
+		//iterators
 		iterator begin()
 		{
 			node*	found;
