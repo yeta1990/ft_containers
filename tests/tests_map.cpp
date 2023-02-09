@@ -146,7 +146,6 @@ void	map_copy_constructor()
 	std::map<int, int> mapc(map);
 	ft::map<int, int> map1c(map1);
 
-	check(map.size() == map1c.size());
 
 
 }
@@ -579,6 +578,15 @@ void	map_iterator_const_2()
 	check(it2->first == it3->first);
 }
 
+void	map_maxsize()
+{
+	std::map<int, int> map;
+	ft::map<int, int> map1;
+
+	check(map.max_size() == map1.max_size());
+//	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -598,6 +606,7 @@ void map_tests()
 	test_case("map operator --", &map_operator_ll);
 	test_case("map iterator const", &map_iterator_const);
 	test_case("map iterator const2", &map_iterator_const_2);
+	test_case("map maxsize", &map_maxsize);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

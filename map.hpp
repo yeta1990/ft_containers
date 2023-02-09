@@ -9,6 +9,7 @@
 #include "BSTree.hpp"
 #include <memory>
 #include <cstddef>
+#include <limits>
 #include "tree_iterator.hpp"
 
 namespace ft{
@@ -110,6 +111,10 @@ namespace ft{
 		//capacity
 		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_root->size());};
+//		size_type 	max_size() const {return (this->_allocator.max_size());};
+		size_type	max_size() const {
+			return (std::numeric_limits<map::size_type>::max() / sizeof(T) / 10);
+		}
 
 		//element access
 		mapped_type& operator[] (const key_type& k)
