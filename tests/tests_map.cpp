@@ -532,7 +532,7 @@ void	map_iterator_const()
 	std::map<int, int> map = create_std_map();
 	std::map<int, int>::iterator it;
 	ft::map<int, int> map1 = create_map();
-	ft::map<int, int>::iterator it1;
+	ft::map<int, int>::const_iterator it1;
 
 	it = map.begin();
 	it1 = map1.begin();

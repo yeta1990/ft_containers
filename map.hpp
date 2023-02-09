@@ -26,11 +26,11 @@ namespace ft{
 		typedef typename allocator_type::const_reference 	const_reference;
 		typedef typename allocator_type::pointer 			pointer;
 		typedef typename allocator_type::const_pointer 		const_pointer;
-		typedef	Node<value_type>							node;
+		typedef	ft::Node<value_type>							node;
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
-		typedef tree_iterator<typename BSTree<value_type>::node* >	iterator;
-		typedef tree_iterator<typename BSTree<const value_type>::node* >	const_iterator;
+		typedef tree_iterator<node *>	iterator;
+		typedef tree_iterator<node *>	const_iterator;
 //		typedef random_iterator<pointer> iterator;
 //		typedef random_iterator<const_pointer> const_iterator;
 //		typedef ft::reverse_iterator<iterator> reverse_iterator;
