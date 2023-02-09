@@ -603,9 +603,7 @@ void	map_find()
 	it1 = map1.find(0);
 	check(it == map.end());
 	check(it1 == map1.end());
-//	std::cout << &*it << std::endl;
-//	check(it);
-//
+
 	std::map<int, int>::iterator itc;
 	ft::map<int, int>::iterator it1c;
 	itc = map.find(-10);
@@ -616,6 +614,14 @@ void	map_find()
 	it1c = map1.find(0);
 	check(itc == map.end());
 	check(it1c == map1.end());
+
+	map.insert(std::make_pair<int,int>(-10,-10));
+	map1.insert(ft::make_pair<int,int>(-10,-10));
+	check(map.count(-10) == map1.count(-10));	
+	check(map.count(0) == map1.count(0));	
+	map.insert(std::make_pair<int,int>(0,0));
+	map1.insert(ft::make_pair<int,int>(0,0));
+	check(map.count(0) == map1.count(0));	
 
 }
 

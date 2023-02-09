@@ -217,7 +217,15 @@ namespace ft{
 			return (const_iterator(found));
 		}
 		//
-		//size_type count (const key_type& k) const;
+		size_type count (const key_type& k) const
+		{
+			iterator	it;
+
+			it = this->find(k);
+			if (it == this->end())
+				return (0);
+			return (1);
+		}
 
 //		iterator lower_bound (const key_type& k);
 //		const_iterator lower_bound (const key_type& k) const;
