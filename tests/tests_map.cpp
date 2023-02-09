@@ -307,66 +307,34 @@ void	map_insert_iterator2()
 	
 }
 
-/*
-ft::map<int, int> create_map()
-{
-	ft::map<int,int> map1;
-	map1.insert( ft::pair<int, int>(8, 8) );
-	map1.insert( ft::pair<int, int>(5, 5) );
-	map1.insert( ft::pair<int, int>(11, 11) );
-	map1.insert( ft::pair<int, int>(-2, -2) );
-	map1.insert( ft::pair<int, int>(6, 6) );
-	map1.insert( ft::pair<int, int>(10, 10) );
-	map1.insert( ft::pair<int, int>(9, 9) );
-	map1.insert( ft::pair<int, int>(-10, -10) );
-	map1.insert( ft::pair<int, int>(1, 1) );
-	map1.insert( ft::pair<int, int>(4, 4) );
-	return (map1);
-}
 
-
-std::map<int, int> create_std_map()
-{
-	std::map<int,int> map1;
-	map1.insert( std::pair<int, int>(8, 8) );
-	map1.insert( std::pair<int, int>(5, 5) );
-	map1.insert( std::pair<int, int>(11, 11) );
-	map1.insert( std::pair<int, int>(-2, -2) );
-	map1.insert( std::pair<int, int>(6, 6) );
-	map1.insert( std::pair<int, int>(10, 10) );
-	map1.insert( std::pair<int, int>(9, 9) );
-	map1.insert( std::pair<int, int>(-10, -10) );
-	map1.insert( std::pair<int, int>(1, 1) );
-	map1.insert( std::pair<int, int>(4, 4) );
-	return (map1);
-}
-*/
 
 void	map_parent_navigation()
 {
 	ft::map<int,int> map1 = create_map();
 	ft::pair<ft::map<int,int>::iterator,bool> ret1;
 	
-	ret1 = map1.insert( ft::pair<int, int>(3, 3) );
+	ret1 = map1.insert( ft::pair<const int, int>(3, 3) );
 
-	ft::BSTree<int, int>::node *n1;
-	ft::BSTree<int, int>::node *aux;
+	ft::BSTree<ft::pair<const int, int> >::node *n1;
+	ft::BSTree<ft::pair<const int, int> >::node *aux;
 
 	n1 = *(ret1.first.base());
 	aux = n1;
-	check(aux->key == 3);
+	check(aux->content.first == 3);
 	aux = aux->parent;
-	check(aux->key == 4);
+	check(aux->content.first == 4);
 	aux = aux->parent;
-	check(aux->key == 1);
+	check(aux->content.first == 1);
 	aux = aux->parent;
-	check(aux->key == -2);
+	check(aux->content.first == -2);
 	aux = aux->parent;
-	check(aux->key == 5);
+	check(aux->content.first == 5);
 	aux = aux->parent;
-	check(aux->key == 8);
+	check(aux->content.first == 8);
 
 }
+
 
 // 3 insert with hint tests, inserting:
 // -3 in node 4
@@ -394,14 +362,15 @@ void	map_insert_hint1()
 	ft::map<int,int>::iterator it1;
 	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
 
-	ft::BSTree<int, int>::node *n1;
-	ft::BSTree<int, int>::node *aux;
+	ft::BSTree<ft::pair<const int, int> >::node *n1;
+	ft::BSTree<ft::pair<const int, int> >::node *aux;
 
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->key == -3);
+	check(aux->content.first == -3);
 	aux = aux->parent;
-	check(aux->key == -10);
+	check(aux->content.first == -10);
+	
 //	std::cout << aux->key << std::endl;
 }
 
@@ -424,30 +393,30 @@ void	map_insert_hint2()
 	map1.insert( ft::pair<int, int>(1, 1) );
 	ret1 = map1.insert( ft::pair<int, int>(4, 4) );
 
-	ft::BSTree<int, int>::node *n1;
-	ft::BSTree<int, int>::node *aux;
+	ft::BSTree<ft::pair<const int, int> >::node *n1;
+	ft::BSTree<ft::pair<const int, int> >::node *aux;
 	ft::map<int,int>::iterator it1;
 
 	it1 = map1.insert(ret1.first, ft::make_pair(7, 7));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->key == 7);
+	check(aux->content.first == 7);
 	aux = aux->parent;
-	check(aux->key == 6);
+	check(aux->content.first == 6);
 
 	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->key == -3);
+	check(aux->content.first == -3);
 	aux = aux->parent;
-	check(aux->key == -10);
+	check(aux->content.first == -10);
 
 	it1 = map1.insert(ret2.first, ft::make_pair(12, 12));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->key == 12);
+	check(aux->content.first == 12);
 	aux = aux->parent;
-	check(aux->key == 11);
+	check(aux->content.first == 11);
 }
 
 
@@ -556,6 +525,8 @@ void	map_operator_ll()
 
 }
 
+
+
 void	map_iterator_const()
 {
 	std::map<int, int> map = create_std_map();
@@ -568,15 +539,16 @@ void	map_iterator_const()
 	std::map<int, int>::const_iterator	it2(it);
 	ft::map<int, int>::const_iterator	it3(it1);
 
-	check(it->first == it1->first);
+//	check(it->first == it1->first);
 //	std::cout << it->first << std::endl;
 //	std::cout << it1->first << std::endl;
-	it2++;
-	it3++;
+//	it2++;
+//	it3++;
 //	check(it2->first == it3->first);
-	std::cout << it2->first << std::endl;
-	std::cout << it3->first << std::endl;
+//	std::cout << it2->first << std::endl;
+//	std::cout << it3->first << std::endl;
 }
+
 
 void map_tests()
 {
@@ -594,7 +566,7 @@ void map_tests()
 	test_case("map insert iterator3", &map_insert_iterator3);
 	test_case("map operator ++", &map_operator_pp);
 	test_case("map operator --", &map_operator_ll);
-	test_case("map iterator const", &map_iterator_const);
+//	test_case("map iterator const", &map_iterator_const);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

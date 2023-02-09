@@ -26,11 +26,11 @@ namespace ft{
 		typedef typename allocator_type::const_reference 	const_reference;
 		typedef typename allocator_type::pointer 			pointer;
 		typedef typename allocator_type::const_pointer 		const_pointer;
-		typedef	Node<key_type, mapped_type>					node;
+		typedef	Node<value_type>							node;
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
-		typedef tree_iterator<typename BSTree<Key, T>::node* >	iterator;
-		typedef tree_iterator<const typename BSTree<Key, T>::node* >	const_iterator;
+		typedef tree_iterator<typename BSTree<value_type>::node* >	iterator;
+		typedef tree_iterator<typename BSTree<const value_type>::node* >	const_iterator;
 //		typedef random_iterator<pointer> iterator;
 //		typedef random_iterator<const_pointer> const_iterator;
 //		typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -44,7 +44,7 @@ namespace ft{
 //			std::cout << "map created " << std::endl;
 			this->_allocator = alloc;
 			this->_comp = comp;
-			this->_root = new BSTree<key_type, mapped_type>();
+			this->_root = new BSTree<value_type>();
 		}
 
 		template <class InputIterator>
@@ -54,7 +54,7 @@ namespace ft{
 
 			this->_allocator = alloc;
 			this->_comp = comp;
-			this->_root = new BSTree<key_type, mapped_type>();
+			this->_root = new BSTree<value_type>();
 			it = first;
 			while (it != last)
 			{
@@ -75,7 +75,7 @@ namespace ft{
 		mapped_type& operator[] (const key_type& k)
 		{
 //			int j = 7;
-			typename BSTree<key_type, mapped_type>::node	*found;
+			typename BSTree<value_type>::node	*found;
 
 			if (this->size() == 0)
 			{
@@ -88,23 +88,23 @@ namespace ft{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 				return (this->operator[](k));
 			}
-			return (found->value);
+			return (found->content.second);
 
 		}
 
 		mapped_type& at (const key_type& k)
 		{
-			typename BSTree<key_type, mapped_type>::node	*found;
+			typename BSTree<value_type>::node	*found;
 
 			found = this->_root->find(k);
 			if (!found)
 				throw (std::out_of_range("map::at"));
-			return (found->value);
+			return (found->content.second);
 		}
 
 		const mapped_type& at (const key_type& k) const
 		{
-			typename BSTree<key_type, mapped_type>::node	*found;
+			typename BSTree<value_type>::node	*found;
 
 			found = this->_root->find(k);
 			if (!found)
@@ -114,7 +114,7 @@ namespace ft{
 
 		pair<iterator,bool>	insert(const value_type& p)
 		{
-			typename BSTree<key_type, mapped_type>::node	*new_inserted;
+			typename BSTree<value_type>::node	*new_inserted;
 			size_type	old_size;
 
 			old_size = this->size();
@@ -124,7 +124,7 @@ namespace ft{
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			typename BSTree<key_type, mapped_type>::node	*new_inserted;
+			typename BSTree<value_type>::node	*new_inserted;
 
 			new_inserted = _root->insert(position, val);
 			return (iterator(new_inserted));
@@ -164,7 +164,7 @@ namespace ft{
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
-			BSTree<key_type, mapped_type>	*_root;
+			BSTree<value_type>	*_root;
 	};
 
 }

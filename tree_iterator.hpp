@@ -24,10 +24,20 @@ namespace ft{
 			tree_iterator() : p() {}
 			tree_iterator(pointer ptr) : p(ptr) {}
 
-			template<class C>
-			tree_iterator(const tree_iterator<C> &it) : p(it.getNode()) {}
+			tree_iterator(const tree_iterator& it) : p(it.getNode()) {}
 
-			tree_iterator(tree_iterator<const pointer> &it) : p(it.getNode()) {}
+			template<typename C>
+			tree_iterator(const tree_iterator<C> &it) {
+				p = it.getNode();
+			}
+
+
+
+			template<typename C>
+			tree_iterator& operator=(const tree_iterator<C> &it)
+			{
+				this->p = it.p;
+			}
 
 			value_type& operator*() const { return p->content; }
 			value_type* operator->() const { return &(p->content); }

@@ -56,7 +56,7 @@ namespace ft{
 			typedef typename iterator_traits<iterator>::difference_type difference_type;
 
 			//member functions
-			
+
 			//constructors
 			//default constructor
 			explicit vector (const allocator_type& alloc = allocator_type())
