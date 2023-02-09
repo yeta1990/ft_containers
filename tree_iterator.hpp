@@ -18,7 +18,7 @@ namespace ft{
 //			typedef	T*				pointer;
 			typedef	value_type&				reference;
 //			typedef typename ft::iterator_traits<typename T::value_type>::difference_type difference_type;
-			typedef size_t difference_type;
+//			typedef size_t difference_type;
 //			typedef typename ft::iterator_traits<T>::pointer pointer;
 //			reference;
 
@@ -31,8 +31,6 @@ namespace ft{
 			tree_iterator(const tree_iterator<C> &it) {
 				p = it.getNode();
 			}
-
-
 
 			template<typename C>
 			tree_iterator& operator=(const tree_iterator<C> &it)
@@ -52,6 +50,7 @@ namespace ft{
 				p = n;
 				return *this; }
 			tree_iterator& operator--() { (*this)--; return *this; }
+
 			tree_iterator operator++(int) { 
 				tree_iterator copy(*this);
 				++(*this);

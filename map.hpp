@@ -26,19 +26,41 @@ namespace ft{
 		typedef typename allocator_type::const_reference 	const_reference;
 		typedef typename allocator_type::pointer 			pointer;
 		typedef typename allocator_type::const_pointer 		const_pointer;
-		typedef	ft::Node<value_type>							node;
+		typedef	ft::Node<value_type>						node;
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
 		typedef tree_iterator<node *>	iterator;
 		typedef tree_iterator<node *>	const_iterator;
 //		typedef random_iterator<pointer> iterator;
 //		typedef random_iterator<const_pointer> const_iterator;
-//		typedef ft::reverse_iterator<iterator> reverse_iterator;
-//		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-//		typedef typename iterator_traits<iterator>::difference_type difference_type;
+		typedef ft::reverse_iterator<iterator> reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+		typedef std::ptrdiff_t			difference_type;
 		typedef size_t size_type;
 
-//		map() {};
+		class value_compare {
+			public:
+				bool		result_type;
+				value_type	first_argument_type;
+				value_type	second_argument_type;
+
+			protected:
+				Compare	comp;
+				value_compare( Compare c ) : comp(c) {};
+				bool operator()( const value_type& lhs, const value_type& rhs ) const { return comp(lhs.first, rhs.first); }
+
+
+
+		};
+
+		/*
+		map() {
+			this->_allocator = NULL;
+			this->_comp = NULL;
+			this->_root = new BSTree<value_type>();
+		};
+		*/
+
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 //			std::cout << "map created " << std::endl;
@@ -64,7 +86,25 @@ namespace ft{
 
 		}
 //
-//		map (const map& other);
+		map (const map& other)
+		{
+//			*this = map(
+			this->_allocator = other.get_allocator();
+			this->_comp = key_compare();
+			this->_root = new BSTree<value_type>();
+
+			const_iterator	it;
+			for (it = other.begin(); it != other.end(); it++)
+			{
+				insert(*it);
+			}
+		}
+
+		allocator_type get_allocator() const
+		{
+			return (this->_allocator);
+		}
+
 		~map() { delete this->_root; this->_root = NULL;}
 
 		//capacity
@@ -143,7 +183,6 @@ namespace ft{
 			}
 		}
 
-
 		iterator begin()
 		{
 			node*	found;
@@ -151,6 +190,7 @@ namespace ft{
 
 			return (iterator(found));
 		}
+
 		iterator end()
 		{
 			node*	found;
@@ -158,8 +198,22 @@ namespace ft{
 
 			return (iterator(found));
 		}
-//		const_iterator begin() const;
 
+		const_iterator begin() const
+		{
+			node*	found;
+			found = this->_root->getLowestNode();
+
+			return (const_iterator(found));
+		}
+
+		const_iterator end() const
+		{
+			node*	found;
+			found = this->_root->getSentinel();
+
+			return (const_iterator(found));
+		}
 
 		private:
 			Allocator			_allocator;
