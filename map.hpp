@@ -250,8 +250,25 @@ namespace ft{
 		}
 
 
-//
-//		iterator upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
+//key_comp(k,element_key) would return true.
+		iterator upper_bound (const key_type& k)
+		{
+			iterator	it;
+			key_compare comp = this->key_comp();
+
+			for (it = this->begin(); it != this->end(); it++)
+			{
+				if (comp(k, it->first))
+					return (it);
+			}
+			return (it);
+
+		}
+
+		const_iterator upper_bound (const key_type& k) const
+		{
+			return (const_iterator(upper_bound(k)));
+		}
 //
 //		pair<const_iterator,const_iterator> equal_range (const key_type& k) const;pair<iterator,iterator>             equal_range (const key_type& k);
 
