@@ -625,6 +625,38 @@ void	map_find()
 
 }
 
+void	map_lower_bound()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+
+	it = map.lower_bound(7);
+	it1 = map1.lower_bound(7);
+	check((*it).first == (*it1).first);
+
+	it = map.lower_bound(-10);
+	it1 = map1.lower_bound(-10);
+	check((*it).first == (*it1).first);
+
+	it1 = map1.lower_bound(200);
+	check(it1 == map1.end());
+
+	std::map<int, int>::const_iterator itc;
+	ft::map<int, int>::const_iterator it1c;
+
+	itc = map.lower_bound(7);
+	it1c = map1.lower_bound(7);
+	check((*itc).first == (*it1c).first);
+
+	itc = map.lower_bound(-10);
+	it1c = map1.lower_bound(-10);
+	check((*itc).first == (*it1c).first);
+
+	it1c = map1.lower_bound(200);
+	check(it1c == map1.end());
+}
 
 void map_tests()
 {
@@ -647,6 +679,7 @@ void map_tests()
 	test_case("map iterator const2", &map_iterator_const_2);
 	test_case("map maxsize", &map_maxsize);
 	test_case("map find", &map_find);
+	test_case("map lower bound", &map_lower_bound);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

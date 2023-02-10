@@ -20,7 +20,7 @@ namespace ft{
 		typedef Key											key_type;
 		typedef T											mapped_type;
 		typedef pair<const key_type, mapped_type>			value_type;
-		typedef std::less<key_type> 						key_compare;
+		typedef Compare				 						key_compare;
 		//value_compare
 		typedef std::allocator<value_type> 					allocator_type;
 		typedef typename allocator_type::reference 			reference;
@@ -197,7 +197,10 @@ namespace ft{
 
 		
 		//observers
-		//key_compare key_comp() const;
+		key_compare key_comp() const
+		{
+			return (this->_comp);
+		}
 		//value_compare value_comp() const;
 		
 
@@ -227,8 +230,26 @@ namespace ft{
 			return (1);
 		}
 
-//		iterator lower_bound (const key_type& k);
-//		const_iterator lower_bound (const key_type& k) const;
+//		key_comp(element_key,k) would return false
+		iterator lower_bound (const key_type& k)
+		{
+			iterator	it;
+			key_compare comp = this->key_comp();
+
+			for (it = this->begin(); it != this->end(); it++)
+			{
+				if (!comp(it->first, k))
+					return (it);
+			}
+			return (it);
+		}
+
+		const_iterator lower_bound (const key_type& k) const
+		{
+			return (const_iterator(lower_bound(k)));
+		}
+
+
 //
 //		iterator upper_bound (const key_type& k);const_iterator upper_bound (const key_type& k) const;
 //
