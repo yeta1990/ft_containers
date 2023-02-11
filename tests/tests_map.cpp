@@ -691,6 +691,41 @@ void	map_upper_bound()
 	check(it1c == map1.end());
 }
 
+void	map_equal_range()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+//	std::map<int, int>::iterator it;
+//	ft::map<int, int>::iterator it1;
+
+	std::pair<std::map<int,int>::iterator, std::map<int,int>::iterator> p;
+	ft::pair<ft::map<int,int>::iterator, ft::map<int,int>::iterator> p1;
+
+	p = map.equal_range(1);
+	p1 = map1.equal_range(1);
+	check((*p.first).first == (*p1.first).first);
+	check((*p.second).first == (*p1.second).first);
+
+//	std::map<int, int> map2;
+//	ft::map<int, int> map3;
+	p = map.equal_range(150);
+	p1 = map1.equal_range(150);
+	check(p.first == map.end());
+	check(p1.first == map1.end());
+
+	std::map<int, int> const map2(map);
+	ft::map<int, int> const map3(map1);
+	std::pair<std::map<int,int>::const_iterator, std::map<int,int>::const_iterator> p2;
+	ft::pair<ft::map<int,int>::const_iterator, ft::map<int,int>::const_iterator> p3;
+	p2 = map2.equal_range(1);
+	p3 = map3.equal_range(1);
+	check((*p2.first).first == (*p3.first).first);
+	check((*p2.second).first == (*p3.second).first);
+
+//	ft::map<int, int> map3 = create_map();
+
+}
+
 
 void map_tests()
 {
@@ -715,6 +750,7 @@ void map_tests()
 	test_case("map find", &map_find);
 	test_case("map lower bound", &map_lower_bound);
 	test_case("map upper bound", &map_upper_bound);
+	test_case("map equal range", &map_equal_range);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

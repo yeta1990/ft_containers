@@ -246,7 +246,16 @@ namespace ft{
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			return (const_iterator(lower_bound(k)));
+			const_iterator	it;
+			key_compare comp = this->key_comp();
+
+			for (it = this->begin(); it != this->end(); it++)
+			{
+				if (!comp(it->first, k))
+					return (it);
+			}
+			return (it);
+//			return (const_iterator(lower_bound(k)));
 		}
 
 
@@ -267,11 +276,27 @@ namespace ft{
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			return (const_iterator(upper_bound(k)));
-		}
-//
-//		pair<const_iterator,const_iterator> equal_range (const key_type& k) const;pair<iterator,iterator>             equal_range (const key_type& k);
+			const_iterator	it;
+			key_compare comp = this->key_comp();
 
+			for (it = this->begin(); it != this->end(); it++)
+			{
+				if (comp(k, it->first))
+					return (it);
+			}
+			return (it);
+//			return (const_iterator(upper_bound(k)));
+		}
+
+		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+		{
+			return (ft::make_pair(lower_bound(k), upper_bound(k)));
+		}
+
+		ft::pair<iterator,iterator> equal_range (const key_type& k)
+		{
+			return (ft::make_pair(lower_bound(k), upper_bound(k)));
+		}
 
 		//iterators
 		iterator begin()
