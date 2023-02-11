@@ -143,6 +143,7 @@ class BSTree{
 		}
 
 		void	del(typename value_type::first_type key);
+		bool	deleteKeyFrom(typename value_type::first_type key, node *root);
 		size_t	size() const;
 		node	*find(typename value_type::first_type key);
 
@@ -232,6 +233,16 @@ typename BSTree<T>::node*	BSTree<T>::find(typename T::first_type key)
 }
 
 template <class T>
+bool	BSTree<T>::deleteKeyFrom(typename T::first_type key, node *node)
+{
+	size_t	old_size;
+
+	old_size = this->_size;
+	del(key, node);
+	return (old_size - _size);
+}
+
+template <class T>
 typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 {
 	typedef typename BSTree<T>::node node;
@@ -246,24 +257,36 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 		return (root);
 	else if (key < root->content.first)
 		root->left = del(key, root->left);
-	else if (key > root->key)
+	else if (key > root->content.first)
 		root->right = del(key, root->right);
 	else //found
 	{
 //		std::cout << "found node: " << root->value << std::endl;
 		if (!root->hasAnyChild())
 		{
-//			std::cout << "hasnt any child" << std::endl;
+			std::cout << "hasnt any child" << std::endl;
 			this->_size--;
-			delete root;
+//			delete root; //double free when erasing...
 			root = NULL;
+//			root = sentinel;
 		}
 		else if (root->hasTwoChildren())
 		{
 //			std::cout << "has two children" << std::endl;
+			node*	copy_root;
+
+			copy_root = new Node<T>(root->content, root->parent, this, sentinel);
+			copy_root->left = root->left;
+			copy_root->right = root->right;
 			maxNode = this->getMaxNode(root->left);
-			root->key = maxNode->key;
-			root->left = del(maxNode->key, root->left);
+			if (root == root->parent->left)
+				root->parent->left = copy_root;
+			else
+				root->parent->right = copy_root;
+//			root = copy_root;
+
+//			root->content = maxNode->content;
+			root->left = del(maxNode->content.first, root->left);
 		}
 		else if ((child = root->hasOneChild())) // go left
 		{

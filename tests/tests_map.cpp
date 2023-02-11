@@ -726,6 +726,26 @@ void	map_equal_range()
 
 }
 
+void	map_erase()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+
+	it = map.begin();
+	it1 = map1.begin();
+	for (size_t i = 0; i < 4; i++)
+	{
+		it++;
+		it1++;
+	}
+	map.erase(it);
+	map1.erase(it1);
+	check(map.size() == map1.size());
+
+}
+//test_case("map equal range", &map_equal_range);
 
 void map_tests()
 {
@@ -751,6 +771,7 @@ void map_tests()
 	test_case("map lower bound", &map_lower_bound);
 	test_case("map upper bound", &map_upper_bound);
 	test_case("map equal range", &map_equal_range);
+	test_case("map erase", &map_erase);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
