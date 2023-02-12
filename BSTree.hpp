@@ -247,11 +247,11 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 {
 	typedef typename BSTree<T>::node node;
 	node	*maxNode;
-	node	*aux;
+//	node	*aux;
 	node	*child;
 
 	child = NULL;
-	aux = NULL;
+//	aux = NULL;
 	maxNode = NULL;
 	if (root == NULL)
 		return (root);
@@ -272,8 +272,8 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 				root->parent->left = sentinel;
 			else
 				root->parent->right = sentinel;
-			if (root != sentinel)
-				delete root; //double free when erasing...
+//			if (root != sentinel) //doesn't seem necessary at all
+				delete root; 
 //			root = NULL;
 			root = sentinel;
 		}
@@ -295,13 +295,20 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 				root->parent->right = copy_max_node;
 
 //			root->content = maxNode->content;
-			root->left = del(maxNode->content.first, root);
+			root->left = del(maxNode->content.first, root->left);
 			delete old_root;
 		}
 		else if ((child = root->hasOneChild())) // go left
 		{
-			std::cout << "has one child" << std::endl;
+			node*	aux;
+
+//			std::cout << "has one child" << std::endl;
 			aux = root;
+			if (root == root->parent->left)
+				root->parent->left = child;
+			else
+				root->parent->right = child;
+			child->parent = root->parent;
 			root = child;
 			this->_size--;
 			delete aux;
@@ -325,7 +332,10 @@ template <class T>
 typename BSTree<T>::node*	BSTree<T>::findNode(typename T::first_type key, Node<T> *node)
 {
 	if (node && node->content.first == key)
+	{
+//		std::cout << "found " << key << std::endl;
 		return (node);
+	}
 	else if (node && node->left && node->left != sentinel && key <= node->content.first)
 		return (findNode(key, node->left));
 	else if (node && node->right && node->right != sentinel && key >= node->content.first)

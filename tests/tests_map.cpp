@@ -784,16 +784,22 @@ void	map_erase()
 	it = map.find(10);
 	it1 = map1.find(10);
 	map.erase(it);
+	map1.erase(it1);
+	check(map.size() == map1.size());
 //	std::cout << it->first << "," << it1->first << std::endl;
-//	map1.erase(it1);
-//	it = map.find(9);
-//	it1 = map1.find(9);
-//	check(map.size() == map1.size());
-//	check(it->first == it1->first);
-//	check((--it)->first == (--it1)->first);
+	it = map.find(9);
+	it1 = map1.find(9);
+//	check(it != map.end());
+//	check(it1 1= map1.end());
+	check(it->first == it1->first);
+	check((--it)->first == (--it1)->first);
 //	std::cout << it->first << "," << it1->first << std::endl;
-//	check((++it)->first == (++it1)->first);
+	check((++it)->first == (++it1)->first);
 //	std::cout << it->first << "," << it1->first << std::endl;
+	it = map.find(10);
+	it1 = map1.find(10);
+	check(it == map.end());
+	check(it1 == map1.end());
 
 }
 //test_case("map equal range", &map_equal_range);
