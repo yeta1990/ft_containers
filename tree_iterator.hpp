@@ -35,7 +35,7 @@ namespace ft{
 			template<typename C>
 			tree_iterator& operator=(const tree_iterator<C> &it)
 			{
-				this->p = it.getNode();
+				p = it.getNode();
 				return *this;
 			}
 
@@ -43,6 +43,7 @@ namespace ft{
 			value_type* operator->() const { return p->content; }
 			pointer*	base() { return (&p) ;}
 			pointer		getNode() const { return (p) ;}
+//			pointer		getNode() { return (p) ;}
 			tree_iterator& operator++() { 
 				pointer n;
 				n = p;

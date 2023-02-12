@@ -1,6 +1,12 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# if __linux__
+#  define MAX_SIZE_DIVISOR 12
+# else
+#  define MAX_SIZE_DIVISOR 10
+# endif
+
 #include "iterator_traits.hpp"
 #include "random_iterator.hpp"
 #include "reverse_iterator.hpp"
@@ -28,6 +34,7 @@ namespace ft{
 		typedef typename allocator_type::pointer 			pointer;
 		typedef typename allocator_type::const_pointer 		const_pointer;
 		typedef	ft::Node<value_type>						node;
+		typedef	ft::Node<value_type>					const_node;
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
 		typedef tree_iterator<node *>	iterator;
@@ -39,18 +46,17 @@ namespace ft{
 		typedef std::ptrdiff_t			difference_type;
 		typedef size_t size_type;
 
-		class value_compare {
+		class value_compare : std::binary_function<value_type,value_type,bool> {
+			friend class map;
 			public:
 				bool		result_type;
 				value_type	first_argument_type;
 				value_type	second_argument_type;
+				bool operator()( const value_type& lhs, const value_type& rhs ) const { return comp(lhs.first, rhs.first); }
 
 			protected:
 				Compare	comp;
 				value_compare( Compare c ) : comp(c) {};
-				bool operator()( const value_type& lhs, const value_type& rhs ) const { return comp(lhs.first, rhs.first); }
-
-
 
 		};
 
@@ -113,7 +119,7 @@ namespace ft{
 		size_type	size() const { return (this->_root->size());};
 //		size_type 	max_size() const {return (this->_allocator.max_size());};
 		size_type	max_size() const {
-			return (std::numeric_limits<map::size_type>::max() / sizeof(T) / 10);
+			return (std::numeric_limits<map::size_type>::max() / sizeof(T) / MAX_SIZE_DIVISOR);
 		}
 
 		//element access
@@ -229,7 +235,10 @@ namespace ft{
 		{
 			return (this->_comp);
 		}
-		//value_compare value_comp() const;
+		value_compare value_comp() const
+		{
+			return (value_compare(this->_comp));
+		}
 		
 
 		//operations

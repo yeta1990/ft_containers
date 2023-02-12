@@ -924,12 +924,12 @@ void	map_erase_4()
 //	std::map<int, int>::iterator	it5;
 //	ft::map<int, int>::iterator		it6;
 
-	map.insert(std::make_pair(1,1)).first;
-	map1.insert(ft::make_pair(1,1)).first;
-	map.insert(std::make_pair(2,2)).first;
-	map1.insert(ft::make_pair(2,2)).first;
-	map.insert(std::make_pair(-1,-1)).first;
-	map1.insert(ft::make_pair(-1,-1)).first;
+	map.insert(std::make_pair(1,1));
+	map1.insert(ft::make_pair(1,1));
+	map.insert(std::make_pair(2,2));
+	map1.insert(ft::make_pair(2,2));
+	map.insert(std::make_pair(-1,-1));
+	map1.insert(ft::make_pair(-1,-1));
 	check(map.size() == map1.size());
 
 	map.erase(1);
@@ -1047,6 +1047,38 @@ void	map_swap()
 	
 }
 
+void	printmap(ft::map<const char, double> const &mp)
+{
+	ft::map<const char, double>::const_iterator it;
+	ft::map<const char, double>::const_iterator ite;
+
+	it = mp.begin();
+	ite = mp.end();
+	for (; it != ite; ++it)
+		std::cout << "- " << std::endl;
+}
+
+void	map_comp()
+{
+	std::map<const char, double> map;
+	ft::map<const char, double> map1;
+//	std::map<int, int> map;
+
+	map['a'] = 2.3;
+	map['b'] = 1.4;
+	map['c'] = 0.3;
+	map['d'] = 4.2;
+	map1['a'] = 2.3;
+	map1['b'] = 1.4;
+	map1['c'] = 0.3;
+	map1['d'] = 4.2;
+//	std::cout << "size: " << map.size() << std::endl;
+//	std::cout << "max_size: " << map.max_size() << std::endl;
+//	std::cout << "size: " << map.size() << std::endl;
+//	std::cout << "max_size: " << map.max_size() << std::endl;
+	printmap(map1);
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -1078,6 +1110,7 @@ void map_tests()
 	test_case("map erase5", &map_erase_5);
 	test_case("map erase6", &map_erase_6);
 	test_case("map swap", &map_swap);
+	test_case("map comp", &map_comp);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
