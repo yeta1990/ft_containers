@@ -149,9 +149,10 @@ class BSTree{
 		bool	deleteKeyFrom(node *node);
 		void	clear()
 		{
-			this->freeTree(root);
-			this->root = NULL;
-			this->sentinel->right = NULL;
+			this->~BSTree();
+//			this->freeTree(root);
+//			this->root = NULL;
+//			this->sentinel->right = NULL;
 		}
 		size_t	size() const;
 		node	*find(typename value_type::first_type key);

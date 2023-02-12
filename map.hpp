@@ -88,7 +88,9 @@ namespace ft{
 //
 		map (const map& other)
 		{
-//			*this = map(
+			*this = other; 
+//			return (*this);
+			/*
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
 			this->_root = new BSTree<value_type>();
@@ -98,6 +100,21 @@ namespace ft{
 			{
 				insert(*it);
 			}
+			*/
+		}
+
+		map& operator= (const map& other)
+		{
+			this->_allocator = other.get_allocator();
+			this->_comp = key_compare();
+			this->_root = new BSTree<value_type>();
+
+			const_iterator	it;
+			for (it = other.begin(); it != other.end(); it++)
+			{
+				insert(*it);
+			}
+			return (*this);
 		}
 
 		allocator_type get_allocator() const
@@ -222,10 +239,11 @@ namespace ft{
 		}
 		void clear()
 		{
-			this->_root->clear();
+			delete _root;
+			this->_root = new BSTree<value_type>();
 		}
 
-		
+
 		//observers
 		key_compare key_comp() const
 		{
