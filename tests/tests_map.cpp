@@ -842,7 +842,6 @@ void	map_erase_2()
 	check(map.size() == map1.size());
 }
 
-
 void	map_erase_3()
 {
 	std::map<int, int> map = create_std_map();
@@ -952,6 +951,63 @@ void	map_erase_4()
 	check(map.size() == map1.size());
 }
 
+void	map_erase_5()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+	std::map<int, int>::iterator ite;
+	ft::map<int, int>::iterator it1e;
+
+	it = map.begin();
+	it1 = map1.begin();
+	for (size_t i = 0; i < 6; i++)
+	{
+		it++;
+		it1++;
+	}
+
+	ite = map.end();
+	it1e = map1.end();
+	ite--;
+	it1e--;
+	map.erase(it, ite);
+	map1.erase(it1, it1e);
+	
+	check(map.size() == map1.size());
+	
+	it = map.begin();
+	it1 = map1.begin();
+	for (size_t i = 0; i < map.size(); i++)
+	{
+		check((*it).first == (*it1).first);
+//		std::cout << (*it).first << "," << (*it1).first << std::endl;
+		it++;
+		it1++;
+	}
+}
+
+void	map_erase_6()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+
+	map.erase(8);
+	map1.erase(8);
+	it = map.begin();
+	it1 = map1.begin();
+	for (size_t i = 0; i < 8; i++)
+	{
+		check((*it).first == (*it1).first);
+//		std::cout << (*it).first << "," << (*it1).first << std::endl;
+		it++;
+		it1++;
+	}
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -980,6 +1036,8 @@ void map_tests()
 	test_case("map erase2", &map_erase_2);
 	test_case("map erase3", &map_erase_3);
 	test_case("map erase4", &map_erase_4);
+	test_case("map erase5", &map_erase_5);
+	test_case("map erase6", &map_erase_6);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

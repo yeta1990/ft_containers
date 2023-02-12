@@ -204,7 +204,18 @@ namespace ft{
 			this->_root->del(k);
 			return (this->size() - old_size);
 		}
-		//void erase (iterator first, iterator last);
+		void erase (iterator first, iterator last)
+		{
+			iterator	it;
+
+			it = first;
+			while (it != end() && it->first != last->first)
+			{
+				first++;
+				erase(it);
+				it = first;
+			}
+		}
 
 		//void swap (map& x);
 		//void clear();

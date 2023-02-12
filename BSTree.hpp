@@ -281,6 +281,7 @@ void	BSTree<T>::del(node *node)
 	else 
 	{
 		y = getMinNode(node->right);
+//		std::cout << "y is " << y->content->first << std::endl;
 		if (y->parent != node)
 		{
 			transplant(y, y->right);
@@ -313,7 +314,7 @@ template <class T>
 typename BSTree<T>::node*	BSTree<T>::getMinNode(Node<T> *node)
 {
 	if (node->left && node->left != sentinel)
-		return (getMaxNode(node->left));
+		return (getMinNode(node->left));
 	return (node);
 }
 
