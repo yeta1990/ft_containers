@@ -1044,6 +1044,9 @@ void	map_swap()
 	std::swap(map,map2);
 	ft::swap(map1,map3);
 	check((*it7).first == (*it8).first);
+	map.clear();
+	map1.clear();
+	check(map.size() == map1.size());
 	
 }
 

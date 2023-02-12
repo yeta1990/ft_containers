@@ -60,14 +60,7 @@ namespace ft{
 
 		};
 
-		/*
-		map() {
-			this->_allocator = NULL;
-			this->_comp = NULL;
-			this->_root = new BSTree<value_type>();
-		};
-		*/
-
+		
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 //			std::cout << "map created " << std::endl;
@@ -227,7 +220,10 @@ namespace ft{
 		{
 			this->_root->swap(x._root);
 		}
-		//void clear();
+		void clear()
+		{
+			this->_root->clear();
+		}
 
 		
 		//observers

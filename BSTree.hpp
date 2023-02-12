@@ -114,7 +114,7 @@ class BSTree{
 
 	public:
 		typedef Node<T>			node;
-		typedef BSTree<T>			tree;
+		typedef BSTree<T>		tree;
 		typedef T				value_type;
 		typedef tree_iterator<node*>	iterator;
 
@@ -147,6 +147,12 @@ class BSTree{
 		void	del(typename value_type::first_type key);
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
+		void	clear()
+		{
+			this->freeTree(root);
+			this->root = NULL;
+			this->sentinel->right = NULL;
+		}
 		size_t	size() const;
 		node	*find(typename value_type::first_type key);
 
@@ -388,6 +394,7 @@ void BSTree<T>::freeTree(node *root)
 		freeTree(root->right);	
 //	std::cout << root->key << std::endl;
 	delete root;
+	_size--;
 	root = NULL;
 }
 
