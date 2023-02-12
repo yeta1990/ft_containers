@@ -1014,32 +1014,36 @@ void	map_swap()
 	ft::map<int, int> map1 = create_map();
 
 	std::map<int, int>				map2;
-//	ft::map<int, int>				map1;
+	ft::map<int, int>				map3;
 	std::map<int, int>::iterator	it;
-//	ft::map<int, int>::iterator		it2;
+	ft::map<int, int>::iterator		it2;
 	std::map<int, int>::iterator	it3;
-//	ft::map<int, int>::iterator		it4;
+	ft::map<int, int>::iterator		it4;
 	std::map<int, int>::iterator	it5;
-//	ft::map<int, int>::iterator		it6;
+	ft::map<int, int>::iterator		it6;
 
 	std::map<int, int>::iterator	it7;
-//	std::map<int, int>::iterator	it8;
+	ft::map<int, int>::iterator	it8;
 
 	it = map2.insert(std::make_pair(1,1)).first;
-//	it2 = map1.insert(ft::make_pair(1,1)).first;
+	it2 = map3.insert(ft::make_pair(1,1)).first;
 	it3 = map2.insert(std::make_pair(2,2)).first;
-//	it4 = map1.insert(ft::make_pair(2,2)).first;
+	it4 = map3.insert(ft::make_pair(2,2)).first;
 	it5 = map2.insert(std::make_pair(-1,-1)).first;
-//	it6 = map1.insert(ft::make_pair(-1,-1)).first;
+	it6 = map3.insert(ft::make_pair(-1,-1)).first;
 //	check(map.size() == map1.size());
 
 	it7 = map.end();
+	it8 = map1.end();
 	it7--;
-	std::cout << (*it7).first << std::endl;
+	it8--;
+	check((*it7).first == (*it8).first);
 	it7--;
-	std::cout << (*it7).first << std::endl;
+	it8--;
+//	std::cout << (*it7).first << std::endl;
 	std::swap(map,map2);
-	std::cout << (*it7).first << std::endl;
+	ft::swap(map1,map3);
+	check((*it7).first == (*it8).first);
 	
 }
 

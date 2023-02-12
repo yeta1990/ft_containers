@@ -217,7 +217,10 @@ namespace ft{
 			}
 		}
 
-		//void swap (map& x);
+		void swap (map& x)
+		{
+			this->_root->swap(x._root);
+		}
 		//void clear();
 
 		
@@ -362,13 +365,13 @@ namespace ft{
 			BSTree<value_type>	*_root;
 	};
 
-/*
+
 template <class Key, class T, class Compare, class Alloc>  
 void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
 {
-	size_type	size;
+	x.swap(y);
 }
-*/
+
 
 }
 

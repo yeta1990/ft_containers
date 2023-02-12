@@ -186,9 +186,25 @@ class BSTree{
 		
 //		node	*get
 
-		//remove it before evaluation
-//		node*	base() { return root; };
+		node*	base() { return root; };
 
+		void swap (BSTree* x)
+		{
+			node*	x_sentinel;	
+			node*	x_root;	
+			size_t	x_size;
+
+			x_sentinel = x->getSentinel();
+			x_root = x->base();
+			x_size = x->_size;
+			x->sentinel = this->sentinel;
+			x->root = this->root;
+			x->_size = this->_size;
+			this->sentinel = x_sentinel;
+			this->root = x_root;
+			this->_size = x_size;
+
+		}
 	private:
 		node			*sentinel;
 		node			*root;
