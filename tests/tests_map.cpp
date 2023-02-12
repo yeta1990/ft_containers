@@ -740,9 +740,60 @@ void	map_erase()
 		it++;
 		it1++;
 	}
+//	std::cout << "erase " << it->first << std::endl;
 	map.erase(it);
 	map1.erase(it1);
 	check(map.size() == map1.size());
+
+	it = map.find(5);
+	it1 = map1.find(5);
+	check(it == map.end());
+	check(it1 == map1.end());
+
+	it = map.find(4);
+	it1 = map1.find(4);
+	check(it->first == it1->first);
+	check((++it)->first == (++it1)->first);
+
+	it = map.find(4);
+	it1 = map1.find(4);
+	check((--it)->first == (--it1)->first);
+
+	it = map.find(1);
+	it1 = map1.find(1);
+//	std::cout << "erase " << it->first << std::endl;
+	map.erase(it);
+	map1.erase(it1);
+	check(map.size() == map1.size());
+	it = map.find(1);
+	it1 = map1.find(1);
+	check(it == map.end());
+	check(it1 == map1.end());
+
+	map[3] = 3;	
+	map1[3] = 3;	
+	check(map.size() == map1.size());
+	it = map.find(3);
+	it1 = map1.find(3);
+	check(it->first == it1->first);
+	check((--it)->first == (--it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+	check((++it)->first == (++it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+
+	it = map.find(10);
+	it1 = map1.find(10);
+	map.erase(it);
+//	std::cout << it->first << "," << it1->first << std::endl;
+//	map1.erase(it1);
+//	it = map.find(9);
+//	it1 = map1.find(9);
+//	check(map.size() == map1.size());
+//	check(it->first == it1->first);
+//	check((--it)->first == (--it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+//	check((++it)->first == (++it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
 
 }
 //test_case("map equal range", &map_equal_range);

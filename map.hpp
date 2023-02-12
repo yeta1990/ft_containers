@@ -128,7 +128,7 @@ namespace ft{
 				return ((*this)[k]);
 			}
 			found = this->_root->find(k);
-			if (!found)
+			if (found == _root->getSentinel())
 			{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 				return (this->operator[](k));
@@ -142,7 +142,7 @@ namespace ft{
 			typename BSTree<value_type>::node	*found;
 
 			found = this->_root->find(k);
-			if (!found)
+			if (found == _root->getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->content.second);
 		}
@@ -152,7 +152,7 @@ namespace ft{
 			typename BSTree<value_type>::node	*found;
 
 			found = this->_root->find(k);
-			if (!found)
+			if (found == _root->getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->value);
 		}

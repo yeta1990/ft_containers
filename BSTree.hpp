@@ -41,9 +41,9 @@ class Node
 
 		Node	*hasOneChild()
 		{
-			if (left)
+			if (left && left != sentinel)
 				return (left);
-			else if (right)
+			else if (right && right != sentinel)
 				return (right);
 			return (NULL);
 		}
@@ -255,42 +255,52 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 	maxNode = NULL;
 	if (root == NULL)
 		return (root);
-	else if (key < root->content.first)
+	else if (key < root->content.first && root != sentinel)
 		root->left = del(key, root->left);
-	else if (key > root->content.first)
+	else if (key > root->content.first && root != sentinel)
 		root->right = del(key, root->right);
-	else //found
+	else if (key == root->content.first)//found
 	{
-//		std::cout << "found node: " << root->value << std::endl;
-		if (!root->hasAnyChild())
+//		std::cout << "found node: " << root->content.first << std::endl;
+//		std::cout << root->right << std::endl;
+		if (root->left == sentinel && root->right == sentinel)
+//		if (!root->hasAnyChild() || (root->left == sentinel && root->right == sentinel))
 		{
-			std::cout << "hasnt any child" << std::endl;
+//			std::cout << "hasnt any child, " << root->content.first << std::endl;
 			this->_size--;
-//			delete root; //double free when erasing...
-			root = NULL;
-//			root = sentinel;
-		}
-		else if (root->hasTwoChildren())
-		{
-//			std::cout << "has two children" << std::endl;
-			node*	copy_root;
-
-			copy_root = new Node<T>(root->content, root->parent, this, sentinel);
-			copy_root->left = root->left;
-			copy_root->right = root->right;
-			maxNode = this->getMaxNode(root->left);
 			if (root == root->parent->left)
-				root->parent->left = copy_root;
+				root->parent->left = sentinel;
 			else
-				root->parent->right = copy_root;
-//			root = copy_root;
+				root->parent->right = sentinel;
+			if (root != sentinel)
+				delete root; //double free when erasing...
+//			root = NULL;
+			root = sentinel;
+		}
+		else if (root->hasTwoChildren() && root->left != sentinel && root->right != sentinel)
+		{
+//			std::cout << "has two children " << root->content.first << std::endl;
+//			std::cout << root->left->content.first << "," << root->right->content.first << std::endl;
+			node*	copy_max_node;
+			node*	old_root;
+			
+			old_root = root;
+			maxNode = this->getMaxNode(root->left);
+			copy_max_node = new Node<T>(maxNode->content, root->parent, this, sentinel);
+			copy_max_node->left = root->left;
+			copy_max_node->right = root->right;
+			if (root == root->parent->left)
+				root->parent->left = copy_max_node;
+			else
+				root->parent->right = copy_max_node;
 
 //			root->content = maxNode->content;
-			root->left = del(maxNode->content.first, root->left);
+			root->left = del(maxNode->content.first, root);
+			delete old_root;
 		}
 		else if ((child = root->hasOneChild())) // go left
 		{
-//			std::cout << "has one child" << std::endl;
+			std::cout << "has one child" << std::endl;
 			aux = root;
 			root = child;
 			this->_size--;
@@ -306,7 +316,7 @@ typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *root)
 template <class T>
 typename BSTree<T>::node*	BSTree<T>::getMaxNode(Node<T> *node)
 {
-	if (node->right)
+	if (node->right && node->right != sentinel)
 		return (getMaxNode(node->right));
 	return (node);
 }
@@ -316,11 +326,11 @@ typename BSTree<T>::node*	BSTree<T>::findNode(typename T::first_type key, Node<T
 {
 	if (node && node->content.first == key)
 		return (node);
-	else if (node && node->left && key <= node->content.first)
+	else if (node && node->left && node->left != sentinel && key <= node->content.first)
 		return (findNode(key, node->left));
-	else if (node && node->right && key >= node->content.first)
+	else if (node && node->right && node->right != sentinel && key >= node->content.first)
 		return (findNode(key, node->right));
-	return (NULL);
+	return (sentinel);
 }
 
 template <class T>
@@ -383,16 +393,6 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BST
 template <class T>
 typename BSTree<T>::node*	BSTree<T>::insertFromRoot(typename BSTree<T>::value_type p, Node<T> **r, Node<T> *parent)
 {
-	/*
-	 * if (*r == NULL && !parent)
-	{
-		*r = new Node<T1, T2>(p, sentinel, this);
-		sentinel->right = *r;
-//		std::cout << "adding sentinel" << std::endl;
-		this->_size++;
-		return (*r);
-	}
-	*/
 	if (*r == NULL || *r == sentinel)
 	{
 		if (!parent)
