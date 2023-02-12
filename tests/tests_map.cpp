@@ -745,6 +745,7 @@ void	map_erase()
 	map1.erase(it1);
 	check(map.size() == map1.size());
 
+	
 	it = map.find(5);
 	it1 = map1.find(5);
 	check(it == map.end());
@@ -827,14 +828,19 @@ void	map_erase_2()
 	map1.erase(it2);
 	check(map.size() == map1.size());
 	
-//	map.erase(it5);
-//	map1.erase(it6);
-//	check(map.size() == map1.size());
-//	map.erase(it3);
-//	map1.erase(it4);
-//	check(map.size() == map1.size());
+	map.erase(it5);
+	map1.erase(it6);
+	check(map.size() == map1.size());
 	
-//	map1.insert(ft::make_pair(1,1));
+	it4 = map1.find(2);
+	map.erase(it3);
+//	std::cout << (*it4).first;
+	map1.erase(it4);
+	check(map.size() == map1.size());
+	
+	map.insert(std::make_pair(1,1));
+	map1.insert(ft::make_pair(1,1));
+	check(map.size() == map1.size());
 }
 
 void map_tests()
@@ -862,7 +868,7 @@ void map_tests()
 	test_case("map upper bound", &map_upper_bound);
 	test_case("map equal range", &map_equal_range);
 	test_case("map erase", &map_erase);
-//	test_case("map erase2", &map_erase_2);
+	test_case("map erase2", &map_erase_2);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

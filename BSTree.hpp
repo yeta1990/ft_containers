@@ -116,7 +116,6 @@ class BSTree{
 		typedef Node<T>			node;
 		typedef BSTree<T>			tree;
 		typedef T				value_type;
-//		typedef pair<const T1, T2>		value_type;
 		typedef tree_iterator<node*>	iterator;
 
 		BSTree() : sentinel(new Node<T>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
@@ -146,7 +145,8 @@ class BSTree{
 		}
 
 		void	del(typename value_type::first_type key);
-		bool	deleteKeyFrom(typename value_type::first_type key, node *node);
+		void	transplant(node* u, node *v);
+		bool	deleteKeyFrom(node *node);
 		size_t	size() const;
 		node	*find(typename value_type::first_type key);
 
@@ -195,9 +195,10 @@ class BSTree{
 		size_t			_size;
 
 		node			*insertFromRoot(value_type p, Node<T> **r, Node<T> *parent);
-		node			*del(typename value_type::first_type key, node *root);
+		void			del(node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
+		node			*getMinNode(node *node);
 		node			*findNode(typename value_type::first_type key, node *node);
 
 		bool insert_has_good_hint(iterator position, const value_type& val)
@@ -236,119 +237,79 @@ typename BSTree<T>::node*	BSTree<T>::find(typename T::first_type key)
 }
 
 template <class T>
-bool	BSTree<T>::deleteKeyFrom(typename T::first_type key, node *node)
+bool	BSTree<T>::deleteKeyFrom(node *node)
 {
 	size_t	old_size;
 
 	old_size = this->_size;
-	del(key, node);
+//	std::cout << "deleting " << key << std::endl;
+	del(node);
+//	del(key, node);
 	return (old_size - _size);
 }
 
 template <class T>
-typename BSTree<T>::node*	BSTree<T>::del(typename T::first_type key, node *node)
+void	BSTree<T>::transplant(node* u, node *v)
 {
-	typedef typename BSTree<T>::node n;
-	n	*maxNode;
-//	node	*aux;
-	n	*child;
-
-	child = NULL;
-//	aux = NULL;
-	maxNode = NULL;
-	if (node == NULL)
-		return (node);
-	else if (key < node->content->first && node != sentinel)
-		node->left = del(key, node->left);
-	else if (key > node->content->first && node != sentinel)
-		node->right = del(key, node->right);
-	else if (key == node->content->first)//found
-	{
-		std::cout << "found node: " << node->content->first << std::endl;
-//		std::cout << node->right << std::endl;
-		if (node->left == sentinel && node->right == sentinel)
-//		if (!node->hasAnyChild() || (node->left == sentinel && node->right == sentinel))
-		{
-			std::cout << "hasnt any child, " << node->content->first << std::endl;
-			this->_size--;
-		/*	if (node == root)
-				node->parent->right = NULL;
-			else if (node == node->parent->left)
-				node->parent->left = sentinel;
-			else
-				node->parent->right = sentinel;
-			if (node == root)
-				root = NULL;
-//			if (node != sentinel) //doesn't seem necessary at all
-				delete node; 
-//			node = NULL;
-			if (root)
-				node = sentinel;
-				*/
-			delete node;
-			node = NULL;
-		}
-		else if (node->hasTwoChildren() && node->left != sentinel && node->right != sentinel)
-		{
-			std::cout << "has two children " << node->content->first << std::endl;
-//			std::cout << node->left->content->first << "," << node->right->content->first << std::endl;
-//			n*	copy_max_node;
-//			n*	old_node;
-			value_type	*old_content;	
-//			old_node = node;
-			maxNode = this->getMaxNode(node->left);
-			old_content = node->content;
-			node->content = maxNode->content;
-			delete old_content;
-//			copy_max_node = new Node<T>(new value_type(*maxNode->content), node->parent, this, sentinel);
-//			copy_max_node->left = node->left;
-//			copy_max_node->right = node->right;
-//			if (node == node->parent->left)
-//				node->parent->left = copy_max_node;
-//			else
-//				node->parent->right = copy_max_node;
-
-//			node->content = maxNode->content;
-			node->left = del(maxNode->content->first, node->left);
-//			delete old_node;
-//			if (node == root)
-//				root = copy_max_node;
-//			delete node;
-		}
-		else if ((child = node->hasOneChild())) // go left
-		{
-			n*	aux;
-
-			std::cout << "has one child" << std::endl;
-			aux = node;
-			node = child;
-			/*
-			if (node == node->parent->left)
-				node->parent->left = child;
-			else
-				node->parent->right = child;
-			child->parent = node->parent;
-			if (node == root)
-				root = child;
-			delete node;
-			node = child;
-			*/
-			
-			this->_size--;
-			delete aux;
-		}
-		return (node);
-	}
-	return (node);
+	if (u->parent == sentinel)
+		this->root = v;
+	else if (u == u->parent->left)
+		u->parent->left = v;
+	else
+		u->parent->right = v;
+	if (v != sentinel)
+		v->parent = u->parent;
 }
 
+template <class T>
+void	BSTree<T>::del(node *node)
+{
+	Node<T>*	y;
+	Node<T>*	old_node;
 
+	old_node = node;
+	if (!node)
+		return;
+	if (node->left == sentinel)
+		transplant(node, node->right);
+	else if (node->right == sentinel)
+		transplant(node, node->left);
+	else 
+	{
+		y = getMinNode(node->right);
+		if (y->parent != node)
+		{
+			transplant(y, y->right);
+			y->right = node->right;
+			y->right->parent = y;
+		}
+		transplant(node, y);
+		y->left = node->left;
+		y->left->parent = y;
+	}
+	delete old_node;
+	this->_size--;
+	if (this->_size == 0)
+	{
+		this->root = NULL;
+		this->sentinel->right = NULL;
+	}
+}
 
 template <class T>
 typename BSTree<T>::node*	BSTree<T>::getMaxNode(Node<T> *node)
 {
 	if (node->right && node->right != sentinel)
 		return (getMaxNode(node->right));
+	return (node);
+}
+
+
+template <class T>
+typename BSTree<T>::node*	BSTree<T>::getMinNode(Node<T> *node)
+{
+	if (node->left && node->left != sentinel)
+		return (getMaxNode(node->left));
 	return (node);
 }
 
