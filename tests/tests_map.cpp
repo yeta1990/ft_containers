@@ -332,17 +332,17 @@ void	map_parent_navigation()
 
 	n1 = *(ret1.first.base());
 	aux = n1;
-	check(aux->content.first == 3);
+	check(aux->content->first == 3);
 	aux = aux->parent;
-	check(aux->content.first == 4);
+	check(aux->content->first == 4);
 	aux = aux->parent;
-	check(aux->content.first == 1);
+	check(aux->content->first == 1);
 	aux = aux->parent;
-	check(aux->content.first == -2);
+	check(aux->content->first == -2);
 	aux = aux->parent;
-	check(aux->content.first == 5);
+	check(aux->content->first == 5);
 	aux = aux->parent;
-	check(aux->content.first == 8);
+	check(aux->content->first == 8);
 
 }
 
@@ -378,9 +378,9 @@ void	map_insert_hint1()
 
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->content.first == -3);
+	check(aux->content->first == -3);
 	aux = aux->parent;
-	check(aux->content.first == -10);
+	check(aux->content->first == -10);
 	
 //	std::cout << aux->key << std::endl;
 }
@@ -411,23 +411,23 @@ void	map_insert_hint2()
 	it1 = map1.insert(ret1.first, ft::make_pair(7, 7));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->content.first == 7);
+	check(aux->content->first == 7);
 	aux = aux->parent;
-	check(aux->content.first == 6);
+	check(aux->content->first == 6);
 
 	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->content.first == -3);
+	check(aux->content->first == -3);
 	aux = aux->parent;
-	check(aux->content.first == -10);
+	check(aux->content->first == -10);
 
 	it1 = map1.insert(ret2.first, ft::make_pair(12, 12));
 	n1 = *it1.base();
 	aux = n1;
-	check(aux->content.first == 12);
+	check(aux->content->first == 12);
 	aux = aux->parent;
-	check(aux->content.first == 11);
+	check(aux->content->first == 11);
 }
 
 
@@ -804,6 +804,39 @@ void	map_erase()
 }
 //test_case("map equal range", &map_equal_range);
 
+void	map_erase_2()
+{
+	std::map<int, int>				map;
+	ft::map<int, int>				map1;
+	std::map<int, int>::iterator	it;
+	ft::map<int, int>::iterator		it2;
+	std::map<int, int>::iterator	it3;
+	ft::map<int, int>::iterator		it4;
+	std::map<int, int>::iterator	it5;
+	ft::map<int, int>::iterator		it6;
+
+	it = map.insert(std::make_pair(1,1)).first;
+	it2 = map1.insert(ft::make_pair(1,1)).first;
+	it3 = map.insert(std::make_pair(2,2)).first;
+	it4 = map1.insert(ft::make_pair(2,2)).first;
+	it5 = map.insert(std::make_pair(-1,-1)).first;
+	it6 = map1.insert(ft::make_pair(-1,-1)).first;
+	check(map.size() == map1.size());
+
+	map.erase(it);
+	map1.erase(it2);
+	check(map.size() == map1.size());
+	
+//	map.erase(it5);
+//	map1.erase(it6);
+//	check(map.size() == map1.size());
+//	map.erase(it3);
+//	map1.erase(it4);
+//	check(map.size() == map1.size());
+	
+//	map1.insert(ft::make_pair(1,1));
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -829,6 +862,7 @@ void map_tests()
 	test_case("map upper bound", &map_upper_bound);
 	test_case("map equal range", &map_equal_range);
 	test_case("map erase", &map_erase);
+//	test_case("map erase2", &map_erase_2);
 //	test_case("map insert playground", &map_insert_playground);
 }
 

@@ -39,8 +39,8 @@ namespace ft{
 				return *this;
 			}
 
-			value_type& operator*() const { return p->content; }
-			value_type* operator->() const { return &(p->content); }
+			value_type& operator*() const { return *(p->content); }
+			value_type* operator->() const { return p->content; }
 			pointer*	base() { return (&p) ;}
 			pointer		getNode() const { return (p) ;}
 			tree_iterator& operator++() { 

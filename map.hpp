@@ -133,7 +133,7 @@ namespace ft{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 				return (this->operator[](k));
 			}
-			return (found->content.second);
+			return (found->content->second);
 
 		}
 
@@ -144,7 +144,7 @@ namespace ft{
 			found = this->_root->find(k);
 			if (found == _root->getSentinel())
 				throw (std::out_of_range("map::at"));
-			return (found->content.second);
+			return (found->content->second);
 		}
 
 		const mapped_type& at (const key_type& k) const
