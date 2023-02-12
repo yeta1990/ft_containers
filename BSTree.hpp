@@ -227,7 +227,11 @@ class BSTree{
 template <class T>
 void	BSTree<T>::del(typename T::first_type key)
 {
-	this->del(key, root);
+	Node<T>* found;
+
+	found = this->find(key);
+	if (found)
+		this->deleteKeyFrom(found);
 }
 
 template <class T>

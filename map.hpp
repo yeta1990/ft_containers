@@ -192,11 +192,18 @@ namespace ft{
 		void erase (iterator position)
 		{
 //			if (*position)
-				_root->deleteKeyFrom(*position.base());
+			_root->deleteKeyFrom(*position.base());
 //				_root->deleteKeyFrom((*position).first, *position.base());
 		}
 
-		//size_type erase (const key_type& k);
+		size_type erase (const key_type& k)
+		{
+			size_type	old_size;
+
+			old_size = this->size();
+			this->_root->del(k);
+			return (this->size() - old_size);
+		}
 		//void erase (iterator first, iterator last);
 
 		//void swap (map& x);

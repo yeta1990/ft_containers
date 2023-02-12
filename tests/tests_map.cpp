@@ -803,7 +803,6 @@ void	map_erase()
 	check(it1 == map1.end());
 
 }
-//test_case("map equal range", &map_equal_range);
 
 void	map_erase_2()
 {
@@ -843,6 +842,116 @@ void	map_erase_2()
 	check(map.size() == map1.size());
 }
 
+
+void	map_erase_3()
+{
+	std::map<int, int> map = create_std_map();
+	ft::map<int, int> map1 = create_map();
+	std::map<int, int>::iterator it;
+	ft::map<int, int>::iterator it1;
+
+//	std::cout << "erase " << it->first << std::endl;
+	map.erase(5);
+	map1.erase(5);
+	check(map.size() == map1.size());
+
+	
+	it = map.find(5);
+	it1 = map1.find(5);
+	check(it == map.end());
+	check(it1 == map1.end());
+
+	it = map.find(4);
+	it1 = map1.find(4);
+	check(it->first == it1->first);
+	check((++it)->first == (++it1)->first);
+
+	it = map.find(4);
+	it1 = map1.find(4);
+	check((--it)->first == (--it1)->first);
+
+//	it = map.find(1);
+//	it1 = map1.find(1);
+//	std::cout << "erase " << it->first << std::endl;
+	map.erase(1);
+	map1.erase(1);
+	check(map.size() == map1.size());
+	it = map.find(1);
+	it1 = map1.find(1);
+	check(it == map.end());
+	check(it1 == map1.end());
+
+	map[3] = 3;	
+	map1[3] = 3;	
+	check(map.size() == map1.size());
+	it = map.find(3);
+	it1 = map1.find(3);
+	check(it->first == it1->first);
+	check((--it)->first == (--it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+	check((++it)->first == (++it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+
+//	it = map.find(10);
+//	it1 = map1.find(10);
+	map.erase(10);
+	map1.erase(10);
+	check(map.size() == map1.size());
+//	std::cout << it->first << "," << it1->first << std::endl;
+	it = map.find(9);
+	it1 = map1.find(9);
+//	check(it != map.end());
+//	check(it1 1= map1.end());
+	check(it->first == it1->first);
+	check((--it)->first == (--it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+	check((++it)->first == (++it1)->first);
+//	std::cout << it->first << "," << it1->first << std::endl;
+	it = map.find(10);
+	it1 = map1.find(10);
+	check(it == map.end());
+	check(it1 == map1.end());
+
+}
+
+void	map_erase_4()
+{
+	std::map<int, int>				map;
+	ft::map<int, int>				map1;
+//	std::map<int, int>::iterator	it;
+//	ft::map<int, int>::iterator		it2;
+//	std::map<int, int>::iterator	it3;
+//	ft::map<int, int>::iterator		it4;
+//	std::map<int, int>::iterator	it5;
+//	ft::map<int, int>::iterator		it6;
+
+	map.insert(std::make_pair(1,1)).first;
+	map1.insert(ft::make_pair(1,1)).first;
+	map.insert(std::make_pair(2,2)).first;
+	map1.insert(ft::make_pair(2,2)).first;
+	map.insert(std::make_pair(-1,-1)).first;
+	map1.insert(ft::make_pair(-1,-1)).first;
+	check(map.size() == map1.size());
+
+	map.erase(1);
+	map1.erase(1);
+	check(map.size() == map1.size());
+	
+	map.erase(-1);
+	map1.erase(-1);
+	check(map.size() == map1.size());
+	
+//	it4 = map1.find(2);
+	map.erase(2);
+//	std::cout << (*it4).first;
+	map1.erase(2);
+	check(map.size() == map1.size());
+	
+	map.insert(std::make_pair(1,1));
+	map1.insert(ft::make_pair(1,1));
+	check(map.size() == map1.size());
+}
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -869,6 +978,8 @@ void map_tests()
 	test_case("map equal range", &map_equal_range);
 	test_case("map erase", &map_erase);
 	test_case("map erase2", &map_erase_2);
+	test_case("map erase3", &map_erase_3);
+	test_case("map erase4", &map_erase_4);
 //	test_case("map insert playground", &map_insert_playground);
 }
 
