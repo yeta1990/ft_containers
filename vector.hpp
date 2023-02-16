@@ -43,7 +43,7 @@ namespace ft{
 	{
 		public:
 			typedef T value_type;
-			typedef std::allocator<value_type> allocator_type;
+			typedef Allocator allocator_type;
 			typedef value_type& reference;
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
@@ -57,11 +57,20 @@ namespace ft{
 
 			//member functions
 
+			vector(void) : _allocator(Allocator())
+			{
+				this->_capacity = 0;
+				this->_size = 0;
+				this->_data = 0;
+				this->_usedValues = 0;
+				_firstElement = _data;
+				_lastElement = _data;
+			};
+
 			//constructors
 			//default constructor
-			explicit vector (const allocator_type& alloc = allocator_type())
+			explicit vector (const allocator_type& alloc) : _allocator(alloc)
 			{
-				this->_allocator = alloc;
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = 0;
@@ -71,9 +80,9 @@ namespace ft{
 			};
 
 			//fill constructor
-			explicit vector (size_type n, const value_type& val = value_type(),                 const allocator_type& alloc = allocator_type())
+			explicit vector (size_type n, const value_type& val = value_type(),
+					const allocator_type& alloc = allocator_type()) : _allocator(alloc)
 			{
-				this->_allocator = alloc;
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = 0;
@@ -85,13 +94,13 @@ namespace ft{
 
 			//range constructor			
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0){
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0) : _allocator(alloc) { 
 				InputIterator 	it;
 				size_t			distance;
 				size_t			i;
 
 				i = 0;
-				this->_allocator = alloc;
+//				this->_allocator = alloc;
 				distance = 0;
 				for (it = first; it != last; it++)
 					distance++;
@@ -164,7 +173,13 @@ namespace ft{
 
 			reference at(size_type pos);
 
-			const_reference at(size_type n) const;
+			const_reference at(size_type n) const
+			{
+	if (!(n < this->_size))
+		throw (std::out_of_range("vector"));
+	return (this->_data[n]);
+
+			}
 
 			reference operator[](size_type pos)
 			{
@@ -177,11 +192,26 @@ namespace ft{
 			};
 
 			reference front();
- 			const_reference front() const;
+ 			const_reference front() const
+ 			{
+				return (this->_data[0]);
+ 			}
 			reference back();
-			const_reference back() const;
-			pointer data();
-			const_pointer data() const;
+			const_reference back() const
+			{
+	if (this->_size == 0)
+		return (this->_data[0]);
+	return (this->_data[this->_size - 1]);
+
+			}
+			pointer data()
+			{
+				return (this->_data);
+			}
+			const_pointer data() const
+			{
+				return (this->_data);
+			}
 
 			//capacity/
 			size_type 	size() const {return (this->_size);};

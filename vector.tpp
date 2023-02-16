@@ -13,9 +13,12 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 template <class T, class Allocator>
 void	vector<T, Allocator>::destroy_and_deallocate(void)
 {
-	for (size_t i = 0; i < this->_size; i++)
-		this->_allocator.destroy(&this->_data[i]);
-	this->_allocator.deallocate(this->_data, this->_capacity);
+	if (this->_data && this->_size && this->_capacity)
+	{
+		for (size_t i = 0; i < this->_size; i++)
+			this->_allocator.destroy(&this->_data[i]);
+		this->_allocator.deallocate(this->_data, this->_size);
+	}
 }
 
 template <class T, class Allocator>
@@ -23,10 +26,8 @@ void	vector<T, Allocator>::expansor(void)
 {
 	value_type*		_newData;
 
-//	std::cout << "allocating " << this->_capacity << std::endl;
 	_newData = this->_allocator.allocate(this->_capacity);
 	copyDataToOtherObject(_newData);
-//	std::cout << "allocating " << this->_capacity << std::endl;
 	if (this->_usedValues > 0)
 		destroy_and_deallocate();
 	_firstElement = _data;
@@ -94,18 +95,22 @@ void 	vector<T, Allocator>::reserve (size_type n)
 template <class T, class Allocator>
 void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 {
-	if (n > this->_capacity)
-	{
-		this->_size = n;
-		this->_capacity = n;
+	if (n == 0)
+		return ;
+//	if (n > this->_capacity)
+//	{
 		destroy_and_deallocate();
-	}
-	else
-	{
 		this->_size = n;
-		this->_usedValues = this->_size;
-		this->_allocator.deallocate(this->_data, this->_size);
-	}
+	if (n > this->_capacity)
+		this->_capacity = n;
+//	}
+//	else
+//	{
+//		this->_allocator.deallocate(this->_data, this->_size);
+//		this->_size = n;
+//		this->_usedValues = this->_size;
+//		this->_capacity = n;
+//	}
 	this->_data = this->_allocator.allocate(this->_size);
 	for (size_type i = 0; i < n; i++)
 		this->_allocator.construct(&_data[i], val);
@@ -129,26 +134,28 @@ T& vector<T, Allocator>::at(size_type pos)
 	return (this->_data[pos]);
 }
 
+/*
 template <class T, class Allocator>
-typename std::allocator<T>::const_reference vector<T, Allocator>::at(size_type n) const
+typename ft::vector<T>::const_reference vector<T, Allocator>::at(size_type n) const
 {
 	if (!(n < this->_size))
 		throw (std::out_of_range("vector"));
 	return (this->_data[n]);
 }
-
+*/
 template <class T, class Allocator>
 T& vector<T, Allocator>::front()
 {
 	return (this->_data[0]);
 }
 
+/*
 template <class T, class Allocator>
 typename std::allocator<T>::const_reference vector<T, Allocator>::front() const
 {
 	return (this->_data[0]);
 }
-
+*/
 template <class T, class Allocator>
 T& vector<T, Allocator>::back()
 {
@@ -157,6 +164,7 @@ T& vector<T, Allocator>::back()
 	return (this->_data[this->_size - 1]);
 }
 
+/*
 template <class T, class Allocator>
 typename std::allocator<T>::const_reference vector<T, Allocator>::back() const
 {
@@ -164,18 +172,20 @@ typename std::allocator<T>::const_reference vector<T, Allocator>::back() const
 		return (this->_data[0]);
 	return (this->_data[this->_size - 1]);
 }
-
+*/
+/*
 template <class T, class Allocator>
 typename std::allocator<T>::pointer vector<T, Allocator>::data()
 {
 	return (this->_data);
 }
-
+*/
+/*
 template <class T, class Allocator>
 typename std::allocator<T>::const_pointer vector<T, Allocator>::data() const
 {
 	return (this->_data);
 }
-
+*/
 }
 #endif

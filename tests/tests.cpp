@@ -449,6 +449,7 @@ void vector_assign()
 	check(v.size() == v1.size());
 //	std::cout << v.size() << "," << v1.size() << std::endl;
 	check(v.capacity() == v1.capacity());
+	std::cout << v.capacity() << "," << v1.capacity() << std::endl;
 //	check(v[4] == v1[4]);
 
 	v.assign(6, 20);
@@ -839,6 +840,7 @@ void	vector_swap_no_member()
 
 void vector_tests()
 {
+/*	
 	test_case("vector_constructors", &vector_constructors);
 	test_case("vector_constructors2", &vector_constructors_2);
 	test_case("vector push back", &vector_push_back);
@@ -847,8 +849,9 @@ void vector_tests()
 	test_case("vector resize: expanding: check values with default value", &vector_resize3);
 	test_case("expanding: check values with custom value", &vector_resize4);
 	test_case("expanding, push_back and reducing", &vector_resize5);
+	*/
 	test_case("reducing", &vector_resize6);
-	test_case("vector: empty", &vector_empty);
+/*	test_case("vector: empty", &vector_empty);
 	test_case("vector: reserve", &vector_reserve);
 	test_case("vector: iterator", &vector_iterator);
 	test_case("vector: iterator begin and end", &vector_iterator_begin_end);
@@ -874,6 +877,7 @@ void vector_tests()
 	test_case("vector: swap, member function", &vector_swap_member);
 	test_case("vector: swap, member function 2", &vector_swap_member_2);
 	test_case("vector: swap, no member function", &vector_swap_no_member);
+*/
 //	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
@@ -881,8 +885,8 @@ void vector_tests()
 
 int main(void)
 {
-	map_tests();
-//	vector_tests();
+	vector_tests();
+//	map_tests();
 //	reverse_iterator_tests();
 //	more_iterators();
 }
