@@ -6,8 +6,8 @@ namespace ft{
 template <class T, class Allocator>
 void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 {
-	this->_capacity = std::max(this->_capacity * 2, requiredCapacity);
-	expansor();
+	size_type new_capacity = std::max(this->_capacity * 2, requiredCapacity);
+	expansor(new_capacity);
 }
 
 template <class T, class Allocator>
@@ -18,32 +18,35 @@ void	vector<T, Allocator>::destroy_and_deallocate(void)
 	{
 		for (size_t i = 0; i < this->_size; i++)
 			this->_allocator.destroy(&this->_data[i]);
-		this->_allocator.deallocate(this->_data, this->_size);
+		this->_allocator.deallocate(this->_data, this->_capacity);
 	}
 }
 
 template <class T, class Allocator>
-void	vector<T, Allocator>::expansor(void)
+void	vector<T, Allocator>::expansor(size_type new_capacity)
 {
 	value_type*		_newData;
 
-	_newData = this->_allocator.allocate(this->_capacity);
+//	std::cout << "old capacity is " << this->_capacity << "new capacity is " << new_capacity << std::endl;
+	_newData = this->_allocator.allocate(new_capacity);
 	copyDataToOtherObject(_newData);
-	if (this->_usedValues > 0)
+	if (this->_size > 0)
 		destroy_and_deallocate();
 	_firstElement = _data;
 	setLastElement();
 	this->_data = _newData;
+	this->_capacity = new_capacity;
+
 }
 
 template <class T, class Allocator>
 void	vector<T, Allocator>::push_back(const T& val)
 {
+	if (this->_size >= this->_capacity)
+		expandCapacity(_size + 1);
 	_size++;
-	if (this->_size > this->_capacity)
-		expandCapacity(_size);
 	this->_usedValues++;
-	this->_allocator.construct(&this->_data[this->_usedValues - 1], val);
+	this->_allocator.construct(&this->_data[this->_size - 1], val);
 	this->_lastElement++;
 }
 
@@ -66,8 +69,8 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	{
 		if (n > this->_capacity)
 		{
-			this->_capacity = std::max(this->_size * 2, n);
-			expansor();
+			size_t new_capacity = std::max(this->_size * 2, n);
+			expansor(new_capacity);
 		//	expandCapacity(n);
 
 //			std::cout << "capacity: " << this->_capacity << std::endl;
@@ -93,8 +96,8 @@ void 	vector<T, Allocator>::reserve (size_type n)
 		throw (std::length_error("'n' exceeds maximum supported size"));
 	if (n > this->_capacity)
 	{
-		this->_capacity = n;
-		expansor();
+//		this->_capacity = n;
+		expansor(n);
 	}
 }
 

@@ -145,6 +145,7 @@ namespace ft{
 			}
 
 			~vector(void) {
+//				std::cout << this->_size << "destructor" << this->_capacity << std::endl;
 				destroy_and_deallocate();
 //				this->_allocator.deallocate(this->_data, this->_size);
 			};
@@ -235,14 +236,19 @@ namespace ft{
 			{
 				InputIterator 	it;
 				size_t			i;
+				size_t			distance;
 
 				it = first;
 				i = 0;
-				destroy_and_deallocate();
-
-				size_t			distance;
-
 				distance = 0;
+				if (first == last)
+				{
+					for (size_t i = 0; i < this->_size; i++)
+						this->_allocator.destroy(&this->_data[i]);
+					this->_size = 0;
+					return ;
+				}
+				destroy_and_deallocate();
 				for (it = first; it != last; it++)
 					distance++;
 				this->_size = distance;
@@ -459,7 +465,7 @@ namespace ft{
 			void	copyDataToOtherObject(value_type* _newData)
 			{
 				//std::cout << "used values: " << this->_usedValues << std::endl;
-				for (size_type i = 0; i < this->_usedValues; i++)
+				for (size_type i = 0; i < this->_size; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
 
@@ -471,7 +477,7 @@ namespace ft{
 					this->_lastElement = &this->_data[i];
 			};
 
-			void				expansor(void);
+			void				expansor(size_type new_capacity);
 			void	expandCapacity(size_type requiredCapacity);
 			void	destroy_and_deallocate(void);
 

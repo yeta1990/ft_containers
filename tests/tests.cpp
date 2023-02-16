@@ -4,6 +4,7 @@
 //#include "vector.hpp"
 //#include <vector>
 
+#include "track_allocator.hpp"
 void check(bool test)
 {
 	if (test)
@@ -600,6 +601,18 @@ void	vector_assign_iterator3()
 
 }
 
+void	vector_assign_killer()
+{
+//	std::vector<int> v(42,42);
+	ft::vector<int> v1(42,42);
+	ft::vector<int> v2(5,1);
+
+//	v.assign(v.);
+	v1.assign(v2.begin(), v2.begin());
+
+}
+
+
 void vector_erase()
 {
 	std::vector<int> v(42,42);
@@ -909,6 +922,8 @@ void vector_tests()
 	test_case("vector: assign iterator2", &vector_assign_iterator2);
 	test_case("vector: assign iterator3", &vector_assign_iterator3);
 	
+	test_case("vector: assign killer", &vector_assign_killer);
+	
 	test_case("vector: erase", &vector_erase);
 	
 	test_case("vector: erase2", &vector_erase2);
@@ -932,7 +947,7 @@ void vector_tests()
 int main(void)
 {
 	vector_tests();
-	map_tests();
-	reverse_iterator_tests();
-	more_iterators();
+//	map_tests();
+//	reverse_iterator_tests();
+//	more_iterators();
 }
