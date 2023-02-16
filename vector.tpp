@@ -18,7 +18,7 @@ void	vector<T, Allocator>::destroy_and_deallocate(void)
 	{
 		for (size_t i = 0; i < this->_size; i++)
 			this->_allocator.destroy(&this->_data[i]);
-		this->_allocator.deallocate(this->_data, this->_capacity);
+		this->_allocator.deallocate(this->_data, this->_size);
 	}
 }
 
