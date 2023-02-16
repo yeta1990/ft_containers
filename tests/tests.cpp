@@ -13,9 +13,19 @@ void check(bool test)
 }
 
 template <class T>
-void check_size_capacity(std::vector<T> v, ft::vector<T> v1)
+void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1)
 {
-	if (v.size() == v1.size())
+	
+	size_t	capacity1 = v.capacity();
+	size_t	capacity2 = v.capacity();
+	size_t	size1 = v.size();
+	size_t	size2 = v1.size();
+
+//	std::cout << std::endl << "Size: " << size1
+//			<< "," << size2 << std::endl;
+//	std::cout << std::endl << "Capacity: " << capacity1 
+//			<< "," << capacity2 << std::endl;
+	if (size1 == size2)
 		std::cout << "\x1B[32m✓\x1B[0m";
 	else
 	{
@@ -23,7 +33,8 @@ void check_size_capacity(std::vector<T> v, ft::vector<T> v1)
 		std::cout << std::endl << "Expected size: " << v.size()
 				<< ", but is " << v1.size() << std::endl;
 	}
-	if (v.capacity() == v1.capacity())
+	if (capacity1 == capacity2)
+//	if (v.capacity() == v1.capacity())
 		std::cout << "\x1B[32m✓\x1B[0m";
 	else
 	{
@@ -182,10 +193,38 @@ void vector_resize6()
 	v1.resize(9);
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
+
 	v.resize(0);
 	v1.resize(0);
+
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
+//	std::cout << v.size() << "," << v1.size() << std::endl;
+//	std::cout << v.capacity() << "," << v1.capacity() << std::endl;
+
+	v.resize(9);
+	v1.resize(9);
+	check(v.size() == v1.size());
+	check(v.capacity() == v1.capacity());
+
+	v.resize(2);
+	v1.resize(2);
+	check(v.size() == v1.size());
+	check(v.capacity() == v1.capacity());
+
+	std::vector<int>::iterator	it;
+	ft::vector<int>::iterator	it1;
+
+	it = v.begin();
+	it1 = v1.begin();
+
+	while (it != v.end())
+	{
+		check(*it == *it1);
+		it++;
+		it1++;
+	}
+
 }
 
 void vector_empty()
@@ -449,7 +488,7 @@ void vector_assign()
 	check(v.size() == v1.size());
 //	std::cout << v.size() << "," << v1.size() << std::endl;
 	check(v.capacity() == v1.capacity());
-	std::cout << v.capacity() << "," << v1.capacity() << std::endl;
+//	std::cout << v.capacity() << "," << v1.capacity() << std::endl;
 //	check(v[4] == v1[4]);
 
 	v.assign(6, 20);
@@ -598,6 +637,7 @@ void vector_erase2()
 	std::vector<int>::iterator it;
 	ft::vector<int>::iterator	it1;
 
+//	std::cout << v1.size() << "," << v1.capacity() << std::endl;
 	it = v.begin();
 	it = v.erase(it);
 	it1 = v1.begin();
@@ -631,12 +671,15 @@ void vector_erase_iterator()
 	it = v.erase(v.begin()+ 1, v.begin() + 2);
 	it1 = v1.erase(v1.begin()+ 1, v1.begin() + 2);
 	check_size_capacity(v, v1);
+
 	check(v[1] == v1[1]);
 	check(v[2] == v1[2]);
 	v.push_back(1111);
 	v1.push_back(1111);
 	check(v[42] == v1[42]);
+//	std::cout << v[42] << "," << v1[42] << std::endl;
 	check_size_capacity(v, v1);
+
 
 	it = v.erase(v.begin()+ 10, v.end() - 10);
 	it1 = v1.erase(v1.begin() + 10, v1.end() - 10);
@@ -840,7 +883,7 @@ void	vector_swap_no_member()
 
 void vector_tests()
 {
-/*	
+	
 	test_case("vector_constructors", &vector_constructors);
 	test_case("vector_constructors2", &vector_constructors_2);
 	test_case("vector push back", &vector_push_back);
@@ -849,9 +892,8 @@ void vector_tests()
 	test_case("vector resize: expanding: check values with default value", &vector_resize3);
 	test_case("expanding: check values with custom value", &vector_resize4);
 	test_case("expanding, push_back and reducing", &vector_resize5);
-	*/
 	test_case("reducing", &vector_resize6);
-/*	test_case("vector: empty", &vector_empty);
+	test_case("vector: empty", &vector_empty);
 	test_case("vector: reserve", &vector_reserve);
 	test_case("vector: iterator", &vector_iterator);
 	test_case("vector: iterator begin and end", &vector_iterator_begin_end);
@@ -866,9 +908,13 @@ void vector_tests()
 	test_case("vector: assign iterator", &vector_assign_iterator);
 	test_case("vector: assign iterator2", &vector_assign_iterator2);
 	test_case("vector: assign iterator3", &vector_assign_iterator3);
+	
 	test_case("vector: erase", &vector_erase);
+	
 	test_case("vector: erase2", &vector_erase2);
+	
 	test_case("vector: erase iterator", &vector_erase_iterator);
+	
 	test_case("vector: insert", &vector_insert);
 	test_case("vector: insert single", &vector_insert_single);
 	test_case("vector: insert range", &vector_insert_range);
@@ -877,7 +923,7 @@ void vector_tests()
 	test_case("vector: swap, member function", &vector_swap_member);
 	test_case("vector: swap, member function 2", &vector_swap_member_2);
 	test_case("vector: swap, no member function", &vector_swap_no_member);
-*/
+
 //	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);
 //	test_case("vector: erase iterator", &vector_erase_iterator);
@@ -886,7 +932,7 @@ void vector_tests()
 int main(void)
 {
 	vector_tests();
-//	map_tests();
-//	reverse_iterator_tests();
-//	more_iterators();
+	map_tests();
+	reverse_iterator_tests();
+	more_iterators();
 }

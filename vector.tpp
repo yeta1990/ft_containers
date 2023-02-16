@@ -13,11 +13,12 @@ void	vector<T, Allocator>::expandCapacity(size_type requiredCapacity)
 template <class T, class Allocator>
 void	vector<T, Allocator>::destroy_and_deallocate(void)
 {
-	if (this->_data && this->_size && this->_capacity)
+//	std::cout << this->_data << "," << this->_size << "," << this->_capacity << std::endl;
+	if (this->_data && this->_capacity)
 	{
 		for (size_t i = 0; i < this->_size; i++)
 			this->_allocator.destroy(&this->_data[i]);
-		this->_allocator.deallocate(this->_data, this->_size);
+		this->_allocator.deallocate(this->_data, this->_capacity);
 	}
 }
 
@@ -49,13 +50,17 @@ void	vector<T, Allocator>::push_back(const T& val)
 template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
-	//std::cout << "------resizing to " << n << std::endl;
+//	std::cout << "------resizing to " << n << std::endl;
 //	resize when there is content in the vector fails, why?
 //
 	if (n < this->_size)
 	{
+		//remove and destroy elements beyond n
+		for (size_t i = n; i < this->_size; i++)
+			this->_allocator.destroy(&this->_data[i]);
 		this->_size = n;
 		this->_usedValues = n;
+		//destroy_and_deallocate();
 	}
 	else if (n > this->_size)
 	{
@@ -78,6 +83,7 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 		this->_size = n;
 	}
 //	std::cout << "------resizing to " << n << std::endl;
+
 }
 
 template <class T, class Allocator>

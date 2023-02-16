@@ -186,6 +186,7 @@ void ft_eq_ope(const Ite_1 &first, const Ite_2 &second, const bool redo = 1)
 	if (redo)
 		ft_eq_ope(second, first, 0);
 }
+
 /*
 void	rev_it_eq()
 {
@@ -207,6 +208,7 @@ void	rev_it_eq()
 
 }
 */
+
 void	reverse_iterator_tests()
 {
 	test_case("vector: reverse iterator constructor", &rev_it_constructor);

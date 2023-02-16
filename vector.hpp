@@ -368,7 +368,13 @@ namespace ft{
 				size_type	_newSize;
 
 				_newSize = 0;
-				_newData = this->_allocator.allocate(this->_capacity - 1);
+//				if (this->_size > 1)
+					_newData = this->_allocator.allocate(this->_capacity - 1);
+//				else
+//				{
+//					this->_size = 0;					
+//					return iterator(this->_data);
+//				}
 				for (it = this->begin(); it != pos; it++)
 				{
 					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize]);
@@ -382,8 +388,9 @@ namespace ft{
 					_newSize++;
 				}
 
-				if (this->_size > 0)
+				if (this->_capacity > 0)
 					destroy_and_deallocate();
+
 				this->_size = _newSize;
 				this->_usedValues = this->_size;
 				this->_data = _newData;
