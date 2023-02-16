@@ -501,7 +501,24 @@ void vector_assign()
 	check_size_capacity(v, v1);
 	check(v[4] == v1[4]);
 	check(v[58] == v1[58]);
+	
+	ft::vector<int>::iterator it;
+	size_t i = 0;
+	for (it = v1.begin(); it != v1.end(); it++)
+	{
+		check(v[i] == v1[i]);
+		i++;
+	}
 
+	v.assign(v.begin(), v.begin() + 30);
+	v1.assign(v1.begin(), v1.begin() + 30);
+	i = 0;
+/*	for (it = v1.begin(); it != v1.end(); it++)
+	{
+		check(v[i] == v1[i]);
+		i++;
+	}
+	*/
 }
 
 void	vector_assign_iterator()
