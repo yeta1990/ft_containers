@@ -105,11 +105,13 @@ template <class T, class Allocator>
 void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 {
 	if (n == 0)
+	{
 		return ;
+	}
 //	if (n > this->_capacity)
 //	{
-		destroy_and_deallocate();
-		this->_size = n;
+	destroy_and_deallocate();
+	this->_size = n;
 	if (n > this->_capacity)
 		this->_capacity = n;
 //	}
@@ -120,7 +122,7 @@ void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 //		this->_usedValues = this->_size;
 //		this->_capacity = n;
 //	}
-	this->_data = this->_allocator.allocate(this->_size);
+	this->_data = this->_allocator.allocate(this->_capacity);
 	for (size_type i = 0; i < n; i++)
 		this->_allocator.construct(&_data[i], val);
 	this->_usedValues = this->_size;

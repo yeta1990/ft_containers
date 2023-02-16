@@ -237,6 +237,7 @@ namespace ft{
 				InputIterator 	it;
 				size_t			i;
 				size_t			distance;
+				value_type		*new_data;
 
 				it = first;
 				i = 0;
@@ -248,17 +249,19 @@ namespace ft{
 					this->_size = 0;
 					return ;
 				}
-				destroy_and_deallocate();
+
 				for (it = first; it != last; it++)
 					distance++;
-				this->_size = distance;
-				this->_capacity = this->_size;
-				this->_data = this->_allocator.allocate(this->_size);
+				new_data = this->_allocator.allocate(distance);
 				for (it = first; it != last; it++)
 				{
-					this->_allocator.construct(&_data[i], *it);
+					this->_allocator.construct(&new_data[i], *it);
 					i++;
 				}
+				destroy_and_deallocate();
+				this->_size = distance;
+				this->_capacity = this->_size;
+				this->_data = new_data;
 			}
 
 			void 		clear();
