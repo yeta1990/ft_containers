@@ -95,24 +95,12 @@ namespace ft{
 			//range constructor			
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0) : _allocator(alloc) { 
-				InputIterator 	it;
-				size_t			distance;
-				size_t			i;
 
-				i = 0;
-//				this->_allocator = alloc;
-				distance = 0;
-				for (it = first; it != last; it++)
-					distance++;
-				this->_size = distance;
-				this->_capacity = this->_size;
-				this->_data = this->_allocator.allocate(this->_size);
-				for (it = first; it != last; it++)
-				{
-					this->_allocator.construct(&_data[i], *it);
-					i++;
-				}
+				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
+				vector_constructor_range(first, last, iter_category());
 			}
+
+
 
 			//copy constructor
 			vector (const vector& x)
@@ -130,13 +118,11 @@ namespace ft{
 				return (*this);
 			}
 
-//			template <class C1, class C2>
 			vector& operator=( const vector& other )
 			{
 				typename vector::const_iterator it;
 				it = other.begin();
 
-//				std::cout << "ss" << std::endl;
 				destroy_and_deallocate();
 				this->_size = other.size();
 				this->_capacity = this->_size;
@@ -147,7 +133,6 @@ namespace ft{
 
 				for (size_type i = 0; i < this->_size; i++)
 				{
-//					std::cout << "ss" << std::endl;
 					this->_allocator.construct(&_data[i], *it);
 					it++;
 				}
@@ -157,17 +142,7 @@ namespace ft{
 			~vector(void) {
 //				std::cout << this->_size << "destructor" << this->_capacity << std::endl;
 				destroy_and_deallocate();
-//				this->_allocator.deallocate(this->_data, this->_size);
 			};
-
-			/*vector(const vector& x);
-			vector(const vector&, const Allocator&);
-
-			template <class InputIterator>         
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-
-
-			*/
 
 
 			//iterators	
@@ -251,8 +226,6 @@ namespace ft{
 
 				assign_work(first, last, iter_category());
 			}
-
-
 
 			void 		clear();
 			//insert
@@ -473,6 +446,40 @@ namespace ft{
 			void				expansor(size_type new_capacity);
 			void	expandCapacity(size_type requiredCapacity);
 			void	destroy_and_deallocate(void);
+
+			template <typename InputIterator>
+			void	vector_constructor_range(InputIterator first, InputIterator last, std::input_iterator_tag)
+			{
+				InputIterator 	it;
+				this->_size = 0;
+				this->_capacity = 0;
+
+				for (it = first; it != last; it++)
+				{
+					this->push_back(*it);
+				}
+
+			}
+
+			template <typename InputIterator>
+			void	vector_constructor_range(InputIterator first, InputIterator last, std::forward_iterator_tag)
+			{
+				InputIterator 	it;
+				size_t			distance;
+				size_t			i;
+
+				i = 0;
+				distance = std::distance(first, last);
+				this->_size = distance;
+				this->_capacity = this->_size;
+				if (distance > 0)
+					this->_data = this->_allocator.allocate(this->_size);
+				for (it = first; it != last; it++)
+				{
+					this->_allocator.construct(&_data[i], *it);
+					i++;
+				}
+			}
 
 			template <typename InputIterator>
 			void	assign_work(InputIterator first, InputIterator last, std::input_iterator_tag)

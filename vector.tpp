@@ -31,7 +31,14 @@ void	vector<T, Allocator>::expansor(size_type new_capacity)
 	value_type*		_newData;
 
 //	std::cout << "old capacity is " << this->_capacity << "new capacity is " << new_capacity << std::endl;
+	try	
+	{
 	_newData = this->_allocator.allocate(new_capacity);
+	}
+	catch (std::bad_alloc &e)
+	{
+		throw (std::length_error("vector exceeds maximum supported size"));
+	}
 	copyDataToOtherObject(_newData);
 	if (this->_size > 0)
 		destroy_and_deallocate();
