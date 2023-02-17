@@ -222,6 +222,59 @@ void	rev_ite_2()
 	check((ite + 3 == it) == (ite1 + 3 == it1));
 }
 
+void	ite_end_begin()
+{
+	std::vector<int> vct;
+	ft::vector<int> vct1;
+	std::vector<int>::iterator it;
+	ft::vector<int>::iterator it1;
+
+	for (size_t i = 0; i < 42; i++)
+	{
+		vct.push_back(i);
+		vct1.push_back(i);
+	}
+
+	std::cout << vct[41] << "," << vct1[41] << std::endl;
+	std::cout << *(vct.end() - 1) << std::endl;
+	std::cout << *(vct1.end() - 1) << std::endl;
+
+	it = vct.erase(vct.end() - 1);
+	it1 = vct1.erase(vct1.end() - 1);
+	check(*it == *it1);
+	check(vct.size() == vct1.size());
+	check(vct.size() == vct1.size());
+	std::cout << *it << std::endl;
+	std::cout << *it1 << std::endl;
+
+	for (size_t i = 39; i < 42; i++)
+	{
+		std::cout << vct[i] << "," << vct1[i] << std::endl;
+//		check(vct[i] == vct1[i]);
+
+//		check(vct[i] == vct1[i]);
+	}
+		std::cout << *(vct.end()) << "," << *(vct1.end()) << std::endl;
+
+/*
+	it = vct.erase(vct.begin());
+	it1 = vct1.erase(vct1.begin());
+	check(*it == *it1);
+//	std::cout << *it << std::endl;
+//	std::cout << *it1 << std::endl;
+
+	std::vector<int> v(1,4);
+	ft::vector<int> v1(1,4);
+
+	it = v.erase(v.begin());
+	it1 = v1.erase(v1.begin());
+	check(it == v.end());
+	check(it1 == v1.end());
+*/	
+
+}
+
+
 void	more_iterators()
 {
 	test_case("vector: more iterators", &ite_arrow);
@@ -229,6 +282,7 @@ void	more_iterators()
 //	test_case("vector: comparision operators", &comparision_operators);
 	test_case("vector: reverse iterator constructor", &rev_iterator_constructor);
 	test_case("vector: reverse ite", &rev_ite_2);
+	test_case("vector: ite end, begin", &ite_end_begin);
 	
 }
 

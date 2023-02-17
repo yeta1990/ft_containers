@@ -335,13 +335,27 @@ namespace ft{
 			//erase
 			iterator erase( iterator pos )
 			{
+				if ( pos + 1 != end())
+				{
+					std::copy(pos + 1, end(), pos);
+				}
+				this->_allocator.destroy(&this->_data[this->_size - 1]);
+				this->_size--;
+				return (pos);
+
+				/*
 				value_type*	_newData;
 				iterator	it;	
 				size_type	_newSize;
 
 				_newSize = 0;
-//				if (this->_size > 1)
+				if (this->_capacity > 1)
 					_newData = this->_allocator.allocate(this->_capacity - 1);
+				else
+				{
+					clear();
+					return this->end();
+				}
 //				else
 //				{
 //					this->_size = 0;					
@@ -356,6 +370,7 @@ namespace ft{
 				return_iterator += _newSize;
 				for (it = pos + 1; it != this->end(); it++)
 				{
+//					std::cout << "eeeoooo" << std::endl;
 					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize + 1]);
 					_newSize++;
 				}
@@ -366,7 +381,11 @@ namespace ft{
 				this->_size = _newSize;
 				this->_usedValues = this->_size;
 				this->_data = _newData;
+				this->_capacity--;
+				if (return_iterator == this->end())
+					return (return_iterator - 1);
 				return (return_iterator);
+				*/
 			}
 
 			iterator erase( iterator first, iterator last )
