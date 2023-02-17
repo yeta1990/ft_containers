@@ -135,6 +135,8 @@ void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 template <class T, class Allocator>
 void	vector<T, Allocator>::clear()
 {
+	for (size_t i = 0; i < this->_size; i++)
+		this->_allocator.destroy(&this->_data[i]);
 	this->_size = 0;
 }
 
