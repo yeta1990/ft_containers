@@ -117,6 +117,10 @@ namespace ft{
 			//copy constructor
 			vector (const vector& x)
 			{
+				this->_capacity = 0;
+				this->_size = 0;
+				this->_data = 0;
+				this->_usedValues = 0;
 				*this = x;
 			}
 
@@ -126,18 +130,24 @@ namespace ft{
 				return (*this);
 			}
 
+//			template <class C1, class C2>
 			vector& operator=( const vector& other )
 			{
-				ft::vector<int>::const_iterator it;
+				typename vector::const_iterator it;
 				it = other.begin();
 
+//				std::cout << "ss" << std::endl;
+				destroy_and_deallocate();
 				this->_size = other.size();
 				this->_capacity = this->_size;
 				this->_usedValues = this->_size;
-				this->_data = this->_allocator.allocate(this->_size);
+				this->_allocator = vector::allocator_type();
+				if (this->_capacity > 0)
+					this->_data = this->_allocator.allocate(this->_capacity);
 
 				for (size_type i = 0; i < this->_size; i++)
 				{
+//					std::cout << "ss" << std::endl;
 					this->_allocator.construct(&_data[i], *it);
 					it++;
 				}
