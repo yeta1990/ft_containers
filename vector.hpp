@@ -242,57 +242,17 @@ namespace ft{
 //			template <class iterator >
 
 			//create template to handle input iterators...?
+			//https://stackoverflow.com/questions/61889111/own-vector-assign-implementation
+			//https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-4.1/stl__vector_8h-source.html#l00315
 			template <class InputIterator> 
 			void 	assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
 			{
-				/*
-				InputIterator 	it;
-				destroy_and_deallocate();
-				value_type		*new_data;
-				new_data = 0;
-				this->_size = 0;
-				this->_capacity = 0;
-				this->_data = new_data;
+				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 
-				for (it = first; it != last; it++)
-				{
-					this->push_back(*it);
-				}
-*/
-
-				InputIterator 	it;
-				size_t			i;
-				size_t			distance;
-				value_type		*new_data;
-
-				it = first;
-				distance = 0;
-				for (it = first; it != last; it++)
-				{
-					distance++;
-				}
-				
-				if (distance > 0)
-					new_data = this->_allocator.allocate(distance);
-				else
-				{
-					for (size_t i = 0; i < this->_size; i++)
-						this->_allocator.destroy(&this->_data[i]);
-					this->_size = 0;
-					return ;
-				}
-				i = 0;
-				for (it = first; it != last; it++)
-				{
-					this->_allocator.construct(&new_data[i], *it);
-					i++;
-				}
-				destroy_and_deallocate();
-				this->_size = distance;
-				this->_capacity = this->_size;
-				this->_data = new_data;
-				
+				assign_work(first, last, iter_category());
 			}
+
+
 
 			void 		clear();
 			//insert
@@ -513,6 +473,55 @@ namespace ft{
 			void				expansor(size_type new_capacity);
 			void	expandCapacity(size_type requiredCapacity);
 			void	destroy_and_deallocate(void);
+
+			template <typename InputIterator>
+			void	assign_work(InputIterator first, InputIterator last, std::input_iterator_tag)
+			{
+				InputIterator 	it;
+				destroy_and_deallocate();
+				value_type		*new_data;
+				new_data = 0;
+				this->_size = 0;
+				this->_capacity = 0;
+				this->_data = new_data;
+
+				for (it = first; it != last; it++)
+				{
+					this->push_back(*it);
+				}
+
+			}
+
+			template <typename InputIterator>
+			void	assign_work(InputIterator first, InputIterator last, std::forward_iterator_tag)
+			{
+				InputIterator 	it;
+				size_t			i;
+				size_t			distance;
+				value_type		*new_data;
+
+				it = first;
+				distance = std::distance(first, last);
+				if (distance > 0)
+					new_data = this->_allocator.allocate(distance);
+				else
+				{
+					for (size_t i = 0; i < this->_size; i++)
+						this->_allocator.destroy(&this->_data[i]);
+					this->_size = 0;
+					return ;
+				}
+				i = 0;
+				for (it = first; it != last; it++)
+				{
+					this->_allocator.construct(&new_data[i], *it);
+					i++;
+				}
+				destroy_and_deallocate();
+				this->_size = distance;
+				this->_capacity = this->_size;
+				this->_data = new_data;
+			}
 
 	};
 
