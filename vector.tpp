@@ -80,11 +80,11 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 //			std::cout << "used values: " << this->_usedValues << std::endl;
 //			std::cout << "n: " << n << std::endl;
 			}
-		for (size_t i = this->_usedValues; i < n; i++)
+		for (size_t i = this->_size; i < n; i++)
 		{
 			//std::cout << "used values: " << this->_usedValues << std::endl;
-			this->_allocator.construct(&this->_data[this->_usedValues], val);
-			this->_usedValues++;
+			this->_allocator.construct(&this->_data[this->_size], val);
+			this->_size++;
 		}
 		this->_size = n;
 	}

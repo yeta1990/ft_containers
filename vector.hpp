@@ -241,28 +241,47 @@ namespace ft{
 //			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
 //			template <class iterator >
 
+			//create template to handle input iterators...?
 			template <class InputIterator> 
 			void 	assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
 			{
+				/*
+				InputIterator 	it;
+				destroy_and_deallocate();
+				value_type		*new_data;
+				new_data = 0;
+				this->_size = 0;
+				this->_capacity = 0;
+				this->_data = new_data;
+
+				for (it = first; it != last; it++)
+				{
+					this->push_back(*it);
+				}
+*/
+
 				InputIterator 	it;
 				size_t			i;
 				size_t			distance;
 				value_type		*new_data;
 
 				it = first;
-				i = 0;
 				distance = 0;
-				if (first == last)
+				for (it = first; it != last; it++)
+				{
+					distance++;
+				}
+				
+				if (distance > 0)
+					new_data = this->_allocator.allocate(distance);
+				else
 				{
 					for (size_t i = 0; i < this->_size; i++)
 						this->_allocator.destroy(&this->_data[i]);
 					this->_size = 0;
 					return ;
 				}
-
-				for (it = first; it != last; it++)
-					distance++;
-				new_data = this->_allocator.allocate(distance);
+				i = 0;
 				for (it = first; it != last; it++)
 				{
 					this->_allocator.construct(&new_data[i], *it);
@@ -272,6 +291,7 @@ namespace ft{
 				this->_size = distance;
 				this->_capacity = this->_size;
 				this->_data = new_data;
+				
 			}
 
 			void 		clear();
