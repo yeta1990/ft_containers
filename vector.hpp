@@ -249,10 +249,18 @@ namespace ft{
 				value_type*	_newData;
 				iterator	it;
 				size_type	_newSize;
-				value_type	i;
+				size_type	i;
 
 				_newSize = this->_size + n;
-				_newData = this->_allocator.allocate(_newSize);
+				try
+				{
+					if (_newSize > 0)
+						_newData = this->_allocator.allocate(_newSize);
+				}
+				catch (std::bad_alloc &e)
+				{
+					throw (std::length_error("vector exceeds maximum supported size"));
+				}
 				i = 0;
 				//copy elements before 'pos'
 				for (it = this->begin(); it != pos; it++)
@@ -283,6 +291,58 @@ namespace ft{
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
 			{
+
+				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
+
+				insert_iterator(position, first, last, iter_category());
+			}
+
+			template <class InputIterator>
+			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag)
+			{
+
+//				std::cerr << std::distance(first, last) << std::endl;
+
+				vector	v(begin(), position);
+				InputIterator it;
+				for (it = first; it != last; it++)
+				{
+//					std::cerr << *it << std::endl;
+					v.push_back(*it);
+					
+				}
+//					std::cerr << "eeo" << std::endl;
+
+					
+//					std::cerr << "eeo" << std::endl;
+				if (position != end())
+					v.insert(v.end(), position, end());
+				*this = v;
+			/*	iterator	it;	
+				size_type	space_left;
+
+				space_left = std::distance(position + 1, end());
+				size_type	first_segment;
+				
+				first_segment = std::distance(begin(), position);
+				for (size_type i = first_segment; i < space_left)
+					this->_allocator.destroy(&this->_data[i - 1]);
+
+
+				for (size_type i = first; i < space left; i++)
+				{
+					if (first == last)
+						break ;
+					this->_allocator.construct(first, this->_data[i]);
+				}
+*/
+
+			}
+
+			template <class InputIterator>
+			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::forward_iterator_tag)
+			{
+			
 				difference_type diff;
 				value_type*	_newData;
 				iterator	it;	
@@ -301,7 +361,17 @@ namespace ft{
 				}
 //				diff = last - first;
 				_newSize = this->_size + diff;
-				_newData = this->_allocator.allocate(_newSize);
+
+				try	
+				{
+					if (_newSize > 0)
+						_newData = this->_allocator.allocate(_newSize);
+				}
+				catch (std::bad_alloc &e)
+				{
+					throw (std::length_error("vector exceeds maximum supported size"));
+				}
+
 				i = 0;
 				//copy elements before 'pos'
 				for (it = this->begin(); it != position; it++)
