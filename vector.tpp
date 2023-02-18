@@ -40,8 +40,7 @@ void	vector<T, Allocator>::expansor(size_type new_capacity)
 		throw (std::length_error("vector exceeds maximum supported size"));
 	}
 	copyDataToOtherObject(_newData);
-	if (this->_size > 0)
-		destroy_and_deallocate();
+	destroy_and_deallocate();
 	_firstElement = _data;
 	setLastElement();
 	this->_data = _newData;
@@ -116,6 +115,8 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 template <class T, class Allocator>
 void 	vector<T, Allocator>::reserve (size_type n)
 {
+	if (n == 0)
+		return ;
 	if (n > this->max_size())
 		throw (std::length_error("'n' exceeds maximum supported size"));
 	if (n > this->_capacity)
