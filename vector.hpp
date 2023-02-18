@@ -244,6 +244,7 @@ namespace ft{
 			}
 
 			//insert fill
+			//this needs a huge refactor: is it necessary to allocate always?
 			void insert (iterator pos, size_type n, const value_type& value)
 			{
 				value_type*	_newData;
@@ -251,11 +252,29 @@ namespace ft{
 				size_type	_newSize;
 				size_type	i;
 
+				size_t new_capacity;
+
+				if (n <= 0)
+					return ;
 				_newSize = this->_size + n;
+//				if (_newSize <= this->_capacity)
+//					new_capacity = _newSize;
+//				else
+				new_capacity = std::max(this->_size * 2, this->_size + n);
+
+//				std::cout << "new size: " << _newSize << "new capacity " << new_capacity;
 				try
 				{
-					if (_newSize > 0)
-						_newData = this->_allocator.allocate(_newSize);
+					if (_newSize > 0 && _newSize > this->_capacity)
+					{
+						_newData = this->_allocator.allocate(new_capacity);
+//						this->_capacity = new_capacity;
+					}
+					else
+					{
+						_newData = this->_allocator.allocate(this->_capacity);
+						new_capacity = this->_capacity;
+					}
 				}
 				catch (std::bad_alloc &e)
 				{
@@ -282,7 +301,7 @@ namespace ft{
 				}
 				destroy_and_deallocate();
 				this->_size = _newSize;
-				this->_capacity = this->_size;
+				this->_capacity = new_capacity;
 				this->_data = _newData;
 				this->_usedValues = this->_size;
 			}

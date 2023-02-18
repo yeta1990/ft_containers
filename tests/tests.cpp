@@ -119,12 +119,15 @@ void vector_resize2()
 		v.resize(i);
 		v1.resize(i);
 		check(v.size() == v1.size());
+		std::cout << "size " << v.size() << "," << v1.size() << std::endl;
 		check(v.capacity() == v1.capacity());
+		std::cout << "capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	}
 	v.resize(200);
 	v1.resize(200);
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
+
 	v.resize(202);
 	v1.resize(202);
 	check(v.size() == v1.size());

@@ -64,8 +64,26 @@ template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
 //	std::cout << "------resizing to " << n << std::endl;
-//	resize when there is content in the vector fails, why?
 //
+	if (n < this->_size)
+	{
+		erase(this->begin() + n, end());
+	}
+	else
+	{
+//		size_t new_capacity = std::max(this->_size * 2, n);
+//		size_t old_size = this->_size;
+//		expansor(new_capacity);
+		insert(end(), n - this->_size, val);
+	}
+/*
+	if (this->_size == 0)
+	{
+		assign(n, val);
+		return ;
+	}
+	*/
+/*
 	if (n < this->_size)
 	{
 		//remove and destroy elements beyond n
@@ -81,12 +99,7 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 		{
 			size_t new_capacity = std::max(this->_size * 2, n);
 			expansor(new_capacity);
-		//	expandCapacity(n);
-
-//			std::cout << "capacity: " << this->_capacity << std::endl;
-//			std::cout << "used values: " << this->_usedValues << std::endl;
-//			std::cout << "n: " << n << std::endl;
-			}
+		}
 		for (size_t i = this->_size; i < n; i++)
 		{
 			//std::cout << "used values: " << this->_usedValues << std::endl;
@@ -95,6 +108,7 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 		}
 		this->_size = n;
 	}
+	*/
 //	std::cout << "------resizing to " << n << std::endl;
 
 }
