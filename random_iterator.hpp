@@ -52,7 +52,13 @@ namespace ft{
 			
 //			random_iterator& operator=(const random_iterator<const pointer> &i) { this->p = i.p; return *this; }
 
-			value_type& operator[](difference_type n) { return *(p + n);}
+//			value_type& operator[](difference_type n) { return (p[n]);}
+//			template <class C>
+//			T& operator[](difference_type n) { return (p[n]);}
+
+//			template <class C>
+			reference operator[](difference_type n) const { return (p[n]);}
+
 			pointer getData(void) const { return p; };
 
 		private:
