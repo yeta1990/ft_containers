@@ -424,9 +424,10 @@ namespace ft{
 			//erase
 			iterator erase( iterator pos )
 			{
-				if ( pos + 1 != end())
+				iterator it = this->end();
+				if ( pos + 1 != it)
 				{
-					std::copy(pos + 1, end(), pos);
+					std::copy(pos + 1, it, pos);
 				}
 				this->_allocator.destroy(&this->_data[this->_size - 1]);
 				this->_size--;
@@ -484,9 +485,22 @@ namespace ft{
 
 				diff = last - first;
 				return_iterator = first;
+
+//				if (last == end())
+
+				iterator end = this->end();
+				if ( last != end)
+				{
+					std::copy(last, end, first);
+				}
 				for (difference_type i = 0; i < diff; i++)
-					return_iterator = erase(return_iterator);
-				return (return_iterator);
+					this->_allocator.destroy(&this->_data[this->_size - i - 1]);
+				this->_size -= diff;
+
+//				return (pos);
+//				for (difference_type i = 0; i < diff; i++)
+//					return_iterator = erase(return_iterator);
+				return (last);
 			}
 			
 			void		push_back(const value_type& val);
