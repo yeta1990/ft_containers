@@ -416,7 +416,7 @@ namespace ft{
 					destroy_and_deallocate();
 				this->_size = _newSize;
 				this->_usedValues = this->_size;
-				this->_capacity = this->_size;
+				this->_capacity = _newSize;
 				this->_data = _newData;
 
 			}
@@ -627,12 +627,17 @@ namespace ft{
 				InputIterator 	it;
 				size_t			i;
 				size_t			distance;
+				size_t			new_capacity;
 				value_type		*new_data;
 
 				it = first;
 				distance = std::distance(first, last);
+				if (distance > this->_capacity)
+					new_capacity = distance;
+				else
+					new_capacity = this->_capacity;
 				if (distance > 0)
-					new_data = this->_allocator.allocate(distance);
+					new_data = this->_allocator.allocate(new_capacity);
 				else
 				{
 					for (size_t i = 0; i < this->_size; i++)
@@ -648,7 +653,7 @@ namespace ft{
 				}
 				destroy_and_deallocate();
 				this->_size = distance;
-				this->_capacity = this->_size;
+				this->_capacity = new_capacity;
 				this->_data = new_data;
 			}
 
