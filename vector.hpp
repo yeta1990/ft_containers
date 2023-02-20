@@ -366,6 +366,7 @@ namespace ft{
 				value_type*	_newData;
 				iterator	it;	
 				size_type	_newSize;
+				size_type	_newCapacity ;
 				size_type	i;
 
 				diff = 0;
@@ -379,12 +380,23 @@ namespace ft{
 					aux++;
 				}
 //				diff = last - first;
+
+				/*
+				size_t distance; 
+				distance = std::distance(first, last);
+				if (this->_size + distance > this->_capacity)
+					_newSize = this->_size + distance;
+				else
+					_newSize = this->_capacity;
+*/
 				_newSize = this->_size + diff;
+				_newCapacity = std::max(this->_capacity * 2, _newSize);
+
 
 				try	
 				{
-					if (_newSize > 0)
-						_newData = this->_allocator.allocate(_newSize);
+					if (_newCapacity > 0)
+						_newData = this->_allocator.allocate(_newCapacity);
 				}
 				catch (std::bad_alloc &e)
 				{
@@ -416,7 +428,7 @@ namespace ft{
 					destroy_and_deallocate();
 				this->_size = _newSize;
 				this->_usedValues = this->_size;
-				this->_capacity = _newSize;
+				this->_capacity = _newCapacity;
 				this->_data = _newData;
 
 			}

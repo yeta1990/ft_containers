@@ -623,12 +623,83 @@ void	vector_assign_iterator3()
 
 void	vector_assign_killer()
 {
+	int _ratio = 1000;
 //	std::vector<int> v(42,42);
-	ft::vector<int> v1(42,42);
-	ft::vector<int> v2(5,1);
+//	ft::vector<int> v1(42,42);
+//	ft::vector<int> v2(5,1);
 
 //	v.assign(v.);
-	v1.assign(v2.begin(), v2.begin());
+//	v1.assign(v2.begin(), v2.begin());
+
+    std::vector<int> v;
+    ft::vector<int> v1;
+    std::vector<int> vector;
+    ft::vector<int> vector1;
+
+	std::vector<int> tmp, tmp2;
+	ft::vector<int> tmp1, tmp12;
+
+
+    vector.assign(3, 3);
+    vector1.assign(3, 3);
+
+    tmp.assign(4000 * _ratio, 1);
+    tmp1.assign(4000 * _ratio, 1);
+
+
+    tmp2.assign(4 * _ratio, 1);
+    tmp12.assign(4 * _ratio, 1);
+
+//    g_start2 = timer();
+    vector.assign(tmp.begin(), tmp.end());
+    vector1.assign(tmp1.begin(), tmp1.end());
+
+	check_size_capacity(v, v1);
+	check_size_capacity(vector, vector1);
+	check_size_capacity(tmp, tmp1);
+	check_size_capacity(tmp2, tmp12);
+
+    v.push_back(vector[1]);
+    v1.push_back(vector1[1]);
+
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+
+    vector.assign(tmp2.begin(), tmp2.end());
+    vector1.assign(tmp12.begin(), tmp12.end());
+	check_size_capacity(vector, vector1);
+	
+    ft::vector<int>::iterator it;
+    size_t i = 0;
+    for (it = vector1.begin(); it != vector1.end(); it++)
+    {
+		check(vector[i] == vector1[i]);
+		i++;
+    }
+
+//	std::cout << "v size: " << vector.size() << ", capacity: " << vector.capacity() << std::endl;
+//	std::cout << "v size: " << vector1.size() << ", capacity: " << vector1.capacity() << std::endl;
+    v.push_back(vector[444]);
+    
+    v1.push_back(vector1[444]);
+	check(vector[*(vector.end() - 1)] == vector1[*(vector1.end() - 1)]);
+
+
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+
+
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+
+	check_size_capacity(v, v1);
+	check_size_capacity(vector, vector1);
+	check_size_capacity(tmp, tmp1);
+	check_size_capacity(tmp2, tmp12);
+
 
 }
 
@@ -797,14 +868,56 @@ void	vector_insert_range()
 	}
 	it = v.begin() + 10;
 	it1 = v1.begin() + 10;
+	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
+
+	std::cout << "distance: " << (vc.begin() + 1 - vc.end() - 2) << "," << (vc1.begin() +1 - vc1.end() - 2) << std::endl;
 	v.insert(it, vc.begin() + 1, vc.end() - 2);
 	v1.insert(it1, vc1.begin() + 1, vc1.end() - 2);
 	check(v[9] == v1[9]);
 	check(v[10] == v1[10]);
 	check(v[11] == v1[11]);
+	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	check_size_capacity(v, v1);
 
 }
+
+void	vector_insert_range2()
+{
+	size_t _ratio = 100;
+
+    std::vector<int> vector;
+    ft::vector<int> vector1;
+    std::vector<int> v;
+    std::vector<int> tmp;
+    ft::vector<int> v1;
+    ft::vector<int> tmp1;
+
+    tmp.assign(2600 * _ratio, 1);
+    tmp1.assign(2600 * _ratio, 1);
+	check_size_capacity(tmp, tmp1);
+
+    vector.assign(4200 * _ratio, 1);
+    vector1.assign(4200 * _ratio, 1);
+	check_size_capacity(vector, vector1);
+
+    vector.insert(vector.end() - 1000 * _ratio, tmp.begin(), tmp.end());
+    vector1.insert(vector1.end() - 1000 * _ratio, tmp1.begin(), tmp1.end());
+	check_size_capacity(vector, vector1);
+
+    v.push_back(vector[3]);
+    v1.push_back(vector1[3]);
+	check_size_capacity(v, v1);
+
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+	check_size_capacity(v, v1);
+
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+	check_size_capacity(v, v1);
+
+}
+
 
 void	vector_pop_back()
 {
@@ -1021,6 +1134,7 @@ void vector_tests()
 	test_case("vector: insert", &vector_insert);
 	test_case("vector: insert single", &vector_insert_single);
 	test_case("vector: insert range", &vector_insert_range);
+	test_case("vector: insert range2", &vector_insert_range2);
 	test_case("vector: pop back", &vector_pop_back);
 	test_case("vector: pop back 2", &vector_pop_back_2);
 	test_case("vector: swap, member function", &vector_swap_member);
