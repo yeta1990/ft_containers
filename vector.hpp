@@ -361,7 +361,6 @@ namespace ft{
 			template <class InputIterator>
 			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::forward_iterator_tag)
 			{
-			
 				difference_type diff;
 				value_type*	_newData;
 				iterator	it;	
@@ -397,6 +396,8 @@ namespace ft{
 				{
 					if (_newCapacity > 0)
 						_newData = this->_allocator.allocate(_newCapacity);
+					else
+						return ;
 				}
 				catch (std::bad_alloc &e)
 				{
@@ -410,13 +411,47 @@ namespace ft{
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 					i++;
 				}
+
 				//insert new elements
+//				if (diff > 0)
+//				{
+//					std::copy(first, last, this->begin() + i);
+//					i += diff;
+//				}
+
+/*				pointer res;
+				res = this->_allocator.allocate(diff);
+				InputIterator iter;	
+				bool valid;
+				for (difference_type j = 0; j < diff; j++)
+				{
+//					std::copy(first, ++first, this->begin() + i);
+//					size_t	j;
+//					j = 0;
+					valid = true;	
+					for (iter = first; iter != last; iter++)
+					{
+						try { res[j] = *iter; }
+						catch(...) { valid = false; break ;}
+					}
+
+
+//					std::cout << "........." << j << "," << std::endl;
+//					std::cout << "........." << diff << "," << std::endl;
+//					first++;
+//					i++;
+				}
+				this->_allocator.deallocate(res, diff);
+				if (!valid)
+					throw ;
+					*/
 				for (difference_type j = 0; j < diff; j++)
 				{
 					this->_allocator.construct(&_newData[i], *first);
 					first++;
 					i++;
 				}
+//				*/
 				//copy the rest of the elements
 
 				for (it = position; it != this->end(); it++)
@@ -531,7 +566,7 @@ namespace ft{
 				value_type*	dataSwap;
 				size_type	capacitySwap;
 				size_type	sizeSwap;
-				
+
 				dataSwap = this->_data;
 				this->_data = x._data;
 				x._data = dataSwap;

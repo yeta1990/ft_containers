@@ -2,6 +2,7 @@ NAME = tests_containers
 CXX = g++
 CXX2 = clang++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 --pedantic -g3 -fsanitize=address
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++98 --pedantic -g3
 INC = -I. -I../
 SRCS = tests/tests.cpp tests/tests_map.cpp tests/tests_more_iterators.cpp tests/tests_reverse_iterator.cpp
 OBJS = $(SRCS:.cpp=.o)

@@ -868,22 +868,22 @@ void	vector_insert_range()
 	}
 	it = v.begin() + 10;
 	it1 = v1.begin() + 10;
-	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
+//	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 
-	std::cout << "distance: " << (vc.begin() + 1 - vc.end() - 2) << "," << (vc1.begin() +1 - vc1.end() - 2) << std::endl;
+//	std::cout << "distance: " << (vc.begin() + 1 - vc.end() - 2) << "," << (vc1.begin() +1 - vc1.end() - 2) << std::endl;
 	v.insert(it, vc.begin() + 1, vc.end() - 2);
 	v1.insert(it1, vc1.begin() + 1, vc1.end() - 2);
 	check(v[9] == v1[9]);
 	check(v[10] == v1[10]);
 	check(v[11] == v1[11]);
-	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
+//	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	check_size_capacity(v, v1);
 
 }
 
 void	vector_insert_range2()
 {
-	size_t _ratio = 100;
+	size_t _ratio = 1;
 
     std::vector<int> vector;
     ft::vector<int> vector1;
@@ -915,6 +915,114 @@ void	vector_insert_range2()
     v.push_back(vector.capacity());
     v1.push_back(vector1.capacity());
 	check_size_capacity(v, v1);
+
+}
+#include <memory>
+
+class B {
+public:
+    char *l;
+    int i;
+    B():l(0), i(1) {};
+    B(const int &ex) {
+        this->i = ex;
+        this->l = new char('a');
+    };
+    virtual ~B() {
+        delete this->l;
+        this->l = 0;
+    };
+};
+
+class A : public B {
+public:
+    A():B(){};
+    A(const B* ex){
+        this->l = new char(*(ex->l));
+        this->i = ex->i;
+        if (ex->i == -1) throw "n";
+    }
+    ~A() {
+        delete this->l;
+        this->l = 0;
+    };
+};
+
+void	vector_hardcore()
+{
+    std::vector<int> v;
+    std::vector<int> tmp;
+    std::vector<int> vector;
+    ft::vector<int> ve1;
+    ft::vector<int> tmp1;
+    ft::vector<int> vector1;
+    
+    size_t		_ratio = 10;
+
+    tmp.assign(2600 * _ratio, 1);
+    tmp1.assign(2600 * _ratio, 1);
+
+    vector.assign(4200 * _ratio, 1);
+    vector1.assign(4200 * _ratio, 1);
+
+//    g_start1 = timer();
+    vector.insert(vector.end() - 1000 * _ratio, tmp.begin(), tmp.end());
+    vector1.insert(vector1.end() - 1000 * _ratio, tmp1.begin(), tmp1.end());
+//    g_end1 = timer();
+    v.push_back(vector[3]);
+    ve1.push_back(vector1[3]);
+
+    v.push_back(vector.size());
+    ve1.push_back(vector1.size());
+
+    v.push_back(vector.capacity());
+    ve1.push_back(vector1.capacity());
+    
+
+    std::unique_ptr<B> k2(new B(3));
+    std::unique_ptr<B> k3(new B(4));
+    std::unique_ptr<B> k4(new B(-1));
+    std::unique_ptr<B> kk2(new B(3));
+    std::unique_ptr<B> kk3(new B(4));
+    std::unique_ptr<B> kk4(new B(-1));
+    std::vector<A> vv;
+    std::vector<B*> v1;
+    ft::vector<A> vv1;
+    ft::vector<B*> v11;
+
+    v1.push_back(&(*k2));
+    v11.push_back(&(*kk2));
+
+    v1.push_back(&(*k3));
+    v11.push_back(&(*kk3));
+   
+    v1.push_back(&(*k4));
+    v11.push_back(&(*kk4));
+    
+//	std::cerr << vv.size() << "," << vv.capacity() << std::endl;
+//	std::cerr << v1.size() << "," << v1.capacity() << std::endl;
+    try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+//    catch (...) {
+    catch (const char *e) {
+		std::cerr << e << std::endl;
+        v.push_back(vv.size());
+        v.push_back(vv.capacity());
+		std::cerr << vv.size() << "," << vv.capacity() << std::endl;
+		std::cerr << v.size() << "," << v.capacity() << std::endl;
+    }
+
+//	system("leaks tests_containers");
+    try { vv1.insert(vv1.begin(), v11.begin(), v11.end()); }
+//    catch (...) {
+    catch (const char *e) {
+//		system("leaks tests_containers");
+		std::cerr << e << std::endl;
+        ve1.push_back(vv1.size());
+        ve1.push_back(vv1.capacity());
+		std::cerr << vv.size() << "," << vv.capacity() << std::endl;
+		std::cerr << v.size() << "," << v.capacity() << std::endl;
+    }
+
 
 }
 
@@ -1135,6 +1243,7 @@ void vector_tests()
 	test_case("vector: insert single", &vector_insert_single);
 	test_case("vector: insert range", &vector_insert_range);
 	test_case("vector: insert range2", &vector_insert_range2);
+	test_case("vector: hardcore", &vector_hardcore);
 	test_case("vector: pop back", &vector_pop_back);
 	test_case("vector: pop back 2", &vector_pop_back_2);
 	test_case("vector: swap, member function", &vector_swap_member);
