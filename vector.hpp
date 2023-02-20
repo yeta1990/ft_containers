@@ -368,29 +368,25 @@ namespace ft{
 				size_type	_newCapacity ;
 				size_type	i;
 
-				diff = 0;
-				InputIterator aux;
-
-				aux = first;
-//				std::cout << "eeeooo" << std::endl;
-				while (aux!= last)
+				diff = std::distance(first, last);
+				pointer res;
+				res = this->_allocator.allocate(diff);
+				InputIterator iter;	
+				bool valid;
+				valid = true;	
+				difference_type j = 0;
+				for (iter = first; iter != last; iter++)
 				{
-					diff++;
-					aux++;
+					try { res[j] = *iter; }
+					catch(...) { valid = false; break ;}
+					j++;
 				}
-//				diff = last - first;
+				this->_allocator.deallocate(res, diff);
+				if (!valid)
+					throw std::exception();
 
-				/*
-				size_t distance; 
-				distance = std::distance(first, last);
-				if (this->_size + distance > this->_capacity)
-					_newSize = this->_size + distance;
-				else
-					_newSize = this->_capacity;
-*/
 				_newSize = this->_size + diff;
 				_newCapacity = std::max(this->_capacity * 2, _newSize);
-
 
 				try	
 				{
@@ -411,47 +407,13 @@ namespace ft{
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 					i++;
 				}
-
-				//insert new elements
-//				if (diff > 0)
-//				{
-//					std::copy(first, last, this->begin() + i);
-//					i += diff;
-//				}
-
-/*				pointer res;
-				res = this->_allocator.allocate(diff);
-				InputIterator iter;	
-				bool valid;
-				for (difference_type j = 0; j < diff; j++)
-				{
-//					std::copy(first, ++first, this->begin() + i);
-//					size_t	j;
-//					j = 0;
-					valid = true;	
-					for (iter = first; iter != last; iter++)
-					{
-						try { res[j] = *iter; }
-						catch(...) { valid = false; break ;}
-					}
-
-
-//					std::cout << "........." << j << "," << std::endl;
-//					std::cout << "........." << diff << "," << std::endl;
-//					first++;
-//					i++;
-				}
-				this->_allocator.deallocate(res, diff);
-				if (!valid)
-					throw ;
-					*/
+					
 				for (difference_type j = 0; j < diff; j++)
 				{
 					this->_allocator.construct(&_newData[i], *first);
 					first++;
 					i++;
 				}
-//				*/
 				//copy the rest of the elements
 
 				for (it = position; it != this->end(); it++)
@@ -465,7 +427,6 @@ namespace ft{
 				this->_usedValues = this->_size;
 				this->_capacity = _newCapacity;
 				this->_data = _newData;
-
 			}
 
 			//erase
