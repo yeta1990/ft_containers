@@ -500,7 +500,7 @@ namespace ft{
 //				return (pos);
 //				for (difference_type i = 0; i < diff; i++)
 //					return_iterator = erase(return_iterator);
-				return (last);
+				return (first);
 			}
 			
 			void		push_back(const value_type& val);

@@ -235,31 +235,21 @@ void	ite_end_begin()
 		vct1.push_back(i);
 	}
 
-	std::cout << vct[41] << "," << vct1[41] << std::endl;
-	std::cout << *(vct.end() - 1) << std::endl;
-	std::cout << *(vct1.end() - 1) << std::endl;
+//	std::cout << vct[41] << "," << vct1[41] << std::endl;
+//	std::cout << *(vct.end() - 1) << std::endl;
+//	std::cout << *(vct1.end() - 1) << std::endl;
 
-	it = vct.erase(vct.end() - 1);
-	it1 = vct1.erase(vct1.end() - 1);
-	check(*it == *it1);
-	check(vct.size() == vct1.size());
-	check(vct.size() == vct1.size());
-	std::cout << *it << std::endl;
-	std::cout << *it1 << std::endl;
+//	it = vct.erase(vct.end() - 1);
+//	it1 = vct1.erase(vct1.end() - 1);
+//	check(*it == *it1);
+//	check(vct.size() == vct1.size());
+//	std::cout << *it << std::endl;
+//	std::cout << *it1 << std::endl;
 
-	for (size_t i = 39; i < 42; i++)
-	{
-		std::cout << vct[i] << "," << vct1[i] << std::endl;
-//		check(vct[i] == vct1[i]);
 
-//		check(vct[i] == vct1[i]);
-	}
-		std::cout << *(vct.end()) << "," << *(vct1.end()) << std::endl;
-
-/*
-	it = vct.erase(vct.begin());
-	it1 = vct1.erase(vct1.begin());
-	check(*it == *it1);
+//	it = vct.erase(vct.begin());
+//	it1 = vct1.erase(vct1.begin());
+//	check(*it == *it1);
 //	std::cout << *it << std::endl;
 //	std::cout << *it1 << std::endl;
 
@@ -270,7 +260,25 @@ void	ite_end_begin()
 	it1 = v1.erase(v1.begin());
 	check(it == v.end());
 	check(it1 == v1.end());
-*/	
+	
+	it = vct.erase(vct.begin(), vct.begin() + 3);
+	it1 = vct1.erase(vct1.begin(), vct1.begin() + 3);
+
+	check(vct.size() == vct1.size());
+	for (size_t i = 0; i < vct.size(); i++)
+	{
+		check(vct[i] == vct1[i]);
+	}
+	check(it - vct.begin() ==  it1 - vct1.begin());
+
+	it = vct.erase(vct.end() - 3, vct.end() - 1);
+	it1 = vct1.erase(vct1.end() - 3, vct1.end() - 1);
+	check(vct.size() == vct1.size());
+	for (size_t i = 0; i < vct.size(); i++)
+	{
+		check(vct[i] == vct1[i]);
+	}
+	check(it - vct.begin() ==  it1 - vct1.begin());
 
 }
 
