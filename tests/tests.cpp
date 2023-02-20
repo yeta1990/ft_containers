@@ -18,7 +18,7 @@ void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1)
 {
 	
 	size_t	capacity1 = v.capacity();
-	size_t	capacity2 = v.capacity();
+	size_t	capacity2 = v1.capacity();
 	size_t	size1 = v.size();
 	size_t	size2 = v1.size();
 
@@ -40,8 +40,8 @@ void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1)
 	else
 	{
 		std::cout << "\x1B[31mx\x1B[0m";
-		std::cout << std::endl << "Expected capacity: " << v.size()
-				<< ", but is " << v1.size() << std::endl;
+		std::cout << std::endl << "Expected capacity: " << v.capacity()
+				<< ", but is " << v1.capacity() << std::endl;
 	}
 }
 
@@ -914,6 +914,74 @@ void	vector_swap_no_member()
 	check_size_capacity(v2, v4);
 }
 
+void	vector_resize_7()
+{
+	int _ratio = 10;
+    std::vector<int> vector;
+    std::vector<int> v;
+    ft::vector<int> vector1;
+    ft::vector<int> v1;
+
+    vector.assign(9900 * _ratio, 1);
+    vector1.assign(9900 * _ratio, 1);
+	check_size_capacity(vector, vector1);
+
+    vector.resize(5000 * _ratio);
+    vector1.resize(5000 * _ratio);
+	check_size_capacity(vector, vector1);
+
+    vector.reserve(5000 * _ratio);
+    vector1.reserve(5000 * _ratio);
+	check_size_capacity(vector, vector1);
+
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+	check_size_capacity(v, v1);
+
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+	check_size_capacity(v, v1);
+
+    vector.resize(7000 * _ratio);
+    vector1.resize(7000 * _ratio);
+	check_size_capacity(vector, vector1);
+	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
+	
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+	check_size_capacity(v, v1);
+
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+
+	check_size_capacity(v, v1);
+//	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
+
+    vector.resize(15300 * _ratio, int());
+    vector1.resize(15300 * _ratio, int());
+	std::cout << std::endl;
+	check_size_capacity(vector, vector1);
+//	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
+	
+    v.push_back(vector.size());
+    v1.push_back(vector1.size());
+
+	check_size_capacity(v, v1);
+	check (v[v.size() - 1] == v1[v1.size() - 1]);
+//	std::cout << v[v.size() - 1] << "," <<  v1[v1.size() - 1] << std::endl;;
+//	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
+	
+    v.push_back(vector.capacity());
+    v1.push_back(vector1.capacity());
+	check_size_capacity(v, v1);
+	check (v[v.size() - 1] == v1[v1.size() - 1]);
+//	std::cout << v[v.size() - 1] << "," <<  v1[v1.size() - 1] << std::endl;;
+/*	
+    v.push_back(vector[65]);
+	*/
+
+}
+
 void vector_tests()
 {
 	
@@ -958,6 +1026,8 @@ void vector_tests()
 	test_case("vector: swap, member function", &vector_swap_member);
 	test_case("vector: swap, member function 2", &vector_swap_member_2);
 	test_case("vector: swap, no member function", &vector_swap_no_member);
+	
+	test_case("vector: resize 7", &vector_resize_7);
 
 //	test_case("vector: bidirect iterator", &bidirect_iterator);
 //	test_case("", &);

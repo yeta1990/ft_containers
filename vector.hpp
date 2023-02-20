@@ -260,7 +260,7 @@ namespace ft{
 //				if (_newSize <= this->_capacity)
 //					new_capacity = _newSize;
 //				else
-				new_capacity = std::max(this->_size * 2, this->_size + n);
+				new_capacity = std::max(this->_capacity * 2, this->_size + n);
 
 //				std::cout << "new size: " << _newSize << "new capacity " << new_capacity;
 				try
