@@ -107,8 +107,17 @@ namespace ft{
 		{
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
+//			delete this->_root;
+			if (this->_root)
+			{
+				this->_root->clear();
+				delete this->_root;
+				this->_root = NULL;
+			}
 			this->_root = new BSTree<value_type>();
 
+			if (other.size() == 0)
+				return (*this);
 			const_iterator	it;
 			for (it = other.begin(); it != other.end(); it++)
 			{
@@ -122,7 +131,7 @@ namespace ft{
 			return (this->_allocator);
 		}
 
-		~map() { delete this->_root; this->_root = NULL;}
+		~map() { this->_root->clear(); delete this->_root; this->_root = NULL;}
 
 		//capacity
 		bool empty() const { return (!this->size());};

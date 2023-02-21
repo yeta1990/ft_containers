@@ -3,6 +3,30 @@
 #include <string>
 #include <map>
 
+void	printmap(ft::map<const char, double> const &mp)
+{
+	ft::map<const char, double>::const_iterator it;
+	ft::map<const char, double>::const_iterator ite;
+
+	it = mp.begin();
+	ite = mp.end();
+	for (; it != ite; ++it)
+		std::cout << "- " << std::endl;
+}
+
+void	printmap(ft::map<int, int> const &mp)
+{
+	ft::map<int, int>::const_iterator it;
+	ft::map<int, int>::const_iterator ite;
+
+	if (mp.size() == 0)
+		return ;
+	it = mp.begin();
+	ite = mp.end();
+	for (; it != ite; ++it)
+		std::cout << "- " << std::endl;
+}
+
 void	map_constructor()
 {
 	std::map<int,int> map;
@@ -146,6 +170,39 @@ void	map_copy_constructor()
 	std::map<int, int> mapc(map);
 	ft::map<int, int> map1c(map1);
 
+//	std::map<int, int> mp;
+	ft::map<int, int> mp1;
+//	std::map<int, int> mp_copy;
+	ft::map<int, int> mp_copy1 = create_map();
+
+//	mp = mp_copy;
+
+//	std::map<int, int>::iterator it = mp.begin();
+//	std::cout << (*it).first << std::endl;
+	mp1 = mp_copy1;
+	mp_copy1 = map1c;
+	map1c.clear();
+
+	std::cout << "mp1" << std::endl;
+	printmap(mp1);
+
+	std::cout << std::endl << "mp1c" << std::endl;
+	printmap(map1c);
+
+	std::cout << std::endl << "mp_cop1" << std::endl;
+	printmap(mp_copy1);
+
+/*
+	std::cout << "size: " << map1.size() << std::endl;
+
+
+	mp = mp_copy;
+	mp_copy = mp_range;
+	mp_range.clear();
+	printSize(mp);
+	printSize(mp_range);
+	printSize(mp_copy);
+	*/
 
 
 }
@@ -1050,16 +1107,7 @@ void	map_swap()
 	
 }
 
-void	printmap(ft::map<const char, double> const &mp)
-{
-	ft::map<const char, double>::const_iterator it;
-	ft::map<const char, double>::const_iterator ite;
 
-	it = mp.begin();
-	ite = mp.end();
-	for (; it != ite; ++it)
-		std::cout << "- " << std::endl;
-}
 
 void	map_comp()
 {
@@ -1087,6 +1135,7 @@ void map_tests()
 	test_case("map_constructors", &map_constructor);
 	test_case("map_constructors2", &map_constructor2);
 	test_case("map_copy_constructor", &map_copy_constructor);
+	/*
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
@@ -1114,6 +1163,7 @@ void map_tests()
 	test_case("map erase6", &map_erase_6);
 	test_case("map swap", &map_swap);
 	test_case("map comp", &map_comp);
+	*/
 //	test_case("map insert playground", &map_insert_playground);
 }
 

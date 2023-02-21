@@ -22,7 +22,11 @@ class Node
 //		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree, Node* sentinel) : content(p), key(content->first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 		~Node()
 		{
-			delete content;
+			if (content)
+			{
+				delete content;
+				content = NULL;
+			}
 		}
 		value_type		*content;
 //		const T1&		key;
@@ -149,7 +153,11 @@ class BSTree{
 		bool	deleteKeyFrom(node *node);
 		void	clear()
 		{
+//			delete this->root;
 			this->~BSTree();
+			this->root = NULL;
+			this->_size = 0;
+
 //			this->freeTree(root);
 //			this->root = NULL;
 //			this->sentinel->right = NULL;
@@ -381,7 +389,12 @@ template <class T>
 BSTree<T>::~BSTree()
 {
 	this->freeTree(this->root);
-	delete sentinel;
+	this->root = NULL;
+	if (sentinel)
+	{
+		delete sentinel;
+		sentinel = NULL;
+	}
 }
 
 template <class T>
