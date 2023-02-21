@@ -11,7 +11,7 @@ void	printmap(ft::map<const char, double> const &mp)
 	it = mp.begin();
 	ite = mp.end();
 	for (; it != ite; ++it)
-		std::cout << "- " << std::endl;
+		std::cout << "- " << (*it).first<< std::endl;
 }
 
 void	printmap(ft::map<int, int> const &mp)
@@ -24,7 +24,7 @@ void	printmap(ft::map<int, int> const &mp)
 	it = mp.begin();
 	ite = mp.end();
 	for (; it != ite; ++it)
-		std::cout << "- " << std::endl;
+		std::cout << "- " << (*it).first<< std::endl;
 }
 
 void	map_constructor()

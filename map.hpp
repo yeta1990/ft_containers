@@ -119,10 +119,12 @@ namespace ft{
 			if (other.size() == 0)
 				return (*this);
 			const_iterator	it;
-			for (it = other.begin(); it != other.end(); it++)
-			{
-				insert(*it);
-			}
+//			std::cout << std::endl;
+//			for (it = other.begin(); it != other.end(); it++)
+//			{
+				insert(other.begin(), other.end());
+//				std::cout << "inserting " << (*it).first << std::endl;
+//			}
 			return (*this);
 		}
 
