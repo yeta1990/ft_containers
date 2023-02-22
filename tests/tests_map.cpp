@@ -2,6 +2,7 @@
 #include "map.hpp"
 #include <string>
 #include <map>
+#include <list>
 
 void	printmap(ft::map<const char, double> const &mp)
 {
@@ -18,6 +19,20 @@ void	printmap(ft::map<int, int> const &mp)
 {
 	ft::map<int, int>::const_iterator it;
 	ft::map<int, int>::const_iterator ite;
+
+	if (mp.size() == 0)
+		return ;
+	it = mp.begin();
+	ite = mp.end();
+	for (; it != ite; ++it)
+		std::cout << "- " << (*it).first<< std::endl;
+}
+
+
+void	printstdmap(std::map<int, int> const &mp)
+{
+	std::map<int, int>::const_iterator it;
+	std::map<int, int>::const_iterator ite;
 
 	if (mp.size() == 0)
 		return ;
@@ -165,6 +180,8 @@ void	map_constructor2()
 
 void	map_copy_constructor()
 {
+
+	/*
 	std::map<int, int> map = create_std_map();
 	ft::map<int, int> map1 = create_map();
 	std::map<int, int> mapc(map);
@@ -191,7 +208,7 @@ void	map_copy_constructor()
 
 	std::cout << std::endl << "mp_cop1" << std::endl;
 	printmap(mp_copy1);
-
+*/
 /*
 	std::cout << "size: " << map1.size() << std::endl;
 
@@ -204,6 +221,89 @@ void	map_copy_constructor()
 	printSize(mp_copy);
 	*/
 
+	typedef std::pair<const unsigned int, unsigned int> pair;
+	typedef std::pair<const unsigned int, unsigned int> pair1;
+
+	std::list<pair> lst;
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(std::make_pair(lst_size - i, i));
+
+	std::list<pair1> lst1;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst1.push_back(ft::make_pair(lst_size - i, i));
+
+	std::map<unsigned int, unsigned int> mp(lst.begin(), lst.end());
+	std::map<unsigned int,unsigned  int>::iterator it = mp.begin(), ite = mp.end();
+	std::map<unsigned int, unsigned int> mp_range(it, --(--ite));
+	ft::map<unsigned int, unsigned int> mp1(lst1.begin(), lst1.end());
+	ft::map<unsigned int, unsigned int>::iterator it1 = mp1.begin(), ite1 = mp1.end();
+	ft::map<unsigned int, unsigned int> mp_range1(it1, --(--ite1));
+
+	for (int i = 0; it != ite; ++it)
+	{	
+		it1++;
+		it->second = ++i * 5;
+		it1->second = i * 5;
+	}
+
+	it = mp.begin(); ite = --(--mp.end());
+	it1 = mp1.begin(); ite1 = --(--mp1.end());
+
+	std::map<unsigned int, int> mp_copy(mp);
+	ft::map<unsigned int, int> mp_copy1(mp1);
+	for (int i = 0; it != ite; ++it)
+	{
+		it1++;
+		it->second = ++i * 7;
+		it1->second = i * 7;
+	}
+
+	std::cout << "\t-- PART ONE --" << std::endl;
+
+	printstdmap(mp);
+	std::cout << "." << std::endl;
+	printmap(mp1);
+	std::cout << "------" << std::endl;
+
+	printstdmap(mp_range);
+	std::cout << "." << std::endl;
+	printmap(mp_range1);
+	std::cout << "------" << std::endl;
+
+	printstdmap(mp_copy);
+	std::cout << "." << std::endl;
+	printmap(mp_copy1);
+
+	std::cout << "------" << std::endl;
+
+
+
+
+	mp = mp_copy;
+	mp_copy = mp_range;
+	mp_range.clear();
+	mp1 = mp_copy1;
+	mp_copy1 = mp_range1;
+	mp_range1.clear();
+
+	std::cout << "\t-- PART TWO --" << std::endl;
+
+	printstdmap(mp);
+	std::cout << "." << std::endl;
+	printmap(mp1);
+	std::cout << "------" << std::endl;
+
+	printstdmap(mp_range);
+	std::cout << "." << std::endl;
+	printmap(mp_range1);
+	std::cout << "------" << std::endl;
+
+	printstdmap(mp_copy);
+	std::cout << "." << std::endl;
+	printmap(mp_copy1);
+
+	std::cout << "------" << std::endl;
 
 }
 

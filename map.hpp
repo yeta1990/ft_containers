@@ -72,17 +72,19 @@ namespace ft{
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
 		{
-			InputIterator it;
+//			InputIterator it;
 
 			this->_allocator = alloc;
 			this->_comp = comp;
 			this->_root = new BSTree<value_type>();
-			it = first;
+			insert(first, last);
+			/*it = first;
 			while (it != last)
 			{
 				insert(*it);
 				it++;	
 			}
+			*/
 
 		}
 //
