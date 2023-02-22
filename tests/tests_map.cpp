@@ -317,6 +317,7 @@ void	map_copy_constructor()
 	std::cout << "." << std::endl;
 	printmap(mp_copy1);
 
+//	std::cout << mp_copy1.size() << std::endl;
 	std::cout << "------" << std::endl;
 
 }

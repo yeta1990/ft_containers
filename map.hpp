@@ -130,6 +130,7 @@ namespace ft{
 			insert(other.begin(), other.end());
 //				std::cout << "inserting " << (*it).first << std::endl;
 //			}
+//			std::cout << "operator =" << std::endl;
 			return (*this);
 		}
 

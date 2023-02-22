@@ -187,10 +187,14 @@ class BSTree{
 
 		node	*getHighestNode()
 		{
+			if (this->_size == 0)
+				return (sentinel);
 			return (getHighestNodeFrom(root));
 		}
 		node	*getLowestNode()
 		{
+			if (this->_size == 0)
+				return (sentinel);
 			return (getLowestNodeFrom(root));
 		}
 
