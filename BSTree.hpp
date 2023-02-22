@@ -126,7 +126,7 @@ class BSTree{
 		~BSTree();
 		node	*insert(value_type p);
 
-		/* Insert with hint. As this is a BSTree, to insert with hint 
+		/* Insert with hint. As this is a BSTree, to insert with hint
 		 * we must ensure the the hint is good
 		 * 
 		 * Bad hint:
@@ -388,8 +388,11 @@ size_t	BSTree<T>::size() const
 template <class T>
 BSTree<T>::~BSTree()
 {
-	this->freeTree(this->root);
-	this->root = NULL;
+	if (this->root)
+	{		
+		this->freeTree(this->root);
+		this->root = NULL;
+	}
 	if (sentinel)
 	{
 		delete sentinel;

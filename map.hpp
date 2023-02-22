@@ -72,25 +72,28 @@ namespace ft{
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
 		{
-//			InputIterator it;
+			InputIterator it;
 
 			this->_allocator = alloc;
 			this->_comp = comp;
 			this->_root = new BSTree<value_type>();
-			insert(first, last);
-			/*it = first;
+//			insert(first, last);
+//			std::cout << "yeee" << std::endl;
+			it = first;
 			while (it != last)
 			{
 				insert(*it);
-				it++;	
+				it++;
 			}
-			*/
+
 
 		}
-//
+
+		//copy constructor
 		map (const map& other)
 		{
-			*this = other; 
+			this->_root = NULL;
+			*this = other;
 //			return (*this);
 			/*
 			this->_allocator = other.get_allocator();
@@ -107,9 +110,9 @@ namespace ft{
 
 		map& operator= (const map& other)
 		{
+//			std::cout << "yee" << std::endl;
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
-//			delete this->_root;
 			if (this->_root)
 			{
 				this->_root->clear();
@@ -124,7 +127,7 @@ namespace ft{
 //			std::cout << std::endl;
 //			for (it = other.begin(); it != other.end(); it++)
 //			{
-				insert(other.begin(), other.end());
+			insert(other.begin(), other.end());
 //				std::cout << "inserting " << (*it).first << std::endl;
 //			}
 			return (*this);
@@ -213,6 +216,7 @@ namespace ft{
 			it = first;
 			while (it != last)
 			{
+//				std::cout << "yee" << std::endl;
 				insert(*it);
 				it++;	
 			}
@@ -252,6 +256,7 @@ namespace ft{
 		}
 		void clear()
 		{
+			_root->clear();
 			delete _root;
 			this->_root = new BSTree<value_type>();
 		}
