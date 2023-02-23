@@ -118,13 +118,24 @@ class BSTree{
 
 	public:
 		typedef Node<T>			node;
+//		typedef Node<const T>	cnode;
 		typedef BSTree<T>		tree;
+		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
+		typedef typename node_allocator::pointer							pointer;
+		typedef typename node_allocator::const_pointer						const_pointer;
+		typedef typename node_allocator::reference							reference;
+		typedef typename node_allocator::const_reference					const_reference;
 		typedef T				value_type;
-		typedef tree_iterator<node*>	iterator;
+		typedef tree_iterator<pointer, value_type>	iterator;
+		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
 		BSTree() : sentinel(new Node<T>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
 		~BSTree();
-		node	*insert(value_type p);
+
+		pointer insert(value_type p);
+
+		pointer _find(typename value_type::first_type key);
+		const_pointer _find(typename value_type::first_type key) const;
 
 		/* Insert with hint. As this is a BSTree, to insert with hint
 		 * we must ensure the the hint is good
@@ -154,6 +165,18 @@ class BSTree{
 			return (insertFromRoot(val, &root, NULL));
 		}
 
+		iterator find(typename value_type::first_type key)
+		{
+			return (iterator(_find(key)));
+		}
+
+		const_iterator find(typename value_type::first_type key) const
+		{
+			return (const_iterator(_find(key)));
+		}
+
+//		node			*find(typename value_type::first_type key);
+
 		void	del(typename value_type::first_type key);
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
@@ -169,9 +192,9 @@ class BSTree{
 //			this->sentinel->right = NULL;
 		}
 		size_t	size() const;
-		node	*find(typename value_type::first_type key);
 
-		node	*getHighestNodeFrom(node *node)
+
+		pointer	getHighestNodeFrom(node *node)
 		{
 			Node<T>* aux = NULL;
 
@@ -181,7 +204,17 @@ class BSTree{
 			return (aux);
 		}
 
-		node	*getLowestNodeFrom(node* node)
+		const_pointer getHighestNodeFrom(node *node) const
+		{
+			Node<T>* aux = NULL;
+
+			aux = node;
+			while (aux && aux->right && aux->right!= sentinel)
+				aux = aux->right;
+			return (aux);
+		}
+
+		pointer getLowestNodeFrom(node* node) 
 		{
 			Node<T>* aux = NULL;
 
@@ -191,23 +224,69 @@ class BSTree{
 			return (aux);
 		};
 
-		node	*getHighestNode()
+		const_pointer getLowestNodeFrom(node* node) const
+		{
+			const Node<T>* aux = NULL;
+
+			aux = node;
+			while (aux && aux->left && aux->left != sentinel)
+				aux = aux->left;
+			return (aux);
+			
+//			return (getLowestNode());
+		};
+
+		pointer getHighestNode()
 		{
 			if (this->_size == 0)
 				return (sentinel);
 			return (getHighestNodeFrom(root));
 		}
-		node	*getLowestNode()
+
+		const_pointer getHighestNode() const
+		{
+			if (this->_size == 0)
+				return (sentinel);
+			return (getHighestNodeFrom(root));
+		}
+
+		pointer getLowestNode()
 		{
 			if (this->_size == 0)
 				return (sentinel);
 			return (getLowestNodeFrom(root));
 		}
 
-		node	*getSentinel()
+		const_pointer getLowestNode() const
+		{
+			if (this->_size == 0)
+				return (sentinel);
+			return (getLowestNodeFrom(root));
+		}
+
+		const_iterator	begin() const
+		{
+			if (this->_size == 0)
+				return (const_iterator(sentinel));
+			return (const_iterator(getLowestNodeFrom(root)));
+		}
+
+		const_iterator	end() const
+		{
+//			if (this->_size == 0)
+			return (const_iterator(sentinel));
+//			return (const_iterator(getLowestNodeFrom(root)));
+		}
+
+		pointer getSentinel()
 		{
 			return (sentinel);
 		}
+
+//		cnode	*getSentinel() const
+//		{
+//			return (sentinel);
+//		}
 		
 //		node	*get
 
@@ -229,6 +308,8 @@ class BSTree{
 			this->root = x_root;
 			this->_size = x_size;
 
+
+
 		}
 	private:
 		node			*sentinel;
@@ -240,6 +321,7 @@ class BSTree{
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
 		node			*getMinNode(node *node);
+
 		node			*findNode(typename value_type::first_type key, node *node);
 
 		bool insert_has_good_hint(iterator position, const value_type& val)
@@ -270,13 +352,19 @@ void	BSTree<T>::del(typename T::first_type key)
 {
 	Node<T>* found;
 
-	found = this->find(key);
+	found = this->_find(key);
 	if (found && found != sentinel)
 		this->deleteKeyFrom(found);
 }
 
 template <class T>
-typename BSTree<T>::node*	BSTree<T>::find(typename T::first_type key)
+typename BSTree<T>::pointer	BSTree<T>::_find(typename T::first_type key)
+{
+	return (this->findNode(key, this->root));
+}
+
+template <class T>
+typename BSTree<T>::const_pointer	BSTree<T>::_find(typename T::first_type key) const
 {
 	return (this->findNode(key, this->root));
 }
@@ -425,7 +513,7 @@ void BSTree<T>::freeTree(node *root)
 }
 
 template <class T>
-typename BSTree<T>::node*	BSTree<T>::insert(typename BSTree<T>::value_type p)
+typename BSTree<T>::pointer	BSTree<T>::insert(typename BSTree<T>::value_type p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
 	return (this->insertFromRoot(p, &(this->root), NULL));

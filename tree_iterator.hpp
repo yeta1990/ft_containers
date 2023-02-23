@@ -5,42 +5,44 @@
 
 namespace ft{
 	//map uses node*
-	template <class T>
+	template <class N, class B>
 	class tree_iterator
 	{
 
 		public:
 		//			iterator_category; //bidirectional
 //			typedef typename ft::iterator_traits<T>::value_type	value_type;
-			typedef	typename ft::iterator_traits<T>::value_type	self_type;
-			typedef	typename self_type::value_type				value_type;
-			typedef typename ft::iterator_traits<T>::pointer pointer;
+			typedef B	value_type;
+//			typedef	typename ft::iterator_traits<N>::value_type	self_type;
+//			typedef	typename self_type::value_type				value_type;
+			typedef typename ft::iterator_traits<N>::pointer pointer;
 //			typedef	T*				pointer;
-			typedef	value_type&				reference;
+			typedef typename ft::iterator_traits<N>::reference reference;
+			typedef	value_type*		base_pointer;
+			typedef	value_type&		base_reference;
+//			typedef	value_type&				reference;
 //			typedef typename ft::iterator_traits<typename T::value_type>::difference_type difference_type;
 //			typedef size_t difference_type;
 //			typedef typename ft::iterator_traits<T>::pointer pointer;
 //			reference;
 
 			tree_iterator() : p() {}
-			tree_iterator(pointer ptr) : p(ptr) {}
+			explicit tree_iterator(pointer ptr) : p(ptr) {}
 
-			tree_iterator(const tree_iterator& it) : p(it.getNode()) {}
+//			explicit tree_iterator(const tree_iterator& it) : p(it.getNode()) {}
 
-			template<typename C>
-			tree_iterator(const tree_iterator<C> &it) {
-				p = it.getNode();
-			}
+			template<typename C, typename D>
+			tree_iterator(const tree_iterator<C, D> &it) : p(it.getNode()) {}
 
-			template<typename C>
-			tree_iterator& operator=(const tree_iterator<C> &it)
+//			template<typename C>
+			tree_iterator& operator=(const tree_iterator &it)
 			{
 				p = it.getNode();
 				return *this;
 			}
 
-			value_type& operator*() const { return *(p->content); }
-			value_type* operator->() const { return p->content; }
+			base_reference operator*() const { return *(p->content); }
+			base_pointer operator->() const { return p->content; }
 			pointer*	base() { return (&p) ;}
 			pointer		getNode() const { return (p) ;}
 //			pointer		getNode() { return (p) ;}
@@ -77,12 +79,12 @@ namespace ft{
 			pointer p;
 	};
 
-template <class T, typename U>
-bool operator!=(const ft::tree_iterator<T> &a, const ft::tree_iterator<U> &b){
+template <typename N1, typename B1, typename N2, typename B2>
+bool operator!=(const ft::tree_iterator<N1, B1> &a, const ft::tree_iterator<N2, B2> &b){
 				return (a.getNode() != b.getNode());	}
 
-template <class T, typename U>
-bool operator==(const ft::tree_iterator<T> &a, const ft::tree_iterator<U> &b){
+template <typename N1, typename B1, typename N2, typename B2>
+bool operator==(const ft::tree_iterator<N1, B1> &a, const ft::tree_iterator<N2, B2> &b){
 				return (a.getNode() == b.getNode());	}
 
 }

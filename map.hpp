@@ -28,17 +28,23 @@ namespace ft{
 		typedef pair<const key_type, mapped_type>			value_type;
 		typedef Compare				 						key_compare;
 		//value_compare
-		typedef std::allocator<value_type> 					allocator_type;
-		typedef typename allocator_type::reference 			reference;
-		typedef typename allocator_type::const_reference 	const_reference;
-		typedef typename allocator_type::pointer 			pointer;
-		typedef typename allocator_type::const_pointer 		const_pointer;
+		typedef Allocator				 					allocator_type;
+		typedef typename Allocator::template 				rebind<value_type>::other	alloc_pair;
+
+		typedef typename alloc_pair::reference 				reference;
+		typedef typename alloc_pair::const_reference 		const_reference;
+		typedef typename alloc_pair::pointer 				pointer;
+		typedef typename alloc_pair::const_pointer 			const_pointer;
+
+		typedef BSTree<value_type>							tree;
+		typedef typename tree::iterator						iterator;
+		typedef typename tree::const_iterator				const_iterator;
 		typedef	ft::Node<value_type>						node;
 		typedef	ft::Node<value_type>					const_node;
 		//bidirectional iterator?
 		//this must be chaged to a custom iterator for node*
-		typedef tree_iterator<node *>	iterator;
-		typedef tree_iterator<node *>	const_iterator;
+//		typedef tree_iterator<node *>	iterator;
+//		typedef tree_iterator<node *>	const_iterator;
 //		typedef random_iterator<pointer> iterator;
 //		typedef random_iterator<const_pointer> const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -160,7 +166,7 @@ namespace ft{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 				return ((*this)[k]);
 			}
-			found = this->_root->find(k);
+			found = this->_root->_find(k);
 			if (found == _root->getSentinel())
 			{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
@@ -174,7 +180,7 @@ namespace ft{
 		{
 			typename BSTree<value_type>::node	*found;
 
-			found = this->_root->find(k);
+			found = this->_root->_find(k);
 			if (found == _root->getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->content->second);
@@ -184,7 +190,7 @@ namespace ft{
 		{
 			typename BSTree<value_type>::node	*found;
 
-			found = this->_root->find(k);
+			found = this->_root->_find(k);
 			if (found == _root->getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->value);
@@ -281,22 +287,25 @@ namespace ft{
 		//operations
 		iterator find (const key_type& k)
 		{
-			node*	found;
+//			node*	found;
 
-			found = this->_root->find(k);
-			return (iterator(found));
+//			found = this->_root->find(k);
+//			return (iterator(found));
+			return (this->_root->find(k));
 		}
+
 		const_iterator find (const key_type& k) const
 		{
-			node*	found;
+//			cnode*	found;
 
-			found = this->_root->find(k);
-			return (const_iterator(found));
+//			found = this->_root->find(k);
+//			return (const_iterator(found));
+			return (this->_root->find(k));
 		}
 		//
 		size_type count (const key_type& k) const
 		{
-			iterator	it;
+			const_iterator	it;
 
 			it = this->find(k);
 			if (it == this->end())
@@ -391,18 +400,20 @@ namespace ft{
 
 		const_iterator begin() const
 		{
-			node*	found;
-			found = this->_root->getLowestNode();
+//			const node*	found;
+//			found = this->_root->getLowestNode();
 
-			return (const_iterator(found));
+//			return (const_iterator(found));
+			return (this->_root->begin());
 		}
 
 		const_iterator end() const
 		{
-			node*	found;
-			found = this->_root->getSentinel();
+//			node*	found;
+//			found = this->_root->getSentinel();
 
-			return (const_iterator(found));
+//			return (const_iterator(found));
+			return (this->_root->end());
 		}
 
 		private:
