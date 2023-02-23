@@ -1180,6 +1180,28 @@ void	map_erase_6()
 	}
 }
 
+//static int iter = 0;
+
+template <typename MAP, typename U>
+void	ft_erase(MAP &mp, U param)
+{
+//	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
+	std::cout << "ret: " << mp.erase(param) << std::endl;
+	printSize(mp);
+}
+
+void	map_erase_7()
+{
+	std::list<ft::pair<const int, std::string> > lst;
+	unsigned int lst_size = 6;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(ft::pair<const int, std::string>(i, std::string((lst_size - i), i + 65)));
+	ft::map<int, std::string> mp(lst.begin(), lst.end());
+//	printmap(mp);
+//	printSize(mp);
+
+}
+
 void	map_swap()
 {
 	std::map<int, int> map = create_std_map();
@@ -1250,7 +1272,6 @@ void map_tests()
 	test_case("map_constructors", &map_constructor);
 	test_case("map_constructors2", &map_constructor2);
 	test_case("map_copy_constructor", &map_copy_constructor);
-	/*
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
@@ -1276,9 +1297,10 @@ void map_tests()
 	test_case("map erase4", &map_erase_4);
 	test_case("map erase5", &map_erase_5);
 	test_case("map erase6", &map_erase_6);
+	test_case("map erase7", &map_erase_7);
 	test_case("map swap", &map_swap);
 	test_case("map comp", &map_comp);
-	*/
+	
 //	test_case("map insert playground", &map_insert_playground);
 }
 

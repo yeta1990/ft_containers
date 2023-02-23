@@ -198,7 +198,7 @@ namespace ft{
 
 			old_size = this->size();
 			new_inserted = _root->insert(p);
-			return (make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
+			return (ft::make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
 		}
 
 		iterator insert (iterator position, const value_type& val)
@@ -236,7 +236,7 @@ namespace ft{
 
 			old_size = this->size();
 			this->_root->del(k);
-			return (this->size() - old_size);
+			return (old_size - this->size());
 		}
 		void erase (iterator first, iterator last)
 		{

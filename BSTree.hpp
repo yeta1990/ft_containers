@@ -265,7 +265,7 @@ void	BSTree<T>::del(typename T::first_type key)
 	Node<T>* found;
 
 	found = this->find(key);
-	if (found)
+	if (found && found != sentinel)
 		this->deleteKeyFrom(found);
 }
 
@@ -358,7 +358,6 @@ typename BSTree<T>::node*	BSTree<T>::findNode(typename T::first_type key, Node<T
 {
 	if (node && node->content->first == key)
 	{
-//		std::cout << "found " << key << std::endl;
 		return (node);
 	}
 	else if (node && node->left && node->left != sentinel && key <= node->content->first)
