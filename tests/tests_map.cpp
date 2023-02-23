@@ -259,10 +259,10 @@ void	map_copy_constructor()
 	it = mp.begin(); ite = --(--mp.end());
 	it1 = mp1.begin(); ite1 = --(--mp1.end());
 
-	std::cout << std::endl;
-	printstdmap(mp);
-	std::cout << "." << std::endl;
-	printmap(mp1);
+//	std::cout << std::endl;
+//	printstdmap(mp);
+//	std::cout << "." << std::endl;
+//	printmap(mp1);
 	std::map<unsigned int, unsigned int> mp_copy(mp);
 	ft::map<unsigned int, unsigned int> mp_copy1(mp1);
 
@@ -273,23 +273,23 @@ void	map_copy_constructor()
 		it1++;
 	}
 
-	std::cout << "\t-- PART ONE --" << std::endl;
+//	std::cout << "\t-- PART ONE --" << std::endl;
 
-	printstdmap(mp);
-	std::cout << "." << std::endl;
-	printmap(mp1);
-	std::cout << "------" << std::endl;
+//	printstdmap(mp);
+//	std::cout << "." << std::endl;
+//	printmap(mp1);
+//	std::cout << "------" << std::endl;
 
-	printstdmap(mp_range);
-	std::cout << "." << std::endl;
-	printmap(mp_range1);
-	std::cout << "------" << std::endl;
+//	printstdmap(mp_range);
+//	std::cout << "." << std::endl;
+//	printmap(mp_range1);
+//	std::cout << "------" << std::endl;
 
-	printstdmap(mp_copy);
-	std::cout << "." << std::endl;
-	printmap(mp_copy1);
-
-	std::cout << "------" << std::endl;
+//	printstdmap(mp_copy);
+//	std::cout << "." << std::endl;
+//	printmap(mp_copy1);
+//
+//	std::cout << "------" << std::endl;
 
 
 
@@ -301,24 +301,24 @@ void	map_copy_constructor()
 	mp_copy1 = mp_range1;
 	mp_range1.clear();
 
-	std::cout << "\t-- PART TWO --" << std::endl;
+//	std::cout << "\t-- PART TWO --" << std::endl;
 
-	printstdmap(mp);
-	std::cout << "." << std::endl;
-	printmap(mp1);
-	std::cout << "------" << std::endl;
+//	printstdmap(mp);
+//	std::cout << "." << std::endl;
+//	printmap(mp1);
+//	std::cout << "------" << std::endl;
 
-	printstdmap(mp_range);
-	std::cout << "." << std::endl;
-	printmap(mp_range1);
-	std::cout << "------" << std::endl;
+//	printstdmap(mp_range);
+//	std::cout << "." << std::endl;
+//	printmap(mp_range1);
+//	std::cout << "------" << std::endl;
 
-	printstdmap(mp_copy);
-	std::cout << "." << std::endl;
-	printmap(mp_copy1);
+//	printstdmap(mp_copy);
+//	std::cout << "." << std::endl;
+//	printmap(mp_copy1);
 
 //	std::cout << mp_copy1.size() << std::endl;
-	std::cout << "------" << std::endl;
+//	std::cout << "------" << std::endl;
 
 }
 
@@ -602,6 +602,16 @@ void	map_insert_hint2()
 	check(aux->content->first == 11);
 }
 
+void	map_insert_hint3()
+{
+	ft::map<int, std::string> mp2;
+	ft::map<int, std::string>::iterator it;
+	mp2.insert(ft::pair<int, std::string>(1, "ye"));
+	it = mp2.insert(mp2.begin(), ft::pair<int, std::string>(1337, "beauty"));
+	check((*it).first == 1337);
+//	std::cout << (*it).first << std::endl;
+//	printmap(mp2);
+}
 
 void	map_insert_iterator3()
 {
@@ -1281,6 +1291,7 @@ void map_tests()
 	test_case("map parent navigation", &map_parent_navigation);
 	test_case("map insert hint1", &map_insert_hint1);
 	test_case("map insert hint2", &map_insert_hint2);
+	test_case("map insert hint3", &map_insert_hint3);
 	test_case("map insert iterator3", &map_insert_iterator3);
 	test_case("map operator ++", &map_operator_pp);
 	test_case("map operator --", &map_operator_ll);

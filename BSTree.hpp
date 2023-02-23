@@ -137,10 +137,16 @@ class BSTree{
 		 */
 		node	*insert(iterator position, const value_type& val)
 		{
-			if (!root)
-				return (insertFromRoot(val, position.base(), NULL));
-			if (insert_has_good_hint(position, val))
+			if (this->_size == 0)
+				return (insertFromRoot(val, &root, NULL));
+//			else if (*position == sentinel)
+//				return (insertFromRoot(val, &root, NULL));
+//				return (insert(val));
+//			else if (!root)
+//				return (insertFromRoot(val, position.base(), NULL));
+			else if (insert_has_good_hint(position, val))
 			{
+
 				if (val.first > (*position).first)
 					return (this->insertFromRoot(val, &((*position.base())->right), *(position.base())));
 				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));

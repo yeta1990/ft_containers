@@ -201,11 +201,15 @@ namespace ft{
 			return (ft::make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
 		}
 
+		//insert with hint
 		iterator insert (iterator position, const value_type& val)
 		{
 			typename BSTree<value_type>::node	*new_inserted;
 
-			new_inserted = _root->insert(position, val);
+			if (position == this->end())
+				new_inserted = _root->insert(this->begin(), val);
+			else
+				new_inserted = _root->insert(position, val);
 			return (iterator(new_inserted));
 		}
 
