@@ -46,23 +46,30 @@ namespace ft{
 			pointer*	base() { return (&p) ;}
 			pointer		getNode() const { return (p) ;}
 //			pointer		getNode() { return (p) ;}
-			tree_iterator& operator++() { 
+			tree_iterator& operator++() {
 				pointer n;
 				n = p;
 				n = n->getNextElement(); 
 				p = n;
-				return *this; }
-			tree_iterator& operator--() { (*this)--; return *this; }
+				return *this; 
+			}
+			tree_iterator& operator--() { 
+				pointer n;
+				n = p;
+				n = n->getPrevElement(); 
+				p = n;
+				return *this; 
+			}
 
 			tree_iterator operator++(int) { 
 				tree_iterator copy(*this);
 				++(*this);
-//				copy = 
-//				pointer n;
-//				n = p;
-//				n = n->getNextElement(); 
 				return (copy); }
-			tree_iterator& operator--(int) { p = p->getPrevElement(); return *this; }
+			tree_iterator operator--(int) { 
+				tree_iterator	copy(*this);
+				--(*this);
+				return (copy);
+			}
 
 			//this isn't necessary for a bidirectional iterator
 		/*	tree_iterator operator-(difference_type i) const { 
