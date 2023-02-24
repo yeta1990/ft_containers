@@ -6,10 +6,11 @@
 
 namespace ft{
 
-template <class T>
+//template <class T>
+template <class T, class Comp>
 class BSTree;
 
-template <class P>
+template <class P, class Comp>
 class Node
 {
 	public:
@@ -18,7 +19,7 @@ class Node
 
 		Node() : content(NULL), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
 //		Node() : content(), key(content->first), value(content.second), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
-		Node(value_type *p, Node* parent, ft::BSTree<P> *tree, Node* sentinel) : content(p), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
+		Node(value_type *p, Node* parent, ft::BSTree<P, Comp> *tree, Node* sentinel) : content(p), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 //		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree, Node* sentinel) : content(p), key(content->first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 		~Node()
 		{
@@ -34,7 +35,7 @@ class Node
 		Node			*left;
 		Node			*right;
 		Node			*parent;
-		BSTree<P>		*my_tree;
+		BSTree<P, Comp>		*my_tree;
 		Node			*sentinel;
 
 		value_type&	getContent() const
@@ -113,14 +114,15 @@ class Node
 
 };
 
-template <class T>
+template <class T, class Comp = std::less<typename T::first_type> >
 class BSTree{
 
 	public:
-		typedef Node<T>			node;
+		typedef Node<T, Comp>			node;
 //		typedef Node<const T>	cnode;
-		typedef BSTree<T>		tree;
+		typedef BSTree<T, Comp>		tree;
 		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
+		typedef Comp		key_compare;
 		typedef typename node_allocator::pointer							pointer;
 		typedef typename node_allocator::const_pointer						const_pointer;
 		typedef typename node_allocator::reference							reference;
@@ -129,7 +131,7 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree() : sentinel(new Node<T>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
+		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
 		~BSTree();
 
 		pointer insert(value_type p);
@@ -148,6 +150,8 @@ class BSTree{
 		 */
 		node	*insert(iterator position, const value_type& val)
 		{
+			key_compare comp = Comp();
+
 			if (this->_size == 0)
 				return (insertFromRoot(val, &root, NULL));
 //			else if (*position == sentinel)
@@ -158,7 +162,8 @@ class BSTree{
 			else if (insert_has_good_hint(position, val))
 			{
 
-				if (val.first > (*position).first)
+				if (comp((*position).first, val.first))
+//				if (val.first > (*position).first)
 					return (this->insertFromRoot(val, &((*position.base())->right), *(position.base())));
 				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));
 			}
@@ -196,7 +201,7 @@ class BSTree{
 
 		pointer	getHighestNodeFrom(node *node)
 		{
-			Node<T>* aux = NULL;
+			Node<T, Comp>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->right && aux->right!= sentinel)
@@ -206,7 +211,7 @@ class BSTree{
 
 		const_pointer getHighestNodeFrom(node *node) const
 		{
-			Node<T>* aux = NULL;
+			Node<T, Comp>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->right && aux->right!= sentinel)
@@ -216,7 +221,7 @@ class BSTree{
 
 		pointer getLowestNodeFrom(node* node) 
 		{
-			Node<T>* aux = NULL;
+			Node<T, Comp>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->left && aux->left != sentinel)
@@ -226,7 +231,7 @@ class BSTree{
 
 		const_pointer getLowestNodeFrom(node* node) const
 		{
-			const Node<T>* aux = NULL;
+			const Node<T, Comp>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->left && aux->left != sentinel)
@@ -316,7 +321,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(value_type p, Node<T> **r, Node<T> *parent);
+		node			*insertFromRoot(value_type p, Node<T, Comp> **r, Node<T, Comp> *parent);
 		void			del(node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -328,14 +333,15 @@ class BSTree{
 		{
 			node*	parent;
 			node*	current;
+			key_compare comp = Comp();
 			
 			current = *position.base();
 			parent = current->parent;
 			while (parent)
 			{
-				if (parent->content->first < current->content->first && parent->content->first > val.first)
+				if (comp(parent->content->first, current->content->first) && comp(val.first, parent->content->first))
 					return (false);
-				else if (parent->content->first > current->content->first && parent->content->first < val.first)
+				else if (comp(current->content->first, parent->content->first) && comp(parent->content->first, val.first))
 					return (false);
 				current = parent;
 				parent = parent->parent;
@@ -344,33 +350,37 @@ class BSTree{
 		}
 
 		//currently unused:
-		size_t			count_nodes(const Node<T> *root) const;
+		size_t			count_nodes(const Node<T, Comp> *root) const;
 };
 
-template <class T>
-void	BSTree<T>::del(typename T::first_type key)
+//template <class T>
+template <class T, class Comp>
+void	BSTree<T, Comp>::del(typename T::first_type key)
 {
-	Node<T>* found;
+	Node<T, Comp>* found;
 
 	found = this->_find(key);
 	if (found && found != sentinel)
 		this->deleteKeyFrom(found);
 }
 
-template <class T>
-typename BSTree<T>::pointer	BSTree<T>::_find(typename T::first_type key)
+//template <class T>
+template <class T, class Comp>
+typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::_find(typename T::first_type key)
 {
 	return (this->findNode(key, this->root));
 }
 
-template <class T>
-typename BSTree<T>::const_pointer	BSTree<T>::_find(typename T::first_type key) const
+//template <class T>
+template <class T, class Comp>
+typename BSTree<T, Comp>::const_pointer	BSTree<T, Comp>::_find(typename T::first_type key) const
 {
 	return (this->findNode(key, this->root));
 }
 
-template <class T>
-bool	BSTree<T>::deleteKeyFrom(node *node)
+//template <class T>
+template <class T, class Comp>
+bool	BSTree<T, Comp>::deleteKeyFrom(node *node)
 {
 	size_t	old_size;
 
@@ -381,8 +391,9 @@ bool	BSTree<T>::deleteKeyFrom(node *node)
 	return (old_size - _size);
 }
 
-template <class T>
-void	BSTree<T>::transplant(node* u, node *v)
+//template <class T>
+template <class T, class Comp>
+void	BSTree<T, Comp>::transplant(node* u, node *v)
 {
 	if (u->parent == sentinel)
 		this->root = v;
@@ -394,11 +405,12 @@ void	BSTree<T>::transplant(node* u, node *v)
 		v->parent = u->parent;
 }
 
-template <class T>
-void	BSTree<T>::del(node *node)
+//template <class T>
+template <class T, class Comp>
+void	BSTree<T, Comp>::del(node *node)
 {
-	Node<T>*	y;
-	Node<T>*	old_node;
+	Node<T, Comp>*	y;
+	Node<T, Comp>*	old_node;
 
 	old_node = node;
 	if (!node)
@@ -430,8 +442,9 @@ void	BSTree<T>::del(node *node)
 	}
 }
 
-template <class T>
-typename BSTree<T>::node*	BSTree<T>::getMaxNode(Node<T> *node)
+//template <class T>
+template <class T, class Comp>
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
 {
 	if (node->right && node->right != sentinel)
 		return (getMaxNode(node->right));
@@ -439,30 +452,33 @@ typename BSTree<T>::node*	BSTree<T>::getMaxNode(Node<T> *node)
 }
 
 
-template <class T>
-typename BSTree<T>::node*	BSTree<T>::getMinNode(Node<T> *node)
+//template <class T>
+template <class T, class Comp>
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
 {
 	if (node->left && node->left != sentinel)
 		return (getMinNode(node->left));
 	return (node);
 }
 
-template <class T>
-typename BSTree<T>::node*	BSTree<T>::findNode(typename T::first_type key, Node<T> *node)
+template <class T, class Comp>
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::findNode(typename T::first_type key, Node<T, Comp> *node)
 {
+	key_compare comp = Comp(); 
+
 	if (node && node->content->first == key)
 	{
 		return (node);
 	}
-	else if (node && node->left && node->left != sentinel && key <= node->content->first)
+	else if (node && node->left && node->left != sentinel && comp(key, node->content->first))
 		return (findNode(key, node->left));
-	else if (node && node->right && node->right != sentinel && key >= node->content->first)
+	else if (node && node->right && node->right != sentinel && comp(node->content->first, key))
 		return (findNode(key, node->right));
 	return (sentinel);
 }
 
-template <class T>
-size_t	BSTree<T>::count_nodes(const Node<T> *root) const
+template <class T, class Comp>
+size_t	BSTree<T, Comp>::count_nodes(const Node<T, Comp> *root) const
 {
 	size_t	count;
 
@@ -476,14 +492,14 @@ size_t	BSTree<T>::count_nodes(const Node<T> *root) const
 	return (count);
 }
 
-template <class T>
-size_t	BSTree<T>::size() const
+template <class T, class Comp>
+size_t	BSTree<T, Comp>::size() const
 {
 	return (this->_size);
 }
 
-template <class T>
-BSTree<T>::~BSTree()
+template <class T, class Comp>
+BSTree<T, Comp>::~BSTree()
 {
 	if (this->root)
 	{		
@@ -497,8 +513,8 @@ BSTree<T>::~BSTree()
 	}
 }
 
-template <class T>
-void BSTree<T>::freeTree(node *root)
+template <class T, class Comp>
+void BSTree<T, Comp>::freeTree(node *root)
 {
 	if (!root)
 		return;
@@ -512,8 +528,8 @@ void BSTree<T>::freeTree(node *root)
 	root = NULL;
 }
 
-template <class T>
-typename BSTree<T>::pointer	BSTree<T>::insert(typename BSTree<T>::value_type p)
+template <class T, class Comp>
+typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(typename BSTree<T, Comp>::value_type p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
 	return (this->insertFromRoot(p, &(this->root), NULL));
@@ -527,9 +543,10 @@ typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BST
 }
 */
 
-template <class T>
-typename BSTree<T>::node*	BSTree<T>::insertFromRoot(typename BSTree<T>::value_type p, Node<T> **r, Node<T> *parent)
+template <class T, class Comp>
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(typename BSTree<T, Comp>::value_type p, Node<T, Comp> **r, Node<T, Comp> *parent)
 {
+	key_compare comp = Comp();
 	if (*r == NULL || *r == sentinel)
 	{
 		if (!parent)
@@ -537,14 +554,15 @@ typename BSTree<T>::node*	BSTree<T>::insertFromRoot(typename BSTree<T>::value_ty
 			sentinel->right = *r;
 			parent = sentinel;
 		}
-		*r = new Node<T>(new value_type(p), parent, this, sentinel);
+		*r = new Node<T, Comp>(new value_type(p), parent, this, sentinel);
 		(*r)->left = sentinel;
 		(*r)->right = sentinel;
 //		std::cout << "adding node" << std::endl;
 		this->_size++;
 		return (*r);
 	}
-	else if (p.first < (*r)->content->first)
+	else if (comp(p.first, (*r)->content->first))
+//	else if (p.first < (*r)->content->first)
 		return (this->insertFromRoot(p, &(*r)->left, *r));
 	else if (p.first == (*r)->content->first)
 		return (*r);
