@@ -17,6 +17,7 @@
 #include <cstddef>
 #include <limits>
 #include "tree_iterator.hpp"
+#include "equal.hpp"
 
 namespace ft{
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > class map
@@ -150,10 +151,10 @@ namespace ft{
 		//capacity
 		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_root->size());};
-//		size_type 	max_size() const {return (this->_allocator.max_size());};
-		size_type	max_size() const {
-			return (std::numeric_limits<map::size_type>::max() / sizeof(T) / MAX_SIZE_DIVISOR);
-		}
+		size_type 	max_size() const {return (alloc_pair().max_size());};
+//		size_type	max_size() const {
+//			return (std::numeric_limits<map::size_type>::max() / sizeof(T));
+//		}
 
 		//element access
 		mapped_type& operator[] (const key_type& k)
@@ -429,7 +430,90 @@ void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
 	x.swap(y);
 }
 
+template< class Key, class T, class Compare, class Alloc >
+bool operator==( const ft::map<Key, T, Compare, Alloc>& lhs,
+                 const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	if (lhs.size() != rhs.size())
+		return (false);
+	return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+
+template< class Key, class T, class Compare, class Alloc >
+bool operator!=( const ft::map<Key, T, Compare, Alloc>& lhs,
+                 const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	if (lhs.size() != rhs.size())
+		return (true);
+	return (!ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+
+template< class Key, class T, class Compare, class Alloc >
+bool operator<( const ft::map<Key, T, Compare, Alloc>& lhs,
+                const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	typename ft::map<Key, T, Compare, Alloc>::const_iterator it;
+	typename ft::map<Key, T, Compare, Alloc>::const_iterator it2;
+
+	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
+	{
+		if (it->second > it2->second)
+			return (false);
+	}
+//	return (true);
+	return (lhs.size() < rhs.size());
+//	return (it == lhs.end() && (it2 != rhs.end()));
+}
+
+template< class Key, class T, class Compare, class Alloc >
+bool operator<=( const ft::map<Key, T, Compare, Alloc>& lhs,
+                 const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	return ((lhs < rhs) || (lhs == rhs));
+}
+
+template< class Key, class T, class Compare, class Alloc >
+
+bool operator>=( const ft::map<Key, T, Compare, Alloc>& lhs,
+                 const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	return ((lhs > rhs) || (lhs == rhs));
+}
+
+template< class Key, class T, class Compare, class Alloc >
+bool operator>( const ft::map<Key, T, Compare, Alloc>& lhs,
+                const ft::map<Key, T, Compare, Alloc>& rhs )
+{
+	typename ft::map<Key, T, Compare, Alloc>::const_iterator it;
+	typename ft::map<Key, T, Compare, Alloc>::const_iterator it2;
+
+	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
+	{
+		if (it->second < it2->second)
+			return (false);
+	}
+	return (lhs.size() > rhs.size());
+//	return (it == lhs.end() && (it2 != rhs.end()));
+}
+
+
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

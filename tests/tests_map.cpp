@@ -1278,7 +1278,49 @@ void	map_comp()
 //	std::cout << "max_size: " << map.max_size() << std::endl;
 //	std::cout << "size: " << map.size() << std::endl;
 //	std::cout << "max_size: " << map.max_size() << std::endl;
-	printmap(map1);
+//	printmap(map1);
+}
+
+void	map_rel_ope()
+{
+	ft::map<int, int> map;
+	std::map<int, int> smap;
+
+	map = create_map();
+	smap = create_std_map();
+	ft::map<int, int> map2;
+	std::map<int, int> smap2;
+
+	map2 = create_map();
+	smap2 = create_std_map();
+
+
+	check(map == map2);
+	check(!(map != map2));
+
+//	map2[5] = 27;
+
+	map2[100] = 27;
+	smap2[100] = 27;
+	check(!(map == map2));
+	check(map != map2);
+	map[100] = 2;
+	smap[100] = 2;
+
+	check(!(map == map2));
+	check(map != map2);
+	map[100] = 27;
+	smap[100] = 27;
+	check(map == map2);
+	check(!(map != map2));
+
+	map2[101] = 29;
+	smap2[101] = 29;
+	check(map < map2);
+	check(smap < smap2);
+	check(!(map > map2));
+	check(!(smap > smap2));
+
 }
 
 void map_tests()
@@ -1315,6 +1357,7 @@ void map_tests()
 	test_case("map erase7", &map_erase_7);
 	test_case("map swap", &map_swap);
 	test_case("map comp", &map_comp);
+	test_case("map rel ope", &map_rel_ope);
 	
 //	test_case("map insert playground", &map_insert_playground);
 }
