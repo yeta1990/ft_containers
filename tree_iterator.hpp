@@ -20,6 +20,8 @@ namespace ft{
 			typedef typename ft::iterator_traits<N>::reference reference;
 			typedef	value_type*		base_pointer;
 			typedef	value_type&		base_reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
+			typedef std::ptrdiff_t			difference_type;
 //			typedef	value_type&				reference;
 //			typedef typename ft::iterator_traits<typename T::value_type>::difference_type difference_type;
 //			typedef size_t difference_type;

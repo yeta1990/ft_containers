@@ -1360,6 +1360,15 @@ void	map_rel_ope()
 
 }
 
+void map_rev_it()
+{
+	ft::map<int, int> mp;
+	ft::map<int, int>::iterator it = mp.begin();
+	ft::map<int, int>::const_iterator cit = mp.begin();
+
+	ft::map<int, int>::reverse_iterator rit(it);
+
+}
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
@@ -1396,6 +1405,7 @@ void map_tests()
 	test_case("map swap", &map_swap2);
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
+	test_case("map reverse iterator", &map_rev_it);
 
 //	test_case("map insert playground", &map_insert_playground);
 }
