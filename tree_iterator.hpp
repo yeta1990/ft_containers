@@ -15,11 +15,13 @@ namespace ft{
 			typedef B	value_type;
 //			typedef	typename ft::iterator_traits<N>::value_type	self_type;
 //			typedef	typename self_type::value_type				value_type;
-			typedef typename ft::iterator_traits<N>::pointer pointer;
+			typedef typename ft::iterator_traits<N>::pointer npointer;
 //			typedef	T*				pointer;
-			typedef typename ft::iterator_traits<N>::reference reference;
-			typedef	value_type*		base_pointer;
-			typedef	value_type&		base_reference;
+			typedef typename ft::iterator_traits<N>::reference nreference;
+//			typedef typename ft::iterator_traits<B>::pointer pointer;
+//			typedef typename ft::iterator_traits<B>::reference reference;
+			typedef	value_type*		pointer;
+			typedef	value_type&		reference;
 			typedef std::bidirectional_iterator_tag iterator_category;
 			typedef std::ptrdiff_t			difference_type;
 //			typedef	value_type&				reference;
@@ -29,7 +31,7 @@ namespace ft{
 //			reference;
 
 			tree_iterator() : p() {}
-			explicit tree_iterator(pointer ptr) : p(ptr) {}
+			explicit tree_iterator(npointer ptr) : p(ptr) {}
 
 //			explicit tree_iterator(const tree_iterator& it) : p(it.getNode()) {}
 
@@ -43,20 +45,20 @@ namespace ft{
 				return *this;
 			}
 
-			base_reference operator*() const { return *(p->content); }
-			base_pointer operator->() const { return p->content; }
-			pointer*	base() { return (&p) ;}
-			pointer		getNode() const { return (p) ;}
+			reference operator*() const { return *(p->content); }
+			pointer operator->() const { return p->content; }
+			npointer*	base() { return (&p) ;}
+			npointer		getNode() const { return (p) ;}
 //			pointer		getNode() { return (p) ;}
 			tree_iterator& operator++() {
-				pointer n;
+				npointer n;
 				n = p;
 				n = n->getNextElement(); 
 				p = n;
 				return *this; 
 			}
 			tree_iterator& operator--() { 
-				pointer n;
+				npointer n;
 				n = p;
 				n = n->getPrevElement(); 
 				p = n;
@@ -85,7 +87,7 @@ namespace ft{
 			*/
 
 		private:
-			pointer p;
+			npointer p;
 	};
 
 template <typename N1, typename B1, typename N2, typename B2>

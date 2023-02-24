@@ -1364,11 +1364,22 @@ void map_rev_it()
 {
 	ft::map<int, int> mp;
 	ft::map<int, int>::iterator it = mp.begin();
-	ft::map<int, int>::const_iterator cit = mp.begin();
+//	ft::map<int, int>::const_iterator cit = mp.begin();
 
 	ft::map<int, int>::reverse_iterator rit(it);
 
+	ft::map<int, int>::reverse_iterator rit1 = mp.rbegin();
+	ft::map<int, int>::reverse_iterator rit2 = mp.rend();
+
+	std::cout << (*it).first << std::endl;
+	std::cout << (*rit).first << std::endl;
+	std::cout << (*rit1).first << std::endl;
+	std::cout << (*rit2).first << std::endl;
+//	it = mp.rbegin();
+//	cit = mp.rbegin();
 }
+
+
 void map_tests()
 {
 	test_case("map_constructors", &map_constructor);
