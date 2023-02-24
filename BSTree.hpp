@@ -64,13 +64,24 @@ class Node
 
 		Node& operator= (Node& o)
 		{
-			*this = o;
+			this->content = o.getContent();
+			this->parent= o.parent;
+			this->sentinel = o.sentinel;
+			this->left= o.left;
+			this->right = o.right;
+			this->my_tree = o.my_tree;
+//			*this = o;
 			return (*this);
 		}
 
-		Node& operator=( const Node& other )
+		Node& operator=( const Node& o )
 		{
-			this->right = other.right();
+			this->content = o.getContent();
+			this->parent= o.parent;
+			this->sentinel = o.sentinel;
+			this->left= o.left;
+			this->right = o.right;
+			this->my_tree = o.my_tree;
 			return (*this);
 		}
 		//find inorder successor
@@ -297,7 +308,7 @@ class BSTree{
 
 		node*	base() { return root; };
 
-		void swap (BSTree* x)
+		/*void swap (BSTree* x)
 		{
 			node*	x_sentinel;	
 			node*	x_root;	
@@ -312,10 +323,8 @@ class BSTree{
 			this->sentinel = x_sentinel;
 			this->root = x_root;
 			this->_size = x_size;
-
-
-
 		}
+		*/
 	private:
 		node			*sentinel;
 		node			*root;

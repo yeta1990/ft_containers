@@ -264,7 +264,12 @@ namespace ft{
 
 		void swap (map& x)
 		{
-			this->_root->swap(x._root);
+			BSTree<value_type, key_compare> *sw;
+
+			sw = this->_root;
+			this->_root = x._root;
+			x._root = sw;
+
 		}
 		void clear()
 		{

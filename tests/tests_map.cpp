@@ -1259,6 +1259,28 @@ void	map_swap()
 }
 
 
+void	map_swap2()
+{
+	ft::map<int, int> map;
+	ft::map<int, int> map2;
+
+	map[-1] = 1;
+	map[1] = 2;
+	map[-3] = 7;
+
+	map2[7] = 7;
+	map2[8] = 8;
+	map2[6] = 6;
+	map2[9] = 9;
+
+	std::cout << std::endl;
+	swap(map, map2);
+	printmap(map);
+	std::cout << "." << std::endl;
+	printmap(map2);
+
+}
+
 
 void	map_comp()
 {
@@ -1321,16 +1343,16 @@ void	map_rel_ope()
 	check(!(map > map2));
 	check(!(smap > smap2));
 
-	printmap(map);
-	std::cout << "." << std::endl;
-	printmap(map2);
+//	printmap(map);
+//	std::cout << "." << std::endl;
+//	printmap(map2);
 //	printstdmap(smap);
-	std::cout << "---------------------" << std::endl;
+//	std::cout << "---------------------" << std::endl;
 	(++(++map.begin()))->second = 42;
 	(++(++smap.begin()))->second = 42;
-	printmap(map);
-	std::cout << "." << std::endl;
-	printmap(map2);
+//	printmap(map);
+//	std::cout << "." << std::endl;
+//	printmap(map2);
 	check(map > map2);
 	check(smap > smap2);
 //	printstdmap(smap);
@@ -1371,6 +1393,7 @@ void map_tests()
 	test_case("map erase6", &map_erase_6);
 	test_case("map erase7", &map_erase_7);
 	test_case("map swap", &map_swap);
+	test_case("map swap", &map_swap2);
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 
