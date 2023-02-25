@@ -319,6 +319,28 @@ void	map_copy_constructor()
 
 //	std::cout << mp_copy1.size() << std::endl;
 //	std::cout << "------" << std::endl;
+}
+
+void	map_copy_constructor2()
+{
+    std::vector<int> v;
+    ft::map<int, int> mp;
+	int _ratio = 10000;
+
+    for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
+        mp.insert(ft::make_pair(i, j));
+    }
+//    g_start2 = timer();
+	ft::map<int, int> mp2(mp.begin(), mp.end());
+//    g_end2 = timer();
+/*
+	ft::map<int, int>::iterator it = mp2.begin();
+    for (int i = 0; i < 30 * _ratio; ++i, it++) {
+        v.push_back(it->first);
+        v.push_back(it->second);
+    }
+    */
+//    return v;
 
 }
 
@@ -1385,6 +1407,7 @@ void map_tests()
 	test_case("map_constructors", &map_constructor);
 	test_case("map_constructors2", &map_constructor2);
 	test_case("map_copy_constructor", &map_copy_constructor);
+	test_case("map_copy_constructor", &map_copy_constructor2);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
