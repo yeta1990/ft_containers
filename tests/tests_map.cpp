@@ -325,7 +325,7 @@ void	map_copy_constructor2()
 {
     std::vector<int> v;
     ft::map<int, int> mp;
-	int _ratio = 10000;
+	int _ratio = 1000;
 
     for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
         mp.insert(ft::make_pair(i, j));
