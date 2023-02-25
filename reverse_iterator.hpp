@@ -58,8 +58,8 @@ namespace ft{
 				return &(operator*());
 			}
 			reference operator[] (difference_type n) const { return (base()[-n-1]);	}
-			reverse_iterator& operator++() { current = current - 1; return (*this); }
-			reverse_iterator& operator--() { current = current + 1; return (*this);	}
+			reverse_iterator& operator++() { current = --current; return (*this); }
+			reverse_iterator& operator--() { current = ++current; return (*this);	}
 			reverse_iterator operator++( int ) { iterator_type tmp = current;
 					--current; return(reverse_iterator(tmp));	}
 			reverse_iterator operator--( int ) { iterator_type tmp = current;
