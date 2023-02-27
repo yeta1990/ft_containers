@@ -145,7 +145,7 @@ class BSTree{
 		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
 		~BSTree();
 
-		pointer insert(value_type p);
+		pointer insert(const value_type& p);
 
 		pointer _find(typename value_type::first_type key);
 		const_pointer _find(typename value_type::first_type key) const;
@@ -340,7 +340,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(value_type p, Node<T, Comp> **r, Node<T, Comp> *parent);
+		node			*insertFromRoot(const value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent);
 		void			del(node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -561,7 +561,7 @@ void BSTree<T, Comp>::freeTree(node *root)
 }
 
 template <class T, class Comp>
-typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(typename BSTree<T, Comp>::value_type p)
+typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(const typename BSTree<T, Comp>::value_type &p)
 {
 //	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
 	return (this->insertFromRoot(p, &(this->root), NULL));
@@ -607,7 +607,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(typename BSTree<
 
 
 template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(typename BSTree<T, Comp>::value_type p, Node<T, Comp> **r, Node<T, Comp> *parent)
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent)
 {
 	key_compare comp = Comp();
 	Node<T, Comp>	**start;
