@@ -198,9 +198,19 @@ class BSTree{
 		bool	deleteKeyFrom(node *node);
 		void	clear()
 		{
+			if (this->root)
+			{		
+				this->freeTree(this->root);
+				this->root = NULL;
+			}
+			if (sentinel)
+			{
+				delete sentinel;
+				sentinel = NULL;
+			}
 //			delete this->root;
-			this->~BSTree();
-			this->root = NULL;
+//			this->~BSTree();
+//			this->root = NULL;
 			this->_size = 0;
 
 //			this->freeTree(root);

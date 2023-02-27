@@ -300,6 +300,7 @@ void	map_copy_constructor()
 	mp1 = mp_copy1;
 	mp_copy1 = mp_range1;
 	mp_range1.clear();
+	
 
 //	std::cout << "\t-- PART TWO --" << std::endl;
 
@@ -321,17 +322,73 @@ void	map_copy_constructor()
 //	std::cout << "------" << std::endl;
 }
 
+#include <ctime>
+//#include <ratio>
+
+#include <sys/time.h>
+class timer
+{
+public:
+    timer();
+
+public:
+    long get_time();
+    void reset();
+
+private:
+    struct timeval stamp;
+};
+
+timer::timer()
+{
+    reset();
+}
+
+long timer::get_time()
+{
+    struct timeval now;
+    struct timeval diff;
+
+    gettimeofday(&now, NULL);
+    timersub(&now, &stamp, &diff);
+
+    return diff.tv_sec * 1000 + diff.tv_usec / 1000;
+}
+
+void timer::reset()
+{
+    gettimeofday(&stamp, NULL);
+}
+
+timer	t;
+
 void	map_copy_constructor2()
 {
-    std::vector<int> v;
+
+//    std::vector<int> v;
+
     ft::map<int, int> mp;
+    std::map<int, int> smp;
 	int _ratio = 1000;
 
     for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
+    
         mp.insert(ft::make_pair(i, j));
+        smp.insert(std::make_pair(i, j));
+        
     }
-//    g_start2 = timer();
+    t = timer();
 	ft::map<int, int> mp2(mp.begin(), mp.end());
+	std::cout << t.get_time() << std::endl;
+
+    t = timer();
+	std::map<int, int> mp3(smp.begin(), smp.end());
+	std::cout << t.get_time() << std::endl;
+
+
+	std::cout << mp2.size() << "," << mp3.size() << std::endl; 
+//	set_time(&end);
+//	print_duration();
 //    g_end2 = timer();
 /*
 	ft::map<int, int>::iterator it = mp2.begin();
@@ -1407,6 +1464,7 @@ void map_tests()
 	test_case("map_constructors", &map_constructor);
 	test_case("map_constructors2", &map_constructor2);
 	test_case("map_copy_constructor", &map_copy_constructor);
+	
 	test_case("map_copy_constructor", &map_copy_constructor2);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
@@ -1440,6 +1498,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
+	
 
 //	test_case("map insert playground", &map_insert_playground);
 }

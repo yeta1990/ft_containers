@@ -130,6 +130,8 @@ namespace ft{
 				this->_allocator = vector::allocator_type();
 				if (this->_capacity > 0)
 					this->_data = this->_allocator.allocate(this->_capacity);
+//				else
+//					this->_data = 0;
 
 				for (size_type i = 0; i < this->_size; i++)
 				{
@@ -604,6 +606,8 @@ namespace ft{
 				this->_capacity = this->_size;
 				if (distance > 0)
 					this->_data = this->_allocator.allocate(this->_size);
+				else
+					this->_data = 0;
 				for (it = first; it != last; it++)
 				{
 					this->_allocator.construct(&_data[i], *it);
