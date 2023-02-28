@@ -205,7 +205,7 @@ namespace ft{
 
 			old_size = this->size();
 			new_inserted = _root->insert(p);
-			return (ft::make_pair<iterator, bool> (iterator(new_inserted), (old_size < this->size())));
+			return (ft::make_pair<iterator, bool> (iterator(new_inserted, this->_root->getSentinel()), (old_size < this->size())));
 		}
 
 		//insert with hint
@@ -217,7 +217,7 @@ namespace ft{
 				new_inserted = _root->insert(this->begin(), val);
 			else
 				new_inserted = _root->insert(position, val);
-			return (iterator(new_inserted));
+			return (iterator(new_inserted, this->_root->getSentinel()));
 		}
 
 		template <class InputIterator>
@@ -390,42 +390,28 @@ namespace ft{
 		//iterators
 		iterator begin()
 		{
-			node*	found;
-			found = this->_root->getLowestNode();
-
-			return (iterator(found));
+			return (this->_root->begin());
 		}
 
 		iterator end()
 		{
-			node*	found;
-			found = this->_root->getSentinel();
-
-			return (iterator(found));
+			return (this->_root->end());
 		}
 
 		const_iterator begin() const
 		{
-//			const node*	found;
-//			found = this->_root->getLowestNode();
-
-//			return (const_iterator(found));
 			return (this->_root->begin());
 		}
 
 		const_iterator end() const
 		{
-//			node*	found;
-//			found = this->_root->getSentinel();
-
-//			return (const_iterator(found));
 			return (this->_root->end());
 		}
 
-      reverse_iterator rbegin()
-      {
+      	reverse_iterator rbegin()
+      	{
 			return (reverse_iterator(this->end()));
-      }
+		}
 
       const_reverse_iterator rbegin() const
       {

@@ -148,12 +148,21 @@ void	map_constructor2()
 	std::map<int, int>::iterator it_end;
 	ft::map<int, int>::iterator it1_end;
 
+	std::cout << map1[-10] << std::endl;
+	std::cout << map1.begin()->second << std::endl;
+
 	it = map.begin();
 	it1 = map1.begin();
+	
+	std::cout << (*it).second << std::endl;
+	std::cout << (*it1).second << std::endl;
+	
 	it++;
 	it++;
 	it1++;
 	it1++;
+
+
 	
 	it_end = it;	
 	it1_end = it1;
@@ -177,6 +186,7 @@ void	map_constructor2()
 		check((*it).first == (*it1).first);
 		it++;
 	}
+	
 }
 
 void	map_copy_constructor()
@@ -1541,10 +1551,11 @@ void	map_benchmarks()
 
 void map_tests()
 {
-	map_benchmarks();
-	/*
+//	map_benchmarks();
+	
 	test_case("map_constructors", &map_constructor);
 	test_case("map_constructors2", &map_constructor2);
+	
 	test_case("map_copy_constructor", &map_copy_constructor);
 	test_case("map_copy_constructor", &map_copy_constructor2);
 	test_case("operator[]", &operator_access);
@@ -1579,7 +1590,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-*/	
+	
 
 //	test_case("map insert playground", &map_insert_playground);
 }

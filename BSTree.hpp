@@ -70,7 +70,6 @@ class Node
 			this->left= o.left;
 			this->right = o.right;
 			this->my_tree = o.my_tree;
-//			*this = o;
 			return (*this);
 		}
 
@@ -159,22 +158,17 @@ class BSTree{
 	 	 *
 		 * Otherwise, the hint is good
 		 */
+
 		node	*insert(iterator position, const value_type& val)
 		{
 			key_compare comp = Comp();
 
 			if (this->_size == 0)
 				return (insertFromRoot(val, &root, NULL));
-//			else if (*position == sentinel)
-//				return (insertFromRoot(val, &root, NULL));
-//				return (insert(val));
-//			else if (!root)
-//				return (insertFromRoot(val, position.base(), NULL));
 			else if (insert_has_good_hint(position, val))
 			{
 
 				if (comp((*position).first, val.first))
-//				if (val.first > (*position).first)
 					return (this->insertFromRoot(val, &((*position.base())->right), *(position.base())));
 				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));
 			}
@@ -183,15 +177,13 @@ class BSTree{
 
 		iterator find(typename value_type::first_type key)
 		{
-			return (iterator(_find(key)));
+			return (iterator(_find(key), sentinel));
 		}
 
 		const_iterator find(typename value_type::first_type key) const
 		{
-			return (const_iterator(_find(key)));
+			return (const_iterator(_find(key), sentinel));
 		}
-
-//		node			*find(typename value_type::first_type key);
 
 		void	del(typename value_type::first_type key);
 		void	transplant(node* u, node *v);
@@ -208,14 +200,7 @@ class BSTree{
 				delete sentinel;
 				sentinel = NULL;
 			}
-//			delete this->root;
-//			this->~BSTree();
-//			this->root = NULL;
 			this->_size = 0;
-
-//			this->freeTree(root);
-//			this->root = NULL;
-//			this->sentinel->right = NULL;
 		}
 		size_t	size() const;
 
@@ -258,8 +243,6 @@ class BSTree{
 			while (aux && aux->left && aux->left != sentinel)
 				aux = aux->left;
 			return (aux);
-			
-//			return (getLowestNode());
 		};
 
 		pointer getHighestNode()
@@ -290,18 +273,29 @@ class BSTree{
 			return (getLowestNodeFrom(root));
 		}
 
+		iterator	begin()
+		{
+			node*	found;
+			found = getLowestNode();
+
+			return (iterator(found, sentinel));
+		}
+
 		const_iterator	begin() const
 		{
 			if (this->_size == 0)
-				return (const_iterator(sentinel));
-			return (const_iterator(getLowestNodeFrom(root)));
+				return (const_iterator(sentinel, sentinel));
+			return (const_iterator(getLowestNodeFrom(root), sentinel));
 		}
 
 		const_iterator	end() const
 		{
-//			if (this->_size == 0)
-			return (const_iterator(sentinel));
-//			return (const_iterator(getLowestNodeFrom(root)));
+			return (const_iterator(sentinel), sentinel);
+		}
+		
+		iterator	end()
+		{
+			return (iterator(sentinel, sentinel));
 		}
 
 		pointer getSentinel()

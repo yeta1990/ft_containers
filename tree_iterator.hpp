@@ -10,53 +10,75 @@ namespace ft{
 	{
 
 		public:
-		//			iterator_category; //bidirectional
-//			typedef typename ft::iterator_traits<T>::value_type	value_type;
 			typedef B	value_type;
-//			typedef	typename ft::iterator_traits<N>::value_type	self_type;
-//			typedef	typename self_type::value_type				value_type;
 			typedef typename ft::iterator_traits<N>::pointer npointer;
-//			typedef	T*				pointer;
 			typedef typename ft::iterator_traits<N>::reference nreference;
-//			typedef typename ft::iterator_traits<B>::pointer pointer;
-//			typedef typename ft::iterator_traits<B>::reference reference;
 			typedef	value_type*		pointer;
 			typedef	value_type&		reference;
 			typedef std::bidirectional_iterator_tag iterator_category;
 			typedef std::ptrdiff_t			difference_type;
-//			typedef	value_type&				reference;
-//			typedef typename ft::iterator_traits<typename T::value_type>::difference_type difference_type;
-//			typedef size_t difference_type;
-//			typedef typename ft::iterator_traits<T>::pointer pointer;
-//			reference;
 
-			tree_iterator() : p() {}
-			explicit tree_iterator(npointer ptr) : p(ptr) {}
-
-//			explicit tree_iterator(const tree_iterator& it) : p(it.getNode()) {}
+			tree_iterator() : p(NULL), sentinel(NULL) {}
+//			explicit tree_iterator(npointer ptr) : p(ptr), sentinel(ptr.getSentinel()) {}
+			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>
-			tree_iterator(const tree_iterator<C, D> &it) : p(it.getNode()) {}
-
-//			template<typename C>
-			tree_iterator& operator=(const tree_iterator &it)
+			tree_iterator(const tree_iterator<C, D> &it)
 			{
 				p = it.getNode();
+				sentinel = it.getSentinel();
+			}
+
+			template<typename C, typename D>
+			tree_iterator& operator=(const tree_iterator<C, D> &it)
+			{
+				p = it.getNode();
+				sentinel = it.getSentinel();
 				return *this;
 			}
+			
 
 			reference operator*() const { return *(p->content); }
 			pointer operator->() const { return p->content; }
 			npointer*	base() { return (&p) ;}
 			npointer		getNode() const { return (p) ;}
-//			pointer		getNode() { return (p) ;}
+			npointer		getSentinel() const { return (sentinel) ;}
+
+			npointer getLowestNodeFrom(npointer node) const
+			{
+				npointer aux = NULL;
+
+				aux = node;
+				while (aux && aux->left && aux->left != sentinel)
+					aux = aux->left;
+				return (aux);
+			};
+
+			npointer	getNextElement() const
+			{
+				npointer parent;
+				npointer node;
+
+				node = p;
+				if (node && node->right && node->right != sentinel)
+					return (getLowestNodeFrom(node->right));
+				parent = node->parent;
+				while (parent && node == parent->right && parent != sentinel)
+				{
+					node = parent;
+					parent = parent->parent;
+				}
+				return (parent);
+			}
+
 			tree_iterator& operator++() {
-				npointer n;
-				n = p;
-				n = n->getNextElement(); 
-				p = n;
+//				npointer n;
+//				n = p;
+//				n = n->getNextElement(); 
+				p = getNextElement();
 				return *this; 
 			}
+
 			tree_iterator& operator--() { 
 				npointer n;
 				n = p;
@@ -66,9 +88,12 @@ namespace ft{
 			}
 
 			tree_iterator operator++(int) { 
-				tree_iterator copy(*this);
+//				tree_iterator copy(*this);
+				tree_iterator copy(getNode(), getSentinel());
 				++(*this);
-				return (copy); }
+				return (copy); 
+			}
+
 			tree_iterator operator--(int) { 
 				tree_iterator	copy(*this);
 				--(*this);
@@ -87,7 +112,8 @@ namespace ft{
 			*/
 
 		private:
-			npointer p;
+			npointer 	p;
+			npointer	sentinel;
 	};
 
 template <typename N1, typename B1, typename N2, typename B2>
