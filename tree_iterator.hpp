@@ -54,6 +54,26 @@ namespace ft{
 				return (aux);
 			};
 
+			npointer getHighestNode() const
+			{
+				npointer aux = NULL;
+
+				aux = p;
+				while (aux && aux->parent && aux->parent != sentinel)
+					aux = aux->parent;
+				return (getHighestNodeFrom(aux));
+			}
+
+			npointer getHighestNodeFrom(npointer node) const
+			{
+				npointer aux = NULL;
+
+				aux = node;
+				while (aux && aux->right && aux->right!= sentinel)
+					aux = aux->right;
+				return (aux);
+			}
+
 			npointer	getNextElement() const
 			{
 				npointer parent;
@@ -64,6 +84,25 @@ namespace ft{
 					return (getLowestNodeFrom(node->right));
 				parent = node->parent;
 				while (parent && node == parent->right && parent != sentinel)
+				{
+					node = parent;
+					parent = parent->parent;
+				}
+				return (parent);
+			}
+
+			npointer	getPrevElement() const
+			{
+				npointer	parent;
+				npointer	node;
+
+				node = p;
+				if (p == sentinel)
+					return (getHighestNode()); /////////
+				if (node->left && node->left != sentinel)
+					return (getHighestNodeFrom(node->left)); /////
+				parent = node->parent;
+				while (parent && node == parent->left && parent != sentinel)
 				{
 					node = parent;
 					parent = parent->parent;
