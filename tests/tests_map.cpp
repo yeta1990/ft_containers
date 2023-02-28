@@ -368,12 +368,13 @@ void	map_insert_times()
     std::map<int, int> smp;
 	int _ratio = 1000;
 
-    for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
+/*    for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
     
         mp.insert(ft::make_pair(i, j));
         smp.insert(std::make_pair(i, j));
         
     }
+    */
 
 	std::cout << "insert 1 to 1" << std::endl;
 	std::map<int, int>	map1;
@@ -400,6 +401,38 @@ void	map_insert_times()
     t = timer();
 	std::map<int, int> mp3(smp.begin(), smp.end());
 	std::cout << ", std: " << t.get_time() << std::endl;
+
+}
+
+void	map_vs_vector()
+{
+    ft::map<int, int>	map;
+//    ft::vector<int>		v;
+
+
+//    std::map<int, int> smp;
+
+	int _ratio = 1000;
+    t = timer();
+    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
+		map[i] = j;
+	}
+	std::cout << "ft map: " << t.get_time() << std::endl;
+
+    t = timer();
+    std::vector<int>	v(30 * _ratio);
+//    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
+//		v.insert(i);
+//	}
+	std::cout << "ft vector: " << t.get_time() << std::endl;
+
+    t = timer();
+    std::vector<int>	v2(30 * _ratio);
+//    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
+//		v2.insert(i);
+//	}
+	std::cout << "std vector: " << t.get_time() << std::endl;
+
 
 }
 
@@ -1503,6 +1536,7 @@ void map_rev_it()
 void	map_benchmarks()
 {
 	test_case("map_insert_times", &map_insert_times);
+	test_case("map vs vector", &map_vs_vector);
 }
 
 void map_tests()
