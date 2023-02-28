@@ -59,8 +59,8 @@ namespace ft{
 				npointer aux = NULL;
 
 				aux = p;
-				while (aux && aux->parent && aux->parent != sentinel)
-					aux = aux->parent;
+//				while (aux && aux->parent && aux->parent != sentinel)
+//					aux = aux->parent;
 				return (getHighestNodeFrom(aux));
 			}
 
@@ -69,7 +69,7 @@ namespace ft{
 				npointer aux = NULL;
 
 				aux = node;
-				while (aux && aux->right && aux->right!= sentinel)
+				while (aux && aux->right && aux->right != sentinel)
 					aux = aux->right;
 				return (aux);
 			}
@@ -98,9 +98,9 @@ namespace ft{
 
 				node = p;
 				if (p == sentinel)
-					return (getHighestNode()); /////////
+					return (getHighestNode());
 				if (node->left && node->left != sentinel)
-					return (getHighestNodeFrom(node->left)); /////
+					return (getHighestNodeFrom(node->left));
 				parent = node->parent;
 				while (parent && node == parent->left && parent != sentinel)
 				{
@@ -111,18 +111,15 @@ namespace ft{
 			}
 
 			tree_iterator& operator++() {
-//				npointer n;
-//				n = p;
-//				n = n->getNextElement(); 
 				p = getNextElement();
 				return *this; 
 			}
 
 			tree_iterator& operator--() { 
-				npointer n;
-				n = p;
-				n = n->getPrevElement(); 
-				p = n;
+//				npointer n;
+//				n = p;
+				p = p->getPrevElement(); 
+//				p = n;
 				return *this; 
 			}
 
@@ -134,21 +131,11 @@ namespace ft{
 			}
 
 			tree_iterator operator--(int) { 
-				tree_iterator	copy(*this);
+				tree_iterator copy(getNode(), getSentinel());
+//				tree_iterator	copy(*this);
 				--(*this);
 				return (copy);
 			}
-
-			//this isn't necessary for a bidirectional iterator
-		/*	tree_iterator operator-(difference_type i) const { 
-				pointer n;
-				n = p;
-
-				for (difference_type j = 0; j < i; j++)
-					n = n->getPrevElement();
-				return (tree_iterator(n)); 
-			};
-			*/
 
 		private:
 			npointer 	p;

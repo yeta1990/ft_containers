@@ -14,13 +14,10 @@ template <class P, class Comp>
 class Node
 {
 	public:
-//		typedef pair<const T1, T2>	value_type;
 		typedef P	value_type;
 
 		Node() : content(NULL), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
-//		Node() : content(), key(content->first), value(content.second), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
 		Node(value_type *p, Node* parent, ft::BSTree<P, Comp> *tree, Node* sentinel) : content(p), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
-//		Node(ft::pair<T1,T2> p, Node* parent, ft::BSTree<T1, T2> *tree, Node* sentinel) : content(p), key(content->first), value(content.second), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 		~Node()
 		{
 			if (content)
@@ -46,7 +43,7 @@ class Node
 		{
 			return (left || right);
 		}
-
+/*
 		Node	*hasOneChild()
 		{
 			if (left && left != sentinel)
@@ -60,7 +57,7 @@ class Node
 		{
 			return (left && right);
 		}
-
+*/
 
 		Node& operator= (Node& o)
 		{
@@ -86,6 +83,7 @@ class Node
 		//find inorder successor
 		//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
 		//https://www.scaler.com/topics/inorder-successor/
+		/*
 		Node*	getNextElement() const
 		{
 			Node *parent;
@@ -102,7 +100,7 @@ class Node
 			}
 			return (parent);
 		}
-
+*/
 		Node*	getPrevElement() const
 		{
 			Node 	*parent;
