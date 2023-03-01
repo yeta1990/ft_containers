@@ -1598,9 +1598,10 @@ void map_tests()
 	
 
 	test_case("map operator --", &map_operator_ll);
-	/*
+	
 	test_case("map iterator const", &map_iterator_const);
 	test_case("map iterator const2", &map_iterator_const_2);
+	
 	test_case("map maxsize", &map_maxsize);
 	
 	test_case("map find", &map_find);
@@ -1608,18 +1609,23 @@ void map_tests()
 	test_case("map upper bound", &map_upper_bound);
 	test_case("map equal range", &map_equal_range);
 	test_case("map erase", &map_erase);
+	
 	test_case("map erase2", &map_erase_2);
+	
 	test_case("map erase3", &map_erase_3);
 	test_case("map erase4", &map_erase_4);
 	test_case("map erase5", &map_erase_5);
 	test_case("map erase6", &map_erase_6);
+	
 	test_case("map erase7", &map_erase_7);
+	
 	test_case("map swap", &map_swap);
 	test_case("map swap", &map_swap2);
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-*/	
+	
+	
 
 //	test_case("map insert playground", &map_insert_playground);
 }

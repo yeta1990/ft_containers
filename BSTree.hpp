@@ -134,6 +134,8 @@ class BSTree{
 		bool	deleteKeyFrom(node *node);
 		void	clear()
 		{
+			if (this->root == sentinel)
+				this->root = NULL;
 			if (this->root)
 			{		
 				this->freeTree(this->root);
@@ -310,7 +312,6 @@ class BSTree{
 		size_t			count_nodes(const Node<T, Comp> *root) const;
 };
 
-//template <class T>
 template <class T, class Comp>
 void	BSTree<T, Comp>::del(typename T::first_type key)
 {
@@ -353,7 +354,10 @@ template <class T, class Comp>
 void	BSTree<T, Comp>::transplant(node* u, node *v)
 {
 	if (u->parent == sentinel)
+	{
 		this->root = v;
+		sentinel->right = this->root;
+	}
 	else if (u == u->parent->left)
 		u->parent->left = v;
 	else
@@ -394,8 +398,8 @@ void	BSTree<T, Comp>::del(node *node)
 	this->_size--;
 	if (this->_size == 0)
 	{
-		this->root = NULL;
-		this->sentinel->right = NULL;
+		this->root = sentinel;
+		this->sentinel->right = this->root;
 	}
 }
 
