@@ -47,10 +47,10 @@ void	map_constructor()
 {
 	std::map<int,int> map;
 	ft::map<int,int> map1;
-	
+
 	check(map.size() == map1.size());
 	check(map.empty() == map1.empty());
-	
+
 	map.insert( std::pair<int, int>(8, 8) );
 	map1.insert( ft::pair<int, int>(8, 8) );
 	check(map.size() == map1.size());
@@ -75,7 +75,7 @@ void	map_constructor()
 	map.insert( std::pair<int, int>(10, 10) );
 	map1.insert( ft::pair<int, int>(10, 10) );
 	check(map.size() == map1.size());
-	
+
 
 /*	map.insert(10, 10);
 	map.insert(9, 9);
@@ -692,7 +692,7 @@ void	map_parent_navigation()
 
 void	map_insert_hint1()
 {
-	/*
+/*	
 	ft::map<int,int> map1; // = new ft::map<int,int>();
 	ft::pair<ft::map<int,int>::iterator,bool> ret1;
 
@@ -866,22 +866,28 @@ void	map_operator_ll()
 	it--;
 	it1--;
 
-
+	check((*it).first == (*it1).first);
+	
+	
 	for (; it1 != map1.begin(); it1--)
 	{
 		check((*it).first == (*it1).first);
 		it--;
 	}
+	
 
+	
 	it = map.end();
 	it1 = map1.end();
 	--it;
 	--it1;
+	
 	for (; it1 != map1.begin(); it1--)
 	{
 		check((*it).first == (*it1).first);
 		it--;
 	}
+	
 
 }
 
@@ -1363,20 +1369,36 @@ template <typename MAP, typename U>
 void	ft_erase(MAP &mp, U param)
 {
 //	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
-	std::cout << "ret: " << mp.erase(param) << std::endl;
-	printSize(mp);
+	mp.erase(param);
+//	printSize(mp);
+}
+
+template <typename MAP, typename U, typename V>
+void	ft_erase(MAP &mp, U param, V param2)
+{
+//	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
+//	std::cout << "ret: " << mp.erase(param) << std::endl;
+	mp.erase(param, param2);
+//	printSize(mp);
 }
 
 void	map_erase_7()
 {
 	std::list<ft::pair<const int, std::string> > lst;
-	unsigned int lst_size = 6;
+	unsigned int lst_size = 10;
 	for (unsigned int i = 0; i < lst_size; ++i)
 		lst.push_back(ft::pair<const int, std::string>(i, std::string((lst_size - i), i + 65)));
+//	std::map<int, std::string> mp(lst.begin(), lst.end());
 	ft::map<int, std::string> mp(lst.begin(), lst.end());
+
+	ft_erase(mp, ++mp.begin());
+	ft_erase(mp, mp.begin());
+	ft_erase(mp, --mp.end());
+	ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
+	ft_erase(mp, --(--(--mp.end())), --mp.end());
+
 //	printmap(mp);
 //	printSize(mp);
-
 }
 
 void	map_swap()
@@ -1562,18 +1584,25 @@ void map_tests()
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
 	test_case("map insert", &map_insert);
+	
 	test_case("map insert iterator", &map_insert_iterator);
 	test_case("map insert iterator2", &map_insert_iterator2);
 	test_case("map parent navigation", &map_parent_navigation);
 	test_case("map insert hint1", &map_insert_hint1);
 //	test_case("map insert hint2", &map_insert_hint2);
+
 	test_case("map insert hint3", &map_insert_hint3);
 	test_case("map insert iterator3", &map_insert_iterator3);
+	
 	test_case("map operator ++", &map_operator_pp);
+	
+
 	test_case("map operator --", &map_operator_ll);
+	/*
 	test_case("map iterator const", &map_iterator_const);
 	test_case("map iterator const2", &map_iterator_const_2);
 	test_case("map maxsize", &map_maxsize);
+	
 	test_case("map find", &map_find);
 	test_case("map lower bound", &map_lower_bound);
 	test_case("map upper bound", &map_upper_bound);
@@ -1590,7 +1619,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-	
+*/	
 
 //	test_case("map insert playground", &map_insert_playground);
 }

@@ -17,7 +17,7 @@ class Node
 		typedef P	value_type;
 
 		Node() : content(NULL), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
-		Node(value_type *p, Node* parent, ft::BSTree<P, Comp> *tree, Node* sentinel) : content(p), left(NULL), right(NULL), parent(parent), my_tree(tree), sentinel(sentinel) {	};
+		Node(value_type *p, Node* parent, ft::BSTree<P, Comp> *tree, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(parent), my_tree(tree), sentinel(sentinel) {	};
 		~Node()
 		{
 			if (content)
@@ -43,21 +43,6 @@ class Node
 		{
 			return (left || right);
 		}
-/*
-		Node	*hasOneChild()
-		{
-			if (left && left != sentinel)
-				return (left);
-			else if (right && right != sentinel)
-				return (right);
-			return (NULL);
-		}
-
-		bool	hasTwoChildren()
-		{
-			return (left && right);
-		}
-*/
 
 		Node& operator= (Node& o)
 		{
@@ -80,45 +65,6 @@ class Node
 			this->my_tree = o.my_tree;
 			return (*this);
 		}
-		//find inorder successor
-		//https://www.techiedelight.com/find-inorder-successor-given-key-bst/
-		//https://www.scaler.com/topics/inorder-successor/
-		/*
-		Node*	getNextElement() const
-		{
-			Node *parent;
-			Node const	*node;
-
-			node = this;
-			if (node->right && node->right != sentinel)
-				return (this->my_tree->getLowestNodeFrom(node->right));
-			parent = node->parent;
-			while (parent && node == parent->right && parent != sentinel)
-			{
-				node = parent;
-				parent = parent->parent;
-			}
-			return (parent);
-		}
-*/
-		Node*	getPrevElement() const
-		{
-			Node 	*parent;
-			Node const	*node;
-
-			node = this;
-			if (this == sentinel)
-				return (this->my_tree->getHighestNode());
-			if (node->left && node->left != sentinel)
-				return (this->my_tree->getHighestNodeFrom(node->left));
-			parent = node->parent;
-			while (parent && node == parent->left && parent != sentinel)
-			{
-				node = parent;
-				parent = parent->parent;
-			}
-			return (parent);
-		}
 
 };
 
@@ -139,7 +85,7 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL, this, NULL)), root(NULL), _size(0) { sentinel->sentinel = sentinel; };
+		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL, this, NULL)), _size(0) { this->root = sentinel; sentinel->sentinel = sentinel; };
 		~BSTree();
 
 		pointer insert(const value_type& p);
@@ -430,7 +376,7 @@ void	BSTree<T, Comp>::del(node *node)
 		transplant(node, node->right);
 	else if (node->right == sentinel)
 		transplant(node, node->left);
-	else 
+	else if (node)
 	{
 		y = getMinNode(node->right);
 //		std::cout << "y is " << y->content->first << std::endl;
@@ -462,8 +408,6 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
 	aux = node;
 	while (aux->right && aux->right != sentinel)
 		aux = aux->right;
-//	if (node->right && node->right != sentinel)
-//		return (getMaxNode(node->right));
 	return (aux);
 }
 
@@ -477,12 +421,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
 	aux = node;
 	while (aux->left && aux->left != sentinel)
 		aux = aux->left;
-//	if (node->right && node->right != sentinel)
-//		return (getMaxNode(node->right));
 	return (aux);
-//	if (node->left && node->left != sentinel)
-//		return (getMinNode(node->left));
-//	return (node);
 }
 
 template <class T, class Comp>
@@ -560,53 +499,49 @@ typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(const typename BSTree<
 //	std::cout << node->value << std::endl;
 }
 
-/*
-template <class T1, class T2>
-typename BSTree<T1, T2>::node*	BSTree<T1, T2>::insert(tree_iterator<typename BSTree<T1, T2>::node* >::iterator position, const ft::pair<T1, T2>& val)
-{
-}
-*/
-
-/*
-template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(typename BSTree<T, Comp>::value_type p, Node<T, Comp> **r, Node<T, Comp> *parent)
-{
-	key_compare comp = Comp();
-
-
-	if (*r == NULL || *r == sentinel)
-	{
-		if (!parent)
-		{
-			sentinel->right = *r;
-			parent = sentinel;
-		}
-		*r = new Node<T, Comp>(new value_type(p), parent, this, sentinel);
-		(*r)->left = sentinel;
-		(*r)->right = sentinel;
-//		std::cout << "adding node" << std::endl;
-		this->_size++;
-		return (*r);
-	}
-	else if (comp(p.first, (*r)->content->first))
-//	else if (p.first < (*r)->content->first)
-		return (this->insertFromRoot(p, &(*r)->left, *r));
-	else if (p.first == (*r)->content->first)
-		return (*r);
-	return (this->insertFromRoot(p, &(*r)->right, *r));
-}
-*/
-
-
 template <class T, class Comp>
 typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent)
 {
+	Node<T, Comp>	*y = sentinel;
+	Node<T, Comp>	*x = *r;
+	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), NULL , this, sentinel);
+	(void) parent;
+
+	while (x != sentinel)
+	{
+		y = x;
+		if (insert->content->first < x->content->first)
+			x = x->left;
+		else if (insert->content->first == x->content->first)
+		{
+			delete insert;
+			return (x);
+		}
+		else
+			x = x->right;
+	}
+	insert->parent = y;
+	if (y == sentinel) // empty tree
+	{
+		*r = insert;
+		sentinel->right = insert;
+	}
+	else if (insert->content->first < y->content->first)
+		y->left = insert;
+	else
+		y->right = insert;
+	this->_size++;
+	return (insert);
+
+	/*
 	key_compare comp = Comp();
 	Node<T, Comp>	**start;
 	Node<T, Comp>	*par;
 
 	start = &(*r);
 	par = parent;
+
+	
 	while (*start != NULL && *start != sentinel)
 	{
 //		std::cout << "eeeooo" << std::endl;
@@ -621,18 +556,23 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename B
 
 //	if (*r == NULL || *r == sentinel)
 //	{
+//
 		if (!par)
 		{
+			*start = new Node<T, Comp>(new value_type(p), sentinel, this, sentinel);
 			sentinel->right = *start;
 			par = sentinel;
 		}
-		*start = new Node<T, Comp>(new value_type(p), par, this, sentinel);
+		else
+			*start = new Node<T, Comp>(new value_type(p), par, this, sentinel);
+
 		(*start)->left = sentinel;
 		(*start)->right = sentinel;
 //		std::cout << "adding node" << std::endl;
 		this->_size++;
 		return (*start);
 //	}
+*/
 /*	else if (comp(p.first, (*r)->content->first))
 //	else if (p.first < (*r)->content->first)
 		return (this->insertFromRoot(p, &(*r)->left, *r));

@@ -74,6 +74,7 @@ namespace ft{
 			this->_allocator = alloc;
 			this->_comp = comp;
 			this->_root = new BSTree<value_type, key_compare>();
+
 		}
 
 		template <class InputIterator>
@@ -204,6 +205,7 @@ namespace ft{
 			size_type	old_size;
 
 			old_size = this->size();
+//			std::cout << "size: " << old_size << std::endl;
 			new_inserted = _root->insert(p);
 			return (ft::make_pair<iterator, bool> (iterator(new_inserted, this->_root->getSentinel()), (old_size < this->size())));
 		}
@@ -249,6 +251,7 @@ namespace ft{
 			this->_root->del(k);
 			return (old_size - this->size());
 		}
+
 		void erase (iterator first, iterator last)
 		{
 			iterator	it;

@@ -59,8 +59,8 @@ namespace ft{
 				npointer aux = NULL;
 
 				aux = p;
-//				while (aux && aux->parent && aux->parent != sentinel)
-//					aux = aux->parent;
+				while (aux && aux->parent && aux->parent != sentinel)
+					aux = aux->parent;
 				return (getHighestNodeFrom(aux));
 			}
 
@@ -70,7 +70,10 @@ namespace ft{
 
 				aux = node;
 				while (aux && aux->right && aux->right != sentinel)
+				{
 					aux = aux->right;
+				}
+				std::cout << aux->content->first << std::endl;
 				return (aux);
 			}
 
@@ -98,7 +101,9 @@ namespace ft{
 
 				node = p;
 				if (p == sentinel)
+				{
 					return (getHighestNode());
+				}
 				if (node->left && node->left != sentinel)
 					return (getHighestNodeFrom(node->left));
 				parent = node->parent;
@@ -118,7 +123,8 @@ namespace ft{
 			tree_iterator& operator--() { 
 //				npointer n;
 //				n = p;
-				p = p->getPrevElement(); 
+//				p = p->getPrevElement(); 
+				p = getPrevElement();
 //				p = n;
 				return *this; 
 			}
