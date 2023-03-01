@@ -73,7 +73,7 @@ namespace ft{
 				{
 					aux = aux->right;
 				}
-				std::cout << aux->content->first << std::endl;
+//				std::cout << aux->content->first << std::endl;
 				return (aux);
 			}
 

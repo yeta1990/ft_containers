@@ -16,8 +16,8 @@ class Node
 	public:
 		typedef P	value_type;
 
-		Node() : content(NULL), left(NULL), right(NULL), parent(NULL), my_tree(NULL), sentinel(NULL) { }
-		Node(value_type *p, Node* parent, ft::BSTree<P, Comp> *tree, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(parent), my_tree(tree), sentinel(sentinel) {	};
+		Node() : content(NULL), left(NULL), right(NULL), parent(NULL) { }
+		Node(value_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL) {	};
 		~Node()
 		{
 			if (content)
@@ -32,8 +32,8 @@ class Node
 		Node			*left;
 		Node			*right;
 		Node			*parent;
-		BSTree<P, Comp>		*my_tree;
-		Node			*sentinel;
+//		BSTree<P, Comp>		*my_tree;
+//		Node			*sentinel;
 
 		value_type&	getContent() const
 		{
@@ -48,10 +48,10 @@ class Node
 		{
 			this->content = o.getContent();
 			this->parent= o.parent;
-			this->sentinel = o.sentinel;
+//			this->sentinel = o.sentinel;
 			this->left= o.left;
 			this->right = o.right;
-			this->my_tree = o.my_tree;
+//			this->my_tree = o.my_tree;
 			return (*this);
 		}
 
@@ -59,10 +59,10 @@ class Node
 		{
 			this->content = o.getContent();
 			this->parent= o.parent;
-			this->sentinel = o.sentinel;
+//			this->sentinel = o.sentinel;
 			this->left= o.left;
 			this->right = o.right;
-			this->my_tree = o.my_tree;
+//			this->my_tree = o.my_tree;
 			return (*this);
 		}
 
@@ -85,7 +85,7 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL, this, NULL)), _size(0) { this->root = sentinel; sentinel->sentinel = sentinel; };
+		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; };
 		~BSTree();
 
 		pointer insert(const value_type& p);
@@ -504,7 +504,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename B
 {
 	Node<T, Comp>	*y = sentinel;
 	Node<T, Comp>	*x = *r;
-	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), NULL , this, sentinel);
+	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
 	(void) parent;
 
 	while (x != sentinel)
