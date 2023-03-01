@@ -105,6 +105,9 @@ class BSTree{
 
 		node	*insert(iterator position, const value_type& val)
 		{
+			(void) position; //aka the emadriga's tribute
+			return (insertFromRoot(val, &root, NULL));
+			/*
 			key_compare comp = Comp();
 
 			if (this->_size == 0)
@@ -117,6 +120,7 @@ class BSTree{
 				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));
 			}
 			return (insertFromRoot(val, &root, NULL));
+			*/
 		}
 
 		iterator find(typename value_type::first_type key)
