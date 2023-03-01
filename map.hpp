@@ -28,26 +28,17 @@ namespace ft{
 		typedef T											mapped_type;
 		typedef pair<const key_type, mapped_type>			value_type;
 		typedef Compare				 						key_compare;
-		//value_compare
 		typedef Allocator				 					allocator_type;
 		typedef typename Allocator::template 				rebind<value_type>::other	alloc_pair;
-
 		typedef typename alloc_pair::reference 				reference;
 		typedef typename alloc_pair::const_reference 		const_reference;
 		typedef typename alloc_pair::pointer 				pointer;
 		typedef typename alloc_pair::const_pointer 			const_pointer;
-
 		typedef BSTree<value_type, key_compare>							tree;
 		typedef typename tree::iterator						iterator;
 		typedef typename tree::const_iterator				const_iterator;
 		typedef	ft::Node<value_type, key_compare>						node;
 		typedef	ft::Node<value_type, key_compare>					const_node;
-		//bidirectional iterator?
-		//this must be chaged to a custom iterator for node*
-//		typedef tree_iterator<node *>	iterator;
-//		typedef tree_iterator<node *>	const_iterator;
-//		typedef random_iterator<pointer> iterator;
-//		typedef random_iterator<const_pointer> const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef std::ptrdiff_t			difference_type;
@@ -70,7 +61,6 @@ namespace ft{
 		
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-//			std::cout << "map created " << std::endl;
 			this->_allocator = alloc;
 			this->_comp = comp;
 			this->_root = new BSTree<value_type, key_compare>();
@@ -85,8 +75,6 @@ namespace ft{
 			this->_allocator = alloc;
 			this->_comp = comp;
 			this->_root = new BSTree<value_type, key_compare>();
-//			insert(first, last);
-//			std::cout << "yeee" << std::endl;
 			it = first;
 			while (it != last)
 			{
@@ -102,23 +90,10 @@ namespace ft{
 		{
 			this->_root = NULL;
 			*this = other;
-//			return (*this);
-			/*
-			this->_allocator = other.get_allocator();
-			this->_comp = key_compare();
-			this->_root = new BSTree<value_type>();
-
-			const_iterator	it;
-			for (it = other.begin(); it != other.end(); it++)
-			{
-				insert(*it);
-			}
-			*/
 		}
 
 		map& operator= (const map& other)
 		{
-//			std::cout << "yee" << std::endl;
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
 			if (this->_root)
@@ -131,14 +106,7 @@ namespace ft{
 
 			if (other.size() == 0)
 				return (*this);
-//			const_iterator	it;
-//			std::cout << std::endl;
-//			for (it = other.begin(); it != other.end(); it++)
-//			{
 			insert(other.begin(), other.end());
-//				std::cout << "inserting " << (*it).first << std::endl;
-//			}
-//			std::cout << "operator =" << std::endl;
 			return (*this);
 		}
 

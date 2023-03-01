@@ -4,7 +4,8 @@
 #include "iterator_traits.hpp"
 
 namespace ft{
-	//map uses node*
+	// map uses node*
+	// N usually will be node*, B will be a pair<T, Y>
 	template <class N, class B>
 	class tree_iterator
 	{
@@ -19,7 +20,6 @@ namespace ft{
 			typedef std::ptrdiff_t			difference_type;
 
 			tree_iterator() : p(NULL), sentinel(NULL) {}
-//			explicit tree_iterator(npointer ptr) : p(ptr), sentinel(ptr.getSentinel()) {}
 			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>
@@ -70,10 +70,7 @@ namespace ft{
 
 				aux = node;
 				while (aux && aux->right && aux->right != sentinel)
-				{
 					aux = aux->right;
-				}
-//				std::cout << aux->content->first << std::endl;
 				return (aux);
 			}
 
@@ -121,16 +118,11 @@ namespace ft{
 			}
 
 			tree_iterator& operator--() { 
-//				npointer n;
-//				n = p;
-//				p = p->getPrevElement(); 
 				p = getPrevElement();
-//				p = n;
 				return *this; 
 			}
 
 			tree_iterator operator++(int) { 
-//				tree_iterator copy(*this);
 				tree_iterator copy(getNode(), getSentinel());
 				++(*this);
 				return (copy); 
@@ -138,7 +130,6 @@ namespace ft{
 
 			tree_iterator operator--(int) { 
 				tree_iterator copy(getNode(), getSentinel());
-//				tree_iterator	copy(*this);
 				--(*this);
 				return (copy);
 			}

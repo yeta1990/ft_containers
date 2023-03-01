@@ -6,7 +6,6 @@
 
 namespace ft{
 
-//template <class T>
 template <class T, class Comp>
 class BSTree;
 
@@ -27,31 +26,21 @@ class Node
 			}
 		}
 		value_type		*content;
-//		const T1&		key;
-//		T2&				value;
 		Node			*left;
 		Node			*right;
 		Node			*parent;
-//		BSTree<P, Comp>		*my_tree;
-//		Node			*sentinel;
 
 		value_type&	getContent() const
 		{
 			return (content);
-		}
-		bool	hasAnyChild()
-		{
-			return (left || right);
 		}
 
 		Node& operator= (Node& o)
 		{
 			this->content = o.getContent();
 			this->parent= o.parent;
-//			this->sentinel = o.sentinel;
 			this->left= o.left;
 			this->right = o.right;
-//			this->my_tree = o.my_tree;
 			return (*this);
 		}
 
@@ -59,10 +48,8 @@ class Node
 		{
 			this->content = o.getContent();
 			this->parent= o.parent;
-//			this->sentinel = o.sentinel;
 			this->left= o.left;
 			this->right = o.right;
-//			this->my_tree = o.my_tree;
 			return (*this);
 		}
 
@@ -73,7 +60,6 @@ class BSTree{
 
 	public:
 		typedef Node<T, Comp>			node;
-//		typedef Node<const T>	cnode;
 		typedef BSTree<T, Comp>		tree;
 		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
 		typedef Comp		key_compare;
@@ -93,34 +79,10 @@ class BSTree{
 		pointer _find(typename value_type::first_type key);
 		const_pointer _find(typename value_type::first_type key) const;
 
-		/* Insert with hint. As this is a BSTree, to insert with hint
-		 * we must ensure the the hint is good
-		 * 
-		 * Bad hint:
-		 * if parent < current && parent > key to insert
-		 *  || parent > current && parent < key to insert
-	 	 *
-		 * Otherwise, the hint is good
-		 */
-
 		node	*insert(iterator position, const value_type& val)
 		{
 			(void) position; //aka the emadriga's tribute
-			return (insertFromRoot(val, &root, NULL));
-			/*
-			key_compare comp = Comp();
-
-			if (this->_size == 0)
-				return (insertFromRoot(val, &root, NULL));
-			else if (insert_has_good_hint(position, val))
-			{
-
-				if (comp((*position).first, val.first))
-					return (this->insertFromRoot(val, &((*position.base())->right), *(position.base())));
-				return (this->insertFromRoot(val, &((*position.base())->left), *(position.base())));
-			}
-			return (insertFromRoot(val, &root, NULL));
-			*/
+			return (insertFromNode(val, &root));
 		}
 
 		iterator find(typename value_type::first_type key)
@@ -253,38 +215,14 @@ class BSTree{
 			return (sentinel);
 		}
 
-//		cnode	*getSentinel() const
-//		{
-//			return (sentinel);
-//		}
-		
-//		node	*get
-
 		node*	base() { return root; };
 
-		/*void swap (BSTree* x)
-		{
-			node*	x_sentinel;	
-			node*	x_root;	
-			size_t	x_size;
-
-			x_sentinel = x->getSentinel();
-			x_root = x->base();
-			x_size = x->_size;
-			x->sentinel = this->sentinel;
-			x->root = this->root;
-			x->_size = this->_size;
-			this->sentinel = x_sentinel;
-			this->root = x_root;
-			this->_size = x_size;
-		}
-		*/
 	private:
 		node			*sentinel;
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromRoot(const value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent);
+		node			*insertFromNode(const value_type &p, Node<T, Comp> **r);
 		void			del(node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -347,9 +285,7 @@ bool	BSTree<T, Comp>::deleteKeyFrom(node *node)
 	size_t	old_size;
 
 	old_size = this->_size;
-//	std::cout << "deleting " << key << std::endl;
 	del(node);
-//	del(key, node);
 	return (old_size - _size);
 }
 
@@ -387,7 +323,6 @@ void	BSTree<T, Comp>::del(node *node)
 	else if (node)
 	{
 		y = getMinNode(node->right);
-//		std::cout << "y is " << y->content->first << std::endl;
 		if (y->parent != node)
 		{
 			transplant(y, y->right);
@@ -487,7 +422,6 @@ BSTree<T, Comp>::~BSTree()
 template <class T, class Comp>
 void BSTree<T, Comp>::freeTree(node *root)
 {
-//	std::cout << "deleting " << root->content->first << std::endl;
 	if (!root)
 		return;
 	if (root->left && root->left != sentinel)
@@ -502,19 +436,16 @@ void BSTree<T, Comp>::freeTree(node *root)
 template <class T, class Comp>
 typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(const typename BSTree<T, Comp>::value_type &p)
 {
-//	std::cout << "inserting " << p.second << " in " << p.first << std::endl;
-	return (this->insertFromRoot(p, &(this->root), NULL));
-//	std::cout << node->value << std::endl;
+	return (this->insertFromNode(p, &(this->root)));
 }
 
 template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent)
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r)
 {
 	key_compare comp = Comp();
 	Node<T, Comp>	*y = sentinel;
 	Node<T, Comp>	*x = *r;
 	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
-	(void) parent;
 
 	while (x != sentinel)
 	{
@@ -541,54 +472,6 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename B
 		y->right = insert;
 	this->_size++;
 	return (insert);
-
-	/*
-	key_compare comp = Comp();
-	Node<T, Comp>	**start;
-	Node<T, Comp>	*par;
-
-	start = &(*r);
-	par = parent;
-
-	
-	while (*start != NULL && *start != sentinel)
-	{
-//		std::cout << "eeeooo" << std::endl;
-		par = *start;
-		if (comp(p.first, (*start)->content->first))
-			start = &(*start)->left;
-		else if (p.first == (*start)->content->first)
-			return (*start);
-		else
-			start = &(*start)->right;
-	}
-
-//	if (*r == NULL || *r == sentinel)
-//	{
-//
-		if (!par)
-		{
-			*start = new Node<T, Comp>(new value_type(p), sentinel, this, sentinel);
-			sentinel->right = *start;
-			par = sentinel;
-		}
-		else
-			*start = new Node<T, Comp>(new value_type(p), par, this, sentinel);
-
-		(*start)->left = sentinel;
-		(*start)->right = sentinel;
-//		std::cout << "adding node" << std::endl;
-		this->_size++;
-		return (*start);
-//	}
-*/
-/*	else if (comp(p.first, (*r)->content->first))
-//	else if (p.first < (*r)->content->first)
-		return (this->insertFromRoot(p, &(*r)->left, *r));
-	else if (p.first == (*r)->content->first)
-		return (*r);
-	return (this->insertFromRoot(p, &(*r)->right, *r));
-	*/
 }
 
 }//end of ft namespace
