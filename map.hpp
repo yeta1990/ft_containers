@@ -131,22 +131,6 @@ namespace ft{
 
 			pair<iterator, bool> p = insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 			return ((*p.first).second);
-			/*
-			typename BSTree<value_type, key_compare>::node	*found;
-			if (this->size() == 0)
-			{
-				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
-				return ((*this)[k]);
-			}
-			found = this->_root->_find(k);
-			if (found == _root->getSentinel())
-			{
-				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
-				return (this->operator[](k));
-			}
-			*/
-//			return (found->content->second);
-
 		}
 
 		mapped_type& at (const key_type& k)
