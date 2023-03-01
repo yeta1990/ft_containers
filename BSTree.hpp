@@ -228,27 +228,7 @@ class BSTree{
 		node			*getMaxNode(node *node);
 		node			*getMinNode(node *node);
 
-		node			*findNode(typename value_type::first_type key, node *node);
-
-		bool insert_has_good_hint(iterator position, const value_type& val)
-		{
-			node*	parent;
-			node*	current;
-			key_compare comp = Comp();
-			
-			current = *position.base();
-			parent = current->parent;
-			while (parent)
-			{
-				if (comp(parent->content->first, current->content->first) && comp(val.first, parent->content->first))
-					return (false);
-				else if (comp(current->content->first, parent->content->first) && comp(parent->content->first, val.first))
-					return (false);
-				current = parent;
-				parent = parent->parent;
-			}
-			return (true);
-		}
+		node			*findNode(typename value_type::first_type key);
 
 		//currently unused:
 		size_t			count_nodes(const Node<T, Comp> *root) const;
@@ -268,14 +248,13 @@ void	BSTree<T, Comp>::del(typename T::first_type key)
 template <class T, class Comp>
 typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::_find(typename T::first_type key)
 {
-	return (this->findNode(key, this->root));
+	return (this->findNode(key));
 }
 
-//template <class T>
 template <class T, class Comp>
 typename BSTree<T, Comp>::const_pointer	BSTree<T, Comp>::_find(typename T::first_type key) const
 {
-	return (this->findNode(key, this->root));
+	return (this->findNode(key));
 }
 
 //template <class T>
@@ -342,7 +321,6 @@ void	BSTree<T, Comp>::del(node *node)
 	}
 }
 
-//template <class T>
 template <class T, class Comp>
 typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
 {
@@ -355,7 +333,6 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
 }
 
 
-//template <class T>
 template <class T, class Comp>
 typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
 {
@@ -368,19 +345,22 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
 }
 
 template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::findNode(typename T::first_type key, Node<T, Comp> *node)
+typename BSTree<T, Comp>::node*	BSTree<T, Comp>::findNode(typename T::first_type key)
 {
 	key_compare comp = Comp(); 
+	Node<T, Comp>		*node;
 
-	if (node && node->content->first == key)
+	node = root;	
+	while (node != sentinel)
 	{
-		return (node);
+		if (node && node->content->first == key)
+			return (node);
+		else if (node && node->left && comp(key, node->content->first))
+			node = node->left;
+		else if (node && node->right && comp(node->content->first, key))
+			node = node->right;
 	}
-	else if (node && node->left && node->left != sentinel && comp(key, node->content->first))
-		return (findNode(key, node->left));
-	else if (node && node->right && node->right != sentinel && comp(node->content->first, key))
-		return (findNode(key, node->right));
-	return (sentinel);
+	return (node);	
 }
 
 template <class T, class Comp>
