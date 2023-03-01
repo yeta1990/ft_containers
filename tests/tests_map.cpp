@@ -502,6 +502,19 @@ void	operator_access()
 
 }
 
+/*
+void	operator_insert()
+{
+	ft::map<int, std::string>
+
+	mp[42] = "fgzgxfn";
+	mp[25] = "funny";
+	mp[80] = "hey";
+	mp[12] = "no";
+	mp[27] = "bee";
+	mp[90] = "8";
+}
+*/
 void	map_at()
 {
 	std::map<int,int> map;

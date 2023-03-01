@@ -506,6 +506,7 @@ typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(const typename BSTree<
 template <class T, class Comp>
 typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r, Node<T, Comp> *parent)
 {
+	key_compare comp = Comp();
 	Node<T, Comp>	*y = sentinel;
 	Node<T, Comp>	*x = *r;
 	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
@@ -514,7 +515,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename B
 	while (x != sentinel)
 	{
 		y = x;
-		if (insert->content->first < x->content->first)
+		if (comp(insert->content->first, x->content->first))
 			x = x->left;
 		else if (insert->content->first == x->content->first)
 		{
@@ -530,7 +531,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromRoot(const typename B
 		*r = insert;
 		sentinel->right = insert;
 	}
-	else if (insert->content->first < y->content->first)
+	else if (comp(insert->content->first, y->content->first))
 		y->left = insert;
 	else
 		y->right = insert;

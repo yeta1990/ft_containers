@@ -160,9 +160,7 @@ namespace ft{
 		//element access
 		mapped_type& operator[] (const key_type& k)
 		{
-//			int j = 7;
 			typename BSTree<value_type, key_compare>::node	*found;
-
 			if (this->size() == 0)
 			{
 				this->_root->insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
