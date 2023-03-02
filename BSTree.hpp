@@ -300,6 +300,26 @@ class BSTree{
 		 *     contain the same number of black nodes
 		 */
 
+		void printorder(node *node)
+		{
+			if (node == sentinel)
+				return ;
+			printorder(node->left);
+			if (node == root)
+				std::cout << "root : ";
+			std::cout << "." << node->content->first << "," << node->color << "," << node->parent->content->first << std::endl;
+
+			printorder(node->right);
+		}
+
+	public:
+		void	printtree()
+		{
+			printorder(root);
+		}
+
+	private:
+
 		// insert-fixup
 		void	insertFixup(node *inserted)
 		{
@@ -323,10 +343,11 @@ class BSTree{
 					{
 						z = z->parent;
 						leftRotate(z);
+						z->parent->color = 'b';
+						z->parent->parent->color = 'r';
+						rightRotate(z->parent->parent);
 					}
-					z->parent->color = 'b';
-					z->parent->parent->color = 'r';
-					rightRotate(z->parent->parent);
+
 				}
 				else
 				{
@@ -342,15 +363,15 @@ class BSTree{
 					{
 						z = z->parent;
 						rightRotate(z);
+						z->parent->color = 'b';
+						z->parent->parent->color = 'r';
+						leftRotate(z->parent->parent);
 					}
-					z->parent->color = 'b';
-					z->parent->parent->color = 'r';
-					leftRotate(z->parent->parent);
 				}
 			}
 			root->color = 'b';
 			sentinel->right = root;
-			std::cout << "fixup" << std::endl;
+//			std::cout << "fixup" << std::endl;
 //			std::cout << "fixup" << std::endl;
 		}
 
@@ -577,6 +598,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename B
 		y->right = insert;
 	this->_size++;
 	insertFixup(insert);
+	std::cout << "insert " << insert->content->first  << ", color " << insert->color << std::endl;
 //	insert-fixup(insert);
 	return (insert);
 }

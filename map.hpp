@@ -385,6 +385,12 @@ namespace ft{
 			return (const_reverse_iterator(this->begin()));
       }
 
+	  //remove before evaluation!!
+	  void	printmap()
+	  {
+		this->_root->printtree();
+	  }
+
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
