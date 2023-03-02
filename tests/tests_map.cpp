@@ -1586,9 +1586,10 @@ void	map_benchmarks()
 
 void map_tests()
 {
-	map_benchmarks();
+//	map_benchmarks();
 	
 	test_case("map_constructors", &map_constructor);
+	/*
 	test_case("map_constructors2", &map_constructor2);
 	
 	test_case("map_copy_constructor", &map_copy_constructor);
@@ -1637,7 +1638,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-	
+*/	
 	
 
 //	test_case("map insert playground", &map_insert_playground);

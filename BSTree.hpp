@@ -16,7 +16,7 @@ class Node
 		typedef P	value_type;
 
 		Node() : content(NULL), left(NULL), right(NULL), parent(NULL) { }
-		Node(value_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL) {	};
+		Node(value_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 		~Node()
 		{
 			if (content)
@@ -29,6 +29,7 @@ class Node
 		Node			*left;
 		Node			*right;
 		Node			*parent;
+		char			color;
 
 		value_type&	getContent() const
 		{
@@ -41,6 +42,7 @@ class Node
 			this->parent= o.parent;
 			this->left= o.left;
 			this->right = o.right;
+			this->color = o.color;
 			return (*this);
 		}
 
@@ -50,6 +52,7 @@ class Node
 			this->parent= o.parent;
 			this->left= o.left;
 			this->right = o.right;
+			this->color = o.color;
 			return (*this);
 		}
 
@@ -71,7 +74,7 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; };
+		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
 		~BSTree();
 
 		pointer insert(const value_type& p);
@@ -227,8 +230,130 @@ class BSTree{
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
 		node			*getMinNode(node *node);
-
 		node			*findNode(typename value_type::first_type key);
+
+
+		//tree operations
+		
+		/*
+		 *       Left rotate ---->
+		 *
+		 *	   	  x                  y
+		 *   	/   \               / \
+		 *	   α     y             x   γ
+		 *	        / \           / \
+		 * 		   β   γ         α   β
+		 *
+		 *            <----- Right rotate
+		 * 
+		 ***********************************/ 
+
+		void	leftRotate(node *x)
+		{
+			node *y = x->right;
+
+			x->right = y->left;
+			if (y->left != sentinel)
+				y->left->parent = x;
+			y->parent = x->parent;
+			if (x->parent == sentinel)
+			{
+				root = y;
+				sentinel->right = root;
+			}
+			else if (x == x->parent->left)
+				x->parent->left = y;
+			else
+				x->parent->right = y;
+			y->left = x;
+			x->parent = y;
+		}
+
+		void	rightRotate(node *y)
+		{
+			node *x = y->left;
+			y->left = x->right;
+			if (x->right != sentinel)
+				x->right->parent = x;
+			x->parent = y->parent;
+			if (y->parent == sentinel)
+			{
+				root = x;
+				sentinel->right = root;
+			}
+			else if (y == y->parent->right)
+				y->parent->right = x;
+			else
+				y->parent->left = x;
+			x->right = y;
+			y->parent = x;
+		}
+
+
+		/*
+		 * red-black tree properties:
+		 *  1. every node is either red or black
+		 *  2. root is black
+		 *  3. every leaf (sentinel, in this case) is black
+		 *  4. if a node is red, then bot its children are black
+		 *  5. for each node, all simple paths from the node to descendant leaves
+		 *     contain the same number of black nodes
+		 */
+
+		// insert-fixup
+		void	insertFixup(node *inserted)
+		{
+			node*	z;
+			node*	y;
+
+			z = inserted;
+			while (z->parent->color == 'r')
+			{
+				if (z->parent == z->parent->parent->left)
+				{
+					y = z->parent->parent->left;
+					if (y->color == 'r')
+					{
+						z->parent->color = 'b';
+						y->color = 'b';
+						z->parent->parent->color = 'r';
+						z = z->parent->parent;
+					}
+					else if (z == z->parent->right)
+					{
+						z = z->parent;
+						leftRotate(z);
+					}
+					z->parent->color = 'b';
+					z->parent->parent->color = 'r';
+					rightRotate(z->parent->parent);
+				}
+				else
+				{
+					y = z->parent->parent->right;
+					if (y->color == 'r')
+					{
+						z->parent->color = 'b';
+						y->color = 'b';
+						z->parent->parent->color = 'r';
+						z = z->parent->parent;
+					}
+					else if (z == z->parent->left)
+					{
+						z = z->parent;
+						rightRotate(z);
+					}
+					z->parent->color = 'b';
+					z->parent->parent->color = 'r';
+					leftRotate(z->parent->parent);
+				}
+			}
+			root->color = 'b';
+			sentinel->right = root;
+			std::cout << "fixup" << std::endl;
+//			std::cout << "fixup" << std::endl;
+		}
+
 
 		//currently unused:
 		size_t			count_nodes(const Node<T, Comp> *root) const;
@@ -451,6 +576,8 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename B
 	else
 		y->right = insert;
 	this->_size++;
+	insertFixup(insert);
+//	insert-fixup(insert);
 	return (insert);
 }
 
