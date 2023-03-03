@@ -74,7 +74,20 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
+//		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
+		BSTree(){
+			node*	sen = n_alloc.allocate(1);
+			n_alloc.construct(sen, node());
+
+			this->_size = 0;
+			sen->content = new value_type();
+			sen->color = 'b';
+			sen->right = sen;
+			sen->left = sen;
+			this->sentinel = sen;
+			this->root = sentinel;
+		}
+//		: sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
 		~BSTree();
 
 		pointer insert(const value_type& p);
@@ -221,6 +234,7 @@ class BSTree{
 		node*	base() { return root; };
 
 	private:
+		node_allocator	n_alloc;
 		node			*sentinel;
 		node			*root;
 		size_t			_size;
@@ -578,7 +592,19 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename B
 	key_compare comp = Comp();
 	Node<T, Comp>	*y = sentinel;
 	Node<T, Comp>	*x = *r;
-	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
+
+	Node<T, Comp>	*insert = n_alloc.allocate(1);
+	n_alloc.construct(insert, node());
+
+	insert->content = new value_type(p);
+	insert->color = 'r';
+	insert->right = sentinel;
+	insert->left = sentinel;
+
+//	this->sentinel = sen;
+//	this->root = sentinel;
+
+//	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
 
 	while (x != sentinel)
 	{
