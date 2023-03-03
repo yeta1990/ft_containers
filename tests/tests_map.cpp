@@ -50,28 +50,67 @@ void	map_constructor()
 
 //	check(map.size() == map1.size());
 //	check(map.empty() == map1.empty());
-	std::cout << std::endl;
+//	std::cout << std::endl;
 
 	map1.insert( ft::pair<int, int>(11, 11) );
-	map1.printmap();
-	std::cout << std::endl;
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
+//	std::cout << std::endl;
 
 	map1.insert( ft::pair<int, int>(14, 14) );
 
-	std::cout << std::endl;
+
 //	check(map.size() == map1.size());
 //	check(map.empty() == map1.empty());
 
-	map1.printmap();
+//	std::cout << std::endl;
+
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
 	map1.insert( ft::pair<int, int>(2, 2) );
+
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
 	map1.insert( ft::pair<int, int>(1, 1) );
 //	printmap(map1);
 	
 //	check(map.size() == map1.size());
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
 
-	std::cout << std::endl;
-	map1.insert( ft::pair<int, int>(7, 7) );
 	map1.insert( ft::pair<int, int>(5, 5) );
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
+	
+//	check(map.size() == map1.size());
+
+	map1.insert( ft::pair<int, int>(8, 8) );
+
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
+
+	map1.insert( ft::pair<int, int>(4, 4) );
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
+	
+//	check(map.size() == map1.size());
+
+//	map.insert( std::pair<int, int>(7, 7) );
+//	map1.insert( ft::pair<int, int>(7, 7) );
+//	check(map.size() == map1.size());
+//
+//	map.insert( std::pair<int, int>(10, 10) );
+//	map1.insert( ft::pair<int, int>(10, 10) );
+//	check(map.size() == map1.size());
+//
+
+	map1.insert( ft::pair<int, int>(7, 7) );
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
+
+	map1.insert( ft::pair<int, int>(5, 5) );
+//	map1.printmap();
+//	std::cout << "-----------" << std::endl;
 	
 //	check(map.size() == map1.size());
 
@@ -88,7 +127,7 @@ void	map_constructor()
 //	map1.insert( ft::pair<int, int>(10, 10) );
 //	check(map.size() == map1.size());
 //
-	map1.printmap();
+//	map1.printmap();
 
 /*	map.insert(10, 10);
 	map.insert(9, 9);
@@ -1599,10 +1638,9 @@ void	map_benchmarks()
 
 void map_tests()
 {
-//	map_benchmarks();
+	map_benchmarks();
 	
 	test_case("map_constructors", &map_constructor);
-/*	
 	test_case("map_constructors2", &map_constructor2);
 	
 	test_case("map_copy_constructor", &map_copy_constructor);
@@ -1651,7 +1689,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-*/	
+	
 	
 
 //	test_case("map insert playground", &map_insert_playground);

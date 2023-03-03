@@ -274,12 +274,12 @@ class BSTree{
 			node *x = y->left;
 			y->left = x->right;
 			if (x->right != sentinel)
-				x->right->parent = x;
+				x->right->parent = y;
 			x->parent = y->parent;
 			if (y->parent == sentinel)
 			{
 				root = x;
-				sentinel->right = root;
+				sentinel->left = root;
 			}
 			else if (y == y->parent->right)
 				y->parent->right = x;
@@ -331,26 +331,6 @@ class BSTree{
 			{
 				if (z->parent == z->parent->parent->left)
 				{
-					y = z->parent->parent->left;
-					if (y->color == 'r')
-					{
-						z->parent->color = 'b';
-						y->color = 'b';
-						z->parent->parent->color = 'r';
-						z = z->parent->parent;
-					}
-					else if (z == z->parent->right)
-					{
-						z = z->parent;
-						leftRotate(z);
-						z->parent->color = 'b';
-						z->parent->parent->color = 'r';
-						rightRotate(z->parent->parent);
-					}
-
-				}
-				else
-				{
 					y = z->parent->parent->right;
 					if (y->color == 'r')
 					{
@@ -359,10 +339,37 @@ class BSTree{
 						z->parent->parent->color = 'r';
 						z = z->parent->parent;
 					}
-					else if (z == z->parent->left)
+					else
 					{
-						z = z->parent;
-						rightRotate(z);
+						if (z == z->parent->right && z->parent != sentinel)
+						{
+							z = z->parent;
+							leftRotate(z);
+						}
+						z->parent->color = 'b';
+						z->parent->parent->color = 'r';
+						rightRotate(z->parent->parent);
+						
+					}
+
+				}
+				else if (z->parent == z->parent->parent->right)
+				{
+					y = z->parent->parent->left;
+					if (y->color == 'r')
+					{
+						z->parent->color = 'b';
+						y->color = 'b';
+						z->parent->parent->color = 'r';
+						z = z->parent->parent;
+					}
+					else
+					{
+						if (z == z->parent->left)
+						{
+							z = z->parent;
+							rightRotate(z);
+						}
 						z->parent->color = 'b';
 						z->parent->parent->color = 'r';
 						leftRotate(z->parent->parent);
@@ -598,7 +605,7 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename B
 		y->right = insert;
 	this->_size++;
 	insertFixup(insert);
-	std::cout << "insert " << insert->content->first  << ", color " << insert->color << std::endl;
+//	std::cout << "insert " << insert->content->first  << ", color " << insert->color << std::endl;
 //	insert-fixup(insert);
 	return (insert);
 }
