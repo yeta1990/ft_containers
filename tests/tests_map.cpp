@@ -427,16 +427,16 @@ timer	t;
 void	map_insert_times()
 {
     ft::map<int, int> mp;
-    std::map<int, int> smp;
-	int _ratio = 1000;
+//    std::map<int, int> smp;
+//	int _ratio = 1000;
 
-/*    for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
+//   for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
     
-        mp.insert(ft::make_pair(i, j));
-        smp.insert(std::make_pair(i, j));
+    mp.insert(ft::make_pair(0, 30));
+//        smp.insert(std::make_pair(i, j));
         
-    }
-    */
+//    }
+/*    
 
 	std::cout << "insert 1 to 1" << std::endl;
 	std::map<int, int>	map1;
@@ -463,6 +463,7 @@ void	map_insert_times()
     t = timer();
 	std::map<int, int> mp3(smp.begin(), smp.end());
 	std::cout << ", std: " << t.get_time() << std::endl;
+	*/
 
 }
 
@@ -1633,7 +1634,7 @@ void map_rev_it()
 void	map_benchmarks()
 {
 	test_case("map_insert_times", &map_insert_times);
-	test_case("map vs vector", &map_vs_vector);
+//	test_case("map vs vector", &map_vs_vector);
 }
 
 void map_tests()
@@ -1641,7 +1642,7 @@ void map_tests()
 	map_benchmarks();
 	
 	test_case("map_constructors", &map_constructor);
-	test_case("map_constructors2", &map_constructor2);
+//	test_case("map_constructors2", &map_constructor2);
 	
 	test_case("map_copy_constructor", &map_copy_constructor);
 	test_case("map_copy_constructor", &map_copy_constructor2);
@@ -1689,7 +1690,7 @@ void map_tests()
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
-	
+
 	
 
 //	test_case("map insert playground", &map_insert_playground);

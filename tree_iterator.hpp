@@ -20,6 +20,7 @@ namespace ft{
 			typedef std::ptrdiff_t			difference_type;
 
 			tree_iterator() : p(NULL), sentinel(NULL) {}
+//			explicit tree_iterator(npointer ptr) : p(ptr), sentinel(ptr.getSen) {}
 			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>

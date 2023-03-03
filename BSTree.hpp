@@ -76,6 +76,7 @@ class BSTree{
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
 		BSTree(){
+//			std::cout << "bstree constructor" << std::endl;
 			node*	sen = n_alloc.allocate(1);
 			n_alloc.construct(sen, node());
 
@@ -85,9 +86,23 @@ class BSTree{
 			sen->right = sen;
 			sen->left = sen;
 			this->sentinel = sen;
+//			this->root = NULL;
 			this->root = sentinel;
 		}
 		~BSTree();
+
+		BSTree& operator=(const BSTree& o)
+		{
+//			std::cout << "operator=" << std::endl;
+//			node*	sen = n_alloc.allocate(1);
+			this->clear();
+			this->_size = o.size();
+			this->sentinel = o.getSentinel();
+			this->root = sentinel->right;
+			
+			return (*this);
+
+		}
 
 		pointer insert(const value_type& p);
 
@@ -113,6 +128,7 @@ class BSTree{
 		void	del(typename value_type::first_type key);
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
+
 		void	clear()
 		{
 			if (this->root == sentinel)
@@ -122,12 +138,17 @@ class BSTree{
 				this->freeTree(this->root);
 				this->root = NULL;
 			}
+
+			/*
 			if (sentinel)
 			{
+//				delete sentinel;
 				n_alloc.destroy(sentinel);
 				n_alloc.deallocate(sentinel, 1);
 				sentinel = NULL;
 			}
+			*/
+			
 			this->_size = 0;
 		}
 		size_t	size() const;
@@ -218,7 +239,7 @@ class BSTree{
 
 		const_iterator	end() const
 		{
-			return (const_iterator(sentinel), sentinel);
+			return (const_iterator(sentinel, sentinel));
 		}
 		
 		iterator	end()
@@ -231,11 +252,17 @@ class BSTree{
 			return (sentinel);
 		}
 
+		pointer getSentinel() const
+		{
+			return (sentinel);
+		}
+
 		node*	base() { return root; };
 
 	private:
 		node_allocator	n_alloc;
-		node			*sentinel;
+		pointer			sentinel;
+//		node			*sentinel;
 		node			*root;
 		size_t			_size;
 
@@ -244,7 +271,7 @@ class BSTree{
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
 		node			*getMinNode(node *node);
-		node			*findNode(typename value_type::first_type key);
+		node			*findNode(typename value_type::first_type key) const;
 
 
 		//tree operations
@@ -512,7 +539,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename T::first_type key)
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename T::first_type key) const
 {
 	key_compare comp = Comp(); 
 	Node<T, Comp>		*node;
@@ -554,31 +581,39 @@ size_t	BSTree<T, Alloc, Comp>::size() const
 template <class T, class Alloc, class Comp>
 BSTree<T, Alloc, Comp>::~BSTree()
 {
-	if (this->root)
+//	std::cout << "chaoo" << std::endl;
+	if (this->root && this->root != sentinel)
 	{		
 		this->freeTree(this->root);
 		this->root = NULL;
 	}
+
 	if (sentinel)
 	{
-		delete sentinel;
+		n_alloc.destroy(sentinel);
+		n_alloc.deallocate(sentinel, 1);
+//		delete sentinel;
 		sentinel = NULL;
 	}
+	
 }
 
 template <class T, class Alloc, class Comp>
-void BSTree<T, Alloc, Comp>::freeTree(node *root)
+void BSTree<T, Alloc, Comp>::freeTree(node *r)
 {
-	if (!root)
+	if (!r)
 		return;
-	if (root->left && root->left != sentinel)
-		freeTree(root->left);
-	if (root->right && root->right != sentinel)
-		freeTree(root->right);
-	n_alloc.destroy(root);
-	n_alloc.deallocate(root, 1);
-	_size--;
-	root = NULL;
+	if (r->left && r->left != sentinel)
+		freeTree(r->left);
+	if (r->right && r->right != sentinel)
+		freeTree(r->right);
+	if (r != sentinel)
+	{
+		n_alloc.destroy(r);
+		n_alloc.deallocate(r, 1);
+		_size--;
+	}
+	r = NULL;
 }
 
 template <class T, class Alloc, class Comp>
@@ -590,6 +625,7 @@ typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::insert(const ty
 template <class T, class Alloc, class Comp>
 typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T, Comp> **r)
 {
+//	std::cout << "inserting" << std::endl;
 	key_compare comp = Comp();
 	Node<T, Comp>	*y = sentinel;
 	Node<T, Comp>	*x = *r;
@@ -614,7 +650,9 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 			x = x->left;
 		else if (insert->content->first == x->content->first)
 		{
-			delete insert;
+			n_alloc.destroy(insert);
+			n_alloc.deallocate(insert, 1);
+//			delete insert;
 			return (x);
 		}
 		else
