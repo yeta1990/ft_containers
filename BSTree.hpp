@@ -95,10 +95,17 @@ class BSTree{
 		{
 //			std::cout << "operator=" << std::endl;
 //			node*	sen = n_alloc.allocate(1);
-			this->clear();
+//			this->clear();
 			this->_size = o.size();
-			this->sentinel = o.getSentinel();
-			this->root = sentinel->right;
+//			this->root = o.root;
+//			this->sentinel = o.getSentinel();
+			const_iterator it;
+
+			for (it = o.begin(); it != o.end(); it++)
+			{
+				insert(*it);
+			}
+//			this->root = sentinel->right;
 			
 			return (*this);
 
@@ -607,12 +614,12 @@ void BSTree<T, Alloc, Comp>::freeTree(node *r)
 		freeTree(r->left);
 	if (r->right && r->right != sentinel)
 		freeTree(r->right);
-	if (r != sentinel)
-	{
+//	if (r != sentinel)
+//	{
 		n_alloc.destroy(r);
 		n_alloc.deallocate(r, 1);
 		_size--;
-	}
+//	}
 	r = NULL;
 }
 

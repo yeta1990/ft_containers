@@ -1639,12 +1639,13 @@ void	map_benchmarks()
 
 void map_tests()
 {
-	map_benchmarks();
+//	map_benchmarks();
 	
 	test_case("map_constructors", &map_constructor);
 //	test_case("map_constructors2", &map_constructor2);
 	
 	test_case("map_copy_constructor", &map_copy_constructor);
+	
 	test_case("map_copy_constructor", &map_copy_constructor2);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
