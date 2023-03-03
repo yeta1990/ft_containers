@@ -6,7 +6,7 @@
 
 namespace ft{
 
-template <class T, class Comp>
+template <class T, class Alloc, class Comp>
 class BSTree;
 
 template <class P, class Comp>
@@ -58,13 +58,14 @@ class Node
 
 };
 
-template <class T, class Comp = std::less<typename T::first_type> >
+template <class T, class Alloc, class Comp = std::less<typename T::first_type> >
 class BSTree{
 
 	public:
-		typedef Node<T, Comp>			node;
-		typedef BSTree<T, Comp>		tree;
-		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
+		typedef Node<T, Comp>		node;
+		typedef BSTree<T, Alloc, Comp>		tree;
+		typedef Alloc 						node_allocator;
+//		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
 		typedef Comp		key_compare;
 		typedef typename node_allocator::pointer							pointer;
 		typedef typename node_allocator::const_pointer						const_pointer;
@@ -74,7 +75,6 @@ class BSTree{
 		typedef tree_iterator<pointer, value_type>	iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-//		BSTree() : sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
 		BSTree(){
 			node*	sen = n_alloc.allocate(1);
 			n_alloc.construct(sen, node());
@@ -87,7 +87,6 @@ class BSTree{
 			this->sentinel = sen;
 			this->root = sentinel;
 		}
-//		: sentinel(new Node<T, Comp>(new value_type(), NULL)), _size(0) { this->root = sentinel; this->sentinel->color = 'b'; };
 		~BSTree();
 
 		pointer insert(const value_type& p);
@@ -125,7 +124,8 @@ class BSTree{
 			}
 			if (sentinel)
 			{
-				delete sentinel;
+				n_alloc.destroy(sentinel);
+				n_alloc.deallocate(sentinel, 1);
 				sentinel = NULL;
 			}
 			this->_size = 0;
@@ -401,8 +401,8 @@ class BSTree{
 		size_t			count_nodes(const Node<T, Comp> *root) const;
 };
 
-template <class T, class Comp>
-void	BSTree<T, Comp>::del(typename T::first_type key)
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::del(typename T::first_type key)
 {
 	Node<T, Comp>* found;
 
@@ -412,21 +412,21 @@ void	BSTree<T, Comp>::del(typename T::first_type key)
 }
 
 //template <class T>
-template <class T, class Comp>
-typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::_find(typename T::first_type key)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::_find(typename T::first_type key)
 {
 	return (this->findNode(key));
 }
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::const_pointer	BSTree<T, Comp>::_find(typename T::first_type key) const
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::const_pointer	BSTree<T, Alloc, Comp>::_find(typename T::first_type key) const
 {
 	return (this->findNode(key));
 }
 
 //template <class T>
-template <class T, class Comp>
-bool	BSTree<T, Comp>::deleteKeyFrom(node *node)
+template <class T, class Alloc, class Comp>
+bool	BSTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
 {
 	size_t	old_size;
 
@@ -436,8 +436,8 @@ bool	BSTree<T, Comp>::deleteKeyFrom(node *node)
 }
 
 //template <class T>
-template <class T, class Comp>
-void	BSTree<T, Comp>::transplant(node* u, node *v)
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
 {
 	if (u->parent == sentinel)
 	{
@@ -453,8 +453,8 @@ void	BSTree<T, Comp>::transplant(node* u, node *v)
 }
 
 //template <class T>
-template <class T, class Comp>
-void	BSTree<T, Comp>::del(node *node)
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::del(node *node)
 {
 	Node<T, Comp>*	y;
 	Node<T, Comp>*	old_node;
@@ -488,8 +488,8 @@ void	BSTree<T, Comp>::del(node *node)
 	}
 }
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T, Comp> *node)
 {
 	Node<T, Comp>* aux;
 
@@ -500,8 +500,8 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMaxNode(Node<T, Comp> *node)
 }
 
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T, Comp> *node)
 {
 	Node<T, Comp>* aux;
 
@@ -511,8 +511,8 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::getMinNode(Node<T, Comp> *node)
 	return (aux);
 }
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::findNode(typename T::first_type key)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename T::first_type key)
 {
 	key_compare comp = Comp(); 
 	Node<T, Comp>		*node;
@@ -530,8 +530,8 @@ typename BSTree<T, Comp>::node*	BSTree<T, Comp>::findNode(typename T::first_type
 	return (node);	
 }
 
-template <class T, class Comp>
-size_t	BSTree<T, Comp>::count_nodes(const Node<T, Comp> *root) const
+template <class T, class Alloc, class Comp>
+size_t	BSTree<T, Alloc, Comp>::count_nodes(const Node<T, Comp> *root) const
 {
 	size_t	count;
 
@@ -545,14 +545,14 @@ size_t	BSTree<T, Comp>::count_nodes(const Node<T, Comp> *root) const
 	return (count);
 }
 
-template <class T, class Comp>
-size_t	BSTree<T, Comp>::size() const
+template <class T, class Alloc, class Comp>
+size_t	BSTree<T, Alloc, Comp>::size() const
 {
 	return (this->_size);
 }
 
-template <class T, class Comp>
-BSTree<T, Comp>::~BSTree()
+template <class T, class Alloc, class Comp>
+BSTree<T, Alloc, Comp>::~BSTree()
 {
 	if (this->root)
 	{		
@@ -566,28 +566,29 @@ BSTree<T, Comp>::~BSTree()
 	}
 }
 
-template <class T, class Comp>
-void BSTree<T, Comp>::freeTree(node *root)
+template <class T, class Alloc, class Comp>
+void BSTree<T, Alloc, Comp>::freeTree(node *root)
 {
 	if (!root)
 		return;
 	if (root->left && root->left != sentinel)
 		freeTree(root->left);
 	if (root->right && root->right != sentinel)
-		freeTree(root->right);	
-	delete root;
+		freeTree(root->right);
+	n_alloc.destroy(root);
+	n_alloc.deallocate(root, 1);
 	_size--;
 	root = NULL;
 }
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::pointer	BSTree<T, Comp>::insert(const typename BSTree<T, Comp>::value_type &p)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::insert(const typename BSTree<T, Alloc, Comp>::value_type &p)
 {
 	return (this->insertFromNode(p, &(this->root)));
 }
 
-template <class T, class Comp>
-typename BSTree<T, Comp>::node*	BSTree<T, Comp>::insertFromNode(const typename BSTree<T, Comp>::value_type &p, Node<T, Comp> **r)
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T, Comp> **r)
 {
 	key_compare comp = Comp();
 	Node<T, Comp>	*y = sentinel;

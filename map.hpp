@@ -28,17 +28,17 @@ namespace ft{
 		typedef T											mapped_type;
 		typedef pair<const key_type, mapped_type>			value_type;
 		typedef Compare				 						key_compare;
+		typedef	ft::Node<value_type, key_compare>			node;
+		typedef	ft::Node<value_type, key_compare>			const_node;
+		typedef typename Allocator::template 				rebind<node>::other	alloc_pair;
 		typedef Allocator				 					allocator_type;
-		typedef typename Allocator::template 				rebind<value_type>::other	alloc_pair;
 		typedef typename alloc_pair::reference 				reference;
 		typedef typename alloc_pair::const_reference 		const_reference;
 		typedef typename alloc_pair::pointer 				pointer;
 		typedef typename alloc_pair::const_pointer 			const_pointer;
-		typedef BSTree<value_type, key_compare>							tree;
+		typedef BSTree<value_type, alloc_pair, key_compare>	tree;
 		typedef typename tree::iterator						iterator;
 		typedef typename tree::const_iterator				const_iterator;
-		typedef	ft::Node<value_type, key_compare>						node;
-		typedef	ft::Node<value_type, key_compare>					const_node;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef std::ptrdiff_t			difference_type;
@@ -63,7 +63,7 @@ namespace ft{
 		{
 			this->_allocator = alloc;
 			this->_comp = comp;
-			this->_root = new BSTree<value_type, key_compare>();
+			this->_root = new BSTree<value_type, alloc_pair, key_compare>();
 
 		}
 
@@ -74,7 +74,7 @@ namespace ft{
 
 			this->_allocator = alloc;
 			this->_comp = comp;
-			this->_root = new BSTree<value_type, key_compare>();
+			this->_root = new BSTree<value_type, alloc_pair, key_compare>();
 			it = first;
 			while (it != last)
 			{
@@ -102,7 +102,7 @@ namespace ft{
 				delete this->_root;
 				this->_root = NULL;
 			}
-			this->_root = new BSTree<value_type, key_compare>();
+			this->_root = new BSTree<value_type, alloc_pair, key_compare>();
 
 			if (other.size() == 0)
 				return (*this);
@@ -135,7 +135,7 @@ namespace ft{
 
 		mapped_type& at (const key_type& k)
 		{
-			typename BSTree<value_type, key_compare>::node	*found;
+			typename BSTree<value_type, alloc_pair, key_compare>::node	*found;
 
 			found = this->_root->_find(k);
 			if (found == _root->getSentinel())
@@ -145,7 +145,7 @@ namespace ft{
 
 		const mapped_type& at (const key_type& k) const
 		{
-			typename BSTree<value_type, key_compare>::node	*found;
+			typename BSTree<value_type, alloc_pair, key_compare>::node	*found;
 
 			found = this->_root->_find(k);
 			if (found == _root->getSentinel())
@@ -156,7 +156,7 @@ namespace ft{
 		//modifiers
 		pair<iterator,bool>	insert(const value_type& p)
 		{
-			typename BSTree<value_type, key_compare>::node	*new_inserted;
+			typename BSTree<value_type, alloc_pair, key_compare>::node	*new_inserted;
 			size_type	old_size;
 
 			old_size = this->size();
@@ -168,7 +168,7 @@ namespace ft{
 		//insert with hint
 		iterator insert (iterator position, const value_type& val)
 		{
-			typename BSTree<value_type, key_compare>::node	*new_inserted;
+			typename BSTree<value_type, alloc_pair, key_compare>::node	*new_inserted;
 
 			if (position == this->end())
 				new_inserted = _root->insert(this->begin(), val);
@@ -222,7 +222,7 @@ namespace ft{
 
 		void swap (map& x)
 		{
-			BSTree<value_type, key_compare> *sw;
+			BSTree<value_type, alloc_pair, key_compare> *sw;
 
 			sw = this->_root;
 			this->_root = x._root;
@@ -233,7 +233,7 @@ namespace ft{
 		{
 			_root->clear();
 			delete _root;
-			this->_root = new BSTree<value_type, key_compare>();
+			this->_root = new BSTree<value_type, alloc_pair, key_compare>();
 		}
 
 
@@ -394,7 +394,7 @@ namespace ft{
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
-			BSTree<value_type, key_compare>	*_root;
+			BSTree<value_type, alloc_pair, key_compare>	*_root;
 	};
 
 
