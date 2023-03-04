@@ -1004,8 +1004,20 @@ void	map_maxsize()
 	std::map<int, int> map;
 	ft::map<int, int> map1;
 
+//	std::map<int, int> map2;
+//	ft::map<int, int> map3;
+	
+	std::map<int, std::string> map2;
+	ft::map<int, std::string> map3;
+
+	std::pair<int, std::string> p;
+	ft::pair<int, std::string> p1;
+
 	check(map.max_size() == map1.max_size());
-//	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
+	check(map2.max_size() == map3.max_size());
+	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
+	std::cout << map2.max_size() << "," << map3.max_size() << std::endl;
+	std::cout << sizeof(p) << "," << sizeof(p1) << std::endl;
 }
 
 void	map_find()

@@ -30,14 +30,9 @@ namespace ft{
 		typedef Compare				 						key_compare;
 		typedef	ft::Node<value_type, key_compare>			node;
 		typedef	ft::Node<value_type, key_compare>			const_node;
-		typedef typename Allocator::template 				rebind<node>::other	node_alloc;
-		typedef ft::BSTree<value_type, node_alloc, key_compare>	tree;
-		typedef typename Allocator::template 				rebind<tree>::other	tree_alloc;
+//		typedef typename Allocator::template 				rebind<node>::other	node_alloc;
+		typedef ft::BSTree<value_type, Allocator, key_compare>	tree;
 		typedef Allocator				 					allocator_type;
-		typedef typename node_alloc::reference 				reference;
-		typedef typename node_alloc::const_reference 		const_reference;
-		typedef typename node_alloc::pointer 				pointer;
-		typedef typename node_alloc::const_pointer 			const_pointer;
 
 		typedef typename tree::iterator						iterator;
 		typedef typename tree::const_iterator				const_iterator;
@@ -62,17 +57,8 @@ namespace ft{
 
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-//			std::cout << "constructor" << std::endl;
 			this->_allocator = alloc;
 			this->_comp = comp;
-
-//			this->size = 0;
-//			tree_alloc c;
-//			this->_root = NULL;
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-//			this->_root = c.allocate(1);
-//			c.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
-
 		}
 
 		template <class InputIterator>
@@ -82,13 +68,6 @@ namespace ft{
 
 			this->_allocator = alloc;
 			this->_comp = comp;
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-//			tree_alloc c;
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-//			this->_root = c.allocate(1);
-//			c.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
-//			this->_root = this->_allocator.allocate(1);
-//			this->_allocator.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
 			it = first;
 			while (it != last)
 			{
@@ -100,8 +79,6 @@ namespace ft{
 		//copy constructor
 		map (const map& other)
 		{
-			std::cout << "copy constructor" << std::endl;
-//			this->_root = NULL;
 			*this = other;
 		}
 
@@ -109,24 +86,7 @@ namespace ft{
 		{
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
-//			if (this->_root)
-//			{
 			_root.clear();
-//			this->_root = tree();
-//				delete this->_root;
-//				this->_root = NULL;
-//			}
-//			tree_alloc c;
-//			this->_root = c.allocate(1);
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-//			c.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
-//			this->_root = this->_allocator.allocate(1);
-//			this->_allocator.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-
-//			if (other.size() == 0)
-//				return (*this);
-//			this->_root = other._root;
 			insert(other.begin(), other.end());
 			return (*this);
 		}
@@ -136,7 +96,6 @@ namespace ft{
 			return (this->_allocator);
 		}
 
-		//map destructor
 		~map() { 
 			
 ////			std::cout << "map destructor" << std::endl;
@@ -152,7 +111,7 @@ namespace ft{
 		//capacity
 		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_root.size());};
-		size_type 	max_size() const {return (node_alloc().max_size());};
+		size_type 	max_size() const {return (this->_root.max_size());};
 //		size_type	max_size() const {
 //			return (std::numeric_limits<map::size_type>::max() / sizeof(T));
 //		}
@@ -167,7 +126,7 @@ namespace ft{
 
 		mapped_type& at (const key_type& k)
 		{
-			typename BSTree<value_type, node_alloc, key_compare>::node	*found;
+			typename BSTree<value_type, Allocator, key_compare>::node	*found;
 
 			found = this->_root._find(k);
 			if (found == _root.getSentinel())
@@ -177,7 +136,7 @@ namespace ft{
 
 		const mapped_type& at (const key_type& k) const
 		{
-			typename BSTree<value_type, node_alloc, key_compare>::node	*found;
+			typename BSTree<value_type, Allocator, key_compare>::node	*found;
 
 			found = this->_root._find(k);
 			if (found == _root.getSentinel())
@@ -188,7 +147,7 @@ namespace ft{
 		//modifiers
 		pair<iterator,bool>	insert(const value_type& p)
 		{
-			typename BSTree<value_type, node_alloc, key_compare>::node	*new_inserted;
+			typename BSTree<value_type, Allocator, key_compare>::node	*new_inserted;
 			size_type	old_size;
 
 			old_size = this->size();
@@ -201,7 +160,7 @@ namespace ft{
 		//insert with hint
 		iterator insert (iterator position, const value_type& val)
 		{
-			typename BSTree<value_type, node_alloc, key_compare>::node	*new_inserted;
+			typename BSTree<value_type, Allocator, key_compare>::node	*new_inserted;
 
 			if (position == this->end())
 				new_inserted = _root.insert(this->begin(), val);
@@ -255,26 +214,19 @@ namespace ft{
 
 		void swap (map& x)
 		{
-			//swap allocator?
-			//swap in tree
+			//TBD: swap allocator
+			Allocator sw;
+
+			sw = x.get_allocator();
+			x._allocator = this->_allocator;
+			this->_allocator = sw;
+			
 			this->_root.swap(x._root);
-//			BSTree<value_type, node_alloc, key_compare> sw;
-
-//			sw = this->_root;
-//			this->_root = x._root;
-//			x._root = sw;
-
 		}
+
 		void clear()
 		{
 			_root.clear();
-//			delete _root;
-//			this->_root = new BSTree<value_type, node_alloc, key_compare>();
-//			tree_alloc c;
-//			this->_root = c.allocate(1);
-//			c.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
-//			this->_root = this->_allocator.allocate(1);
-//			this->_allocator.construct(this->_root, BSTree<value_type, node_alloc, key_compare>());
 		}
 
 
@@ -373,7 +325,6 @@ namespace ft{
 					return (it);
 			}
 			return (it);
-//			return (const_iterator(upper_bound(k)));
 		}
 
 		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
@@ -435,8 +386,7 @@ namespace ft{
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
-			BSTree<value_type, node_alloc, key_compare>	_root;
-//			BSTree<value_type, node_alloc, key_compare>	*_root;
+			BSTree<value_type, Allocator, key_compare>	_root;
 	};
 
 
@@ -513,7 +463,6 @@ bool operator>( const ft::map<Key, T, Compare, Alloc>& lhs,
 			return (false);
 	}
 	return (lhs.size() > rhs.size());
-//	return (it == lhs.end() && (it2 != rhs.end()));
 }
 
 

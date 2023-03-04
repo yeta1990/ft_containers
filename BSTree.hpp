@@ -73,9 +73,13 @@ class BSTree{
 	public:
 		typedef Node<T, Comp>		node;
 		typedef BSTree<T, Alloc, Comp>		tree;
-		typedef Alloc 						node_allocator;
+
+		typedef Alloc 						pair_allocator;
+
+		typedef typename Alloc::template 				rebind<node>::other	node_allocator;
 //		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
 		typedef Comp		key_compare;
+
 		typedef typename node_allocator::pointer							pointer;
 		typedef typename node_allocator::const_pointer						const_pointer;
 		typedef typename node_allocator::reference							reference;
@@ -147,22 +151,29 @@ class BSTree{
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
 
+		size_t	max_size() const {return (node_allocator().max_size());};
+//		size_t	max_size() const {return (pair_allocator().max_size());};
 		void	swap(tree& other)
 		{
-			node*	sw;
-			node*	sentinel_swp;
+			node*			sw;
+			node*			sentinel_swp;
+			node_allocator	alloc_swp;
 			size_t	size_sw;
 
 			sw = other.root;
 			sentinel_swp = other.sentinel;
 			size_sw = other.size();
+			alloc_swp = other.getAllocator();
 
 			other.root = this->root;
 			other._size = this->size();
 			other.sentinel = this->sentinel;
+			other.n_alloc = this->n_alloc;
+
 			this->root = sw;
 			this->sentinel = sentinel_swp;
 			this->_size = size_sw;
+			this->n_alloc = alloc_swp;
 		}
 
 		void	clear()
@@ -294,11 +305,11 @@ class BSTree{
 		}
 
 		node*	base() { return root; };
+		node_allocator	getAllocator() { return n_alloc; }
 
 	private:
 		node_allocator	n_alloc;
 		pointer			sentinel;
-//		node			*sentinel;
 		node			*root;
 		size_t			_size;
 
