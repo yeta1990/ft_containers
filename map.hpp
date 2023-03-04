@@ -131,7 +131,7 @@ namespace ft{
 			found = this->_root._find(k);
 			if (found == _root.getSentinel())
 				throw (std::out_of_range("map::at"));
-			return (found->content->second);
+			return (found->getContent()->second);
 		}
 
 		const mapped_type& at (const key_type& k) const

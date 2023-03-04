@@ -14,11 +14,12 @@ struct pair
 	pair() : first(first_type()), second(second_type()) {};
 
 	template<class U, class V>
-	pair (const pair<U,V>& pr) : first(pr.first), second(pr.second)	{ }
+	pair (const ft::pair<U,V>& pr) : first(pr.first), second(pr.second)	{ }
 
 	pair (const first_type& a, const second_type& b) : first(a), second(b) {}
 
-	pair& operator= (const pair& pr)
+	template<class U, class V>
+	pair& operator= (const ft::pair<U, V>& pr)
 	{
 		this->first = pr.first;
 		this->second = pr.second;

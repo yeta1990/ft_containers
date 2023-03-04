@@ -13,28 +13,39 @@ template <class P, class Comp>
 class Node
 {
 	public:
-		typedef P	value_type;
+		typedef P							pair_type;
+//		typedef	typename pair_type::first	key_type;
+//		typedef	typename pair_type::first	value_type;
 
-		Node() : content(NULL), left(NULL), right(NULL), parent(NULL) { }
-		Node(value_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
+
+		Node() : content(pair_type()), left(NULL), right(NULL), parent(NULL) { }
+//		Node(pair_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
+		Node(pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
+		Node(const pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 
 		~Node()
 		{
-			if (content)
-			{
-				delete content;
-				content = NULL;
-			}
+//			if (content)
+//			{
+//				delete content;
+//				content = NULL;
+//			}
 		}
-		value_type		*content;
+//		pair_type		*content;
+		pair_type		content;
 		Node			*left;
 		Node			*right;
 		Node			*parent;
 		char			color;
 
-		value_type*	getContent() const
+		pair_type*	getContent() 
 		{
-			return (content);
+			return (&content);
+		}
+
+		const pair_type*	getContent() const
+		{
+			return (&content);
 		}
 
 		/*
@@ -49,10 +60,12 @@ class Node
 			return (*this);
 		}
 */
+		/*
 		Node ( const Node& o )
 		{
 			*this = o;
 		}
+		*/
 /*
 		Node& operator=( const Node& o )
 		{
@@ -94,7 +107,7 @@ class BSTree{
 			n_alloc.construct(sen, node());
 
 			this->_size = 0;
-			sen->content = new value_type();
+//			sen->content = new value_type();
 			sen->color = 'b';
 			sen->right = sen;
 			sen->left = sen;
@@ -394,8 +407,8 @@ class BSTree{
 				return ;
 			printorder(node->left);
 			if (node == root)
-				std::cout << "root : ";
-			std::cout << "." << node->content->first << "," << node->color << "," << node->parent->content->first << std::endl;
+//				std::cout << "root : ";
+//			std::cout << "." << node->content->first << "," << node->color << "," << node->parent->content->first << std::endl;
 
 			printorder(node->right);
 		}
@@ -594,11 +607,11 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename
 	node = root;	
 	while (node != sentinel)
 	{
-		if (node && node->content->first == key)
+		if (node && node->getContent()->first == key)
 			return (node);
-		else if (node && node->left && comp(key, node->content->first))
+		else if (node && node->left && comp(key, node->getContent()->first))
 			node = node->left;
-		else if (node && node->right && comp(node->content->first, key))
+		else if (node && node->right && comp(node->getContent()->first, key))
 			node = node->right;
 	}
 	return (node);	
@@ -680,9 +693,10 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 	Node<T, Comp>	*x = *r;
 
 	Node<T, Comp>	*insert = n_alloc.allocate(1);
-	n_alloc.construct(insert, node());
+//	n_alloc.construct(insert, node(new value_type(p), sentinel));
+	n_alloc.construct(insert, node(p, sentinel));
 
-	insert->content = new value_type(p);
+//	insert->content = new value_type(p);
 	insert->color = 'r';
 	insert->right = sentinel;
 	insert->left = sentinel;
@@ -695,9 +709,9 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 	while (x != sentinel)
 	{
 		y = x;
-		if (comp(insert->content->first, x->content->first))
+		if (comp(insert->getContent()->first, x->getContent()->first))
 			x = x->left;
-		else if (insert->content->first == x->content->first)
+		else if (insert->getContent()->first == x->getContent()->first)
 		{
 			n_alloc.destroy(insert);
 			n_alloc.deallocate(insert, 1);
@@ -713,7 +727,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 		*r = insert;
 		sentinel->right = insert;
 	}
-	else if (comp(insert->content->first, y->content->first))
+	else if (comp(insert->getContent()->first, y->getContent()->first))
 		y->left = insert;
 	else
 		y->right = insert;

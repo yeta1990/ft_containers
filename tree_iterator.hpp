@@ -39,8 +39,10 @@ namespace ft{
 			}
 			
 
-			reference operator*() const { return *(p->content); }
-			pointer operator->() const { return p->content; }
+//			reference operator*() const { return *(p->content); }
+//			pointer operator->() const { return p->content; }
+			reference operator*() const { return *(p->getContent()); }
+			pointer operator->() const { return p->getContent(); }
 			npointer*	base() { return (&p) ;}
 			npointer		getNode() const { return (p) ;}
 			npointer		getSentinel() const { return (sentinel) ;}
