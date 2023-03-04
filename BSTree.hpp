@@ -9,7 +9,7 @@ namespace ft{
 template <class T, class Alloc, class Comp>
 class BSTree;
 
-template <class P, class Comp>
+template <class P>
 class Node
 {
 	public:
@@ -80,11 +80,11 @@ class Node
 
 };
 
-template <class T, class Alloc, class Comp = std::less<typename T::first_type> >
+template <class T, class Alloc, class Comp >
 class BSTree{
 
 	public:
-		typedef Node<T, Comp>		node;
+		typedef Node<T>		node;
 		typedef BSTree<T, Alloc, Comp>		tree;
 
 		typedef Alloc 						pair_allocator;
@@ -216,7 +216,7 @@ class BSTree{
 
 		pointer	getHighestNodeFrom(node *node)
 		{
-			Node<T, Comp>* aux = NULL;
+			Node<T>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->right && aux->right!= sentinel)
@@ -226,7 +226,7 @@ class BSTree{
 
 		const_pointer getHighestNodeFrom(node *node) const
 		{
-			Node<T, Comp>* aux = NULL;
+			Node<T>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->right && aux->right!= sentinel)
@@ -236,7 +236,7 @@ class BSTree{
 
 		pointer getLowestNodeFrom(node* node) 
 		{
-			Node<T, Comp>* aux = NULL;
+			Node<T>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->left && aux->left != sentinel)
@@ -246,7 +246,7 @@ class BSTree{
 
 		const_pointer getLowestNodeFrom(node* node) const
 		{
-			const Node<T, Comp>* aux = NULL;
+			const Node<T>* aux = NULL;
 
 			aux = node;
 			while (aux && aux->left && aux->left != sentinel)
@@ -326,7 +326,7 @@ class BSTree{
 		node			*root;
 		size_t			_size;
 
-		node			*insertFromNode(const value_type &p, Node<T, Comp> **r);
+		node			*insertFromNode(const value_type &p, Node<T> **r);
 		void			del(node *root);
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
@@ -485,13 +485,13 @@ class BSTree{
 
 
 		//currently unused:
-		size_t			count_nodes(const Node<T, Comp> *root) const;
+		size_t			count_nodes(const Node<T> *root) const;
 };
 
 template <class T, class Alloc, class Comp>
 void	BSTree<T, Alloc, Comp>::del(typename T::first_type key)
 {
-	Node<T, Comp>* found;
+	Node<T>* found;
 
 	found = this->_find(key);
 	if (found && found != sentinel)
@@ -543,8 +543,8 @@ void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
 template <class T, class Alloc, class Comp>
 void	BSTree<T, Alloc, Comp>::del(node *node)
 {
-	Node<T, Comp>*	y;
-	Node<T, Comp>*	old_node;
+	Node<T>*	y;
+	Node<T>*	old_node;
 
 	old_node = node;
 	if (!node)
@@ -576,9 +576,9 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T, Comp> *node)
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T> *node)
 {
-	Node<T, Comp>* aux;
+	Node<T>* aux;
 
 	aux = node;
 	while (aux->right && aux->right != sentinel)
@@ -588,9 +588,9 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T
 
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T, Comp> *node)
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T> *node)
 {
-	Node<T, Comp>* aux;
+	Node<T>* aux;
 
 	aux = node;
 	while (aux->left && aux->left != sentinel)
@@ -602,7 +602,7 @@ template <class T, class Alloc, class Comp>
 typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename T::first_type key) const
 {
 	key_compare comp = Comp(); 
-	Node<T, Comp>		*node;
+	Node<T>		*node;
 
 	node = root;	
 	while (node != sentinel)
@@ -618,7 +618,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename
 }
 
 template <class T, class Alloc, class Comp>
-size_t	BSTree<T, Alloc, Comp>::count_nodes(const Node<T, Comp> *root) const
+size_t	BSTree<T, Alloc, Comp>::count_nodes(const Node<T> *root) const
 {
 	size_t	count;
 
@@ -685,14 +685,14 @@ typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::insert(const ty
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T, Comp> **r)
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T> **r)
 {
 //	std::cout << "inserting" << std::endl;
 	key_compare comp = Comp();
-	Node<T, Comp>	*y = sentinel;
-	Node<T, Comp>	*x = *r;
+	Node<T>	*y = sentinel;
+	Node<T>	*x = *r;
 
-	Node<T, Comp>	*insert = n_alloc.allocate(1);
+	Node<T>	*insert = n_alloc.allocate(1);
 //	n_alloc.construct(insert, node(new value_type(p), sentinel));
 	n_alloc.construct(insert, node(p, sentinel));
 
@@ -704,7 +704,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 //	this->sentinel = sen;
 //	this->root = sentinel;
 
-//	Node<T, Comp>	*insert = new Node<T, Comp>(new value_type(p), sentinel);
+//	Node<T>	*insert = new Node<T>(new value_type(p), sentinel);
 
 	while (x != sentinel)
 	{
