@@ -17,6 +17,7 @@ class Node
 
 		Node() : content(NULL), left(NULL), right(NULL), parent(NULL) { }
 		Node(value_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
+
 		~Node()
 		{
 			if (content)
@@ -31,7 +32,7 @@ class Node
 		Node			*parent;
 		char			color;
 
-		value_type&	getContent() const
+		value_type*	getContent() const
 		{
 			return (content);
 		}
@@ -44,6 +45,11 @@ class Node
 			this->right = o.right;
 			this->color = o.color;
 			return (*this);
+		}
+
+		Node ( const Node& o )
+		{
+			*this = o;
 		}
 
 		Node& operator=( const Node& o )
@@ -90,7 +96,7 @@ class BSTree{
 			this->root = sentinel;
 		}
 		~BSTree();
-
+/*
 		BSTree& operator=(const BSTree& o)
 		{
 //			std::cout << "operator=" << std::endl;
@@ -99,17 +105,19 @@ class BSTree{
 			this->_size = o.size();
 //			this->root = o.root;
 //			this->sentinel = o.getSentinel();
+//			insert(o.begin(), o.end());
 			const_iterator it;
 
 			for (it = o.begin(); it != o.end(); it++)
 			{
 				insert(*it);
 			}
-//			this->root = sentinel->right;
+			this->root = sentinel->right;
 			
 			return (*this);
 
 		}
+*/		
 
 		pointer insert(const value_type& p);
 
@@ -136,6 +144,15 @@ class BSTree{
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
 
+		void	swap(tree& other)
+		{
+			node*	sw;
+
+			sw = other.root;
+			other.root = this->root;
+			this->root = sw;
+		}
+
 		void	clear()
 		{
 			if (this->root == sentinel)
@@ -155,7 +172,7 @@ class BSTree{
 				sentinel = NULL;
 			}
 			*/
-			
+			this->root = sentinel;	
 			this->_size = 0;
 		}
 		size_t	size() const;
@@ -608,7 +625,7 @@ BSTree<T, Alloc, Comp>::~BSTree()
 template <class T, class Alloc, class Comp>
 void BSTree<T, Alloc, Comp>::freeTree(node *r)
 {
-	if (!r)
+	if (!r || r == sentinel)
 		return;
 	if (r->left && r->left != sentinel)
 		freeTree(r->left);
@@ -616,9 +633,9 @@ void BSTree<T, Alloc, Comp>::freeTree(node *r)
 		freeTree(r->right);
 //	if (r != sentinel)
 //	{
-		n_alloc.destroy(r);
-		n_alloc.deallocate(r, 1);
-		_size--;
+	n_alloc.destroy(r);
+	n_alloc.deallocate(r, 1);
+	_size--;
 //	}
 	r = NULL;
 }

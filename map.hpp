@@ -111,7 +111,8 @@ namespace ft{
 			this->_comp = key_compare();
 //			if (this->_root)
 //			{
-//			_root.clear();
+			_root.clear();
+//			this->_root = tree();
 //				delete this->_root;
 //				this->_root = NULL;
 //			}
@@ -125,8 +126,8 @@ namespace ft{
 
 //			if (other.size() == 0)
 //				return (*this);
-			this->_root = other._root;
-//			insert(other.begin(), other.end());
+//			this->_root = other._root;
+			insert(other.begin(), other.end());
 			return (*this);
 		}
 
@@ -254,11 +255,14 @@ namespace ft{
 
 		void swap (map& x)
 		{
-			BSTree<value_type, node_alloc, key_compare> sw;
+			//swap allocator?
+			//swap in tree
+			this->_root.swap(x._root);
+//			BSTree<value_type, node_alloc, key_compare> sw;
 
-			sw = this->_root;
-			this->_root = x._root;
-			x._root = sw;
+//			sw = this->_root;
+//			this->_root = x._root;
+//			x._root = sw;
 
 		}
 		void clear()
