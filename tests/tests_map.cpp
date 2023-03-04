@@ -1467,8 +1467,31 @@ void	map_erase_7()
 //	printSize(mp);
 }
 
+void	map_simple_swap()
+{
+	std::map<int, int> map;
+	ft::map<int, int> map1;
+	std::map<int, int> map2;
+	ft::map<int, int> map3;
+
+
+	map[1] = 1;
+	map1[1] = 1;
+	map2[1] = 2;
+	map3[1] = 2;
+//
+	std::swap(map,map2);
+	ft::swap(map1,map3);
+
+	std::cout << map1[1] << std::endl;
+	std::cout << map3[1] << std::endl;
+
+
+}
+
 void	map_swap()
 {
+	
 	std::map<int, int> map = create_std_map();
 	ft::map<int, int> map1 = create_map();
 
@@ -1500,6 +1523,7 @@ void	map_swap()
 	it7--;
 	it8--;
 //	std::cout << (*it7).first << std::endl;
+
 	std::swap(map,map2);
 	ft::swap(map1,map3);
 	check((*it7).first == (*it8).first);
@@ -1640,7 +1664,7 @@ void	map_benchmarks()
 void map_tests()
 {
 //	map_benchmarks();
-	
+
 	test_case("map_constructors", &map_constructor);
 //	test_case("map_constructors2", &map_constructor2);
 	
@@ -1676,21 +1700,24 @@ void map_tests()
 	test_case("map upper bound", &map_upper_bound);
 	test_case("map equal range", &map_equal_range);
 	test_case("map erase", &map_erase);
-	
+
 	test_case("map erase2", &map_erase_2);
-	
+
 	test_case("map erase3", &map_erase_3);
 	test_case("map erase4", &map_erase_4);
 	test_case("map erase5", &map_erase_5);
 	test_case("map erase6", &map_erase_6);
-	
+
 	test_case("map erase7", &map_erase_7);
-	
+
+	test_case("map swap", &map_simple_swap);
 	test_case("map swap", &map_swap);
+
 	test_case("map swap", &map_swap2);
 	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
+
 
 	
 

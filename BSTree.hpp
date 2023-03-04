@@ -37,8 +37,10 @@ class Node
 			return (content);
 		}
 
+		/*
 		Node& operator= (Node& o)
 		{
+			std::cout << "operator =" << std::endl;
 			this->content = o.getContent();
 			this->parent= o.parent;
 			this->left= o.left;
@@ -46,12 +48,12 @@ class Node
 			this->color = o.color;
 			return (*this);
 		}
-
+*/
 		Node ( const Node& o )
 		{
 			*this = o;
 		}
-
+/*
 		Node& operator=( const Node& o )
 		{
 			this->content = o.getContent();
@@ -61,6 +63,7 @@ class Node
 			this->color = o.color;
 			return (*this);
 		}
+		*/
 
 };
 
@@ -147,10 +150,19 @@ class BSTree{
 		void	swap(tree& other)
 		{
 			node*	sw;
+			node*	sentinel_swp;
+			size_t	size_sw;
 
 			sw = other.root;
+			sentinel_swp = other.sentinel;
+			size_sw = other.size();
+
 			other.root = this->root;
+			other._size = this->size();
+			other.sentinel = this->sentinel;
 			this->root = sw;
+			this->sentinel = sentinel_swp;
+			this->_size = size_sw;
 		}
 
 		void	clear()
@@ -625,6 +637,8 @@ BSTree<T, Alloc, Comp>::~BSTree()
 template <class T, class Alloc, class Comp>
 void BSTree<T, Alloc, Comp>::freeTree(node *r)
 {
+//	std::cout << "free tree" << std::endl;
+//	return; 
 	if (!r || r == sentinel)
 		return;
 	if (r->left && r->left != sentinel)
