@@ -414,9 +414,9 @@ bool operator<( const ft::map<Key, T, Compare, Alloc>& lhs,
 
 	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
 	{
-		if (it->first < it2->first)
+		if (it->first <= it2->first && it->second < it2->second)
 			return (true);
-		else if (it->second < it2->second)
+		else if (it->first < it2->first)
 			return (true);
 		else if (it->second > it2->second)
 			return (false);
@@ -450,7 +450,7 @@ bool operator>( const ft::map<Key, T, Compare, Alloc>& lhs,
 
 	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
 	{
-		if (it->second > it2->second)
+		if (it->first >= it2->first && it->second > it2->second)
 			return (true);
 		else if (it->first > it2->first)
 			return (true);
