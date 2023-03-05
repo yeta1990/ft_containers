@@ -29,6 +29,15 @@ namespace ft{
 				return (c.size());
 			}
 
+			value_type& top()
+			{
+				return (c.at(0));
+			}
+
+			const value_type& top() const
+			{
+				return (c.at(0));
+			}
 
 
 		private:

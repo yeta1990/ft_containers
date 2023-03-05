@@ -10,6 +10,7 @@ void	stack_tests()
 
 	std::cout << "empty: " << stck.empty() << std::endl;
 	std::cout << "size: " << stck.size() << std::endl;
+//	std::cout << "top: " << stck.top() << std::endl;
 
 	stck.push(41);
 	stck.push(29);
@@ -17,6 +18,7 @@ void	stack_tests()
 	stck.push(42);
 	std::cout << "empty: " << stck.empty() << std::endl;
 	std::cout << "size: " << stck.size() << std::endl;
+	std::cout << "top: " << stck.top() << std::endl;
 //	test_case("map_constructors", &map_constructor);
 
 }
