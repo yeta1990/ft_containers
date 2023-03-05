@@ -1730,9 +1730,5 @@ void map_tests()
 	test_case("map rel ope", &map_rel_ope);
 	test_case("map reverse iterator", &map_rev_it);
 
-
-	
-
-//	test_case("map insert playground", &map_insert_playground);
 }
 

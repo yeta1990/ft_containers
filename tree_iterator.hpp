@@ -26,8 +26,8 @@ namespace ft{
 			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
 
 
-			template<typename C, typename D>
-			tree_iterator(C ptr, D sentinel) : p(ptr), sentinel(sentinel) {}
+//			template<typename C, typename D>
+//			tree_iterator(C ptr, D sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>
 			tree_iterator(const tree_iterator<C, D> &it)

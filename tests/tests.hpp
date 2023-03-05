@@ -14,6 +14,7 @@ void test_case(std::string name, void (*test)());
 void	reverse_iterator_tests();
 void	more_iterators();
 void	map_tests();
+void	stack_tests();
 void	map_constructor();
 
 /*
