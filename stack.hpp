@@ -31,12 +31,17 @@ namespace ft{
 
 			value_type& top()
 			{
-				return (c.at(0));
+				return (c.back());
 			}
 
 			const value_type& top() const
 			{
-				return (c.at(0));
+				return (c.back());
+			}
+
+			void pop()
+			{
+				return (c.pop_back());
 			}
 
 
