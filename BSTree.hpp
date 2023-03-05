@@ -566,7 +566,10 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 		y->left = node->left;
 		y->left->parent = y;
 	}
-	delete old_node;
+	
+	n_alloc.destroy(old_node);
+	n_alloc.deallocate(old_node, 1);
+//	delete old_node;
 	this->_size--;
 	if (this->_size == 0)
 	{

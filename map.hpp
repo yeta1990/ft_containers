@@ -29,14 +29,20 @@ namespace ft{
 		typedef pair<const key_type, mapped_type>			value_type;
 		typedef Compare				 						key_compare;
 		typedef	ft::Node<value_type>						node;
+		typedef	const node									const_node;
 		typedef ft::BSTree<value_type, Allocator, key_compare>	tree;
 		typedef Allocator				 					allocator_type;
 		typedef typename tree::iterator						iterator;
 		typedef typename tree::const_iterator				const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-		typedef std::ptrdiff_t			difference_type;
+		typedef std::ptrdiff_t								difference_type;
 		typedef size_t size_type;
+		typedef typename allocator_type::pointer						pointer;
+		typedef typename allocator_type::const_pointer		const_pointer;
+		typedef value_type&									reference;
+		typedef const value_type&							const_reference;
+
 
 		class value_compare : std::binary_function<value_type,value_type,bool> {
 			friend class map;
@@ -133,12 +139,12 @@ namespace ft{
 
 		const mapped_type& at (const key_type& k) const
 		{
-			node *found;
+			const_node *found;
 
 			found = this->_tree._find(k);
 			if (found == _tree.getSentinel())
 				throw (std::out_of_range("map::at"));
-			return (found->value);
+			return (found->getContent()->second);
 		}
 
 		//modifiers

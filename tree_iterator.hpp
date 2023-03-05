@@ -2,7 +2,8 @@
 # define TREE_ITERATOR
 
 #include "iterator_traits.hpp"
-
+#include <cstddef>
+#include <iterator>
 namespace ft{
 	// map uses node*
 	// N usually will be node*, B will be a pair<T, Y>
@@ -17,11 +18,16 @@ namespace ft{
 			typedef	value_type*		pointer;
 			typedef	value_type&		reference;
 			typedef std::bidirectional_iterator_tag iterator_category;
-			typedef std::ptrdiff_t			difference_type;
+			typedef typename ft::iterator_traits<N>::difference_type difference_type;
+//			typedef std::ptrdiff_t			difference_type;
 
 			tree_iterator() : p(NULL), sentinel(NULL) {}
 //			explicit tree_iterator(npointer ptr) : p(ptr), sentinel(ptr.getSen) {}
 			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
+
+
+			template<typename C, typename D>
+			tree_iterator(C ptr, D sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>
 			tree_iterator(const tree_iterator<C, D> &it)
