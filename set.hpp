@@ -35,7 +35,7 @@ namespace ft{
 		typedef typename node_allocator::const_pointer		const_node_pointer;
 	public:
 		typedef set_iterator<node_pointer, pair_type>	iterator;
-		typedef set_iterator<const_node_pointer, const pair_type>	const_iterator;
+		typedef set_iterator<const_node_pointer, pair_type>	const_iterator;
 //		typedef typename tree::iterator						iterator;
 //		typedef typename tree::const_iterator				const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -54,6 +54,45 @@ namespace ft{
 			this->_comp = comp;
 		}
 
+
+
+		template <class InputIterator>
+		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+		{
+			InputIterator it;
+
+			this->_allocator = alloc;
+			this->_comp = comp;
+			it = first;
+			while (it != last)
+			{
+				insert(*it);
+				it++;
+			}
+		}
+
+		//copy constructor
+		set (const set& other)
+		{
+			*this = other;
+		}
+
+		set& operator= (const set& other)
+		{
+			this->_allocator = other.get_allocator();
+			this->_comp = key_compare();
+			_tree.clear();
+			insert(other.begin(), other.end());
+			return (*this);
+		}
+
+		allocator_type get_allocator() const
+		{
+			return (this->_allocator);
+		}
+
+		~set() {};
+
 		ft::pair<iterator, bool> insert( const value_type& value )
 		{
 			node		*new_inserted;
@@ -65,7 +104,75 @@ namespace ft{
 //			return (_tree.insert(value));
 		}
 
+		iterator insert (iterator position, const value_type& val)
+		{
+			(void) position;
+			node	*new_inserted;
+
+			new_inserted = _tree.insert(ft::make_pair<key_type, value_type>(val, val));
+			return (iterator(new_inserted, this->_tree.getSentinel()));
+		}
+
+		template <class InputIterator>
+		void insert (InputIterator first, InputIterator last)
+		{
+			InputIterator it;
+
+			it = first;
+			while (it != last)
+			{
+				insert(*it);
+				it++;	
+			}
+		}
+
+		iterator begin()
+		{
+			return (iterator(this->_tree.begin().getNode(),
+						this->_tree.getSentinel()));
+		}
+
+		iterator end()
+		{
+			return (iterator(this->_tree.getSentinel(), 
+						this->_tree.getSentinel()));
+		}
+
+		const_iterator begin() const
+		{
+			return (const_iterator(this->_tree.begin().getNode(), 
+						this->_tree.getSentinel()));
+//			return (this->_tree.begin());
+		}
+
+		const_iterator end() const
+		{
+			return (const_iterator(this->_tree.getSentinel(), 
+						this->_tree.getSentinel()));
+//			return (this->_tree.end());
+		}
+
+      	reverse_iterator rbegin()
+      	{
+			return (reverse_iterator(this->end()));
+		}
+		const_reverse_iterator rbegin() const
+		{
+			return (const_reverse_iterator(this->end()));
+     	}
+
+     	reverse_iterator rend()
+    	{
+	 	 	return (reverse_iterator(this->begin()));
+	 	}
+
+     	const_reverse_iterator rend() const
+     	{
+	 		return (const_reverse_iterator(this->begin()));
+     	}
+     	
 		size_type	size() const { return (this->_tree.size());};
+		size_type 	max_size() const {return (this->_tree.max_size());};
 
 		/*
 

@@ -40,10 +40,20 @@ class Node
 			return (&content);
 		}
 
-		typename pair_type::first_type& getFirst()
+		typename pair_type::second_type* getSecond() 
 		{
-			return (content.first);
+			return (&(content.second));
 		}
+//
+//		const typename pair_type::second_type getSecond() const
+//		{
+//			return (content.second);
+//		}
+
+//		const typename pair_type::first_type& getFirst() const
+//		{
+//			return (content.first);
+//		}
 
 };
 

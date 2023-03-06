@@ -155,15 +155,47 @@ namespace ft{
 			typedef B	value_type;
 			typedef typename ft::iterator_traits<N>::pointer npointer;
 			typedef typename ft::iterator_traits<N>::reference nreference;
-			typedef	typename value_type::first_type*		pointer;
-			typedef	typename value_type::first_type&		reference;
+			typedef	typename value_type::second_type*		pointer;
+			typedef	const typename value_type::second_type&		reference;
 			typedef std::bidirectional_iterator_tag iterator_category;
 			typedef typename ft::iterator_traits<N>::difference_type difference_type;
 
-			explicit set_iterator(npointer ptr, npointer sentinel) : tree_iterator<N,B>(ptr, sentinel) {}
 			set_iterator() : tree_iterator<N, B>(){};
-			reference operator*() const { return (this->p->getFirst()); }
+
+			explicit set_iterator(npointer ptr, npointer sentinel) : tree_iterator<N,B>(ptr, sentinel) {}
+
+			template<typename C, typename D>
+			set_iterator(const set_iterator<C, D> &it)
+			{
+				this->p = it.getNode();
+				this->sentinel = it.getSentinel();
+			}
+
+			template<typename C, typename D>
+			set_iterator& operator=(const set_iterator<C, D> &it)
+			{
+				this->p = it.getNode();
+				this->sentinel = it.getSentinel();
+				return *this;
+			}
+
+			reference operator*() const { 
+				return (this->p->getContent()->first);
+			}
+//			reference operator*() const { 
+//				value_type a(this->p->getContent());
+//				const pointer 	
+//				const value_type* aa = this->p->getContent();
+//				const reference r= aa->first;
+//				value_type a(this->p->getFirst(), this->p->getFirst());
+//				reference	po(a.first);
+//				return (po);
+
+			
+//			reference operator*() const { return (this->p->getFirst()); }
 //			pointer operator->() const { return p->getContent(); }
+//			private:
+//				const pointer	v;
 
 	};
 
