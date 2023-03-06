@@ -175,37 +175,6 @@ namespace ft{
 		//capacity
 		bool empty() const { return (!this->size());};
 
-/*
-		//element access
-		mapped_type& operator[] (const key_type& k)
-		{
-
-			pair<iterator, bool> p = insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
-			return ((*p.first).second);
-		}
-
-		mapped_type& at (const key_type& k)
-		{
-			node *found;
-
-			found = this->_tree._find(k);
-			if (found == _tree.getSentinel())
-				throw (std::out_of_range("set::at"));
-			return (found->getContent()->second);
-		}
-
-		const mapped_type& at (const key_type& k) const
-		{
-			const_node *found;
-
-			found = this->_tree._find(k);
-			if (found == _tree.getSentinel())
-				throw (std::out_of_range("map::at"));
-			return (found->getContent()->second);
-		}
-
-*/
-
 		void erase (iterator position)
 		{
 			_tree.deleteKeyFrom(*position.base());
@@ -283,8 +252,6 @@ namespace ft{
 			return (1);
 		}
 		
-
-//		key_comp(element_key,k) would return false
 		iterator lower_bound (const key_type& k)
 		{
 			iterator	it;
@@ -309,7 +276,6 @@ namespace ft{
 					return (it);
 			}
 			return (it);
-//			return (const_iterator(lower_bound(k)));
 		}
 
 
@@ -350,20 +316,7 @@ namespace ft{
 		{
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
 		}
-/*
-		//iterators
 
-	 	 //remove before evaluation!!
-	 	 void	printmap()
-	 	 {
-	 	 	 this->_tree.printtree();
-	 	 }
-
-		private:
-			Allocator			_allocator;
-			key_compare			_comp;
-			BSTree<value_type, Allocator, key_compare>	_tree;
-			*/
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
@@ -408,12 +361,8 @@ bool operator<( const ft::set<Key, Compare, Alloc>& lhs,
 	{
 		if (*it < *it2)
 			return (true);
-//		else if (it->first < it2->first)
-//			return (true);
 		else if (*it > *it2)
 			return (false);
-//		else if (it->first > it2->first)
-//			return (false);
 	}
 	return (lhs.size() < rhs.size());
 }
@@ -444,12 +393,8 @@ bool operator>( const ft::set<Key, Compare, Alloc>& lhs,
 	{
 		if (*it > *it2)
 			return (true);
-//		else if (it->first > it2->first)
-//			return (true);
 		else if (*it < *it2)
 			return (false);
-//		else if (it->first < it2->first)
-//			return (false);
 	}
 	return (lhs.size() > rhs.size());
 }

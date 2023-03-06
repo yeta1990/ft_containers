@@ -44,7 +44,7 @@ class Node
 		{
 			return (&(content.second));
 		}
-//
+
 //		const typename pair_type::second_type getSecond() const
 //		{
 //			return (content.second);
@@ -93,28 +93,6 @@ class BSTree{
 			this->root = sentinel;
 		}
 		~BSTree();
-/*
-		BSTree& operator=(const BSTree& o)
-		{
-//			std::cout << "operator=" << std::endl;
-//			node*	sen = n_alloc.allocate(1);
-//			this->clear();
-			this->_size = o.size();
-//			this->root = o.root;
-//			this->sentinel = o.getSentinel();
-//			insert(o.begin(), o.end());
-			const_iterator it;
-
-			for (it = o.begin(); it != o.end(); it++)
-			{
-				insert(*it);
-			}
-			this->root = sentinel->right;
-			
-			return (*this);
-
-		}
-*/		
 
 		pointer insert(const value_type& p);
 
@@ -150,7 +128,6 @@ class BSTree{
 		bool	deleteKeyFrom(node *node);
 
 		size_t	max_size() const {return (node_allocator().max_size());};
-//		size_t	max_size() const {return (pair_allocator().max_size());};
 		void	swap(tree& other)
 		{
 			node*			sw;
@@ -184,15 +161,6 @@ class BSTree{
 				this->root = NULL;
 			}
 
-			/*
-			if (sentinel)
-			{
-//				delete sentinel;
-				n_alloc.destroy(sentinel);
-				n_alloc.deallocate(sentinel, 1);
-				sentinel = NULL;
-			}
-			*/
 			this->root = sentinel;	
 			this->_size = 0;
 		}
