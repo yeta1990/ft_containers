@@ -17,7 +17,7 @@ namespace ft{
 
 	template< class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key> > class set
 	{
-		public:
+	public:
 
 		typedef Key											key_type;
 		typedef Key											value_type;
@@ -28,8 +28,16 @@ namespace ft{
 		typedef	const node									const_node;
 		typedef ft::BSTree<pair_type, Allocator, key_compare>	tree;
 		typedef Allocator				 					allocator_type;
-		typedef typename tree::iterator						iterator;
-		typedef typename tree::const_iterator				const_iterator;
+
+	private:
+		typedef typename Allocator::template 				rebind<node>::other	node_allocator;
+		typedef typename node_allocator::pointer			node_pointer;
+		typedef typename node_allocator::const_pointer		const_node_pointer;
+	public:
+		typedef set_iterator<node_pointer, pair_type>	iterator;
+		typedef set_iterator<const_node_pointer, const pair_type>	const_iterator;
+//		typedef typename tree::iterator						iterator;
+//		typedef typename tree::const_iterator				const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef std::ptrdiff_t								difference_type;
@@ -38,6 +46,7 @@ namespace ft{
 		typedef typename allocator_type::const_pointer		const_pointer;
 		typedef value_type&									reference;
 		typedef const value_type&							const_reference;
+
 
 		explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{

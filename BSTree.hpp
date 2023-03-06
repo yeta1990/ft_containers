@@ -23,15 +23,7 @@ class Node
 		Node(pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 		Node(const pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 
-		~Node()
-		{
-//			if (content)
-//			{
-//				delete content;
-//				content = NULL;
-//			}
-		}
-//		pair_type		*content;
+		~Node()	{ };
 		pair_type		content;
 		Node			*left;
 		Node			*right;
@@ -48,35 +40,10 @@ class Node
 			return (&content);
 		}
 
-		/*
-		Node& operator= (Node& o)
+		typename pair_type::first_type& getFirst()
 		{
-			std::cout << "operator =" << std::endl;
-			this->content = o.getContent();
-			this->parent= o.parent;
-			this->left= o.left;
-			this->right = o.right;
-			this->color = o.color;
-			return (*this);
+			return (content.first);
 		}
-*/
-		/*
-		Node ( const Node& o )
-		{
-			*this = o;
-		}
-		*/
-/*
-		Node& operator=( const Node& o )
-		{
-			this->content = o.getContent();
-			this->parent= o.parent;
-			this->left= o.left;
-			this->right = o.right;
-			this->color = o.color;
-			return (*this);
-		}
-		*/
 
 };
 

@@ -14,6 +14,6 @@ void	set_tests()
 	ft::set<int> s1;	
 	ft::set<int>::iterator it1;	
 	it1 = s1.insert(1).first;
-//	std::cout << *it1 << std::endl;
+	std::cout << *it1 << std::endl;
 
 }

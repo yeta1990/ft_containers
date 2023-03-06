@@ -143,9 +143,28 @@ namespace ft{
 				return (copy);
 			}
 
-		private:
+		protected:
 			npointer 	p;
 			npointer	sentinel;
+	};
+
+	template <class N, class B>
+	class set_iterator : public tree_iterator<N,B>
+	{
+		public:
+			typedef B	value_type;
+			typedef typename ft::iterator_traits<N>::pointer npointer;
+			typedef typename ft::iterator_traits<N>::reference nreference;
+			typedef	typename value_type::first_type*		pointer;
+			typedef	typename value_type::first_type&		reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
+			typedef typename ft::iterator_traits<N>::difference_type difference_type;
+
+			explicit set_iterator(npointer ptr, npointer sentinel) : tree_iterator<N,B>(ptr, sentinel) {}
+			set_iterator() : tree_iterator<N, B>(){};
+			reference operator*() const { return (this->p->getFirst()); }
+//			pointer operator->() const { return p->getContent(); }
+
 	};
 
 template <typename N1, typename B1, typename N2, typename B2>
