@@ -15,6 +15,7 @@ void	reverse_iterator_tests();
 void	more_iterators();
 void	map_tests();
 void	stack_tests();
+void	set_tests();
 void	map_constructor();
 
 /*

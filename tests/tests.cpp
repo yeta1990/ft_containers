@@ -1152,7 +1152,8 @@ int main(void)
 {
 //	vector_tests();
 //	map_tests();
-	stack_tests();
+//	stack_tests();
+	set_tests();
 //	reverse_iterator_tests();
 //	more_iterators();
 }
