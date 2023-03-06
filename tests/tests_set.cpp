@@ -31,5 +31,8 @@ void	set_tests()
 
 	check(s.size() == s1.size());
 
+	ft::set<int>::iterator it3 = s1.begin(), ite = s1.end();
+	ft::set<int> st_range(it3, --(--ite));
+
 
 }

@@ -13,9 +13,9 @@ template <class P>
 class Node
 {
 	public:
-		typedef P							pair_type;
-//		typedef	typename pair_type::first	key_type;
-//		typedef	typename pair_type::first	value_type;
+		typedef P								pair_type;
+		typedef	typename pair_type::first_type	key_type;
+		typedef	typename pair_type::second_type	value_type;
 
 
 		Node() : content(pair_type()), left(NULL), right(NULL), parent(NULL) { }
@@ -118,8 +118,16 @@ class BSTree{
 
 		pointer insert(const value_type& p);
 
-		pointer _find(typename value_type::first_type key);
-		const_pointer _find(typename value_type::first_type key) const;
+		pointer _find(typename node::key_type key)
+		{
+			return (this->findNode(key));
+		}
+		const_pointer _find(typename node::key_type key) const
+		{
+			return (this->findNode(key));
+		}
+//		pointer _find(typename value_type::first_type key);
+//		const_pointer _find(typename value_type::first_type key) const;
 
 		node	*insert(iterator position, const value_type& val)
 		{
@@ -476,6 +484,7 @@ void	BSTree<T, Alloc, Comp>::del(typename T::first_type key)
 }
 
 //template <class T>
+/*
 template <class T, class Alloc, class Comp>
 typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::_find(typename T::first_type key)
 {
@@ -487,7 +496,7 @@ typename BSTree<T, Alloc, Comp>::const_pointer	BSTree<T, Alloc, Comp>::_find(typ
 {
 	return (this->findNode(key));
 }
-
+*/
 //template <class T>
 template <class T, class Alloc, class Comp>
 bool	BSTree<T, Alloc, Comp>::deleteKeyFrom(node *node)

@@ -173,6 +173,7 @@ namespace ft{
 
 			template<typename C, typename D>
 			set_iterator& operator=(const set_iterator<C, D> &it)
+//			set_iterator& operator=(const set_iterator &it)
 			{
 				this->p = it.getNode();
 				this->sentinel = it.getSentinel();
@@ -182,6 +183,31 @@ namespace ft{
 			reference operator*() const { 
 				return (this->p->getContent()->first);
 			}
+			pointer operator->() const { return &(this->p->getContent()->first); }
+
+			set_iterator& operator++() {
+				this->p = this->getNextElement();
+				return *this; 
+			}
+
+			set_iterator& operator--() { 
+				this->p = this->getPrevElement();
+				return *this; 
+			}
+
+			set_iterator operator++(int) { 
+				set_iterator copy(this->getNode(), this->getSentinel());
+				++(*this);
+				return (copy); 
+			}
+
+			set_iterator operator--(int) { 
+				set_iterator copy(this->getNode(), this->getSentinel());
+				--(*this);
+				return (copy);
+			}
+
+
 //			reference operator*() const { 
 //				value_type a(this->p->getContent());
 //				const pointer 	
@@ -193,7 +219,7 @@ namespace ft{
 
 			
 //			reference operator*() const { return (this->p->getFirst()); }
-//			pointer operator->() const { return p->getContent(); }
+
 //			private:
 //				const pointer	v;
 

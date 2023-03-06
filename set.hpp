@@ -54,10 +54,8 @@ namespace ft{
 			this->_comp = comp;
 		}
 
-
-
-		template <class InputIterator>
-		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+		template <class InputIterator, class InputIterator2>  
+		set (InputIterator first, InputIterator2 last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 			InputIterator it;
 
@@ -174,63 +172,10 @@ namespace ft{
 		size_type	size() const { return (this->_tree.size());};
 		size_type 	max_size() const {return (this->_tree.max_size());};
 
-		/*
-
-		template <class InputIterator>
-		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
-		{
-			InputIterator it;
-
-			this->_allocator = alloc;
-			this->_comp = comp;
-			it = first;
-			while (it != last)
-			{
-				insert(*it);
-				it++;
-			}
-		}
-
-		//copy constructor
-		set (const set& other)
-		{
-			*this = other;
-		}
-
-		set& operator= (const set& other)
-		{
-			this->_allocator = other.get_allocator();
-			this->_comp = key_compare();
-			_tree.clear();
-			insert(other.begin(), other.end());
-			return (*this);
-		}
-
-		allocator_type get_allocator() const
-		{
-			return (this->_allocator);
-		}
-
-		~set() { 
-			
-////			std::cout << "map destructor" << std::endl;
-//			this->_tree->clear(); 
-//			tree_alloc c;
-//			c.destroy(_tree);
-//			c.deallocate(_tree, 1);
-			
-//			delete this->_tree; 
-//			this->_tree = NULL;
-		}
-
 		//capacity
 		bool empty() const { return (!this->size());};
-		size_type	size() const { return (this->_tree.size());};
-		size_type 	max_size() const {return (this->_tree.max_size());};
-//		size_type	max_size() const {
-//			return (std::numeric_limits<map::size_type>::max() / sizeof(T));
-//		}
 
+/*
 		//element access
 		mapped_type& operator[] (const key_type& k)
 		{
@@ -259,41 +204,7 @@ namespace ft{
 			return (found->getContent()->second);
 		}
 
-		//modifiers
-		pair<iterator,bool>	insert(const value_type& p)
-		{
-			node	*new_inserted;
-			size_type	old_size;
-
-			old_size = this->size();
-			new_inserted = _tree.insert(p);
-			return (ft::make_pair<iterator, bool> (iterator(new_inserted, this->_tree.getSentinel()), (old_size < this->size())));
-		}
-
-		//insert with hint
-		iterator insert (iterator position, const value_type& val)
-		{
-			node	*new_inserted;
-
-			if (position == this->end())
-				new_inserted = _tree.insert(this->begin(), val);
-			else
-				new_inserted = _tree.insert(position, val);
-			return (iterator(new_inserted, this->_tree.getSentinel()));
-		}
-
-		template <class InputIterator>
-		void insert (InputIterator first, InputIterator last)
-		{
-			InputIterator it;
-
-			it = first;
-			while (it != last)
-			{
-				insert(*it);
-				it++;	
-			}
-		}
+*/
 
 		void erase (iterator position)
 		{
@@ -314,7 +225,7 @@ namespace ft{
 			iterator	it;
 
 			it = first;
-			while (it != end() && it->first != last->first)
+			while (it != end() && *it != *last)
 			{
 				first++;
 				erase(it);
@@ -353,13 +264,14 @@ namespace ft{
 		//operations
 		iterator find (const key_type& k)
 		{
-			return (this->_tree.find(k));
+			return (iterator(this->_tree._find(k), this->_tree.getSentinel()));
 		}
 
 		const_iterator find (const key_type& k) const
 		{
-			return (this->_tree.find(k));
+			return (const_iterator(this->_tree._find(k), this->_tree.getSentinel()));
 		}
+		
 		//
 		size_type count (const key_type& k) const
 		{
@@ -370,6 +282,7 @@ namespace ft{
 				return (0);
 			return (1);
 		}
+		
 
 //		key_comp(element_key,k) would return false
 		iterator lower_bound (const key_type& k)
@@ -379,7 +292,7 @@ namespace ft{
 
 			for (it = this->begin(); it != this->end(); it++)
 			{
-				if (!comp(it->first, k))
+				if (!comp(*it, k))
 					return (it);
 			}
 			return (it);
@@ -392,7 +305,7 @@ namespace ft{
 
 			for (it = this->begin(); it != this->end(); it++)
 			{
-				if (!comp(it->first, k))
+				if (!comp(*it, k))
 					return (it);
 			}
 			return (it);
@@ -408,7 +321,7 @@ namespace ft{
 
 			for (it = this->begin(); it != this->end(); it++)
 			{
-				if (comp(k, it->first))
+				if (comp(k, *it))
 					return (it);
 			}
 			return (it);
@@ -422,7 +335,7 @@ namespace ft{
 
 			for (it = this->begin(); it != this->end(); it++)
 			{
-				if (comp(k, it->first))
+				if (comp(k, *it))
 					return (it);
 			}
 			return (it);
@@ -437,46 +350,8 @@ namespace ft{
 		{
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
 		}
-
+/*
 		//iterators
-		iterator begin()
-		{
-			return (this->_tree.begin());
-		}
-
-		iterator end()
-		{
-			return (this->_tree.end());
-		}
-
-		const_iterator begin() const
-		{
-			return (this->_tree.begin());
-		}
-
-		const_iterator end() const
-		{
-			return (this->_tree.end());
-		}
-
-      	reverse_iterator rbegin()
-      	{
-			return (reverse_iterator(this->end()));
-		}
-		const_reverse_iterator rbegin() const
-		{
-			return (const_reverse_iterator(this->end()));
-     	}
-
-     	reverse_iterator rend()
-    	{
-	 	 	return (reverse_iterator(this->begin()));
-	 	}
-
-     	const_reverse_iterator rend() const
-     	{
-	 		return (const_reverse_iterator(this->begin()));
-     	}
 
 	 	 //remove before evaluation!!
 	 	 void	printmap()
@@ -494,17 +369,17 @@ namespace ft{
 			key_compare			_comp;
 			BSTree<pair_type, Allocator, key_compare>	_tree;
 	};
-/*
+
 
 template <class Key, class Compare, class Alloc>  
-void swap (set<Key,T,Compare,Alloc>& x, set<Key,T,Compare,Alloc>& y)
+void swap (set<Key,Compare,Alloc>& x, set<Key,Compare,Alloc>& y)
 {
 	x.swap(y);
 }
 
 template< class Key, class Compare, class Alloc >
-bool operator==( const ft::set<Key, T, Compare, Alloc>& lhs,
-                 const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator==( const ft::set<Key, Compare, Alloc>& lhs,
+                 const ft::set<Key, Compare, Alloc>& rhs )
 {
 	if (lhs.size() != rhs.size())
 		return (false);
@@ -513,8 +388,8 @@ bool operator==( const ft::set<Key, T, Compare, Alloc>& lhs,
 
 
 template< class Key, class Compare, class Alloc >
-bool operator!=( const ft::set<Key, T, Compare, Alloc>& lhs,
-                 const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator!=( const ft::set<Key, Compare, Alloc>& lhs,
+                 const ft::set<Key, Compare, Alloc>& rhs )
 {
 	if (lhs.size() != rhs.size())
 		return (true);
@@ -523,63 +398,61 @@ bool operator!=( const ft::set<Key, T, Compare, Alloc>& lhs,
 
 
 template< class Key, class Compare, class Alloc >
-bool operator<( const ft::set<Key, T, Compare, Alloc>& lhs,
-                const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator<( const ft::set<Key, Compare, Alloc>& lhs,
+                const ft::set<Key, Compare, Alloc>& rhs )
 {
-	typename ft::set<Key, T, Compare, Alloc>::const_iterator it;
-	typename ft::set<Key, T, Compare, Alloc>::const_iterator it2;
+	typename ft::set<Key, Compare, Alloc>::const_iterator it;
+	typename ft::set<Key, Compare, Alloc>::const_iterator it2;
 
 	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
 	{
-		if (it->first <= it2->first && it->second < it2->second)
+		if (*it < *it2)
 			return (true);
-		else if (it->first < it2->first)
-			return (true);
-		else if (it->second > it2->second)
+//		else if (it->first < it2->first)
+//			return (true);
+		else if (*it > *it2)
 			return (false);
-		else if (it->first > it2->first)
-			return (false);
+//		else if (it->first > it2->first)
+//			return (false);
 	}
 	return (lhs.size() < rhs.size());
 }
 
 template< class Key, class Compare, class Alloc >
-bool operator<=( const ft::set<Key, T, Compare, Alloc>& lhs,
-                 const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator<=( const ft::set<Key, Compare, Alloc>& lhs,
+                 const ft::set<Key, Compare, Alloc>& rhs )
 {
 	return ((lhs < rhs) || (lhs == rhs));
 }
 
 template< class Key, class Compare, class Alloc >
 
-bool operator>=( const ft::set<Key, T, Compare, Alloc>& lhs,
-                 const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator>=( const ft::set<Key, Compare, Alloc>& lhs,
+                 const ft::set<Key, Compare, Alloc>& rhs )
 {
 	return ((lhs > rhs) || (lhs == rhs));
 }
 
 template< class Key, class Compare, class Alloc >
-bool operator>( const ft::set<Key, T, Compare, Alloc>& lhs,
-                const ft::set<Key, T, Compare, Alloc>& rhs )
+bool operator>( const ft::set<Key, Compare, Alloc>& lhs,
+                const ft::set<Key, Compare, Alloc>& rhs )
 {
-	typename ft::set<Key, T, Compare, Alloc>::const_iterator it;
-	typename ft::set<Key, T, Compare, Alloc>::const_iterator it2;
+	typename ft::set<Key, Compare, Alloc>::const_iterator it;
+	typename ft::set<Key, Compare, Alloc>::const_iterator it2;
 
 	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
 	{
-		if (it->first >= it2->first && it->second > it2->second)
+		if (*it > *it2)
 			return (true);
-		else if (it->first > it2->first)
-			return (true);
-		else if (it->second < it2->second)
+//		else if (it->first > it2->first)
+//			return (true);
+		else if (*it < *it2)
 			return (false);
-		else if (it->first < it2->first)
-			return (false);
+//		else if (it->first < it2->first)
+//			return (false);
 	}
 	return (lhs.size() > rhs.size());
 }
-*/
-
 
 
 
