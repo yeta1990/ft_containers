@@ -183,8 +183,8 @@ namespace ft{
 				return *this;
 			}
 
-//			npointer		getNode() const { return (this->p) ;}
-//			npointer		getSentinel() const { return (sentinel) ;}
+			npointer		getNode() const { return (this->p) ;}
+			npointer		getSentinel() const { return (this->sentinel) ;}
 
 			reference operator*() const { 
 				return (this->p->getContent()->first);

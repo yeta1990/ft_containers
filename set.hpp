@@ -34,7 +34,7 @@ namespace ft{
 		typedef typename node_allocator::pointer			node_pointer;
 		typedef typename node_allocator::const_pointer		const_node_pointer;
 	public:
-		typedef set_iterator<node_pointer, pair_type>	iterator;
+		typedef set_iterator<const_node_pointer, pair_type>	iterator;
 		typedef set_iterator<const_node_pointer, pair_type>	const_iterator;
 //		typedef typename tree::iterator						iterator;
 //		typedef typename tree::const_iterator				const_iterator;
@@ -54,8 +54,8 @@ namespace ft{
 			this->_comp = comp;
 		}
 
-		template <class InputIterator, class InputIterator2>  
-		set (InputIterator first, InputIterator2 last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		template <class InputIterator>  
+		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 			InputIterator it;
 
@@ -177,7 +177,8 @@ namespace ft{
 
 		void erase (iterator position)
 		{
-			_tree.deleteKeyFrom(*position.base());
+			erase(*position);
+//			_tree.deleteKeyFrom(*position.base());
 		}
 
 		size_type erase (const key_type& k)
