@@ -70,45 +70,8 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	}
 	else
 	{
-//		size_t new_capacity = std::max(this->_size * 2, n);
-//		size_t old_size = this->_size;
-//		expansor(new_capacity);
 		insert(end(), n - this->_size, val);
 	}
-/*
-	if (this->_size == 0)
-	{
-		assign(n, val);
-		return ;
-	}
-	*/
-/*
-	if (n < this->_size)
-	{
-		//remove and destroy elements beyond n
-		for (size_t i = n; i < this->_size; i++)
-			this->_allocator.destroy(&this->_data[i]);
-		this->_size = n;
-		this->_usedValues = n;
-		//destroy_and_deallocate();
-	}
-	else if (n > this->_size)
-	{
-		if (n > this->_capacity)
-		{
-			size_t new_capacity = std::max(this->_size * 2, n);
-			expansor(new_capacity);
-		}
-		for (size_t i = this->_size; i < n; i++)
-		{
-			//std::cout << "used values: " << this->_usedValues << std::endl;
-			this->_allocator.construct(&this->_data[this->_size], val);
-			this->_size++;
-		}
-		this->_size = n;
-	}
-	*/
-//	std::cout << "------resizing to " << n << std::endl;
 
 }
 
@@ -151,6 +114,7 @@ void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 	for (size_type i = 0; i < n; i++)
 		this->_allocator.construct(&_data[i], val);
 	this->_usedValues = this->_size;
+	this->_lastElement = this->_data + this->_size;
 }
 	
 

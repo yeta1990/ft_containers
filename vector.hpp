@@ -71,25 +71,28 @@ namespace ft{
 			//default constructor
 			explicit vector (const allocator_type& alloc) : _allocator(alloc)
 			{
+
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = 0;
 				this->_usedValues = 0;
 				_firstElement = _data;
 				_lastElement = _data;
+
 			};
 
 			//fill constructor
 			explicit vector (size_type n, const value_type& val = value_type(),
 					const allocator_type& alloc = allocator_type()) : _allocator(alloc)
 			{
+//				std::cout << "eeeeo" << std::endl;
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = 0;
 				this->_usedValues = 0;
 				_firstElement = _data;
-				_lastElement = _data;
 				this->resize(n, val);
+				_lastElement = _data + n;
 			};
 
 			//range constructor			
@@ -109,6 +112,7 @@ namespace ft{
 				this->_size = 0;
 				this->_data = 0;
 				this->_usedValues = 0;
+				this->_lastElement = 0;
 				*this = x;
 			}
 
@@ -126,6 +130,7 @@ namespace ft{
 				destroy_and_deallocate();
 				this->_size = other.size();
 				this->_capacity = this->_size;
+				this->_lastElement = other._lastElement;
 				this->_usedValues = this->_size;
 				this->_allocator = vector::allocator_type();
 				if (this->_capacity > 0)
@@ -149,9 +154,11 @@ namespace ft{
 
 			//iterators	
 			iterator begin() { return iterator(&this->_data[0]); }
-			iterator end() { return iterator(&this->_data[this->_size]); }
+			iterator end() { return iterator(this->_lastElement); }
+//			iterator end() { return iterator(&this->_data[this->_size]); }
 			const_iterator begin() const { return const_iterator(&this->_data[0]); }
-			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
+			const_iterator end() const { return const_iterator(this->_lastElement); }
+//			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
             reverse_iterator rbegin() { return reverse_iterator(this->_data + this->_size); }
             reverse_iterator rend() { return reverse_iterator(this->_data);}
             const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_data + this->_size); }
@@ -306,6 +313,7 @@ namespace ft{
 				this->_capacity = new_capacity;
 				this->_data = _newData;
 				this->_usedValues = this->_size;
+				this->_lastElement = this->_data + this->_size;
 			}
 
 			//iterator range
@@ -330,6 +338,7 @@ namespace ft{
 				{
 //					std::cerr << *it << std::endl;
 					v.push_back(*it);
+					this->_lastElement++;
 					
 				}
 //					std::cerr << "eeo" << std::endl;
@@ -429,6 +438,7 @@ namespace ft{
 				this->_usedValues = this->_size;
 				this->_capacity = _newCapacity;
 				this->_data = _newData;
+				this->_lastElement = this->_data + this->_size - 1;
 			}
 
 			//erase
@@ -439,53 +449,12 @@ namespace ft{
 				{
 					std::copy(pos + 1, it, pos);
 				}
+				if (this->_size)
+					this->_lastElement--;
 				this->_allocator.destroy(&this->_data[this->_size - 1]);
 				this->_size--;
 				return (pos);
 
-				/*
-				value_type*	_newData;
-				iterator	it;	
-				size_type	_newSize;
-
-				_newSize = 0;
-				if (this->_capacity > 1)
-					_newData = this->_allocator.allocate(this->_capacity - 1);
-				else
-				{
-					clear();
-					return this->end();
-				}
-//				else
-//				{
-//					this->_size = 0;					
-//					return iterator(this->_data);
-//				}
-				for (it = this->begin(); it != pos; it++)
-				{
-					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize]);
-					_newSize++;
-				}
-				iterator	return_iterator(_newData);
-				return_iterator += _newSize;
-				for (it = pos + 1; it != this->end(); it++)
-				{
-//					std::cout << "eeeoooo" << std::endl;
-					this->_allocator.construct(&_newData[_newSize], this->_data[_newSize + 1]);
-					_newSize++;
-				}
-
-				if (this->_capacity > 0)
-					destroy_and_deallocate();
-
-				this->_size = _newSize;
-				this->_usedValues = this->_size;
-				this->_data = _newData;
-				this->_capacity--;
-				if (return_iterator == this->end())
-					return (return_iterator - 1);
-				return (return_iterator);
-				*/
 			}
 
 			iterator erase( iterator first, iterator last )
@@ -496,8 +465,6 @@ namespace ft{
 				diff = last - first;
 				return_iterator = first;
 
-//				if (last == end())
-
 				iterator end = this->end();
 				if ( last != end)
 				{
@@ -506,10 +473,7 @@ namespace ft{
 				for (difference_type i = 0; i < diff; i++)
 					this->_allocator.destroy(&this->_data[this->_size - i - 1]);
 				this->_size -= diff;
-
-//				return (pos);
-//				for (difference_type i = 0; i < diff; i++)
-//					return_iterator = erase(return_iterator);
+				this->_lastElement -= diff;
 				return (first);
 			}
 			
@@ -517,28 +481,36 @@ namespace ft{
 
 			void		pop_back()
 			{
-
 				this->_allocator.destroy(&*(this->end() - 1));
 				this->_size--;
 				this->_usedValues--;
+				this->_lastElement--;
 			}
 
 			//swap
 			void	swap (vector& x)
 			{
 				value_type*	dataSwap;
+				value_type*	lastElementSwap;
 				size_type	capacitySwap;
 				size_type	sizeSwap;
 
 				dataSwap = this->_data;
 				this->_data = x._data;
 				x._data = dataSwap;
+
 				capacitySwap = this->_capacity;
 				this->_capacity = x._capacity;
 				x._capacity = capacitySwap;
+
 				sizeSwap = this->_size;
 				this->_size = x._size;
 				x._size = sizeSwap;
+
+				lastElementSwap = this->_lastElement;
+				this->_lastElement = x._lastElement;
+				x._lastElement = lastElementSwap;
+
 				this->_usedValues = this->_size;
 				x._usedValues = x._size;
 			}
@@ -589,6 +561,7 @@ namespace ft{
 				for (it = first; it != last; it++)
 				{
 					this->push_back(*it);
+					this->_lastElement++;
 				}
 
 			}
@@ -613,6 +586,7 @@ namespace ft{
 					this->_allocator.construct(&_data[i], *it);
 					i++;
 				}
+				this->_lastElement = this->_data + this->_size;
 			}
 
 			template <typename InputIterator>
@@ -629,6 +603,7 @@ namespace ft{
 				for (it = first; it != last; it++)
 				{
 					this->push_back(*it);
+					this->_lastElement++;
 				}
 
 			}
@@ -655,6 +630,7 @@ namespace ft{
 					for (size_t i = 0; i < this->_size; i++)
 						this->_allocator.destroy(&this->_data[i]);
 					this->_size = 0;
+					this->_lastElement = this->_data;
 					return ;
 				}
 				i = 0;
@@ -667,6 +643,7 @@ namespace ft{
 				this->_size = distance;
 				this->_capacity = new_capacity;
 				this->_data = new_data;
+				this->_lastElement = this->_data + this->_size;
 			}
 
 	};
