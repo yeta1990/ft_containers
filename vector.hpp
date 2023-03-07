@@ -91,6 +91,7 @@ namespace ft{
 				this->_data = 0;
 				this->_usedValues = 0;
 				_firstElement = _data;
+				_lastElement = _data;
 				this->resize(n, val);
 				_lastElement = _data + n;
 			};
@@ -101,6 +102,7 @@ namespace ft{
 
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 				vector_constructor_range(first, last, iter_category());
+				this->_lastElement = this->_data + this->_size;
 			}
 
 
@@ -322,10 +324,26 @@ namespace ft{
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 
 				insert_iterator(position, first, last, iter_category());
+				this->_lastElement = this->_data + this->_size;
 			}
 
 			template <class InputIterator>
-			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag)
+			void insert_iterator(iterator position, InputIterator first, InputIterator last,std::input_iterator_tag) 
+			{
+				vector	v(begin(), position);
+				InputIterator it;
+				for (it = first; it != last; it++)
+				{
+					v.push_back(*it);
+					
+				}
+				if (position != end())
+					v.insert(v.end(), position, end());
+				*this = v;
+			}
+
+			template <class InputIterator>
+			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::bidirectional_iterator_tag) 
 			{
 				vector	v(begin(), position);
 				InputIterator it;
@@ -350,6 +368,7 @@ namespace ft{
 				size_type	i;
 
 				diff = std::distance(first, last);
+//				diff = last - first;
 				pointer res;
 				res = this->_allocator.allocate(diff);
 				InputIterator iter;	
@@ -389,7 +408,7 @@ namespace ft{
 					i++;
 				}
 					
-				for (difference_type j = 0; j < diff; j++)
+				for (size_type j = 0; j < diff; j++)
 				{
 					this->_allocator.construct(&_newData[i], *first);
 					first++;
