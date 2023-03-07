@@ -130,19 +130,17 @@ namespace ft{
 				destroy_and_deallocate();
 				this->_size = other.size();
 				this->_capacity = this->_size;
-				this->_lastElement = other._lastElement;
+
 				this->_usedValues = this->_size;
 				this->_allocator = vector::allocator_type();
 				if (this->_capacity > 0)
 					this->_data = this->_allocator.allocate(this->_capacity);
-//				else
-//					this->_data = 0;
-
 				for (size_type i = 0; i < this->_size; i++)
 				{
 					this->_allocator.construct(&_data[i], *it);
 					it++;
 				}
+				this->_lastElement = this->_data + this->_size;
 				return (*this);
 			}
 
@@ -170,9 +168,9 @@ namespace ft{
 
 			const_reference at(size_type n) const
 			{
-	if (!(n < this->_size))
-		throw (std::out_of_range("vector"));
-	return (this->_data[n]);
+				if (!(n < this->_size))
+					throw (std::out_of_range("vector"));
+				return (this->_data[n]);
 
 			}
 
@@ -329,44 +327,16 @@ namespace ft{
 			template <class InputIterator>
 			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag)
 			{
-
-//				std::cerr << std::distance(first, last) << std::endl;
-
 				vector	v(begin(), position);
 				InputIterator it;
 				for (it = first; it != last; it++)
 				{
-//					std::cerr << *it << std::endl;
 					v.push_back(*it);
-					this->_lastElement++;
 					
 				}
-//					std::cerr << "eeo" << std::endl;
-
-					
-//					std::cerr << "eeo" << std::endl;
 				if (position != end())
 					v.insert(v.end(), position, end());
 				*this = v;
-			/*	iterator	it;	
-				size_type	space_left;
-
-				space_left = std::distance(position + 1, end());
-				size_type	first_segment;
-				
-				first_segment = std::distance(begin(), position);
-				for (size_type i = first_segment; i < space_left)
-					this->_allocator.destroy(&this->_data[i - 1]);
-
-
-				for (size_type i = first; i < space left; i++)
-				{
-					if (first == last)
-						break ;
-					this->_allocator.construct(first, this->_data[i]);
-				}
-*/
-
 			}
 
 			template <class InputIterator>
@@ -561,7 +531,7 @@ namespace ft{
 				for (it = first; it != last; it++)
 				{
 					this->push_back(*it);
-					this->_lastElement++;
+//					this->_lastElement++;
 				}
 
 			}
@@ -603,7 +573,7 @@ namespace ft{
 				for (it = first; it != last; it++)
 				{
 					this->push_back(*it);
-					this->_lastElement++;
+//					this->_lastElement++;
 				}
 
 			}

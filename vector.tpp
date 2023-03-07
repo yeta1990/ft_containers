@@ -41,10 +41,11 @@ void	vector<T, Allocator>::expansor(size_type new_capacity)
 	}
 	copyDataToOtherObject(_newData);
 	destroy_and_deallocate();
-	_firstElement = _data;
-	setLastElement();
+//	_firstElement = _data;
+//	setLastElement();
 	this->_data = _newData;
 	this->_capacity = new_capacity;
+	this->_lastElement = this->_data + this->_size;
 
 }
 
@@ -124,6 +125,7 @@ void	vector<T, Allocator>::clear()
 	for (size_t i = 0; i < this->_size; i++)
 		this->_allocator.destroy(&this->_data[i]);
 	this->_size = 0;
+	this->_lastElement = this->_data;
 }
 
 
