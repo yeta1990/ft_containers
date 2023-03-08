@@ -25,6 +25,7 @@ void	vector<T, Allocator>::destroy_and_deallocate(void)
 	}
 }
 
+
 template <class T, class Allocator>
 void	vector<T, Allocator>::expansor(size_type new_capacity)
 {
@@ -36,9 +37,12 @@ void	vector<T, Allocator>::expansor(size_type new_capacity)
 	_newData = this->_allocator.allocate(new_capacity);
 	}
 	catch (std::bad_alloc &e)
+//	catch (std::exception &e)
 	{
 		throw (std::length_error("vector exceeds maximum supported size"));
 	}
+
+
 	copyDataToOtherObject(_newData);
 	destroy_and_deallocate();
 //	_firstElement = _data;
@@ -111,7 +115,17 @@ void	vector<T, Allocator>::assign(size_type n, const value_type& val)
 //		this->_usedValues = this->_size;
 //		this->_capacity = n;
 //	}
-	this->_data = this->_allocator.allocate(this->_capacity);
+	try	
+	{
+		this->_data = this->_allocator.allocate(this->_capacity);
+	}
+	catch (std::bad_alloc &e)
+//	catch (std::exception &e)
+	{
+		throw (std::length_error("vector exceeds maximum supported size"));
+	}
+
+//	this->_data = this->_allocator.allocate(this->_capacity);
 	for (size_type i = 0; i < n; i++)
 		this->_allocator.construct(&_data[i], val);
 	this->_usedValues = this->_size;

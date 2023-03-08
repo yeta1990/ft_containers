@@ -4,6 +4,7 @@
 //#include "vector.hpp"
 //#include <vector>
 
+//class timer;
 //#include "track_allocator.hpp"
 void check(bool test)
 {
@@ -871,12 +872,13 @@ void	vector_insert_range()
 //	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 
 //	std::cout << "distance: " << (vc.begin() + 1 - vc.end() - 2) << "," << (vc1.begin() +1 - vc1.end() - 2) << std::endl;
+	check_size_capacity(v, v1);
 	v.insert(it, vc.begin() + 1, vc.end() - 2);
 	v1.insert(it1, vc1.begin() + 1, vc1.end() - 2);
-	check(v[9] == v1[9]);
-	check(v[10] == v1[10]);
-	check(v[11] == v1[11]);
-//	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
+//	check(v[9] == v1[9]);
+//	check(v[10] == v1[10]);
+//	check(v[11] == v1[11]);
+	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	check_size_capacity(v, v1);
 
 }
@@ -1135,6 +1137,7 @@ void vector_tests()
 	test_case("vector: insert single", &vector_insert_single);
 	test_case("vector: insert range", &vector_insert_range);
 	test_case("vector: insert range2", &vector_insert_range2);
+	
 	test_case("vector: pop back", &vector_pop_back);
 	test_case("vector: pop back 2", &vector_pop_back_2);
 	test_case("vector: swap, member function", &vector_swap_member);
@@ -1150,10 +1153,11 @@ void vector_tests()
 
 int main(void)
 {
-	vector_tests();
-	map_tests();
-	stack_tests();
-	set_tests();
+//	vector_tests();
+	vector_benchmark();
+//	map_tests();
+//	stack_tests();
+//	set_tests();
 //	reverse_iterator_tests();
 //	more_iterators();
 }

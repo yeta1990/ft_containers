@@ -211,6 +211,7 @@ namespace ft{
 			//capacity/
 			size_type 	size() const {return (this->_size);};
 			size_type 	max_size() const {return (this->_allocator.max_size());};
+
 			void		resize(size_type n, value_type val = value_type());
 			size_type 	capacity() const {return (this->_capacity);};
 			bool 		empty() const {return (this->_size == 0 ? true : false);};
@@ -247,6 +248,11 @@ namespace ft{
 				i = 0;
 				for (it = this->begin(); it != pos; it++)
 					i++;
+				if (pos == end())
+				{
+					push_back(value);
+					return (this->end() - 1);
+				}
 				insert(pos, 1, value);
 				it = this->begin() + i;
 				return (it);
@@ -330,27 +336,12 @@ namespace ft{
 			template <class InputIterator>
 			void insert_iterator(iterator position, InputIterator first, InputIterator last,std::input_iterator_tag) 
 			{
+//				std::cout << "----->inserting here" << std::endl;
 				vector	v(begin(), position);
 				InputIterator it;
 				for (it = first; it != last; it++)
 				{
 					v.push_back(*it);
-					
-				}
-				if (position != end())
-					v.insert(v.end(), position, end());
-				*this = v;
-			}
-
-			template <class InputIterator>
-			void insert_iterator(iterator position, InputIterator first, InputIterator last, std::bidirectional_iterator_tag) 
-			{
-				vector	v(begin(), position);
-				InputIterator it;
-				for (it = first; it != last; it++)
-				{
-					v.push_back(*it);
-					
 				}
 				if (position != end())
 					v.insert(v.end(), position, end());
@@ -367,14 +358,18 @@ namespace ft{
 				size_type	_newCapacity ;
 				size_type	i;
 
+//				std::cout << "inserting here" << std::endl;
 				diff = std::distance(first, last);
-//				diff = last - first;
+
+/*
 				pointer res;
 				res = this->_allocator.allocate(diff);
+
 				InputIterator iter;	
 				bool valid;
 				valid = true;	
 				difference_type j = 0;
+
 				for (iter = first; iter != last; iter++)
 				{
 					try { res[j] = *iter; }
@@ -382,12 +377,12 @@ namespace ft{
 					j++;
 				}
 				this->_allocator.deallocate(res, diff);
-				if (!valid)
-					throw std::exception();
+*/
+//				if (!valid)
+//					throw std::exception();
 
 				_newSize = this->_size + diff;
 				_newCapacity = std::max(this->_capacity * 2, _newSize);
-
 				try	
 				{
 					if (_newCapacity > 0)
@@ -408,7 +403,7 @@ namespace ft{
 					i++;
 				}
 					
-				for (size_type j = 0; j < diff; j++)
+				for (difference_type j = 0; j < diff; j++)
 				{
 					this->_allocator.construct(&_newData[i], *first);
 					first++;
@@ -433,14 +428,21 @@ namespace ft{
 			//erase
 			iterator erase( iterator pos )
 			{
+//				value_type*			_element;
+
+//				_element = &this->_data[std::distance(begin(), pos) - 1];
+
 				iterator it = this->end();
-				if ( pos + 1 != it)
+				
+				if ( pos != it && pos + 1 != it)
 				{
+//					std::memmove(pos.getData(), (pos + 1).getData(), std::distance(pos + 1, end()));
 					std::copy(pos + 1, it, pos);
 				}
 				if (this->_size)
 					this->_lastElement--;
 				this->_allocator.destroy(&this->_data[this->_size - 1]);
+//				this->_allocator.destroy(_element);
 				this->_size--;
 				return (pos);
 
@@ -465,7 +467,7 @@ namespace ft{
 				this->_lastElement -= diff;
 				return (first);
 			}
-			
+
 			void		push_back(const value_type& val);
 
 			void		pop_back()

@@ -384,45 +384,6 @@ void	map_copy_constructor()
 //	std::cout << "------" << std::endl;
 }
 
-#include <ctime>
-//#include <ratio>
-
-#include <sys/time.h>
-class timer
-{
-public:
-    timer();
-
-public:
-    long get_time();
-    void reset();
-
-private:
-    struct timeval stamp;
-};
-
-timer::timer()
-{
-    reset();
-}
-
-long timer::get_time()
-{
-    struct timeval now;
-    struct timeval diff;
-
-    gettimeofday(&now, NULL);
-    timersub(&now, &stamp, &diff);
-
-    return diff.tv_sec * 1000 + diff.tv_usec / 1000;
-}
-
-void timer::reset()
-{
-    gettimeofday(&stamp, NULL);
-}
-
-timer	t;
 
 void	map_insert_times()
 {
@@ -436,8 +397,8 @@ void	map_insert_times()
 //        smp.insert(std::make_pair(i, j));
         
 //    }
+//
 /*    
-
 	std::cout << "insert 1 to 1" << std::endl;
 	std::map<int, int>	map1;
 	ft::map<int, int>	map2;
@@ -466,7 +427,7 @@ void	map_insert_times()
 	*/
 
 }
-
+/*
 void	map_vs_vector()
 {
     ft::map<int, int>	map;
@@ -498,6 +459,7 @@ void	map_vs_vector()
 
 
 }
+*/
 
 void	map_copy_constructor2()
 {
@@ -514,13 +476,13 @@ void	map_copy_constructor2()
         smp.insert(std::make_pair(i, j));
         
     }
-    t = timer();
+//    t = timer();
 	ft::map<int, int> mp2(mp.begin(), mp.end());
-	std::cout << t.get_time() << std::endl;
+//	std::cout << t.get_time() << std::endl;
 
-    t = timer();
+//    t = timer();
 	std::map<int, int> mp3(smp.begin(), smp.end());
-	std::cout << t.get_time() << std::endl;
+//	std::cout << t.get_time() << std::endl;
 
 
 	std::cout << mp2.size() << "," << mp3.size() << std::endl; 

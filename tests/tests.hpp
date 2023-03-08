@@ -7,6 +7,8 @@
 
 void check(bool test);
 
+
+
 template <class T>
 void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1);
 
@@ -17,6 +19,7 @@ void	map_tests();
 void	stack_tests();
 void	set_tests();
 void	map_constructor();
+void	vector_benchmark();
 
 /*
 std::string s_string[32] = {                                                                   \
