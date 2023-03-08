@@ -266,9 +266,16 @@ namespace ft{
 				iterator	it;
 				size_type	_newSize;
 				size_type	i;
-
 				size_t new_capacity;
 
+				if (pos == end())
+				{
+					for (size_type i = 0; i < n; i++)
+					{
+						push_back(value);
+					}
+					return ;
+				}
 				if (n <= 0)
 					return ;
 				_newSize = this->_size + n;
