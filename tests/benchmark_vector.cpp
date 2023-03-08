@@ -2,6 +2,7 @@
 #include "tests.hpp"
 #include <ctime>
 #include <sys/time.h>
+#include <limits>
 class timer
 {
 public:
@@ -38,8 +39,8 @@ void timer::reset()
 
 timer	t;
 
-//unsigned long _ratio = 300000;
-unsigned long _ratio = 300;
+unsigned long _ratio = 1000000;
+//unsigned long _ratio = 300;
 
 void	vec_b_insert()
 {
@@ -117,7 +118,7 @@ void	vec_b_erase()
 
 void	vec_b_insert_heavy()
 {
-
+/*
     for (int i = 0; i < 2; ++i) {
         ft::vector<int> v;
 
@@ -128,12 +129,48 @@ void	vec_b_insert_heavy()
         }
 //        BLOCK_OPTIMIZATION(v);
     }
+    */
+}
+
+void	vec_b_erase_value()
+{
+	ft::vector<int> vector;
+	std::vector<int> vector1;
+    std::vector<int> v;
+   
+    for (unsigned int i = 0; i < 9900 * _ratio; ++i)
+    {
+        vector.push_back(i);
+        vector1.push_back(i);
+    }
+    
+    t = timer();
+    v.push_back(*(vector.erase(vector.begin() + 8 * _ratio)));
+	std::cout << "ft: " << t.get_time();
+
+    v.clear();
+
+    t = timer();
+    v.push_back(*(vector1.erase(vector1.begin() + 8 * _ratio)));
+	std::cout << "std: " << t.get_time();
+//    v.push_back(*(vector.begin() + 82 * _ratio));
+//    v.push_back(vector.size());
+//    v.push_back(vector.capacity());
+	
+}
+
+
+void	vec_b_swap()
+{
+
 }
 
 void	vector_benchmark()
 {
 //	test_case("vector: benchmark insert std iterators->", &vec_b_insert);
 //	test_case("vector: benchmark insert std iterators->", &vec_b_erase);
-	test_case("vector: benchmark insert std iterators->", &vec_b_insert_heavy);
+//	test_case("vector: benchmark insert std iterators->", &vec_b_insert_heavy);
+	test_case("vector: benchmark erase std iterators->", &vec_b_erase_value);
+	test_case("vector: benchmark swap std iterators->", &vec_b_swap);
 
 }
