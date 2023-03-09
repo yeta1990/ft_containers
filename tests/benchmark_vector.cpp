@@ -1,45 +1,8 @@
-
 #include "tests.hpp"
-#include <ctime>
-#include <sys/time.h>
 #include <limits>
-class timer
-{
-public:
-    timer();
+#include "benchmarks.hpp"
 
-public:
-    long get_time();
-    void reset();
-
-private:
-    struct timeval stamp;
-};
-
-timer::timer()
-{
-    reset();
-}
-
-long timer::get_time()
-{
-    struct timeval now;
-    struct timeval diff;
-
-    gettimeofday(&now, NULL);
-    timersub(&now, &stamp, &diff);
-
-    return diff.tv_sec * 1000 + diff.tv_usec / 1000;
-}
-
-void timer::reset()
-{
-    gettimeofday(&stamp, NULL);
-}
-
-timer	t;
-
-unsigned long _ratio = 100000;
+class timer;
 
 void	vec_b_insert()
 {
@@ -109,8 +72,7 @@ void	vec_b_erase()
 
 }
 
-#define MAXRAM (std::numeric_limits<int>::max())
-#define MAXSIZE ((std::size_t)MAXRAM / sizeof(int))
+
 
 void	vec_b_insert_heavy()
 {

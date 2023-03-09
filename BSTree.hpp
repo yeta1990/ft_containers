@@ -237,17 +237,23 @@ class BSTree{
 
 		iterator	begin()
 		{
+			/*
 			node*	found;
 			found = getLowestNode();
 
 			return (iterator(found, sentinel));
+			*/
+			return (iterator(sentinel->left, sentinel));
 		}
 
 		const_iterator	begin() const
 		{
+			/*
 			if (this->_size == 0)
 				return (const_iterator(sentinel, sentinel));
 			return (const_iterator(getLowestNodeFrom(root), sentinel));
+			*/
+			return (const_iterator(sentinel->left, sentinel));
 		}
 
 		const_iterator	end() const
@@ -284,6 +290,7 @@ class BSTree{
 		void			freeTree(node *root);
 		node			*getMaxNode(node *node);
 		node			*getMinNode(node *node);
+		void			updateSentinelMinMax();
 		node			*findNode(typename value_type::first_type key) const;
 
 
@@ -419,7 +426,7 @@ class BSTree{
 					}
 					else
 					{
-						if (z == z->parent->left)
+						if (z == z->parent->left && z->parent != sentinel)
 						{
 							z = z->parent;
 							rightRotate(z);
@@ -431,7 +438,7 @@ class BSTree{
 				}
 			}
 			root->color = 'b';
-			sentinel->right = root;
+//			sentinel->right = root;
 //			std::cout << "fixup" << std::endl;
 //			std::cout << "fixup" << std::endl;
 		}
@@ -529,7 +536,10 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 	{
 		this->root = sentinel;
 		this->sentinel->right = this->root;
+		this->sentinel->left = this->root;
 	}
+	else
+		updateSentinelMinMax();
 }
 
 template <class T, class Alloc, class Comp>
@@ -598,18 +608,15 @@ size_t	BSTree<T, Alloc, Comp>::size() const
 template <class T, class Alloc, class Comp>
 BSTree<T, Alloc, Comp>::~BSTree()
 {
-//	std::cout << "chaoo" << std::endl;
 	if (this->root && this->root != sentinel)
 	{		
 		this->freeTree(this->root);
 		this->root = NULL;
 	}
-
 	if (sentinel)
 	{
 		n_alloc.destroy(sentinel);
 		n_alloc.deallocate(sentinel, 1);
-//		delete sentinel;
 		sentinel = NULL;
 	}
 	
@@ -618,20 +625,15 @@ BSTree<T, Alloc, Comp>::~BSTree()
 template <class T, class Alloc, class Comp>
 void BSTree<T, Alloc, Comp>::freeTree(node *r)
 {
-//	std::cout << "free tree" << std::endl;
-//	return; 
 	if (!r || r == sentinel)
 		return;
 	if (r->left && r->left != sentinel)
 		freeTree(r->left);
 	if (r->right && r->right != sentinel)
 		freeTree(r->right);
-//	if (r != sentinel)
-//	{
 	n_alloc.destroy(r);
 	n_alloc.deallocate(r, 1);
 	_size--;
-//	}
 	r = NULL;
 }
 
@@ -644,25 +646,16 @@ typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::insert(const ty
 template <class T, class Alloc, class Comp>
 typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T> **r)
 {
-//	std::cout << "inserting" << std::endl;
 	key_compare comp = Comp();
 	Node<T>	*y = sentinel;
 	Node<T>	*x = *r;
 
 	Node<T>	*insert = n_alloc.allocate(1);
-//	n_alloc.construct(insert, node(new value_type(p), sentinel));
 	n_alloc.construct(insert, node(p, sentinel));
 
-//	insert->content = new value_type(p);
 	insert->color = 'r';
 	insert->right = sentinel;
 	insert->left = sentinel;
-
-//	this->sentinel = sen;
-//	this->root = sentinel;
-
-//	Node<T>	*insert = new Node<T>(new value_type(p), sentinel);
-
 	while (x != sentinel)
 	{
 		y = x;
@@ -672,7 +665,6 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 		{
 			n_alloc.destroy(insert);
 			n_alloc.deallocate(insert, 1);
-//			delete insert;
 			return (x);
 		}
 		else
@@ -683,6 +675,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 	{
 		*r = insert;
 		sentinel->right = insert;
+		sentinel->left = insert;
 	}
 	else if (comp(insert->getContent()->first, y->getContent()->first))
 		y->left = insert;
@@ -690,10 +683,18 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 		y->right = insert;
 	this->_size++;
 	insertFixup(insert);
-//	std::cout << "insert " << insert->content->first  << ", color " << insert->color << std::endl;
-//	insert-fixup(insert);
+	if (y != sentinel)
+		updateSentinelMinMax();
 	return (insert);
 }
+
+template <class T, class Alloc, class Comp>
+void BSTree<T, Alloc, Comp>::updateSentinelMinMax()
+{
+	sentinel->left = getMinNode(root);
+	sentinel->right = getMaxNode(root);
+}
+
 
 }//end of ft namespace
 

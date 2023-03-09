@@ -98,7 +98,7 @@ namespace ft{
 
 			//range constructor			
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0) : _allocator(alloc) { 
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0) : _allocator(alloc) { 
 
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 				vector_constructor_range(first, last, iter_category());
@@ -230,7 +230,7 @@ namespace ft{
 			//https://stackoverflow.com/questions/61889111/own-vector-assign-implementation
 			//https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-4.1/stl__vector_8h-source.html#l00315
 			template <class InputIterator> 
-			void 	assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
+			void 	assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 			{
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 
@@ -331,7 +331,7 @@ namespace ft{
 
 			//iterator range
 			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value >::type* = 0)
+			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 			{
 
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;

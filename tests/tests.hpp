@@ -20,6 +20,7 @@ void	stack_tests();
 void	set_tests();
 void	map_constructor();
 void	vector_benchmark();
+void	map_benchmark();
 
 /*
 std::string s_string[32] = {                                                                   \
