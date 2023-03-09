@@ -268,14 +268,6 @@ namespace ft{
 				size_type	i;
 				size_t new_capacity;
 
-				if (pos == end())
-				{
-					for (size_type i = 0; i < n; i++)
-					{
-						push_back(value);
-					}
-					return ;
-				}
 				if (n <= 0)
 					return ;
 				_newSize = this->_size + n;
@@ -284,6 +276,14 @@ namespace ft{
 //				else
 				new_capacity = std::max(this->_capacity * 2, this->_size + n);
 
+				if (pos == end())
+				{
+					for (size_type i = 0; i < n; i++)
+					{
+						push_back_with_custom_capacity(value, new_capacity);
+					}
+					return ;
+				}
 //				std::cout << "new size: " << _newSize << "new capacity " << new_capacity;
 				try
 				{
@@ -536,6 +536,7 @@ namespace ft{
 				for (size_type i = 0; i < this->_size; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
+			void	push_back_with_custom_capacity(const T& val, size_type custom_capacity);
 
 			void			setLastElement(void)
 			{

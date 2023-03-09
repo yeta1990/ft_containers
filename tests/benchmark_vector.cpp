@@ -112,9 +112,9 @@ void	vec_b_erase()
 
 }
 
-#define MAXRAM (std::numeric_limits<int>::max())
-#define MAXSIZE ((std::size_t)MAXRAM / sizeof(int))
-
+//#define MAXRAM (std::numeric_limits<int>::max())
+//#define MAXSIZE ((std::size_t)MAXRAM / sizeof(int))
+/*
 void	vec_b_insert_heavy()
 {
 
@@ -129,11 +129,11 @@ void	vec_b_insert_heavy()
 //        BLOCK_OPTIMIZATION(v);
     }
 }
-
+*/
 void	vector_benchmark()
 {
 //	test_case("vector: benchmark insert std iterators->", &vec_b_insert);
 //	test_case("vector: benchmark insert std iterators->", &vec_b_erase);
-	test_case("vector: benchmark insert std iterators->", &vec_b_insert_heavy);
+//	test_case("vector: benchmark insert std iterators->", &vec_b_insert_heavy);
 
 }
