@@ -162,6 +162,8 @@ class BSTree{
 			}
 
 			this->root = sentinel;	
+			this->sentinel->right = sentinel;
+			this->sentinel->left = sentinel;
 			this->_size = 0;
 		}
 		size_t	size() const;
