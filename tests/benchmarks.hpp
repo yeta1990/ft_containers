@@ -38,6 +38,7 @@ private:
 };
 
 static timer	t;
-static unsigned long _ratio = 100000;
+static unsigned long _ratio = 100;
+//static unsigned long _ratio = 100000;
 
 #endif

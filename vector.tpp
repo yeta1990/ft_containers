@@ -65,6 +65,17 @@ void	vector<T, Allocator>::push_back(const T& val)
 }
 
 template <class T, class Allocator>
+void	vector<T, Allocator>::push_back_with_custom_capacity(const T& val, size_type custom_capacity)
+{
+	if (custom_capacity > this->_capacity)
+		expandCapacity(custom_capacity);
+	_size++;
+	this->_usedValues++;
+	this->_allocator.construct(&this->_data[this->_size - 1], val);
+	this->_lastElement++;
+}
+
+template <class T, class Allocator>
 void	vector<T, Allocator>::resize(size_type n, value_type val)
 {
 //	std::cout << "------resizing to " << n << std::endl;
@@ -73,9 +84,12 @@ void	vector<T, Allocator>::resize(size_type n, value_type val)
 	{
 		erase(this->begin() + n, end());
 	}
-	else
+	else if (n > 0)
 	{
-		insert(end(), n - this->_size, val);
+		size_type old_size = this->_size;
+		for (size_type i = 0; i < n - old_size; i++)
+			push_back_with_custom_capacity(val, n);
+//		insert(end(), n - this->_size, val);
 	}
 
 }

@@ -131,11 +131,15 @@ void vector_resize2()
 	v1.resize(200);
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
+//		std::cout << "size " << v.size() << "," << v1.size() << std::endl;
+//		std::cout << "capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 
 	v.resize(202);
 	v1.resize(202);
 	check(v.size() == v1.size());
 	check(v.capacity() == v1.capacity());
+//		std::cout << "size " << v.size() << "," << v1.size() << std::endl;
+//		std::cout << "capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	v.resize(400);
 	v1.resize(400);
 	check(v.size() == v1.size());
@@ -1156,9 +1160,9 @@ void vector_tests()
 
 int main(void)
 {
-//	vector_tests();
-//	vector_benchmark();
-	map_benchmark();
+	vector_tests();
+	vector_benchmark();
+//	map_benchmark();
 //	map_tests();
 //	stack_tests();
 //	set_tests();

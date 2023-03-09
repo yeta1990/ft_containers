@@ -4,6 +4,8 @@
 
 class timer;
 
+//_ratio = 100;
+
 void	vec_b_insert()
 {
 	ft::vector<int> vector;
@@ -71,7 +73,6 @@ void	vec_b_erase()
 //    check_size_capacity(
 
 }
-
 
 
 void	vec_b_insert_heavy()
