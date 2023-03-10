@@ -475,6 +475,7 @@ class BSTree{
 //			std::cout << "fixup" << std::endl;
 		}
 
+		void	deleteFixup(node *replaced);
 
 		//currently unused:
 		size_t			count_nodes(const Node<T> *root) const;
@@ -600,17 +601,93 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 	
 	n_alloc.destroy(old_node);
 	n_alloc.deallocate(old_node, 1);
-//	delete old_node;
 	this->_size--;
 	if (this->_size == 0)
 	{
 		this->root = sentinel;
 		this->sentinel->right = this->root;
 		this->sentinel->left = this->root;
+		return ;
 	}
-	else
-		updateSentinelMinMax();
+	if (y_original_color == 'b')
+		deleteFixup(x);
+	updateSentinelMinMax();
 }
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::deleteFixup(node *replaced)
+{
+	node*	x;
+	node*	w; //sibling
+
+	x = replaced;
+	while (x != root && x->color == 'b')
+	{
+		if (x == x->parent->left)
+		{
+			w = x->parent->right;
+			if (w->color == 'r')
+			{
+				w->color = 'b';
+				x->parent->color = 'r';
+				leftRotate(x->parent);
+				w = x->parent->right;
+			}
+			if (w->left->color == 'b' && w->right->color == 'b')
+			{
+				w->color = 'r';
+				x = x->parent;
+			}
+			else 
+			{
+				if (w->right->color == 'b')
+				{
+					w->left->color = 'b';
+					w->color = 'r';
+					rightRotate(w);
+					w = x->parent->right;
+				}
+				w->color = x->parent->color;
+				x->parent->color = 'b';
+				w->right->color = 'b';
+				leftRotate(x->parent);
+				x = root;
+			}
+		}
+		else
+		{
+			w = x->parent->left;
+			if (w->color == 'r')
+			{
+				w->color = 'b';
+				x->parent->color = 'r';
+				rightRotate(x->parent);
+				w = x->parent->left;
+			}
+			if (w->right->color == 'b' && w->left->color == 'b')
+			{
+				w->color = 'r';
+				x = x->parent;
+			}
+			else 
+			{
+				if (w->left->color == 'b')
+				{
+					w->right->color = 'b';
+					w->color = 'r';
+					leftRotate(w);
+					w = x->parent->left;
+				}
+				w->color = x->parent->color;
+				x->parent->color = 'b';
+				w->left->color = 'b';
+				rightRotate(x->parent);
+				x = root;
+			}
+		}
+	}
+	x->color = 'b';
+}
+
 /*
 template <class T, class Alloc, class Comp>
 void	BSTree<T, Alloc, Comp>::del(node *node)
