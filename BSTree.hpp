@@ -398,9 +398,9 @@ class BSTree{
 			if (node == sentinel)
 				return ;
 			printorder(node->left);
-			if (node == root)
+//			if (node == root)
 //				std::cout << "root : ";
-//			std::cout << "." << node->content->first << "," << node->color << "," << node->parent->content->first << std::endl;
+			std::cout << "." << node->content.first << "," << node->color << "," << node->parent->content.first << std::endl;
 
 			printorder(node->right);
 		}
@@ -634,7 +634,11 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findLowerBoundNod
 			node = node->left;
 		}
 		else if (node && node->right && comp(node->getContent()->first, key))
+		{
+			if (node->right == sentinel)
+				return (getNextElement(node));
 			node = node->right;
+		}
 	}
 	return (node);
 }
@@ -656,7 +660,11 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findUpperBoundNod
 			node = node->left;
 		}
 		else if (node && node->right && comp(node->getContent()->first, key))
+		{
+			if (node->right == sentinel)
+				return (getNextElement(node));
 			node = node->right;
+		}
 		else if (node && node->getContent()->first == key)
 			return (getNextElement(node));
 	}
