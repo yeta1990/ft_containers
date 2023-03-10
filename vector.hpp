@@ -274,8 +274,17 @@ namespace ft{
 //				if (_newSize <= this->_capacity)
 //					new_capacity = _newSize;
 //				else
-				new_capacity = std::max(this->_capacity * 2, this->_size + n);
 
+				if (pos == end() && this->_size + n < this->max_size())
+				{
+					for (size_type i = 0; i < n; i++)
+					{
+						push_back_with_custom_capacity(value, this->_size + n);
+					}
+					return ;
+				}
+				new_capacity = std::max(this->_capacity * 2, this->_size + n);
+/*
 				if (pos == end() && new_capacity < this->max_size())
 				{
 					for (size_type i = 0; i < n; i++)
@@ -284,6 +293,8 @@ namespace ft{
 					}
 					return ;
 				}
+				*/
+				
 //				std::cout << "new size: " << _newSize << "new capacity " << new_capacity;
 				try
 				{
