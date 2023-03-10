@@ -1024,15 +1024,15 @@ void	map_lower_bound()
 {
 	std::map<int, int> map = create_std_map();
 	ft::map<int, int> map1 = create_map();
-	map1.printmap();
+//	map1.printmap();
 	std::map<int, int>::iterator it;
 	ft::map<int, int>::iterator it1;
 
 	it = map.lower_bound(7);
 	it1 = map1.lower_bound(7);
 	check((*it).first == (*it1).first);
-	std::cout << (*it).first << std::endl;
-	std::cout << (*it1).first << std::endl;
+//	std::cout << (*it).first << std::endl;
+//	std::cout << (*it1).first << std::endl;
 
 	it = map.lower_bound(-10);
 	it1 = map1.lower_bound(-10);

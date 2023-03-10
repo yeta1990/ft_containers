@@ -514,8 +514,7 @@ bool	BSTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
 	del(node);
 	return (old_size - _size);
 }
-
-//template <class T>
+/*
 template <class T, class Alloc, class Comp>
 void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
 {
@@ -531,8 +530,88 @@ void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
 	if (v != sentinel)
 		v->parent = u->parent;
 }
+*/
 
-//template <class T>
+//new transplant
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
+{
+	if (u->parent == sentinel)
+	{
+		this->root = v;
+//		sentinel->right = this->root;
+	}
+	else if (u == u->parent->left)
+		u->parent->left = v;
+	else
+		u->parent->right = v;
+//	if (v != sentinel)
+		v->parent = u->parent;
+}
+template <class T, class Alloc, class Comp>
+void	BSTree<T, Alloc, Comp>::del(node *node)
+{
+	Node<T>*	y;
+	Node<T>*	x;
+	Node<T>*	old_node;
+	bool		y_original_color;
+
+	old_node = node;
+	y = node;
+	y_original_color = y->color;
+	if (!node)
+		return;
+	if (node->left == sentinel)
+	{
+		x = node->right;
+		transplant(node, node->right);
+	}
+	else if (node->right == sentinel)
+	{
+		x = node->left;
+		transplant(node, node->left);
+	}
+	else if (node)
+	{
+		y = getMinNode(node->right);
+		y_original_color = y->color;
+		x = y->right;
+		if (y->parent == node)		
+			x->parent = y;
+		else
+		{
+			transplant(y, y->right);
+			y->right = node->right;
+			y->right->parent = y;
+		}
+
+	/*	if (y->parent != node)
+		{
+			transplant(y, y->right);
+			y->right = node->right;
+			y->right->parent = y;
+		}
+		*/
+		transplant(node, y);
+		y->left = node->left;
+		y->left->parent = y;
+		y->color = node->color;
+	}
+	
+	n_alloc.destroy(old_node);
+	n_alloc.deallocate(old_node, 1);
+//	delete old_node;
+	this->_size--;
+	if (this->_size == 0)
+	{
+		this->root = sentinel;
+		this->sentinel->right = this->root;
+		this->sentinel->left = this->root;
+	}
+	else
+		updateSentinelMinMax();
+}
+/*
 template <class T, class Alloc, class Comp>
 void	BSTree<T, Alloc, Comp>::del(node *node)
 {
@@ -573,7 +652,7 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 	else
 		updateSentinelMinMax();
 }
-
+*/
 template <class T, class Alloc, class Comp>
 typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T> *node)
 {
