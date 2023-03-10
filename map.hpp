@@ -89,7 +89,7 @@ namespace ft{
 		{
 			this->_allocator = other.get_allocator();
 			this->_comp = key_compare();
-			_tree.clear();
+			this->_tree.clear();
 			insert(other.begin(), other.end());
 			return (*this);
 		}
@@ -101,14 +101,6 @@ namespace ft{
 
 		~map() { 
 			
-////			std::cout << "map destructor" << std::endl;
-//			this->_tree->clear(); 
-//			tree_alloc c;
-//			c.destroy(_tree);
-//			c.deallocate(_tree, 1);
-			
-//			delete this->_tree; 
-//			this->_tree = NULL;
 		}
 
 		//capacity
@@ -132,7 +124,7 @@ namespace ft{
 			node *found;
 
 			found = this->_tree._find(k);
-			if (found == _tree.getSentinel())
+			if (found == this->_tree.getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->getContent()->second);
 		}
@@ -142,7 +134,7 @@ namespace ft{
 			const_node *found;
 
 			found = this->_tree._find(k);
-			if (found == _tree.getSentinel())
+			if (found == this->_tree.getSentinel())
 				throw (std::out_of_range("map::at"));
 			return (found->getContent()->second);
 		}
@@ -154,7 +146,7 @@ namespace ft{
 			size_type	old_size;
 
 			old_size = this->size();
-			new_inserted = _tree.insert(p);
+			new_inserted = this->_tree.insert(p);
 			return (ft::make_pair<iterator, bool> (iterator(new_inserted, this->_tree.getSentinel()), (old_size < this->size())));
 		}
 
@@ -164,9 +156,9 @@ namespace ft{
 			node	*new_inserted;
 
 			if (position == this->end())
-				new_inserted = _tree.insert(this->begin(), val);
+				new_inserted = this->_tree.insert(this->begin(), val);
 			else
-				new_inserted = _tree.insert(position, val);
+				new_inserted = this->_tree.insert(position, val);
 			return (iterator(new_inserted, this->_tree.getSentinel()));
 		}
 
@@ -185,7 +177,7 @@ namespace ft{
 
 		void erase (iterator position)
 		{
-			_tree.deleteKeyFrom(*position.base());
+			this->_tree.deleteKeyFrom(*position.base());
 		}
 
 		size_type erase (const key_type& k)
@@ -222,7 +214,7 @@ namespace ft{
 
 		void clear()
 		{
-			_tree.clear();
+			this->_tree.clear();
 		}
 
 
@@ -262,58 +254,23 @@ namespace ft{
 //		key_comp(element_key,k) would return false
 		iterator lower_bound (const key_type& k)
 		{
-			iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (!comp(it->first, k))
-					return (it);
-			}
-			return (it);
+			return(iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			const_iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (!comp(it->first, k))
-					return (it);
-			}
-			return (it);
-//			return (const_iterator(lower_bound(k)));
+			return(const_iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
 		}
-
 
 		//key_comp(k,element_key) would return true.
 		iterator upper_bound (const key_type& k)
 		{
-			iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (comp(k, it->first))
-					return (it);
-			}
-			return (it);
-
+			return(iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			const_iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (comp(k, it->first))
-					return (it);
-			}
-			return (it);
+			return(const_iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
 		}
 
 		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const

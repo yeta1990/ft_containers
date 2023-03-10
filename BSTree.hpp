@@ -40,6 +40,16 @@ class Node
 			return (&content);
 		}
 
+		key_type& getFirst()
+		{
+			return (content.first);
+		}
+
+		const key_type& getFirst() const
+		{
+			return (content.first);
+		}
+
 		typename pair_type::second_type* getSecond() 
 		{
 			return (&(content.second));
@@ -189,7 +199,7 @@ class BSTree{
 			return (aux);
 		}
 
-		pointer getLowestNodeFrom(node* node) 
+		pointer getLowestNodeFrom(node* node) const
 		{
 			Node<T>* aux = NULL;
 
@@ -198,17 +208,17 @@ class BSTree{
 				aux = aux->left;
 			return (aux);
 		};
-
-		const_pointer getLowestNodeFrom(node* node) const
+/*
+		const_pointer getLowestNodeFrom(const_pointer node) const
 		{
-			const Node<T>* aux = NULL;
+			const_pointer aux = NULL;
 
 			aux = node;
 			while (aux && aux->left && aux->left != sentinel)
 				aux = aux->left;
 			return (aux);
 		};
-
+*/
 		pointer getHighestNode()
 		{
 			if (this->_size == 0)
@@ -278,8 +288,28 @@ class BSTree{
 			return (sentinel);
 		}
 
+		node*	getNextElement(pointer n) const
+		{
+			node* parent;
+			node* node;
+
+			node = n;
+			if (node && node->right && node->right != sentinel)
+				return (getLowestNodeFrom(node->right));
+			parent = node->parent;
+			while (parent && node == parent->right && parent != sentinel)
+			{
+				node = parent;
+				parent = parent->parent;
+			}
+			return (parent);
+		}
+
 		node*	base() { return root; };
 		node_allocator	getAllocator() { return n_alloc; }
+
+		node			*findLowerBoundNode(typename value_type::first_type key) const;
+		node			*findUpperBoundNode(typename value_type::first_type key) const;
 
 	private:
 		node_allocator	n_alloc;
@@ -583,7 +613,54 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename
 		else if (node && node->right && comp(node->getContent()->first, key))
 			node = node->right;
 	}
-	return (node);	
+	return (node);
+}
+
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findLowerBoundNode(typename T::first_type key) const
+{
+	key_compare comp = Comp(); 
+	Node<T>		*node;
+
+	node = root;	
+	while (node != sentinel)
+	{
+		if (node && node->getContent()->first == key)
+			return (node);
+		else if (node && node->left && comp(key, node->getContent()->first))
+		{
+			if (node->left == sentinel)
+				return (node);
+			node = node->left;
+		}
+		else if (node && node->right && comp(node->getContent()->first, key))
+			node = node->right;
+	}
+	return (node);
+}
+
+template <class T, class Alloc, class Comp>
+typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findUpperBoundNode(typename T::first_type key) const
+{
+	key_compare comp = Comp(); 
+	Node<T>		*node;
+
+	node = root;	
+	while (node != sentinel)
+	{
+
+		if (node && node->left && comp(key, node->getContent()->first))
+		{
+			if (node->left == sentinel)
+				return (node);
+			node = node->left;
+		}
+		else if (node && node->right && comp(node->getContent()->first, key))
+			node = node->right;
+		else if (node && node->getContent()->first == key)
+			return (getNextElement(node));
+	}
+	return (node);
 }
 
 template <class T, class Alloc, class Comp>

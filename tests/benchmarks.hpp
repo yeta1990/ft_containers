@@ -8,11 +8,15 @@
 #define MAXSIZE ((std::size_t)MAXRAM / sizeof(int))
 #define MAXSIZE_MAP ((std::size_t)MAXRAM / 128)
 
+
+static unsigned long _ratio = 100;
+
 class timer
 {
 public:
     timer()
     {
+    	(void) _ratio;
 		reset();
     };
 
@@ -38,7 +42,7 @@ private:
 };
 
 static timer	t;
-static unsigned long _ratio = 100;
+
 //static unsigned long _ratio = 100000;
 
 #endif

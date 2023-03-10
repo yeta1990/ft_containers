@@ -19,6 +19,7 @@ namespace ft{
 			typedef	value_type&		reference;
 			typedef std::bidirectional_iterator_tag iterator_category;
 			typedef typename ft::iterator_traits<N>::difference_type difference_type;
+			typedef typename B::first_type key_type;
 //			typedef std::ptrdiff_t			difference_type;
 
 			tree_iterator() : p(NULL), sentinel(NULL) {}
@@ -49,6 +50,7 @@ namespace ft{
 //			pointer operator->() const { return p->content; }
 			reference operator*() const { return *(p->getContent()); }
 			pointer operator->() const { return p->getContent(); }
+			key_type& getFirst() const {return p->getFirst(); }
 			npointer*	base() { return (&p) ;}
 			npointer		getNode() const { return (p) ;}
 			npointer		getSentinel() const { return (sentinel) ;}
