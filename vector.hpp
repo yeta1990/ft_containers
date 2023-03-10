@@ -276,7 +276,7 @@ namespace ft{
 //				else
 				new_capacity = std::max(this->_capacity * 2, this->_size + n);
 
-				if (pos == end())
+				if (pos == end() && new_capacity < this->max_size())
 				{
 					for (size_type i = 0; i < n; i++)
 					{

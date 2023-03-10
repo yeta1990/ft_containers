@@ -57,8 +57,8 @@ void	map_b_equal_range()
 
 
     for (int i = 0; i < 10000000; ++i) {
-    	if (i % 100000 == 0)
-			std::cout << i << t.get_time();
+//    	if (i % 100000 == 0)
+//			std::cout << i << t.get_time();
     	
         ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> eq =
             data1.equal_range(rand());

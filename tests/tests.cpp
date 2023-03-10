@@ -1160,9 +1160,9 @@ void vector_tests()
 
 int main(void)
 {
-//	vector_tests();
+	vector_tests();
 //	vector_benchmark();
-	map_benchmark();
+//	map_benchmark();
 //	map_tests();
 //	stack_tests();
 //	set_tests();
