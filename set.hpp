@@ -255,6 +255,8 @@ namespace ft{
 		
 		iterator lower_bound (const key_type& k)
 		{
+			return(iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
+			/*
 			iterator	it;
 			key_compare comp = this->key_comp();
 
@@ -264,10 +266,13 @@ namespace ft{
 					return (it);
 			}
 			return (it);
+			*/
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
+			return(const_iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
+			/*
 			const_iterator	it;
 			key_compare comp = this->key_comp();
 
@@ -277,12 +282,15 @@ namespace ft{
 					return (it);
 			}
 			return (it);
+			*/
 		}
 
 
 		//key_comp(k,element_key) would return true.
 		iterator upper_bound (const key_type& k)
 		{
+			return(iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
+			/*
 			iterator	it;
 			key_compare comp = this->key_comp();
 
@@ -292,11 +300,14 @@ namespace ft{
 					return (it);
 			}
 			return (it);
+			*/
 
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
+			return(const_iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
+			/*
 			const_iterator	it;
 			key_compare comp = this->key_comp();
 
@@ -306,6 +317,7 @@ namespace ft{
 					return (it);
 			}
 			return (it);
+			*/
 		}
 
 		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
