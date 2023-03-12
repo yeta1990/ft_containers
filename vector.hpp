@@ -11,7 +11,6 @@
 #include "reverse_iterator.hpp"
 #include "random_iterator.hpp"
 #include "lexicographical_compare.hpp"
-//#include "is_iterator.hpp"
 
 //VECTOR
 //https://www.geeksforgeeks.org/vector-in-cpp-stl/?ref=leftbar-rightbar
@@ -33,9 +32,6 @@
 //iterators
 //https://leimao.github.io/blog/CPP-Const-Iterator/#Implementation-Without-Code-Duplication
 
-
-//resize:
-
 namespace ft{
 
 	template <class T, class Allocator = std::allocator<T> >
@@ -56,7 +52,6 @@ namespace ft{
 			typedef typename iterator_traits<iterator>::difference_type difference_type;
 
 			//member functions
-
 			vector(void) : _allocator(Allocator())
 			{
 				this->_capacity = 0;
@@ -85,7 +80,6 @@ namespace ft{
 			explicit vector (size_type n, const value_type& val = value_type(),
 					const allocator_type& alloc = allocator_type()) : _allocator(alloc)
 			{
-//				std::cout << "eeeeo" << std::endl;
 				this->_capacity = 0;
 				this->_size = 0;
 				this->_data = 0;
@@ -104,8 +98,6 @@ namespace ft{
 				vector_constructor_range(first, last, iter_category());
 				this->_lastElement = this->_data + this->_size;
 			}
-
-
 
 			//copy constructor
 			vector (const vector& x)
@@ -147,26 +139,26 @@ namespace ft{
 			}
 
 			~vector(void) {
-//				std::cout << this->_size << "destructor" << this->_capacity << std::endl;
 				destroy_and_deallocate();
 			};
-
 
 			//iterators	
 			iterator begin() { return iterator(&this->_data[0]); }
 			iterator end() { return iterator(this->_lastElement); }
-//			iterator end() { return iterator(&this->_data[this->_size]); }
 			const_iterator begin() const { return const_iterator(&this->_data[0]); }
 			const_iterator end() const { return const_iterator(this->_lastElement); }
-//			const_iterator end() const { return const_iterator(&this->_data[this->_size]); }
             reverse_iterator rbegin() { return reverse_iterator(this->_data + this->_size); }
             reverse_iterator rend() { return reverse_iterator(this->_data);}
             const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_data + this->_size); }
             const_reverse_iterator rend() const { return const_reverse_iterator(this->_data);}
 
 			//element access
-
-			reference at(size_type pos);
+			reference at(size_type pos)
+			{
+				if (!(pos < this->_size))
+					throw (std::out_of_range("vector"));
+				return (this->_data[pos]);
+			}
 
 			const_reference at(size_type n) const
 			{
@@ -186,12 +178,22 @@ namespace ft{
 				return (this->_data[pos]);
 			};
 
-			reference front();
+			reference front()
+			{
+				return (this->_data[0]);
+			}
+
  			const_reference front() const
  			{
 				return (this->_data[0]);
  			}
-			reference back();
+			reference back()
+			{
+				if (this->_size == 0)
+					return (this->_data[0]);
+				return (this->_data[this->_size - 1]);
+			}
+
 			const_reference back() const
 			{
 	if (this->_size == 0)
@@ -212,18 +214,61 @@ namespace ft{
 			size_type 	size() const {return (this->_size);};
 			size_type 	max_size() const {return (this->_allocator.max_size());};
 
-			void		resize(size_type n, value_type val = value_type());
+			void		resize(size_type n, value_type val = value_type())
+			{
+				if (n < this->_size)
+				{
+					erase(this->begin() + n, end());
+				}
+				else if (n > 0)
+				{
+					size_type old_size = this->_size;
+					for (size_type i = 0; i < n - old_size; i++)
+						push_back_with_custom_capacity(val, n);
+				}
+			}
+
 			size_type 	capacity() const {return (this->_capacity);};
 			bool 		empty() const {return (this->_size == 0 ? true : false);};
-			void 		reserve (size_type n);
-			void 		shrink_to_fit(); //TBD
+			void 		reserve (size_type n)
+			{
+				if (n == 0)
+					return ;
+				if (n > this->max_size())
+					throw (std::length_error("'n' exceeds maximum supported size"));
+				if (n > this->_capacity)
+				{
+					expansor(n);
+				}
+			}
 
 			//modifiers
+			void	assign (size_type n, const value_type& val)
+			{
+				if (n == 0)
+				{
+					return ;
+				}
+				destroy_and_deallocate();
+				this->_size = n;
+				if (n > this->_capacity)
+					this->_capacity = n;
+				try	
+				{
+					this->_data = this->_allocator.allocate(this->_capacity);
+				}
+				catch (std::bad_alloc &e)
+				{
+					throw (std::length_error("vector exceeds maximum supported size"));
+				}
+				for (size_type i = 0; i < n; i++)
+					this->_allocator.construct(&_data[i], val);
+				this->_usedValues = this->_size;
+				this->_lastElement = this->_data + this->_size;
 
+			}
 
-			void	assign (size_type n, const value_type& val);
-
-//			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
+////			https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
 //			template <class iterator >
 
 			//create template to handle input iterators...?
@@ -237,7 +282,14 @@ namespace ft{
 				assign_work(first, last, iter_category());
 			}
 
-			void 		clear();
+			void 		clear()
+			{
+				for (size_t i = 0; i < this->_size; i++)
+					this->_allocator.destroy(&this->_data[i]);
+				this->_size = 0;
+				this->_lastElement = this->_data;
+			}
+
 			//insert
 			//insert single
 			iterator insert (iterator pos, const value_type& value)
@@ -486,7 +538,15 @@ namespace ft{
 				return (first);
 			}
 
-			void		push_back(const value_type& val);
+			void		push_back(const value_type& val)
+			{
+				if (this->_size >= this->_capacity)
+					expandCapacity(_size + 1);
+				_size++;
+				this->_usedValues++;
+				this->_allocator.construct(&this->_data[this->_size - 1], val);
+				this->_lastElement++;
+			}
 
 			void		pop_back()
 			{
@@ -547,7 +607,15 @@ namespace ft{
 				for (size_type i = 0; i < this->_size; i++)
 					this->_allocator.construct(&_newData[i], this->_data[i]);
 			};
-			void	push_back_with_custom_capacity(const T& val, size_type custom_capacity);
+			void	push_back_with_custom_capacity(const T& val, size_type custom_capacity)
+			{
+				if (custom_capacity > this->_capacity)
+					expandCapacity(custom_capacity);
+				_size++;
+				this->_usedValues++;
+				this->_allocator.construct(&this->_data[this->_size - 1], val);
+				this->_lastElement++;
+			}
 
 			void			setLastElement(void)
 			{
@@ -557,9 +625,41 @@ namespace ft{
 					this->_lastElement = &this->_data[i];
 			};
 
-			void				expansor(size_type new_capacity);
-			void	expandCapacity(size_type requiredCapacity);
-			void	destroy_and_deallocate(void);
+			void				expansor(size_type new_capacity)
+			{
+				value_type*		_newData;
+
+				try	
+				{
+					_newData = this->_allocator.allocate(new_capacity);
+				}
+				catch (std::bad_alloc &e)
+				{
+					throw (std::length_error("vector exceeds maximum supported size"));
+				}
+				copyDataToOtherObject(_newData);
+				destroy_and_deallocate();
+				this->_data = _newData;
+				this->_capacity = new_capacity;
+				this->_lastElement = this->_data + this->_size;
+			}
+
+			void	expandCapacity(size_type requiredCapacity)
+			{
+					size_type new_capacity = std::max(this->_capacity * 2, requiredCapacity);
+					expansor(new_capacity);
+			}
+
+			void	destroy_and_deallocate(void)
+			{
+				if (this->_data && this->_capacity)
+				{
+					for (size_t i = 0; i < this->_size; i++)
+						this->_allocator.destroy(&this->_data[i]);
+					this->_allocator.deallocate(this->_data, this->_capacity);
+				}
+			}
+
 
 			template <typename InputIterator>
 			void	vector_constructor_range(InputIterator first, InputIterator last, std::input_iterator_tag)
@@ -722,7 +822,6 @@ bool operator>=( const ft::vector<T,Alloc>& lhs,
 }
 
 }
-#include "vector.tpp"
 
 
 #endif
