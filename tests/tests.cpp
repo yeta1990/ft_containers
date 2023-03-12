@@ -20,10 +20,6 @@ void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1)
 	size_t	size1 = v.size();
 	size_t	size2 = v1.size();
 
-//	std::cout << std::endl << "Size: " << size1
-//			<< "," << size2 << std::endl;
-//	std::cout << std::endl << "Capacity: " << capacity1 
-//			<< "," << capacity2 << std::endl;
 	if (size1 == size2)
 		std::cout << "\x1B[32m✓\x1B[0m";
 	else
@@ -33,7 +29,6 @@ void check_size_capacity(std::vector<T>& v, ft::vector<T>& v1)
 				<< ", but is " << v1.size() << std::endl;
 	}
 	if (capacity1 == capacity2)
-//	if (v.capacity() == v1.capacity())
 		std::cout << "\x1B[32m✓\x1B[0m";
 	else
 	{
