@@ -1,21 +1,13 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# if __linux__
-#  define MAX_SIZE_DIVISOR 12
-# else
-#  define MAX_SIZE_DIVISOR 10
-# endif
-
 #include "iterator_traits.hpp"
-#include "random_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "pair.hpp"
 #include "make_pair.hpp"
-#include "BSTree.hpp"
+#include "RBTree.hpp"
 #include <memory>
 #include <cstddef>
-#include <limits>
 #include "tree_iterator.hpp"
 #include "equal.hpp"
 
@@ -26,11 +18,11 @@ namespace ft{
 
 		typedef Key											key_type;
 		typedef T											mapped_type;
-		typedef pair<const key_type, mapped_type>			value_type;
+		typedef ft::pair<const key_type, mapped_type>			value_type;
 		typedef Compare				 						key_compare;
 		typedef	ft::Node<value_type>						node;
 		typedef	const node									const_node;
-		typedef ft::BSTree<value_type, Allocator, key_compare>	tree;
+		typedef ft::RBTree<value_type, Allocator, key_compare>	tree;
 		typedef Allocator				 					allocator_type;
 		typedef typename tree::iterator						iterator;
 		typedef typename tree::const_iterator				const_iterator;
@@ -43,9 +35,11 @@ namespace ft{
 		typedef value_type&									reference;
 		typedef const value_type&							const_reference;
 
-
 		class value_compare : std::binary_function<value_type,value_type,bool> {
-			friend class map;
+			// Since constructor is required to be protected, map is defined as friend class to be
+			// able to be called from value_comp() of map
+			friend class map; 
+							  
 			public:
 				bool		result_type;
 				value_type	first_argument_type;
@@ -58,6 +52,8 @@ namespace ft{
 
 		};
 
+		// an explicit constructor requires the use of the constructor name when creating an object of the class
+		// in this case, to prevent things like  ft::map<int, int> map = std::less<int>();
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
 			this->_allocator = alloc;
@@ -107,15 +103,11 @@ namespace ft{
 		bool empty() const { return (!this->size());};
 		size_type	size() const { return (this->_tree.size());};
 		size_type 	max_size() const {return (this->_tree.max_size());};
-//		size_type	max_size() const {
-//			return (std::numeric_limits<map::size_type>::max() / sizeof(T));
-//		}
 
 		//element access
 		mapped_type& operator[] (const key_type& k)
 		{
-
-			pair<iterator, bool> p = insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
+			ft::pair<iterator, bool> p = insert(ft::make_pair<key_type, mapped_type>(k, mapped_type()));
 			return ((*p.first).second);
 		}
 
@@ -140,7 +132,7 @@ namespace ft{
 		}
 
 		//modifiers
-		pair<iterator,bool>	insert(const value_type& p)
+		ft::pair<iterator,bool>	insert(const value_type& p)
 		{
 			node	*new_inserted;
 			size_type	old_size;
@@ -155,10 +147,7 @@ namespace ft{
 		{
 			node	*new_inserted;
 
-			if (position == this->end())
-				new_inserted = this->_tree.insert(this->begin(), val);
-			else
-				new_inserted = this->_tree.insert(position, val);
+			new_inserted = this->_tree.insert(position, val);
 			return (iterator(new_inserted, this->_tree.getSentinel()));
 		}
 
@@ -217,7 +206,6 @@ namespace ft{
 			this->_tree.clear();
 		}
 
-
 		//observers
 		key_compare key_comp() const
 		{
@@ -228,7 +216,6 @@ namespace ft{
 		{
 			return (value_compare(this->_comp));
 		}
-		
 
 		//operations
 		iterator find (const key_type& k)
@@ -240,7 +227,7 @@ namespace ft{
 		{
 			return (this->_tree.find(k));
 		}
-		//
+		
 		size_type count (const key_type& k) const
 		{
 			const_iterator	it;
@@ -251,7 +238,8 @@ namespace ft{
 			return (1);
 		}
 
-//		key_comp(element_key,k) would return false
+		//Returns an iterator pointing to the first element in the range [first, last) 
+		//that does not satisfy element < value (or comp(element, value) is true
 		iterator lower_bound (const key_type& k)
 		{
 			return(iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
@@ -262,7 +250,8 @@ namespace ft{
 			return(const_iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
 		}
 
-		//key_comp(k,element_key) would return true.
+		//Returns an iterator pointing to the first element in the range [first, last) 
+		//such that value < element (or comp(value, element)) is true
 		iterator upper_bound (const key_type& k)
 		{
 			return(iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
@@ -273,6 +262,8 @@ namespace ft{
 			return(const_iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
 		}
 
+		//The range is defined by two iterators, one pointing to the first element that 
+		//is not less than key and another pointing to the first element greater than key. 
 		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 		{
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
@@ -283,7 +274,6 @@ namespace ft{
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
 		}
 
-		//iterators
 		iterator begin()
 		{
 			return (this->_tree.begin());
@@ -323,16 +313,18 @@ namespace ft{
 	 		return (const_reverse_iterator(this->begin()));
      	}
 
-	 	 //remove before evaluation!!
-	 	 void	printmap()
-	 	 {
-	 	 	 this->_tree.printtree();
-	 	 }
+		// used for testing purposes 
+		/*
+	 	void	printmap()
+	 	{
+	 		this->_tree.printtree();
+	 	}
+		*/
 
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
-			BSTree<value_type, Allocator, key_compare>	_tree;
+			RBTree<value_type, Allocator, key_compare>	_tree;
 	};
 
 
@@ -419,22 +411,6 @@ bool operator>( const ft::map<Key, T, Compare, Alloc>& lhs,
 	return (lhs.size() > rhs.size());
 }
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

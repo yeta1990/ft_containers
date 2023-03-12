@@ -6,7 +6,7 @@
 #include "reverse_iterator.hpp"
 #include "pair.hpp"
 #include "make_pair.hpp"
-#include "BSTree.hpp"
+#include "RBTree.hpp"
 #include <memory>
 #include <cstddef>
 #include <limits>
@@ -26,7 +26,7 @@ namespace ft{
 		typedef	ft::pair<key_type, value_type>				pair_type;
 		typedef	ft::Node<pair_type>							node;
 		typedef	const node									const_node;
-		typedef ft::BSTree<pair_type, Allocator, key_compare>	tree;
+		typedef ft::RBTree<pair_type, Allocator, key_compare>	tree;
 		typedef Allocator				 					allocator_type;
 
 	private:
@@ -36,8 +36,6 @@ namespace ft{
 	public:
 		typedef set_iterator<const_node_pointer, pair_type>	iterator;
 		typedef set_iterator<const_node_pointer, pair_type>	const_iterator;
-//		typedef typename tree::iterator						iterator;
-//		typedef typename tree::const_iterator				const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef std::ptrdiff_t								difference_type;
@@ -99,7 +97,6 @@ namespace ft{
 			old_size = this->size();
 			new_inserted = _tree.insert(ft::make_pair<key_type, value_type>(value, value));
 			return (ft::make_pair<iterator, bool> (iterator(new_inserted, this->_tree.getSentinel()), (old_size < this->size())));
-//			return (_tree.insert(value));
 		}
 
 		iterator insert (iterator position, const value_type& val)
@@ -140,14 +137,12 @@ namespace ft{
 		{
 			return (const_iterator(this->_tree.begin().getNode(), 
 						this->_tree.getSentinel()));
-//			return (this->_tree.begin());
 		}
 
 		const_iterator end() const
 		{
 			return (const_iterator(this->_tree.getSentinel(), 
 						this->_tree.getSentinel()));
-//			return (this->_tree.end());
 		}
 
       	reverse_iterator rbegin()
@@ -178,7 +173,6 @@ namespace ft{
 		void erase (iterator position)
 		{
 			erase(*position);
-//			_tree.deleteKeyFrom(*position.base());
 		}
 
 		size_type erase (const key_type& k)
@@ -256,68 +250,22 @@ namespace ft{
 		iterator lower_bound (const key_type& k)
 		{
 			return(iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
-			/*
-			iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (!comp(*it, k))
-					return (it);
-			}
-			return (it);
-			*/
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
 			return(const_iterator(this->_tree.findLowerBoundNode(k), this->_tree.getSentinel()));
-			/*
-			const_iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (!comp(*it, k))
-					return (it);
-			}
-			return (it);
-			*/
 		}
 
-
-		//key_comp(k,element_key) would return true.
 		iterator upper_bound (const key_type& k)
 		{
 			return(iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
-			/*
-			iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (comp(k, *it))
-					return (it);
-			}
-			return (it);
-			*/
 
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
 			return(const_iterator(this->_tree.findUpperBoundNode(k), this->_tree.getSentinel()));
-			/*
-			const_iterator	it;
-			key_compare comp = this->key_comp();
-
-			for (it = this->begin(); it != this->end(); it++)
-			{
-				if (comp(k, *it))
-					return (it);
-			}
-			return (it);
-			*/
 		}
 
 		ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
@@ -333,7 +281,7 @@ namespace ft{
 		private:
 			Allocator			_allocator;
 			key_compare			_comp;
-			BSTree<pair_type, Allocator, key_compare>	_tree;
+			RBTree<pair_type, Allocator, key_compare>	_tree;
 	};
 
 
@@ -411,8 +359,6 @@ bool operator>( const ft::set<Key, Compare, Alloc>& lhs,
 	}
 	return (lhs.size() > rhs.size());
 }
-
-
 
 }
 

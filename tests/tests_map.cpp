@@ -1640,6 +1640,7 @@ void	map_benchmarks()
 //	test_case("map vs vector", &map_vs_vector);
 }
 
+
 void map_tests()
 {
 //	map_benchmarks();

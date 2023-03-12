@@ -1,5 +1,5 @@
-#ifndef BSTREE_HPP
-# define BSTREE_HPP
+#ifndef RBTREE_HPP
+# define RBTREE_HPP
 
 #include <iostream>
 #include "tree_iterator.hpp"
@@ -7,8 +7,9 @@
 namespace ft{
 
 template <class T, class Alloc, class Comp>
-class BSTree;
+class RBTree;
 
+//node for the red-black tree, it stores the content (ft::pair<key, value>) on the stack 
 template <class P>
 class Node
 {
@@ -17,9 +18,7 @@ class Node
 		typedef	typename pair_type::first_type	key_type;
 		typedef	typename pair_type::second_type	value_type;
 
-
 		Node() : content(pair_type()), left(NULL), right(NULL), parent(NULL) { }
-//		Node(pair_type *p, Node* sentinel) : content(p), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 		Node(pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 		Node(const pair_type &p, Node* sentinel) : content(ft::make_pair(p.first, p.second)), left(sentinel), right(sentinel), parent(NULL), color('r') {	};
 
@@ -30,7 +29,8 @@ class Node
 		Node			*parent;
 		char			color;
 
-		pair_type*	getContent() 
+		//used by the iterators and the find operations in the map
+		pair_type*	getContent()
 		{
 			return (&content);
 		}
@@ -40,83 +40,47 @@ class Node
 			return (&content);
 		}
 
-		key_type& getFirst()
-		{
-			return (content.first);
-		}
-
-		const key_type& getFirst() const
-		{
-			return (content.first);
-		}
-
-		typename pair_type::second_type* getSecond() 
-		{
-			return (&(content.second));
-		}
-
-//		const typename pair_type::second_type getSecond() const
-//		{
-//			return (content.second);
-//		}
-
-//		const typename pair_type::first_type& getFirst() const
-//		{
-//			return (content.first);
-//		}
-
 };
 
 template <class T, class Alloc, class Comp >
-class BSTree{
+class RBTree{
 
 	public:
-		typedef Node<T>		node;
-		typedef BSTree<T, Alloc, Comp>		tree;
-
-		typedef Alloc 						pair_allocator;
-
-		typedef typename Alloc::template 				rebind<node>::other	node_allocator;
-//		typedef typename std::allocator<T>::template rebind<node>::other		node_allocator;
-		typedef Comp		key_compare;
-
-		typedef typename node_allocator::pointer							pointer;
-		typedef typename node_allocator::const_pointer						const_pointer;
-		typedef typename node_allocator::reference							reference;
-		typedef typename node_allocator::const_reference					const_reference;
-		typedef T				value_type;
-		typedef tree_iterator<pointer, value_type>	iterator;
+		typedef Node<T>											node;
+		typedef RBTree<T, Alloc, Comp>							tree;
+		typedef Alloc 											pair_allocator;
+		typedef typename Alloc::template 						rebind<node>::other	node_allocator;
+		typedef Comp											key_compare;
+		typedef typename node_allocator::pointer				pointer;
+		typedef typename node_allocator::const_pointer			const_pointer;
+		typedef typename node_allocator::reference				reference;
+		typedef typename node_allocator::const_reference		const_reference;
+		typedef T												value_type;
+		typedef tree_iterator<pointer, value_type>				iterator;
 		typedef tree_iterator<const_pointer, const value_type>	const_iterator;
 
-		BSTree(){
-//			std::cout << "bstree constructor" << std::endl;
+		RBTree(){
 			node*	sen = n_alloc.allocate(1);
 			n_alloc.construct(sen, node());
 
 			this->_size = 0;
-//			sen->content = new value_type();
 			sen->color = 'b';
 			sen->right = sen;
 			sen->left = sen;
 			this->sentinel = sen;
-//			this->root = NULL;
 			this->root = sentinel;
 		}
-		~BSTree();
+		~RBTree();
 
-		pointer insert(const value_type& p);
-
-		pointer _find(typename node::key_type key)
+		pointer insert(const value_type& p)
 		{
-			return (this->findNode(key));
+			return (this->insertFromNode(p, &(this->root)));
 		}
-		const_pointer _find(typename node::key_type key) const
-		{
-			return (this->findNode(key));
-		}
-//		pointer _find(typename value_type::first_type key);
-//		const_pointer _find(typename value_type::first_type key) const;
 
+		pointer _find(typename node::key_type key) { return (this->findNode(key)); }
+		const_pointer _find(typename node::key_type key) const { return (this->findNode(key)); }
+
+		//insert with hint. bypassed because it's risky and inefficient
 		node	*insert(iterator position, const value_type& val)
 		{
 			(void) position; //aka the emadriga's tribute
@@ -136,14 +100,14 @@ class BSTree{
 		void	del(typename value_type::first_type key);
 		void	transplant(node* u, node *v);
 		bool	deleteKeyFrom(node *node);
-
 		size_t	max_size() const {return (node_allocator().max_size());};
+
 		void	swap(tree& other)
 		{
 			node*			sw;
 			node*			sentinel_swp;
 			node_allocator	alloc_swp;
-			size_t	size_sw;
+			size_t			size_sw;
 
 			sw = other.root;
 			sentinel_swp = other.sentinel;
@@ -176,95 +140,16 @@ class BSTree{
 			this->sentinel->left = sentinel;
 			this->_size = 0;
 		}
+
 		size_t	size() const;
-
-
-		pointer	getHighestNodeFrom(node *node)
-		{
-			Node<T>* aux = NULL;
-
-			aux = node;
-			while (aux && aux->right && aux->right!= sentinel)
-				aux = aux->right;
-			return (aux);
-		}
-
-		const_pointer getHighestNodeFrom(node *node) const
-		{
-			Node<T>* aux = NULL;
-
-			aux = node;
-			while (aux && aux->right && aux->right!= sentinel)
-				aux = aux->right;
-			return (aux);
-		}
-
-		pointer getLowestNodeFrom(node* node) const
-		{
-			Node<T>* aux = NULL;
-
-			aux = node;
-			while (aux && aux->left && aux->left != sentinel)
-				aux = aux->left;
-			return (aux);
-		};
-/*
-		const_pointer getLowestNodeFrom(const_pointer node) const
-		{
-			const_pointer aux = NULL;
-
-			aux = node;
-			while (aux && aux->left && aux->left != sentinel)
-				aux = aux->left;
-			return (aux);
-		};
-*/
-		pointer getHighestNode()
-		{
-			if (this->_size == 0)
-				return (sentinel);
-			return (getHighestNodeFrom(root));
-		}
-
-		const_pointer getHighestNode() const
-		{
-			if (this->_size == 0)
-				return (sentinel);
-			return (getHighestNodeFrom(root));
-		}
-
-		pointer getLowestNode()
-		{
-			if (this->_size == 0)
-				return (sentinel);
-			return (getLowestNodeFrom(root));
-		}
-
-		const_pointer getLowestNode() const
-		{
-			if (this->_size == 0)
-				return (sentinel);
-			return (getLowestNodeFrom(root));
-		}
 
 		iterator	begin()
 		{
-			/*
-			node*	found;
-			found = getLowestNode();
-
-			return (iterator(found, sentinel));
-			*/
 			return (iterator(sentinel->left, sentinel));
 		}
 
 		const_iterator	begin() const
 		{
-			/*
-			if (this->_size == 0)
-				return (const_iterator(sentinel, sentinel));
-			return (const_iterator(getLowestNodeFrom(root), sentinel));
-			*/
 			return (const_iterator(sentinel->left, sentinel));
 		}
 
@@ -305,11 +190,41 @@ class BSTree{
 			return (parent);
 		}
 
+		pointer getLowestNodeFrom(node* node) const
+		{
+			Node<T>* aux = NULL;
+
+			aux = node;
+			while (aux && aux->left && aux->left != sentinel)
+				aux = aux->left;
+			return (aux);
+		};
+
 		node*	base() { return root; };
 		node_allocator	getAllocator() { return n_alloc; }
 
 		node			*findLowerBoundNode(typename value_type::first_type key) const;
 		node			*findUpperBoundNode(typename value_type::first_type key) const;
+
+		//used for testing purposes
+	/*
+		void printorder(node *node)
+		{
+			if (node == sentinel)
+				return ;
+			printorder(node->left);
+			std::cout << "." << node->content.first << "," << node->color << "," << node->parent->content.first << std::endl;
+			printorder(node->right);
+		}
+	
+
+	public:
+		void	printtree()
+		{
+			printorder(root);
+		}
+
+*/
 
 	private:
 		node_allocator	n_alloc;
@@ -326,8 +241,26 @@ class BSTree{
 		node			*findNode(typename value_type::first_type key) const;
 
 
-		//tree operations
-		
+		//Red-black tree operations
+
+		//All the operations have been implemented following these resources:
+		//- "Introduction to algorithms" (Cormen, Leiserson, Rivest, Stein), 3rd edition
+		//- https://www.youtube.com/playlist?list=PL9xmBV_5YoZNqDI8qfOZgzbqahCUmUEin
+		//- https://www.youtube.com/watch?v=nMExd4DthdA&list=PLpPXw4zFa0uKKhaSz87IowJnOTzh9tiBk&index=66
+
+		/*
+		 * red-black tree properties:
+		 *  1. every node is either red or black
+		 *  2. root is black
+		 *  3. every leaf (sentinel, in this case) is black
+		 *  4. if a node is red, then bot its children are black
+		 *  5. for each node, all simple paths from the node to descendant leaves
+		 *     contain the same number of black nodes
+		 */
+
+		//left and right rotate are used to balance the tree after some insert
+		//or erase operations
+
 		/*
 		 *       Left rotate ---->
 		 *
@@ -383,49 +316,20 @@ class BSTree{
 		}
 
 
-		/*
-		 * red-black tree properties:
-		 *  1. every node is either red or black
-		 *  2. root is black
-		 *  3. every leaf (sentinel, in this case) is black
-		 *  4. if a node is red, then bot its children are black
-		 *  5. for each node, all simple paths from the node to descendant leaves
-		 *     contain the same number of black nodes
-		 */
-
-		void printorder(node *node)
-		{
-			if (node == sentinel)
-				return ;
-			printorder(node->left);
-//			if (node == root)
-//				std::cout << "root : ";
-			std::cout << "." << node->content.first << "," << node->color << "," << node->parent->content.first << std::endl;
-
-			printorder(node->right);
-		}
-
-	public:
-		void	printtree()
-		{
-			printorder(root);
-		}
-
-	private:
-
-		// insert-fixup
+		// insert-fixup: method used to fix the tree when a insertion produces 
+		// a violation of rb-tree rules
 		void	insertFixup(node *inserted)
 		{
 			node*	z;
 			node*	y;
 
-			z = inserted;
+			z = inserted; // initially, z points to the inserted node. then we'll use to fix from bottom to top all rbtree properties violations
 			while (z->parent->color == 'r')
 			{
-				if (z->parent == z->parent->parent->left)
+				if (z->parent == z->parent->parent->left) // operations on the left side of the grandfather subtree where z is pointing to
 				{
 					y = z->parent->parent->right;
-					if (y->color == 'r')
+					if (y->color == 'r') // case 1: z's uncle y is red. fix by changing colors
 					{
 						z->parent->color = 'b';
 						y->color = 'b';
@@ -433,20 +337,21 @@ class BSTree{
 						z = z->parent->parent;
 					}
 					else
-					{
+					{	// case 2: z's uncle y is black and z is a right child
+						// rotation to make z parent's a left child of z to force case 3
 						if (z == z->parent->right && z->parent != sentinel)
 						{
 							z = z->parent;
 							leftRotate(z);
 						}
+						//case 3: z's uncle y is black and z is a left child
+						// conversion of z grandfather in z parent's right child
 						z->parent->color = 'b';
 						z->parent->parent->color = 'r';
 						rightRotate(z->parent->parent);
-						
 					}
-
 				}
-				else if (z->parent == z->parent->parent->right)
+				else if (z->parent == z->parent->parent->right) //mirror when z is at the right side of the subtree
 				{
 					y = z->parent->parent->left;
 					if (y->color == 'r')
@@ -470,19 +375,88 @@ class BSTree{
 				}
 			}
 			root->color = 'b';
-//			sentinel->right = root;
-//			std::cout << "fixup" << std::endl;
-//			std::cout << "fixup" << std::endl;
 		}
 
-		void	deleteFixup(node *replaced);
+		void	deleteFixup(node *replaced)
+		{
+			node*	x;
+			node*	w; //sibling
 
-		//currently unused:
-		size_t			count_nodes(const Node<T> *root) const;
+			x = replaced;
+			while (x != root && x->color == 'b')
+			{
+				if (x == x->parent->left)
+				{
+					w = x->parent->right;
+					if (w->color == 'r')
+					{
+						w->color = 'b';
+						x->parent->color = 'r';
+						leftRotate(x->parent);
+						w = x->parent->right;
+					}
+					if (w->left->color == 'b' && w->right->color == 'b')
+					{
+						w->color = 'r';
+						x = x->parent;
+					}
+					else 
+					{
+						if (w->right->color == 'b')
+						{
+							w->left->color = 'b';
+							w->color = 'r';
+							rightRotate(w);
+							w = x->parent->right;
+						}
+						w->color = x->parent->color;
+						x->parent->color = 'b';
+						w->right->color = 'b';
+						leftRotate(x->parent);
+						x = root;
+					}
+				}
+				else
+				{
+					w = x->parent->left;
+					if (w->color == 'r')
+					{
+						w->color = 'b';
+						x->parent->color = 'r';
+						rightRotate(x->parent);
+						w = x->parent->left;
+					}
+					if (w->right->color == 'b' && w->left->color == 'b')
+					{
+						w->color = 'r';
+						x = x->parent;
+					}
+					else 
+					{
+						if (w->left->color == 'b')
+						{
+							w->right->color = 'b';
+							w->color = 'r';
+							leftRotate(w);
+							w = x->parent->left;
+						}
+						w->color = x->parent->color;
+						x->parent->color = 'b';
+						w->left->color = 'b';
+						rightRotate(x->parent);
+						x = root;
+					}
+				}
+			}
+			x->color = 'b';
+
+
+		}
+
 };
 
 template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::del(typename T::first_type key)
+void	RBTree<T, Alloc, Comp>::del(typename T::first_type key)
 {
 	Node<T>* found;
 
@@ -492,22 +466,8 @@ void	BSTree<T, Alloc, Comp>::del(typename T::first_type key)
 }
 
 //template <class T>
-/*
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::_find(typename T::first_type key)
-{
-	return (this->findNode(key));
-}
-
-template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::const_pointer	BSTree<T, Alloc, Comp>::_find(typename T::first_type key) const
-{
-	return (this->findNode(key));
-}
-*/
-//template <class T>
-template <class T, class Alloc, class Comp>
-bool	BSTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
+bool	RBTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
 {
 	size_t	old_size;
 
@@ -515,47 +475,29 @@ bool	BSTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
 	del(node);
 	return (old_size - _size);
 }
-/*
-template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
-{
-	if (u->parent == sentinel)
-	{
-		this->root = v;
-		sentinel->right = this->root;
-	}
-	else if (u == u->parent->left)
-		u->parent->left = v;
-	else
-		u->parent->right = v;
-	if (v != sentinel)
-		v->parent = u->parent;
-}
-*/
 
 //new transplant
 template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::transplant(node* u, node *v)
+void	RBTree<T, Alloc, Comp>::transplant(node* u, node *v)
 {
 	if (u->parent == sentinel)
 	{
 		this->root = v;
-//		sentinel->right = this->root;
 	}
 	else if (u == u->parent->left)
 		u->parent->left = v;
 	else
 		u->parent->right = v;
-//	if (v != sentinel)
-		v->parent = u->parent;
+	v->parent = u->parent;
 }
+
 template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::del(node *node)
+void	RBTree<T, Alloc, Comp>::del(node *node)
 {
 	Node<T>*	y;
 	Node<T>*	x;
 	Node<T>*	old_node;
-	bool		y_original_color;
+	char		y_original_color;
 
 	old_node = node;
 	y = node;
@@ -585,14 +527,6 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 			y->right = node->right;
 			y->right->parent = y;
 		}
-
-	/*	if (y->parent != node)
-		{
-			transplant(y, y->right);
-			y->right = node->right;
-			y->right->parent = y;
-		}
-		*/
 		transplant(node, y);
 		y->left = node->left;
 		y->left->parent = y;
@@ -610,11 +544,14 @@ void	BSTree<T, Alloc, Comp>::del(node *node)
 		return ;
 	}
 	if (y_original_color == 'b')
+	{
 		deleteFixup(x);
+	}
 	updateSentinelMinMax();
 }
+/*
 template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::deleteFixup(node *replaced)
+void	RBTree<T, Alloc, Comp>::deleteFixup(node *replaced)
 {
 	node*	x;
 	node*	w; //sibling
@@ -687,51 +624,10 @@ void	BSTree<T, Alloc, Comp>::deleteFixup(node *replaced)
 	}
 	x->color = 'b';
 }
-
-/*
-template <class T, class Alloc, class Comp>
-void	BSTree<T, Alloc, Comp>::del(node *node)
-{
-	Node<T>*	y;
-	Node<T>*	old_node;
-
-	old_node = node;
-	if (!node)
-		return;
-	if (node->left == sentinel)
-		transplant(node, node->right);
-	else if (node->right == sentinel)
-		transplant(node, node->left);
-	else if (node)
-	{
-		y = getMinNode(node->right);
-		if (y->parent != node)
-		{
-			transplant(y, y->right);
-			y->right = node->right;
-			y->right->parent = y;
-		}
-		transplant(node, y);
-		y->left = node->left;
-		y->left->parent = y;
-	}
-	
-	n_alloc.destroy(old_node);
-	n_alloc.deallocate(old_node, 1);
-//	delete old_node;
-	this->_size--;
-	if (this->_size == 0)
-	{
-		this->root = sentinel;
-		this->sentinel->right = this->root;
-		this->sentinel->left = this->root;
-	}
-	else
-		updateSentinelMinMax();
-}
 */
+
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T> *node)
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::getMaxNode(Node<T> *node)
 {
 	Node<T>* aux;
 
@@ -743,7 +639,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMaxNode(Node<T
 
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T> *node)
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::getMinNode(Node<T> *node)
 {
 	Node<T>* aux;
 
@@ -754,7 +650,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::getMinNode(Node<T
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename T::first_type key) const
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::findNode(typename T::first_type key) const
 {
 	key_compare comp = Comp(); 
 	Node<T>		*node;
@@ -773,7 +669,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findNode(typename
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findLowerBoundNode(typename T::first_type key) const
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::findLowerBoundNode(typename T::first_type key) const
 {
 	key_compare comp = Comp(); 
 	Node<T>		*node;
@@ -800,7 +696,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findLowerBoundNod
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findUpperBoundNode(typename T::first_type key) const
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::findUpperBoundNode(typename T::first_type key) const
 {
 	key_compare comp = Comp(); 
 	Node<T>		*node;
@@ -828,31 +724,16 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::findUpperBoundNod
 }
 
 template <class T, class Alloc, class Comp>
-size_t	BSTree<T, Alloc, Comp>::count_nodes(const Node<T> *root) const
-{
-	size_t	count;
-
-	if (!root)
-		return (0);
-	count = 1;
-	if (root->left)
-		count += count_nodes(root->left);
-	if (root->right)
-		count += count_nodes(root->right);
-	return (count);
-}
-
-template <class T, class Alloc, class Comp>
-size_t	BSTree<T, Alloc, Comp>::size() const
+size_t	RBTree<T, Alloc, Comp>::size() const
 {
 	return (this->_size);
 }
 
 template <class T, class Alloc, class Comp>
-BSTree<T, Alloc, Comp>::~BSTree()
+RBTree<T, Alloc, Comp>::~RBTree()
 {
 	if (this->root && this->root != sentinel)
-	{		
+	{
 		this->freeTree(this->root);
 		this->root = NULL;
 	}
@@ -866,7 +747,7 @@ BSTree<T, Alloc, Comp>::~BSTree()
 }
 
 template <class T, class Alloc, class Comp>
-void BSTree<T, Alloc, Comp>::freeTree(node *r)
+void RBTree<T, Alloc, Comp>::freeTree(node *r)
 {
 	if (!r || r == sentinel)
 		return;
@@ -881,18 +762,11 @@ void BSTree<T, Alloc, Comp>::freeTree(node *r)
 }
 
 template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::pointer	BSTree<T, Alloc, Comp>::insert(const typename BSTree<T, Alloc, Comp>::value_type &p)
-{
-	return (this->insertFromNode(p, &(this->root)));
-}
-
-template <class T, class Alloc, class Comp>
-typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(const typename BSTree<T, Alloc, Comp>::value_type &p, Node<T> **r)
+typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::insertFromNode(const typename RBTree<T, Alloc, Comp>::value_type &p, Node<T> **r)
 {
 	key_compare comp = Comp();
 	Node<T>	*y = sentinel;
 	Node<T>	*x = *r;
-
 	Node<T>	*insert = n_alloc.allocate(1);
 	n_alloc.construct(insert, node(p, sentinel));
 
@@ -932,7 +806,7 @@ typename BSTree<T, Alloc, Comp>::node*	BSTree<T, Alloc, Comp>::insertFromNode(co
 }
 
 template <class T, class Alloc, class Comp>
-void BSTree<T, Alloc, Comp>::updateSentinelMinMax()
+void RBTree<T, Alloc, Comp>::updateSentinelMinMax()
 {
 	sentinel->left = getMinNode(root);
 	sentinel->right = getMaxNode(root);

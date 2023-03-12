@@ -20,15 +20,9 @@ namespace ft{
 			typedef std::bidirectional_iterator_tag iterator_category;
 			typedef typename ft::iterator_traits<N>::difference_type difference_type;
 			typedef typename B::first_type key_type;
-//			typedef std::ptrdiff_t			difference_type;
 
 			tree_iterator() : p(NULL), sentinel(NULL) {}
-//			explicit tree_iterator(npointer ptr) : p(ptr), sentinel(ptr.getSen) {}
 			explicit tree_iterator(npointer ptr, npointer sentinel) : p(ptr), sentinel(sentinel) {}
-
-
-//			template<typename C, typename D>
-//			tree_iterator(C ptr, D sentinel) : p(ptr), sentinel(sentinel) {}
 
 			template<typename C, typename D>
 			tree_iterator(const tree_iterator<C, D> &it)
@@ -46,14 +40,11 @@ namespace ft{
 			}
 			
 
-//			reference operator*() const { return *(p->content); }
-//			pointer operator->() const { return p->content; }
 			reference operator*() const { return *(p->getContent()); }
 			pointer operator->() const { return p->getContent(); }
-			key_type& getFirst() const {return p->getFirst(); }
 			npointer*	base() { return (&p) ;}
-			npointer		getNode() const { return (p) ;}
-			npointer		getSentinel() const { return (sentinel) ;}
+			npointer	getNode() const { return (p) ;}
+			npointer	getSentinel() const { return (sentinel) ;}
 
 			npointer getLowestNodeFrom(npointer node) const
 			{
@@ -170,16 +161,12 @@ namespace ft{
 			set_iterator(const set_iterator<C, D> &it)
 			{
 				this->p = it.getNode();
-//				this->p = it.p;
 				this->sentinel = it.getSentinel();
-//				this->sentinel = it.end();
 			}
 
 			template<typename C, typename D>
 			set_iterator& operator=(const set_iterator<C, D> &it)
-//			set_iterator& operator=(const set_iterator &it)
 			{
-//				this->p = it.p;
 				this->p = it.getNode();
 				this->sentinel = it.getSentinel();
 				return *this;
@@ -226,6 +213,5 @@ bool operator==(const ft::tree_iterator<N1, B1> &a, const ft::tree_iterator<N2, 
 				return (a.getNode() == b.getNode());	}
 
 }
-
 
 #endif

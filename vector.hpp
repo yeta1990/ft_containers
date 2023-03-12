@@ -52,6 +52,7 @@ namespace ft{
 			typedef typename iterator_traits<iterator>::difference_type difference_type;
 
 			//member functions
+
 			vector(void) : _allocator(Allocator())
 			{
 				this->_capacity = 0;

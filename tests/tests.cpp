@@ -1,12 +1,6 @@
-//#include "tester.h"
 #include <string>
 #include "tests.hpp"
 #include "benchmarks.hpp"
-//#include "vector.hpp"
-//#include <vector>
-
-//class timer;
-//#include "track_allocator.hpp"
 
 
 void check(bool test)
@@ -1160,10 +1154,10 @@ void vector_tests()
 
 int main(void)
 {
-	vector_tests();
+//	vector_tests();
 //	vector_benchmark();
 //	map_benchmark();
-//	map_tests();
+	map_tests();
 //	stack_tests();
 //	set_tests();
 //	reverse_iterator_tests();
