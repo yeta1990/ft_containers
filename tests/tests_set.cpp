@@ -3,7 +3,9 @@
 #include "set.hpp"
 #include <set>
 
-void	set_tests()
+
+
+void	set_all_tests()
 {
 	std::set<int> s;	
 	std::set<int>::iterator it;	
@@ -35,4 +37,9 @@ void	set_tests()
 	ft::set<int> st_range(it3, --(--ite));
 
 
+}
+
+void	set_tests()
+{
+	test_case("set tests", &set_all_tests);
 }

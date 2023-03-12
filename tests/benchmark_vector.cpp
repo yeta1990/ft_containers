@@ -104,7 +104,7 @@ void	vec_b_erase_value()
 	std::vector<int> vector1;
     std::vector<int> v;
    
-	std::cout << "eooo" << std::endl;
+//	std::cout << "eooo" << std::endl;
     for (unsigned int i = 0; i < 4000 * _ratio; ++i)
     {
         vector.push_back(i);

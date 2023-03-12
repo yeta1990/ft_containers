@@ -458,9 +458,6 @@ void	vector_at()
 		m2 = e.what();
 		except2 = true;
 	}
-//	this test has different behaviour in mac and linux
-//	std::cout << m1 << "," << m2 << std::endl;
-//	check(m1.compare(m2) == 0);
 	check(except1 == except2);
 	v.at(1) = 7;
 	v1.at(1) = 7;
@@ -874,7 +871,7 @@ void	vector_insert_range()
 //	check(v[9] == v1[9]);
 //	check(v[10] == v1[10]);
 //	check(v[11] == v1[11]);
-	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
+//	std::cout << "size: " << v.size() << "," << v1.size() << ". capacity " << v.capacity() << "," << v1.capacity() << std::endl;
 	check_size_capacity(v, v1);
 
 }
@@ -1142,19 +1139,20 @@ void vector_tests()
 	
 	test_case("vector: resize 7", &vector_resize_7);
 
-//	test_case("vector: bidirect iterator", &bidirect_iterator);
-//	test_case("", &);
-//	test_case("vector: erase iterator", &vector_erase_iterator);
 }
 
 int main(void)
 {
-//	vector_tests();
-//	vector_benchmark();
-//	map_benchmark();
+	vector_tests();
 	map_tests();
-//	stack_tests();
-//	set_tests();
-//	reverse_iterator_tests();
-//	more_iterators();
+	stack_tests();
+	set_tests();
+	reverse_iterator_tests();
+	more_iterators();
+
+	std::cout << std::endl << "Benchmarks" << std::endl;
+	vector_benchmark();
+	map_benchmark();
+
+
 }

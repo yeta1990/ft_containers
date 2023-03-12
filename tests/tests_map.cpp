@@ -200,14 +200,14 @@ void	map_constructor2()
 	std::map<int, int>::iterator it_end;
 	ft::map<int, int>::iterator it1_end;
 
-	std::cout << map1[-10] << std::endl;
-	std::cout << map1.begin()->second << std::endl;
+//	std::cout << map1[-10] << std::endl;
+//	std::cout << map1.begin()->second << std::endl;
 
 	it = map.begin();
 	it1 = map1.begin();
 	
-	std::cout << (*it).second << std::endl;
-	std::cout << (*it1).second << std::endl;
+//	std::cout << (*it).second << std::endl;
+//	std::cout << (*it1).second << std::endl;
 	
 	it++;
 	it++;
@@ -243,46 +243,6 @@ void	map_constructor2()
 
 void	map_copy_constructor()
 {
-
-	/*
-	std::map<int, int> map = create_std_map();
-	ft::map<int, int> map1 = create_map();
-	std::map<int, int> mapc(map);
-	ft::map<int, int> map1c(map1);
-
-//	std::map<int, int> mp;
-	ft::map<int, int> mp1;
-//	std::map<int, int> mp_copy;
-	ft::map<int, int> mp_copy1 = create_map();
-
-//	mp = mp_copy;
-
-//	std::map<int, int>::iterator it = mp.begin();
-//	std::cout << (*it).first << std::endl;
-	mp1 = mp_copy1;
-	mp_copy1 = map1c;
-	map1c.clear();
-
-	std::cout << "mp1" << std::endl;
-	printmap(mp1);
-
-	std::cout << std::endl << "mp1c" << std::endl;
-	printmap(map1c);
-
-	std::cout << std::endl << "mp_cop1" << std::endl;
-	printmap(mp_copy1);
-*/
-/*
-	std::cout << "size: " << map1.size() << std::endl;
-
-
-	mp = mp_copy;
-	mp_copy = mp_range;
-	mp_range.clear();
-	printSize(mp);
-	printSize(mp_range);
-	printSize(mp_copy);
-	*/
 
 	typedef std::pair<const unsigned int, unsigned int> pair;
 	typedef ft::pair<const unsigned int, unsigned int> pair1;
@@ -385,120 +345,6 @@ void	map_copy_constructor()
 }
 
 
-void	map_insert_times()
-{
-    ft::map<int, int> mp;
-//    std::map<int, int> smp;
-//	int _ratio = 1000;
-
-//   for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
-    
-    mp.insert(ft::make_pair(0, 30));
-//        smp.insert(std::make_pair(i, j));
-        
-//    }
-//
-/*    
-	std::cout << "insert 1 to 1" << std::endl;
-	std::map<int, int>	map1;
-	ft::map<int, int>	map2;
-
-    t = timer();
-    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
-		map2[i] = j;
-	}
-	std::cout << "ft: " << t.get_time();
-
-    t = timer();
-    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
-		map1[i] = j;
-	}
-	std::cout << "std: " << t.get_time() << std::endl;
-
-
-	std::cout << "constructor-range" << std::endl;
-    t = timer();
-	ft::map<int, int> mp2(mp.begin(), mp.end());
-	std::cout << "ft: " << t.get_time();
-
-    t = timer();
-	std::map<int, int> mp3(smp.begin(), smp.end());
-	std::cout << ", std: " << t.get_time() << std::endl;
-	*/
-
-}
-/*
-void	map_vs_vector()
-{
-    ft::map<int, int>	map;
-//    ft::vector<int>		v;
-
-
-//    std::map<int, int> smp;
-
-	int _ratio = 1000;
-    t = timer();
-    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
-		map[i] = j;
-	}
-	std::cout << "ft map: " << t.get_time() << std::endl;
-
-    t = timer();
-    std::vector<int>	v(30 * _ratio);
-//    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
-//		v.insert(i);
-//	}
-	std::cout << "ft vector: " << t.get_time() << std::endl;
-
-    t = timer();
-    std::vector<int>	v2(30 * _ratio);
-//    for (int i = 0, j = 10; i < 30 * _ratio; i++, ++j) {
-//		v2.insert(i);
-//	}
-	std::cout << "std vector: " << t.get_time() << std::endl;
-
-
-}
-*/
-
-void	map_copy_constructor2()
-{
-
-//    std::vector<int> v;
-
-    ft::map<int, int> mp;
-    std::map<int, int> smp;
-	int _ratio = 1000;
-
-    for (int i = 0, j = 10; i < 30 * _ratio; ++i, ++j) {
-    
-        mp.insert(ft::make_pair(i, j));
-        smp.insert(std::make_pair(i, j));
-        
-    }
-//    t = timer();
-	ft::map<int, int> mp2(mp.begin(), mp.end());
-//	std::cout << t.get_time() << std::endl;
-
-//    t = timer();
-	std::map<int, int> mp3(smp.begin(), smp.end());
-//	std::cout << t.get_time() << std::endl;
-
-
-	std::cout << mp2.size() << "," << mp3.size() << std::endl; 
-//	set_time(&end);
-//	print_duration();
-//    g_end2 = timer();
-/*
-	ft::map<int, int>::iterator it = mp2.begin();
-    for (int i = 0; i < 30 * _ratio; ++i, it++) {
-        v.push_back(it->first);
-        v.push_back(it->second);
-    }
-    */
-//    return v;
-
-}
 
 void	operator_access()
 {
@@ -517,19 +363,6 @@ void	operator_access()
 
 }
 
-/*
-void	operator_insert()
-{
-	ft::map<int, std::string>
-
-	mp[42] = "fgzgxfn";
-	mp[25] = "funny";
-	mp[80] = "hey";
-	mp[12] = "no";
-	mp[27] = "bee";
-	mp[90] = "8";
-}
-*/
 void	map_at()
 {
 	std::map<int,int> map;
@@ -633,12 +466,7 @@ void	map_insert_iterator()
 	std::map<char,int>::iterator it1(ret.first);
 
 	ft::map<char,int>::iterator it2(ret1.first);
-//	std::cout << (*it2).first << std::endl;
 	check((*it1).first == (*it2).first);
-//	ft::Node<char, int> n(*it2);
-//	std::cout << n.key << std::endl;
-//	std::cout << (*it2).first << std::endl;
-//	std::cout << (*(ret.first)).first << std::endl;
 	check((*(ret.first)).first == (*(ret1.first)).first);
 
 	ret = map.insert( std::make_pair('d', 2) );
@@ -648,12 +476,6 @@ void	map_insert_iterator()
 
 void	map_insert_iterator2()
 {
-//	std::map<int,int> map;
-//	std::pair<std::map<int,int>::iterator,bool> ret;
-//	ret = map.insert( std::make_pair(, 2) );
-//	map.insert( std::make_pair('d', 2) );
-//	map.insert( std::make_pair('a', 2) );
-//	map.insert( std::make_pair('x', 2) );
 
 	ft::map<int,int> map1;
 	ft::pair<ft::map<int,int>::iterator,bool> ret1;
@@ -683,119 +505,6 @@ void	map_insert_iterator2()
 
 
 
-void	map_parent_navigation()
-{
-/*	
-	ft::map<int,int> map1 = create_map();
-	ft::pair<ft::map<int,int>::iterator,bool> ret1;
-	
-	ret1 = map1.insert( ft::pair<int, int>(3, 3) );
-
-	ft::BSTree<ft::pair<int, int> >::node *n1;
-	ft::BSTree<ft::pair<int, int> >::node *aux;
-
-	n1 = *(ret1.first.base());
-	aux = n1;
-	check(aux->content->first == 3);
-	aux = aux->parent;
-	check(aux->content->first == 4);
-	aux = aux->parent;
-	check(aux->content->first == 1);
-	aux = aux->parent;
-	check(aux->content->first == -2);
-	aux = aux->parent;
-	check(aux->content->first == 5);
-	aux = aux->parent;
-	check(aux->content->first == 8);
-*/
-}
-
-
-// 3 insert with hint tests, inserting:
-// -3 in node 4
-// ¿-1 in node 4?
-// 0 in node 1
-// 7 in node 4
-// 12 in node 10
-
-void	map_insert_hint1()
-{
-/*	
-	ft::map<int,int> map1; // = new ft::map<int,int>();
-	ft::pair<ft::map<int,int>::iterator,bool> ret1;
-
-	map1.insert( ft::pair<int, int>(8, 8) );
-	map1.insert( ft::pair<int, int>(5, 5) );
-	map1.insert( ft::pair<int, int>(11, 11) );
-	map1.insert( ft::pair<int, int>(-2, -2) );
-	map1.insert( ft::pair<int, int>(6, 6) );
-	map1.insert( ft::pair<int, int>(10, 10) );
-	map1.insert( ft::pair<int, int>(9, 9) );
-	map1.insert( ft::pair<int, int>(-10, -10) );
-	map1.insert( ft::pair<int, int>(1, 1) );
-	ret1 = map1.insert( ft::pair<int, int>(4, 4) );
-
-	ft::map<int,int>::iterator it1;
-	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
-
-	ft::BSTree<ft::pair<int, int> >::node *n1;
-	ft::BSTree<ft::pair<int, int> >::node *aux;
-
-	n1 = *it1.base();
-	aux = n1;
-	check(aux->content->first == -3);
-	aux = aux->parent;
-	check(aux->content->first == -10);
-*/	
-//	std::cout << aux->key << std::endl;
-}
-
-
-void	map_insert_hint2()
-{
-	/*
-	ft::map<int,int> map1; // = new ft::map<int,int>();
-	ft::pair<ft::map<int,int>::iterator,bool> ret1;
-	ft::pair<ft::map<int,int>::iterator,bool> ret2;
-	ft::pair<ft::map<int,int>::iterator,bool> ret3;
-
-	map1.insert( ft::pair<int, int>(8, 8) );
-	map1.insert( ft::pair<int, int>(5, 5) );
-	map1.insert( ft::pair<int, int>(11, 11) );
-	map1.insert( ft::pair<int, int>(-2, -2) );
-	map1.insert( ft::pair<int, int>(6, 6) );
-	map1.insert( ft::pair<int, int>(10, 10) );
-	map1.insert( ft::pair<int, int>(9, 9) );
-	ret2 = map1.insert( ft::pair<int, int>(-10, -10) );
-	map1.insert( ft::pair<int, int>(1, 1) );
-	ret1 = map1.insert( ft::pair<int, int>(4, 4) );
-
-	ft::BSTree<ft::pair<int, int> >::node *n1;
-	ft::BSTree<ft::pair<int, int> >::node *aux;
-	ft::map<int,int>::iterator it1;
-
-	it1 = map1.insert(ret1.first, ft::make_pair(7, 7));
-	n1 = *it1.base();
-	aux = n1;
-	check(aux->content->first == 7);
-	aux = aux->parent;
-	check(aux->content->first == 6);
-
-	it1 = map1.insert(ret1.first, ft::make_pair(-3, -3));
-	n1 = *it1.base();
-	aux = n1;
-	check(aux->content->first == -3);
-	aux = aux->parent;
-	check(aux->content->first == -10);
-
-	it1 = map1.insert(ret2.first, ft::make_pair(12, 12));
-	n1 = *it1.base();
-	aux = n1;
-	check(aux->content->first == 12);
-	aux = aux->parent;
-	check(aux->content->first == 11);
-	*/
-}
 
 void	map_insert_hint3()
 {
@@ -804,8 +513,6 @@ void	map_insert_hint3()
 	mp2.insert(ft::pair<int, std::string>(1, "ye"));
 	it = mp2.insert(mp2.begin(), ft::pair<int, std::string>(1337, "beauty"));
 	check((*it).first == 1337);
-//	std::cout << (*it).first << std::endl;
-//	printmap(mp2);
 }
 
 void	map_insert_iterator3()
@@ -977,9 +684,9 @@ void	map_maxsize()
 
 	check(map.max_size() == map1.max_size());
 	check(map2.max_size() == map3.max_size());
-	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
-	std::cout << map2.max_size() << "," << map3.max_size() << std::endl;
-	std::cout << sizeof(p) << "," << sizeof(p1) << std::endl;
+//	std::cout << map.max_size() << "," << map1.max_size() << std::endl;
+//	std::cout << map2.max_size() << "," << map3.max_size() << std::endl;
+//	std::cout << sizeof(p) << "," << sizeof(p1) << std::endl;
 }
 
 void	map_find()
@@ -1066,8 +773,8 @@ void	map_upper_bound()
 	it = map.upper_bound(7);
 	it1 = map1.upper_bound(7);
 	check((*it).first == (*it1).first);
-	std::cout << (*it).first << std::endl;
-	std::cout << (*it1).first << std::endl;
+//	std::cout << (*it).first << std::endl;
+//	std::cout << (*it1).first << std::endl;
 
 	it = map.upper_bound(-10);
 	it1 = map1.upper_bound(-10);
@@ -1462,8 +1169,8 @@ void	map_simple_swap()
 	std::swap(map,map2);
 	ft::swap(map1,map3);
 
-	std::cout << map1[1] << std::endl;
-	std::cout << map3[1] << std::endl;
+//	std::cout << map1[1] << std::endl;
+//	std::cout << map3[1] << std::endl;
 
 
 }
@@ -1527,34 +1234,12 @@ void	map_swap2()
 	map2[6] = 6;
 	map2[9] = 9;
 
-	std::cout << std::endl;
+//	std::cout << std::endl;
 	swap(map, map2);
-	printmap(map);
-	std::cout << "." << std::endl;
-	printmap(map2);
+//	printmap(map);
+//	std::cout << "." << std::endl;
+//	printmap(map2);
 
-}
-
-
-void	map_comp()
-{
-	std::map<const char, double> map;
-	ft::map<const char, double> map1;
-//	std::map<int, int> map;
-
-	map['a'] = 2.3;
-	map['b'] = 1.4;
-	map['c'] = 0.3;
-	map['d'] = 4.2;
-	map1['a'] = 2.3;
-	map1['b'] = 1.4;
-	map1['c'] = 0.3;
-	map1['d'] = 4.2;
-//	std::cout << "size: " << map.size() << std::endl;
-//	std::cout << "max_size: " << map.max_size() << std::endl;
-//	std::cout << "size: " << map.size() << std::endl;
-//	std::cout << "max_size: " << map.max_size() << std::endl;
-//	printmap(map1);
 }
 
 void	map_rel_ope()
@@ -1614,43 +1299,15 @@ void	map_rel_ope()
 
 }
 
-void map_rev_it()
-{
-	ft::map<int, int> mp;
-	ft::map<int, int>::iterator it = mp.begin();
-//	ft::map<int, int>::const_iterator cit = mp.begin();
-
-	ft::map<int, int>::reverse_iterator rit(it);
-
-	ft::map<int, int>::reverse_iterator rit1 = mp.rbegin();
-	ft::map<int, int>::reverse_iterator rit2 = mp.rend();
-
-	std::cout << (*it).first << std::endl;
-	std::cout << (*rit).first << std::endl;
-	std::cout << (*rit1).first << std::endl;
-	std::cout << (*rit2).first << std::endl;
-//	it = mp.rbegin();
-//	cit = mp.rbegin();
-}
-
-
-void	map_benchmarks()
-{
-	test_case("map_insert_times", &map_insert_times);
-//	test_case("map vs vector", &map_vs_vector);
-}
-
 
 void map_tests()
 {
-//	map_benchmarks();
 
 	test_case("map_constructors", &map_constructor);
-//	test_case("map_constructors2", &map_constructor2);
+	test_case("map_constructors2", &map_constructor2);
 	
 	test_case("map_copy_constructor", &map_copy_constructor);
 	
-	test_case("map_copy_constructor", &map_copy_constructor2);
 	test_case("operator[]", &operator_access);
 	test_case("map at", &map_at);
 	test_case("map at const", &map_const_at);
@@ -1658,9 +1315,6 @@ void map_tests()
 	
 	test_case("map insert iterator", &map_insert_iterator);
 	test_case("map insert iterator2", &map_insert_iterator2);
-	test_case("map parent navigation", &map_parent_navigation);
-	test_case("map insert hint1", &map_insert_hint1);
-//	test_case("map insert hint2", &map_insert_hint2);
 
 	test_case("map insert hint3", &map_insert_hint3);
 	test_case("map insert iterator3", &map_insert_iterator3);
@@ -1694,9 +1348,7 @@ void map_tests()
 	test_case("map swap", &map_swap);
 
 	test_case("map swap", &map_swap2);
-	test_case("map comp", &map_comp);
 	test_case("map rel ope", &map_rel_ope);
-	test_case("map reverse iterator", &map_rev_it);
 
 }
 

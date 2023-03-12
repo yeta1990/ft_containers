@@ -1,24 +1,27 @@
-
 #include "tests.hpp"
 #include "stack.hpp"
 #include <stack>
 
-void	stack_tests()
+void	stack_all_tests()
 {
 	std::stack<int> t;
 	ft::stack<int> stck;
 
-	std::cout << "empty: " << stck.empty() << std::endl;
-	std::cout << "size: " << stck.size() << std::endl;
-//	std::cout << "top: " << stck.top() << std::endl;
-
+	check(t.empty() == stck.empty());
+	check(t.size() == stck.size());
 	stck.push(41);
 	stck.push(29);
 	stck.push(10);
 	stck.push(42);
-	std::cout << "empty: " << stck.empty() << std::endl;
-	std::cout << "size: " << stck.size() << std::endl;
-	std::cout << "top: " << stck.top() << std::endl;
-//	test_case("map_constructors", &map_constructor);
+	t.push(41);
+	t.push(29);
+	t.push(10);
+	t.push(42);
+	check(t.empty() == stck.empty());
+	check(t.size() == stck.size());
+}
 
+void	stack_tests()
+{
+	test_case("stack tests", &stack_all_tests);
 }
