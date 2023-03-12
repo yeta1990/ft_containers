@@ -29,9 +29,6 @@
 //https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator
 //https://codereview.stackexchange.com/questions/202157/basic-iterator-supporting-vector-implementation
 
-//iterators
-//https://leimao.github.io/blog/CPP-Const-Iterator/#Implementation-Without-Code-Duplication
-
 namespace ft{
 
 	template <class T, class Allocator = std::allocator<T> >
@@ -93,11 +90,30 @@ namespace ft{
 
 			//range constructor			
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0) : _allocator(alloc) { 
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc) { 
+				vector_range_dispatch(first, last);
+			}
+			
+			template <class Input>
+			void	vector_range_dispatch(Input n, Input val, typename ft::enable_if<ft::is_integral<Input>::value >::type* = 0)
+			{
+				this->_capacity = 0;
+				this->_size = 0;
+				this->_data = 0;
+				this->_usedValues = 0;
+				_firstElement = _data;
+				_lastElement = _data;
+				this->resize(n, val);
+				_lastElement = _data + n;
+			}
 
+			template <class InputIterator>
+			void	vector_range_dispatch(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
+			{
 				typedef typename ft::iterator_traits<InputIterator>::iterator_category iter_category;
 				vector_constructor_range(first, last, iter_category());
 				this->_lastElement = this->_data + this->_size;
+
 			}
 
 			//copy constructor
@@ -197,9 +213,9 @@ namespace ft{
 
 			const_reference back() const
 			{
-	if (this->_size == 0)
-		return (this->_data[0]);
-	return (this->_data[this->_size - 1]);
+				if (this->_size == 0)
+					return (this->_data[0]);
+				return (this->_data[this->_size - 1]);
 
 			}
 			pointer data()

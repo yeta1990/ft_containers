@@ -42,6 +42,24 @@ class Node
 
 };
 
+//Red-black tree used by map and set
+// - This is a balanced tree in which, apart from its value.
+// each node has a color associated, either red or black
+// - The tree must follow 5 rules (see above), during the creation and after
+// deleting or inserting a node.
+// - Each node has two children, left and right, and a parent.
+// - There is a "nil" node called sentinel, without any value associated, but
+// connected to min (left) and max (right) value of the tree.
+// - All nodes placed at the end of a branch has the sentinel node connected
+// to both left and right pointers.
+
+//Red-black tree properties:
+// 1. every node is either red or black
+// 2. root is black
+// 3. every leaf (sentinel, in this case) is black
+// 4. if a node is red, then bot its children are black
+// 5. for each node, all simple paths from the node to descendant leaves
+//    contain the same number of black nodes
 template <class T, class Alloc, class Comp >
 class RBTree{
 
@@ -49,6 +67,8 @@ class RBTree{
 		typedef Node<T>											node;
 		typedef RBTree<T, Alloc, Comp>							tree;
 		typedef Alloc 											pair_allocator;
+
+		//rebind is a templated typedef to get, in this case, a type Alloc<node>
 		typedef typename Alloc::template 						rebind<node>::other	node_allocator;
 		typedef Comp											key_compare;
 		typedef typename node_allocator::pointer				pointer;
@@ -248,16 +268,6 @@ class RBTree{
 		//- https://www.youtube.com/playlist?list=PL9xmBV_5YoZNqDI8qfOZgzbqahCUmUEin
 		//- https://www.youtube.com/watch?v=nMExd4DthdA&list=PLpPXw4zFa0uKKhaSz87IowJnOTzh9tiBk&index=66
 
-		/*
-		 * red-black tree properties:
-		 *  1. every node is either red or black
-		 *  2. root is black
-		 *  3. every leaf (sentinel, in this case) is black
-		 *  4. if a node is red, then bot its children are black
-		 *  5. for each node, all simple paths from the node to descendant leaves
-		 *     contain the same number of black nodes
-		 */
-
 		//left and right rotate are used to balance the tree after some insert
 		//or erase operations
 
@@ -314,7 +324,6 @@ class RBTree{
 			x->right = y;
 			y->parent = x;
 		}
-
 
 		// insert-fixup: method used to fix the tree when a insertion produces 
 		// a violation of rb-tree rules
@@ -377,6 +386,9 @@ class RBTree{
 			root->color = 'b';
 		}
 
+		// insert-fixup: method used to fix the tree when erase produces 
+		// a violation of rb-tree rules
+		// a good source: https://www.youtube.com/watch?v=iw8N1_keEWA
 		void	deleteFixup(node *replaced)
 		{
 			node*	x;
@@ -388,6 +400,8 @@ class RBTree{
 				if (x == x->parent->left)
 				{
 					w = x->parent->right;
+					//case 1: x's sibling w is red
+					//flip color of w and left rotate of x's parent
 					if (w->color == 'r')
 					{
 						w->color = 'b';
@@ -395,6 +409,10 @@ class RBTree{
 						leftRotate(x->parent);
 						w = x->parent->right;
 					}
+					//case 2:
+					// x's sibling w is black, and both of w's children are black.
+					// by fixing this case, x violates rule 4, but it will be fixed in last line
+					// of this while, changing x to black
 					if (w->left->color == 'b' && w->right->color == 'b')
 					{
 						w->color = 'r';
@@ -402,6 +420,10 @@ class RBTree{
 					}
 					else 
 					{
+						//case 3: x's sibling w is black, w's left child is red, w's right child is black
+						//switch colors of w and its left child, then right rotation on w
+						//after the fix, the new w is a black node with a red right child,
+						//leading to case 4
 						if (w->right->color == 'b')
 						{
 							w->left->color = 'b';
@@ -409,6 +431,9 @@ class RBTree{
 							rightRotate(w);
 							w = x->parent->right;
 						}
+						//case 4: x's sibling w is black and w's right child is red
+						//we create a new black node on the left side by changing colors
+						//and left rotating the x's parent. after case 4, loop stops
 						w->color = x->parent->color;
 						x->parent->color = 'b';
 						w->right->color = 'b';
@@ -465,7 +490,6 @@ void	RBTree<T, Alloc, Comp>::del(typename T::first_type key)
 		this->deleteKeyFrom(found);
 }
 
-//template <class T>
 template <class T, class Alloc, class Comp>
 bool	RBTree<T, Alloc, Comp>::deleteKeyFrom(node *node)
 {
@@ -491,6 +515,9 @@ void	RBTree<T, Alloc, Comp>::transplant(node* u, node *v)
 	v->parent = u->parent;
 }
 
+// the way to delete one node in the tree is to swap the
+// found node to the end of the branch and then
+// destroying the node at the end of the branch
 template <class T, class Alloc, class Comp>
 void	RBTree<T, Alloc, Comp>::del(node *node)
 {
@@ -549,82 +576,6 @@ void	RBTree<T, Alloc, Comp>::del(node *node)
 	}
 	updateSentinelMinMax();
 }
-/*
-template <class T, class Alloc, class Comp>
-void	RBTree<T, Alloc, Comp>::deleteFixup(node *replaced)
-{
-	node*	x;
-	node*	w; //sibling
-
-	x = replaced;
-	while (x != root && x->color == 'b')
-	{
-		if (x == x->parent->left)
-		{
-			w = x->parent->right;
-			if (w->color == 'r')
-			{
-				w->color = 'b';
-				x->parent->color = 'r';
-				leftRotate(x->parent);
-				w = x->parent->right;
-			}
-			if (w->left->color == 'b' && w->right->color == 'b')
-			{
-				w->color = 'r';
-				x = x->parent;
-			}
-			else 
-			{
-				if (w->right->color == 'b')
-				{
-					w->left->color = 'b';
-					w->color = 'r';
-					rightRotate(w);
-					w = x->parent->right;
-				}
-				w->color = x->parent->color;
-				x->parent->color = 'b';
-				w->right->color = 'b';
-				leftRotate(x->parent);
-				x = root;
-			}
-		}
-		else
-		{
-			w = x->parent->left;
-			if (w->color == 'r')
-			{
-				w->color = 'b';
-				x->parent->color = 'r';
-				rightRotate(x->parent);
-				w = x->parent->left;
-			}
-			if (w->right->color == 'b' && w->left->color == 'b')
-			{
-				w->color = 'r';
-				x = x->parent;
-			}
-			else 
-			{
-				if (w->left->color == 'b')
-				{
-					w->right->color = 'b';
-					w->color = 'r';
-					leftRotate(w);
-					w = x->parent->left;
-				}
-				w->color = x->parent->color;
-				x->parent->color = 'b';
-				w->left->color = 'b';
-				rightRotate(x->parent);
-				x = root;
-			}
-		}
-	}
-	x->color = 'b';
-}
-*/
 
 template <class T, class Alloc, class Comp>
 typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::getMaxNode(Node<T> *node)
@@ -773,6 +724,8 @@ typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::insertFromNode(co
 	insert->color = 'r';
 	insert->right = sentinel;
 	insert->left = sentinel;
+
+	//looking for the best place to insert the node
 	while (x != sentinel)
 	{
 		y = x;
@@ -780,6 +733,8 @@ typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::insertFromNode(co
 			x = x->left;
 		else if (insert->getContent()->first == x->getContent()->first)
 		{
+			//if a node with the same key exists, the tree doesn't insert
+			//anything and returns the found node
 			n_alloc.destroy(insert);
 			n_alloc.deallocate(insert, 1);
 			return (x);
@@ -805,13 +760,13 @@ typename RBTree<T, Alloc, Comp>::node*	RBTree<T, Alloc, Comp>::insertFromNode(co
 	return (insert);
 }
 
+//updates left and right children of sentinel with min and max value
 template <class T, class Alloc, class Comp>
 void RBTree<T, Alloc, Comp>::updateSentinelMinMax()
 {
 	sentinel->left = getMinNode(root);
 	sentinel->right = getMaxNode(root);
 }
-
 
 }//end of ft namespace
 
