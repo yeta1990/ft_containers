@@ -1,5 +1,5 @@
-#ifndef TREE_ITERATOR
-# define TREE_ITERATOR
+#ifndef TREE_ITERATOR_HPP
+# define TREE_ITERATOR_HPP
 
 #include "iterator_traits.hpp"
 #include <cstddef>

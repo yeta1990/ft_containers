@@ -1,5 +1,5 @@
-#ifndef RANDOM_ITERATOR
-# define RANDOM_ITERATOR
+#ifndef RANDOM_ITERATOR_HPP
+# define RANDOM_ITERATOR_HPP
 
 #include "iterator_traits.hpp"
 

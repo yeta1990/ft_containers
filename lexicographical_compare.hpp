@@ -1,5 +1,5 @@
-#ifndef LEXICOGRAPHICAL_COMPARE
-# define LEXICOGRAPHICAL_COMPARE
+#ifndef LEXICOGRAPHICAL_COMPARE_HPP
+# define LEXICOGRAPHICAL_COMPARE_HPP
 
 //https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare
 //true if the first range is lexicographically less than the second, otherwise false.
