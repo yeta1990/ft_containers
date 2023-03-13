@@ -51,57 +51,44 @@ namespace ft{
 			container_type c;
 
 
-//		template< class T, class Container >
+		//all friends to access container c
 		friend bool operator==( const ft::stack<T, Container>& lhs,
 			const ft::stack<T, Container>& rhs )
 		{
 			return (lhs.c == rhs.c);
 		}
 
-	friend bool operator!=( const ft::stack<T, Container>& lhs,
-		const ft::stack<T, Container>& rhs )
-	{
-		return (lhs.c != rhs.c);
-	}
+		friend bool operator!=( const ft::stack<T, Container>& lhs,
+			const ft::stack<T, Container>& rhs )
+		{
+			return (lhs.c != rhs.c);
+		}
 
+		friend bool operator< ( const ft::stack<T, Container>& lhs,
+    	             const ft::stack<T, Container>& rhs )
+		{
+			return (lhs.c < rhs.c);
+		}
 
+		friend bool operator<=( const ft::stack<T, Container>& lhs,
+			const ft::stack<T, Container>& rhs )
+		{
+			return (lhs.c <= rhs.c);
+		}
 
+		friend bool operator> ( const ft::stack<T, Container>& lhs,
+			const ft::stack<T, Container>& rhs )
+		{
+			return (lhs.c > rhs.c);
+		}
 
-
-//	template< class T, class Container >
-
-		
-	
-//	template< class T, class Container >
-	friend bool operator< ( const ft::stack<T, Container>& lhs,
-                 const ft::stack<T, Container>& rhs )
-	{
-		return (lhs.c < rhs.c);
-	}
-
-//	template< class T, class Container >
-	friend bool operator<=( const ft::stack<T, Container>& lhs,
-		const ft::stack<T, Container>& rhs )
-	{
-		return (lhs.c <= rhs.c);
-	}
-
-//	template< class T, class Container >
-	friend bool operator> ( const ft::stack<T, Container>& lhs,
-		const ft::stack<T, Container>& rhs )
-	{
-		return (lhs.c > rhs.c);
-	}
-
-//	template< class T, class Container >
-	friend bool operator>=( const ft::stack<T, Container>& lhs,
-		const ft::stack<T, Container>& rhs )
-	{
-		return (lhs.c >= rhs.c);
-	}
+		friend bool operator>=( const ft::stack<T, Container>& lhs,
+			const ft::stack<T, Container>& rhs )
+		{
+			return (lhs.c >= rhs.c);
+		}
 
 	};
-
 
 }
 

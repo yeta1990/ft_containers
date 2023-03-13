@@ -12,6 +12,7 @@
 #include <limits>
 #include "tree_iterator.hpp"
 #include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft{
 
@@ -315,17 +316,7 @@ template< class Key, class Compare, class Alloc >
 bool operator<( const ft::set<Key, Compare, Alloc>& lhs,
                 const ft::set<Key, Compare, Alloc>& rhs )
 {
-	typename ft::set<Key, Compare, Alloc>::const_iterator it;
-	typename ft::set<Key, Compare, Alloc>::const_iterator it2;
-
-	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
-	{
-		if (*it < *it2)
-			return (true);
-		else if (*it > *it2)
-			return (false);
-	}
-	return (lhs.size() < rhs.size());
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 
 template< class Key, class Compare, class Alloc >
@@ -347,31 +338,9 @@ template< class Key, class Compare, class Alloc >
 bool operator>( const ft::set<Key, Compare, Alloc>& lhs,
                 const ft::set<Key, Compare, Alloc>& rhs )
 {
-	typename ft::set<Key, Compare, Alloc>::const_iterator it;
-	typename ft::set<Key, Compare, Alloc>::const_iterator it2;
-
-	for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); it++, it2++)
-	{
-		if (*it > *it2)
-			return (true);
-		else if (*it < *it2)
-			return (false);
-	}
-	return (lhs.size() > rhs.size());
+	return (rhs < lhs);
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
