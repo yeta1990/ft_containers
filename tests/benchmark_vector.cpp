@@ -4,8 +4,6 @@
 
 class timer;
 
-//_ratio = 100;
-
 void	vec_b_insert()
 {
 	ft::vector<int> vector;
@@ -51,7 +49,7 @@ void	vec_b_erase()
     {
         vector.push_back(i);
     }
-	std::cout << "erasing the element " << (8 * _ratio) << "in a vector of size " << vector.size() << std::endl;
+	std::cout << "erasing the element " << (8 * _ratio) << "in a vector of size " << vector.size() << ", -> ";
 
     t = timer();
     v.push_back(*(vector.erase(vector.begin() + 8 * _ratio)));
@@ -65,12 +63,11 @@ void	vec_b_erase()
         vector1.push_back(i);
     t = timer();
     v1.push_back(*(vector1.erase(vector1.begin() + 8 * _ratio)));
-	std::cout << "std: " << t.get_time();
+	std::cout << ", std: " << t.get_time();
     v1.push_back(*(vector1.begin() + 82 * _ratio));
     v1.push_back(vector1.size());
     v1.push_back(vector1.capacity());
 
-//    check_size_capacity(
 
 }
 
@@ -95,7 +92,7 @@ void	vec_b_insert_heavy()
             v.insert(v.end(), rand());
         }
     }
-	std::cout << "std: " << t.get_time();
+	std::cout << ", std: " << t.get_time();
 }
 
 void	vec_b_erase_value()
@@ -135,7 +132,7 @@ void	vec_b_erase_value()
 	}
 	vector1.insert(vector1.begin() + 1000 * _ratio, v.begin() + 2000 * _ratio, v.begin() + 3500 * _ratio);
 
-	std::cout << "std: " << t.get_time();
+	std::cout << ", std: " << t.get_time();
 }
 
 

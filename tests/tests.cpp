@@ -1053,7 +1053,7 @@ void	vector_resize_7()
     vector.resize(7000 * _ratio);
     vector1.resize(7000 * _ratio);
 	check_size_capacity(vector, vector1);
-	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
+//	std::cout << vector.capacity() << "," << vector1.capacity()  << std::endl;;
 	
     v.push_back(vector.size());
     v1.push_back(vector1.size());

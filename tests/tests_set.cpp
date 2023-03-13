@@ -36,6 +36,31 @@ void	set_all_tests()
 	ft::set<int>::iterator it3 = s1.begin(), ite = s1.end();
 	ft::set<int> st_range(it3, --(--ite));
 
+	std::set<int> first; 
+
+  	int myints[]= {10,20,30,40,50};
+  	std::set<int> second (myints,myints+5); 
+  	std::set<int> third (second);   
+  	std::set<int> fourth (second.begin(), second.end());
+
+	ft::set<int> first1;
+  	ft::set<int> second1 (myints,myints+5);        
+  	ft::set<int> third1 (second1);     
+  	ft::set<int> fourth1 (second1.begin(), second1.end()); 
+
+	check(first.size() == first1.size());
+	check(second.size() == second1.size());
+	check(third.size() == third1.size());
+	check(fourth.size() == fourth1.size());
+	check(*(fourth.lower_bound(20)) == *(fourth1.lower_bound(20)));
+	check(*fourth.upper_bound(20) == *fourth1.upper_bound(20));
+	check(*(fourth.find(30)) == *(fourth1.find(30)));
+
+	fourth1.insert(10);
+	fourth.insert(10);
+	check(fourth.size() == fourth1.size());
+
+
 
 }
 

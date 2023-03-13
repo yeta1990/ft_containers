@@ -1153,28 +1153,6 @@ void	map_erase_7()
 //	printSize(mp);
 }
 
-void	map_simple_swap()
-{
-	std::map<int, int> map;
-	ft::map<int, int> map1;
-	std::map<int, int> map2;
-	ft::map<int, int> map3;
-
-
-	map[1] = 1;
-	map1[1] = 1;
-	map2[1] = 2;
-	map3[1] = 2;
-//
-	std::swap(map,map2);
-	ft::swap(map1,map3);
-
-//	std::cout << map1[1] << std::endl;
-//	std::cout << map3[1] << std::endl;
-
-
-}
-
 void	map_swap()
 {
 	
@@ -1217,29 +1195,6 @@ void	map_swap()
 	map1.clear();
 	check(map.size() == map1.size());
 	
-}
-
-
-void	map_swap2()
-{
-	ft::map<int, int> map;
-	ft::map<int, int> map2;
-
-	map[-1] = 1;
-	map[1] = 2;
-	map[-3] = 7;
-
-	map2[7] = 7;
-	map2[8] = 8;
-	map2[6] = 6;
-	map2[9] = 9;
-
-//	std::cout << std::endl;
-	swap(map, map2);
-//	printmap(map);
-//	std::cout << "." << std::endl;
-//	printmap(map2);
-
 }
 
 void	map_rel_ope()
@@ -1344,10 +1299,8 @@ void map_tests()
 
 	test_case("map erase7", &map_erase_7);
 
-	test_case("map swap", &map_simple_swap);
 	test_case("map swap", &map_swap);
 
-	test_case("map swap", &map_swap2);
 	test_case("map rel ope", &map_rel_ope);
 
 }
