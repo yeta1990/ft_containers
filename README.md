@@ -5,7 +5,7 @@ My own implementation of some containers from STL:
 - Includes const and non-const iterators, reverse iterators and a red-black tree.
 - Stress tests perform similar to STL.
 - Unit tests: clone and type `make && ./tests_containers`
-
+ 
 ### Usage of the 4 containers:
 Include needed header (i.e.: #include "map.hpp") and use it in namespace ft, for instance:
 
@@ -13,15 +13,22 @@ Include needed header (i.e.: #include "map.hpp") and use it in namespace ft, for
     ft::map<int, int>::iterator it;
 
 Although implementation may differ (and indeed most times it will), all member functions, member types and non-member functions behave like C++ STL 98. Check [cppreference](https://en.cppreference.com/w/cpp/container) or [cplusplus](https://cplusplus.com/reference/stl/) documentation.
-
+ 
 ### Usage of red-black tree
-This is the red-black tree I've implemented to work behind the map and the set. 
+
+<img width="608" alt="rbtree" src="https://user-images.githubusercontent.com/65416560/226849840-d341a511-a3c7-4f11-b636-b3e7cc9d124a.png">
+ 
+*Image from Introduction to Algorithms, 3rd Edition(The MIT Press)*
+ 
+- This is the red-black tree I've implemented to work behind the map and the set. 
 `#include "RBTree.hpp"`
 
-    template <class T, class Alloc, class Comp >
-    class RBTree;
+    >template <class T, class Alloc, class Comp > <br/>
+    >class RBTree;
 
-The tree stores nodes of `T = ft::pair::<const key_type, value_type>`
+- The tree stores nodes of `T = ft::pair::<const key_type, value_type>`.
+- T.nil is the "sentinel" node, which points to the minimum (left) and maximum (right) and to itself (parent).
+
 #### Main member functions of RBTree:
 |Function| Description |
 |---------------|--|
@@ -45,8 +52,8 @@ The tree stores nodes of `T = ft::pair::<const key_type, value_type>`
 | tree_iterator& operator++ <br /> tree_iterator operator--(int) | Decrement operators |
 
 ### Performance tests:
+Stress tests results from github.com/Mikastiv/ft_containers-terminator/
+Most of them allocate half of RAM from the computer.
 
-<summary>
-    summary
-  </summary>
+[video (1).webm](https://user-images.githubusercontent.com/65416560/226856166-20ef0854-a872-40b7-ba7c-f089fb097eb8.webm)
 
